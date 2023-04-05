@@ -56,41 +56,40 @@ class ReactionRepository {
             if (!Array.isArray(resp)) {
                 return resp;
             }
-            // console.log(resp[selectQuery])
+            console.log(resp[selectQuery]);
             return resp[selectQuery].rows;
         });
-        this.getAllReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.pool
-                .query((0, reaction_queries_1.getAllUserReactions)(userId))
-                .catch((resp) => {
-                throw new appError_1.default(resp.message, 400);
-            });
+        this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
+            const resp = yield this.runQuery((0, reaction_queries_1.selectUserReactions)(userId));
+            // const resp = await this.pool
+            //   .query<ReactionDbEntry[]>(selectUserReactions(userId))
+            //   .catch((resp) => {
+            //     throw new AppError(resp.message, 400);
+            //   });
             return resp.rows;
+        });
+        this.deleteReaction = (reactionId) => __awaiter(this, void 0, void 0, function* () {
+            const resp = yield this.runQuery((0, reaction_queries_1.deleteReaction)(reactionId));
+            console.log('Delete Respo:');
+            console.log(resp);
+            return resp;
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {
             return yield this.pool
                 .query(queryString)
                 .catch((resp) => {
-                // console.log(resp)
                 throw new appError_1.default(resp.message, 400);
             });
         });
         this.createReactionArrayQuery = (reactionsArray) => {
             let queryString = '';
             for (let reaction of reactionsArray) {
-                // const { userId, foodId, reactionTypeId, severityId, active } = reaction;
-                // queryString += addReaction(userId, foodId, reactionTypeId, severityId, active);      
-                queryString += (0, reaction_queries_1.addReaction)(reaction);
+                queryString += (0, reaction_queries_1.insertReaction)(reaction);
             }
-            queryString += (0, reaction_queries_1.getAllUserReactions)(reactionsArray[0].userId);
-            console.log((0, reaction_queries_1.getAllUserReactions)(reactionsArray[0].userId));
+            queryString += (0, reaction_queries_1.selectUserReactions)(reactionsArray[0].userId);
             return queryString;
         };
         this.pool = new pg_pool_1.default(config);
     }
 }
 exports.default = ReactionRepository;
-// const addReactionQuery = (reaction: ReactionDbEntry) => {
-//   const { userId, foodId, reactionTypeId, severityId, active } = reaction;
-//   return addReaction(userId, foodId, reactionTypeId, severityId, active);
-// };

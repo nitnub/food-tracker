@@ -14,17 +14,17 @@ const getAllMatchingTests = (name) => {
 };
 exports.getAllMatchingTests = getAllMatchingTests;
 const addTest = (TestItem) => {
-    const { id, porkInt, porkBool, porkText } = TestItem;
-    return `
-    INSERT INTO Test(name, fodmap_id, vegetarian, vegan, gluten_free) 
-    VALUES (
-      '${name}'
-      , ${fodmapId}
-      , ${vegetarian}
-      , ${vegan}
-      , ${glutenFree}      
-    );
-  `;
+    const { id, testInt, testBool, testText } = TestItem;
+    // return `
+    //   INSERT INTO Test(name, fodmap_id, vegetarian, vegan, gluten_free) 
+    //   VALUES (
+    //     '${name}'
+    //     , ${fodmapId}
+    //     , ${vegetarian}
+    //     , ${vegan}
+    //     , ${glutenFree}      
+    //   );
+    // `;
 };
 exports.addTest = addTest;
 const deleteTest = (TestId) => {

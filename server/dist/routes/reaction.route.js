@@ -7,5 +7,5 @@ const express_1 = require("express");
 const reaction_controller_1 = __importDefault(require("@controllers/reaction.controller"));
 const reactionRouter = (0, express_1.Router)();
 reactionRouter.route('/').post(reaction_controller_1.default.add);
-reactionRouter.route('/:id').get(reaction_controller_1.default.getAllReactions);
+reactionRouter.route('/:id').get(reaction_controller_1.default.getUserReactions).delete(reaction_controller_1.default.deleteReaction);
 exports.default = reactionRouter;

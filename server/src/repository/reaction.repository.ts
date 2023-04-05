@@ -4,9 +4,9 @@ import Pool from 'pg-pool';
 import { ReactionDbEntry } from '../types/reaction.types';
 import AppError from '../utils/appError';
 import {
-  addTest,
-  addReaction,
-  getAllUserReactions,
+  deleteReaction,
+  insertReaction,
+  selectUserReactions,
 } from './queries/reaction.queries';
 // const Pool = require('pg-pool');
 // const url = require('url')
@@ -58,53 +58,52 @@ class ReactionRepository {
 
   addReactions = async (reactionsArray: ReactionDbEntry[]) => {
     const selectQuery = reactionsArray.length;
-    let queryString = this.createReactionArrayQuery(reactionsArray)
-    
-    const resp = await this.runQuery(queryString)
+    let queryString = this.createReactionArrayQuery(reactionsArray);
+
+    const resp = await this.runQuery(queryString);
 
     if (!Array.isArray(resp)) {
       return resp;
     }
-    // console.log(resp[selectQuery])
+    console.log(resp[selectQuery]);
     return resp[selectQuery].rows;
   };
 
-  getAllReactions = async (userId: number) => {
-    const resp = await this.pool
-      .query<ReactionDbEntry[]>(getAllUserReactions(userId))
-      .catch((resp) => {
-        throw new AppError(resp.message, 400);
-      });
+  getUserReactions = async (userId: number) => {
+    const resp = await this.runQuery(selectUserReactions(userId));
+    // const resp = await this.pool
+    //   .query<ReactionDbEntry[]>(selectUserReactions(userId))
+    //   .catch((resp) => {
+    //     throw new AppError(resp.message, 400);
+    //   });
 
     return resp.rows;
+  };
+
+  deleteReaction = async (reactionId: number) => {
+    const resp = await this.runQuery(deleteReaction(reactionId));
+    console.log('Delete Respo:');
+    console.log(resp);
+    return resp;
   };
 
   runQuery = async (queryString: string) => {
     return await this.pool
       .query<ReactionDbEntry[]>(queryString)
       .catch((resp) => {
-        // console.log(resp)
         throw new AppError(resp.message, 400);
       });
   };
 
   createReactionArrayQuery = (reactionsArray: ReactionDbEntry[]) => {
-    let queryString = ''
+    let queryString = '';
     for (let reaction of reactionsArray) {
-      // const { userId, foodId, reactionTypeId, severityId, active } = reaction;
-      // queryString += addReaction(userId, foodId, reactionTypeId, severityId, active);      
-      queryString += addReaction(reaction);      
+      queryString += insertReaction(reaction);
     }
-    queryString += getAllUserReactions(reactionsArray[0].userId);
-    console.log(getAllUserReactions(reactionsArray[0].userId);)
-    return queryString
+    queryString += selectUserReactions(reactionsArray[0].userId);
+
+    return queryString;
   };
 }
 
 export default ReactionRepository;
-
-// const addReactionQuery = (reaction: ReactionDbEntry) => {
-//   const { userId, foodId, reactionTypeId, severityId, active } = reaction;
-
-//   return addReaction(userId, foodId, reactionTypeId, severityId, active);
-// };

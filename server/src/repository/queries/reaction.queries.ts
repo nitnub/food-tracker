@@ -1,6 +1,6 @@
 import { ReactionDbEntry } from "../../types/reaction.types";
 
-export const addTest = (
+export const insertTest = (
   porkInt: number,
   porkBool: boolean,
   porkText: string
@@ -15,61 +15,10 @@ export const addTest = (
   `;
 };
 
-// export const addReaction = (
-//   userId: number,
-//   foodId: number,
-//   reactionTypeId: number,
-//   severityId: number,
-//   active: boolean = true
-// ) => {
-export const addReaction = (
+export const insertReaction = (
  reaction: ReactionDbEntry
 ) => {
-
-  const hasDelete = (reaction.deletedOn || reaction.deletedOn === null)
-  const hasSubside = (reaction.subsidedOn || reaction.subsidedOn === null)
-// console.log(`
-// INSERT 
-//   INTO reaction_two(
-//     "user"
-//     , food
-//     , reaction_type
-//     ${reaction.severityId && ', severity'}
-//     ${typeof reaction.active === 'boolean'  && ', active'}
-//     ${(reaction.subsidedOn || reaction.subsidedOn === null) ? `, subsided_on` : ''}
-//     ${(reaction.deletedOn || reaction.deletedOn === null) ? `, deleted_on` : ''}
-//     ) 
-//   VALUES (
-//     ${reaction.userId}
-//     , ${reaction.foodId}
-//     , ${reaction.reactionTypeId}
-//     ${reaction.severityId && `, ${reaction.severityId}`}
-//     ${typeof reaction.active === 'boolean'  && `, ${reaction.active}`}
-//     ${ hasDelete && `, ${reaction.subsidedOn}`}
-//     ${ hasSubside && `, ${reaction.deletedOn}`}
-//   )
-// ON CONFLICT ("user", food, reaction_type) 
-// DO 
-//   UPDATE SET 
-//     severity=EXCLUDED.severity
-//     , active=EXCLUDED.active
-//     , subsided_on=EXCLUDED.subsided_on
-//     , deleted_on=EXCLUDED.deleted_on
-// `)
-
-
-
-    // let updateSet = 
-    
-    // const getUpdateSet = (reaction: ReactionDbEntry) => {
-
-    //   const severityStatement = `severity=EXCLUDED.severity,`
-    //   const activeStatement = ` active=EXCLUDED.active,`
-    //   const subsidedOnStatement = ` subsided_on=EXCLUDED.subsided_on,`
-    //   const deletedOnStatement = ` deleted_on=EXCLUDED.deleted_on,`
-    // }
-
-  return`
+  const query = `
     INSERT 
       INTO reaction(
         "user"
@@ -86,8 +35,8 @@ export const addReaction = (
         , ${reaction.reactionTypeId}
         ${reaction.severityId && `, ${reaction.severityId}`}
         ${typeof reaction.active === 'boolean'  && `, ${reaction.active}`}
-        ${(reaction.subsidedOn || reaction.subsidedOn === null) ? `, ${reaction.subsidedOn}` : ''}
-        ${(reaction.deletedOn || reaction.deletedOn === null) ? `, ${reaction.deletedOn}` : ''}
+        ${(reaction.subsidedOn || reaction.subsidedOn === null) ? `, '${reaction.subsidedOn}'` : ''}
+        ${(reaction.deletedOn || reaction.deletedOn === null) ? `, '${reaction.deletedOn}'` : ''}
       )
     ON CONFLICT ("user", food, reaction_type) 
     DO 
@@ -98,58 +47,20 @@ export const addReaction = (
         , deleted_on=EXCLUDED.deleted_on
     ;
   `;
-
-
-//   INSERT 
-//   INTO reaction_two(
-//     "user"
-//     , food
-//     , reaction_type
-//     , severity
-//     , active
-//     , subsided_on
-//     , deleted_on) 
-//   VALUES (
-//     ${userId}
-//     , ${foodId}
-//     , ${reactionTypeId}
-//     , ${severityId}
-//     , ${active}
-//     , null
-//     , null
-//   )
-// ON CONFLICT ("user", food, reaction_type) 
-// DO 
-//   UPDATE SET 
-//     severity=EXCLUDED.severity
-//     , active=EXCLUDED.active
-//     , subsided_on=EXCLUDED.subsided_on
-//     , deleted_on=EXCLUDED.deleted_on
-// `;
-
-
-
-  // `
-  //   INSERT INTO reaction("user", food, reaction_type, severity, active) 
-  //   VALUES (
-  //     ${userId}
-  //     , ${foodId}
-  //     , ${reactionTypeId}
-  //     , ${severityId}
-  //     , ${active}
-  //   );
-  // `;
+  // console.log(query)
+        return query
 };
 
-export const getAllUserReactions = (userId: number) => {
+export const selectUserReactions = (userId: number) => {
   return `
     SELECT * FROM reaction
     WHERE "user" = ${userId} 
-    AND deleted_on IS null;
+    AND deleted_on IS null
+    ORDER BY id ASC;
   `;
 };
 
-export const getActiveUserReactions = (userId: number) => {
+export const selectActiveUserReactions = (userId: number) => {
   return `
     SELECT * FROM reaction 
     WHERE "user" = ${userId}
@@ -158,23 +69,24 @@ export const getActiveUserReactions = (userId: number) => {
   `;
 };
 
-export const getReactionSeverities = () => {
+export const selectReactionSeverities = () => {
   return `
     SELECT * FROM reaction_severity;
   `;
 };
 
-export const getReactionTypes = () => {
+export const selectReactionTypes = () => {
   return `
     SELECT * FROM reaction_type;
   `;
 };
 
 export const deleteReaction = (reactionId: number) => {
+  //   SET last_modified_on = NOW()
   return `
     UPDATE reaction
-    SET deleted_on = now(),
-    SET last_modified_on = NOW()
+    SET deleted_on = now()
+  
     WHERE id = ${reactionId};
   `;
 };

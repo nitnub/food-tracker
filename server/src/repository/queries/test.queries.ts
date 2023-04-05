@@ -12,24 +12,24 @@ export const getAllMatchingTests = (name: string) => {
 
 interface TestDBObject {
   id: number
-  porkInt: number
-  porkBool: boolean 
-  porkText: string
+  testInt: number
+  testBool: boolean 
+  testText: string
 }
 
 export const addTest = (TestItem: TestDBObject) => {
-  const { id, porkInt, porkBool, porkText } = TestItem;
+  const { id, testInt, testBool, testText } = TestItem;
 
-  return `
-    INSERT INTO Test(name, fodmap_id, vegetarian, vegan, gluten_free) 
-    VALUES (
-      '${name}'
-      , ${fodmapId}
-      , ${vegetarian}
-      , ${vegan}
-      , ${glutenFree}      
-    );
-  `;
+  // return `
+  //   INSERT INTO Test(name, fodmap_id, vegetarian, vegan, gluten_free) 
+  //   VALUES (
+  //     '${name}'
+  //     , ${fodmapId}
+  //     , ${vegetarian}
+  //     , ${vegan}
+  //     , ${glutenFree}      
+  //   );
+  // `;
 };
 
 export const deleteTest = (TestId: number) => {

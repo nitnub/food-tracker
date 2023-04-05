@@ -16,15 +16,17 @@ const reaction_repository_1 = __importDefault(require("@repository/reaction.repo
 class ReactionService {
     constructor() {
         this.addReactions = (reactions) => __awaiter(this, void 0, void 0, function* () {
-            // const formattedReaction = this.formatReactionForDb(reaction)
             return yield this.reactionRepository.addReactions(reactions);
         });
-        // addReaction = (reaction: Reaction) => {
-        //   // const formattedReaction = this.formatReactionForDb(reaction)
-        //   return this.reactionRepository.addReaction(reaction);
-        // };
-        this.getAllReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.reactionRepository.getAllReactions(userId);
+        this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
+            const reactions = yield this.reactionRepository.getUserReactions(userId);
+            // if (Array.isArray(reactions) && reactions.length === 0) {
+            //   throw AppError('Unable to find any reactions for userId') // two scenarios: 1) the user exists with no rows 2) user does not exist. Necessary to check here or just to return zero rows in both instance?
+            // }
+            return reactions;
+        });
+        this.deleteReaction = (userId) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.reactionRepository.deleteReaction(userId);
         });
         this.formatReactionForDb = (reaction) => {
             // const formattedReaction: ReactionDbEntry = {

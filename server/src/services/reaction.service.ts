@@ -1,5 +1,6 @@
 import ReactionRepository from '@repository/reaction.repository';
 import { Reaction, ReactionDbEntry } from '../types/reaction.types';
+import AppError from '../utils/appError';
 
 class ReactionService {
   private reactionRepository;
@@ -8,21 +9,22 @@ class ReactionService {
   }
 
   addReactions = async (reactions: ReactionDbEntry[]) => {
-
-    // const formattedReaction = this.formatReactionForDb(reaction)
-
     return await this.reactionRepository.addReactions(reactions);
   };
-  // addReaction = (reaction: Reaction) => {
 
-  //   // const formattedReaction = this.formatReactionForDb(reaction)
+  getUserReactions = async (userId: number) => {
 
-  //   return this.reactionRepository.addReaction(reaction);
-  // };
-
-  getAllReactions = async (userId: number) => {
-    return await this.reactionRepository.getAllReactions(userId);
+    const reactions = await this.reactionRepository.getUserReactions(userId);
+    // if (Array.isArray(reactions) && reactions.length === 0) {
+    //   throw AppError('Unable to find any reactions for userId') // two scenarios: 1) the user exists with no rows 2) user does not exist. Necessary to check here or just to return zero rows in both instance?
+    // }
+    return reactions;
   };
+
+
+  deleteReaction = async (userId: number) => {
+    return await this.reactionRepository.deleteReaction(userId);
+  }
 
   formatReactionForDb = (reaction: Reaction) => {
     // const formattedReaction: ReactionDbEntry = {
