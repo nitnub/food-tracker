@@ -1,9 +1,12 @@
-import { Router } from "express"; 
-import reactionController from '@controllers/reaction.controller'
+import { Router } from 'express';
+import reactionController from '@controllers/reaction.controller';
 
-const reactionRouter = Router()
+const reactionRouter = Router();
 
-reactionRouter.route('/').post(reactionController.add)
-reactionRouter.route('/:id').get(reactionController.getUserReactions).delete(reactionController.deleteReaction)
+reactionRouter.route('/').post(reactionController.add);
+reactionRouter
+  .route('/:id')
+  .get(reactionController.getUserReactions)
+  .delete(reactionController.deleteReaction);
 
 export default reactionRouter;

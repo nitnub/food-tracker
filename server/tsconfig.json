@@ -101,7 +101,8 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "paths": {
       "@/controllers/*": ["./dist/controllers/*"],
-      // "@/configs/*": ["configs/*"],
+      "@/configs/*": ["./dist/configs/*"],
+      "@/connections/*": ["./dist/connections/*"],
       // "@/graphql/*": ["graphql/*"],
       // "@/libs/*": ["libs/*"],
       // "@/models/*": ["models/*"],

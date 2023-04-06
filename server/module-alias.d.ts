@@ -1,5 +1,7 @@
+declare module '@configs/*';
+declare module '@connections/*';
 declare module '@controllers/*';
 declare module '@repository/*';
 declare module '@routes/*';
-// declare module '@types/*';
 declare module '@services/*'
+// declare module '@types/*';

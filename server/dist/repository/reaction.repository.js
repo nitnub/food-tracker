@@ -12,41 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const pg_pool_1 = __importDefault(require("pg-pool"));
+const postgres_connection_1 = __importDefault(require("@connections/postgres.connection"));
 const appError_1 = __importDefault(require("../utils/appError"));
 const reaction_queries_1 = require("./queries/reaction.queries");
-// const Pool = require('pg-pool');
-// const url = require('url')
-// const params = url.parse(process.env.DATABASE_URL);
-// const auth = params.auth.split(':');
-// const config = {
-//   user: auth[0],
-//   password: auth[1],
-//   host: params.hostname,
-//   port: params.port,
-//   database: params.pathname.split('/')[1],
-//   ssl: true
-// };
-// console.log(process.env.NODE_ENV)
-// // console.log(process.env)
-// console.log(process.env.PORT)
-// console.log(process.env.DATABASE_PORT)
-if (typeof process.env.DATABASE_PORT !== 'string' &&
-    process.env.NODE_ENV === 'development') {
-    throw Error('Error identifying DB Port!');
-}
-// console.log(`ssl= ${process.env.DATABASE_SSL_SETTING}`)
-// console.log(process.env.DATABASE_PASSWORD)
-// const port = process.env.DATABASE_PORT as unknown as number
-const config = {
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    host: process.env.DATABASE_HOST_NAME,
-    port: process.env.DATABASE_PORT,
-    database: process.env.DATABASE_NAME,
-    ssl: process.env.DATABASE_SSL_SETTING === 'true',
-};
-// const pool = new Pool(config);
 class ReactionRepository {
     constructor() {
         this.addReactions = (reactionsArray) => __awaiter(this, void 0, void 0, function* () {
@@ -61,18 +29,11 @@ class ReactionRepository {
         });
         this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
             const resp = yield this.runQuery((0, reaction_queries_1.selectUserReactions)(userId));
-            // const resp = await this.pool
-            //   .query<ReactionDbEntry[]>(selectUserReactions(userId))
-            //   .catch((resp) => {
-            //     throw new AppError(resp.message, 400);
-            //   });
             return resp.rows;
         });
         this.deleteReaction = (reactionId) => __awaiter(this, void 0, void 0, function* () {
             const resp = yield this.runQuery((0, reaction_queries_1.deleteReaction)(reactionId));
-            console.log('Delete Respo:');
-            console.log(resp);
-            return resp;
+            return resp.rows;
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {
             return yield this.pool
@@ -89,7 +50,7 @@ class ReactionRepository {
             queryString += (0, reaction_queries_1.selectUserReactions)(reactionsArray[0].userId);
             return queryString;
         };
-        this.pool = new pg_pool_1.default(config);
+        this.pool = postgres_connection_1.default;
     }
 }
 exports.default = ReactionRepository;

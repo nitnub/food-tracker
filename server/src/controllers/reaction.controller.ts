@@ -21,7 +21,7 @@ class ReactionController {
   });
 
   getUserReactions = catchAsync(async (req: Request, res: Response) => {
-
+    
     if (!req.params.id) {
       throw new AppError('Request must contain user ID', 400);
     }
@@ -35,13 +35,12 @@ class ReactionController {
   });
 
   deleteReaction = catchAsync(async (req: Request, res: Response) => {
-    const response = this.reactionService.deleteReaction(req.params.id);
-
-    res.status(204).json({
+    const response = await this.reactionService.deleteReaction(req.params.id);
+ 
+    res.status(202).json({
       status: 'success'
-    })
-  })
+    });
+  });
 }
-
 
 export default new ReactionController();

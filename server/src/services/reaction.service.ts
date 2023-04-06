@@ -22,8 +22,13 @@ class ReactionService {
   };
 
 
-  deleteReaction = async (userId: number) => {
-    return await this.reactionRepository.deleteReaction(userId);
+  deleteReaction = async (reactionId: number) => {
+    const result = await this.reactionRepository.deleteReaction(reactionId);
+    
+  if (Array.isArray(result) && result.length === 0) {
+      throw new AppError(`Unable to find any results for reactionId ${reactionId}`, 401) 
+    }
+     
   }
 
   formatReactionForDb = (reaction: Reaction) => {
