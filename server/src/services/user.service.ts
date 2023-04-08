@@ -12,7 +12,6 @@ class UserService {
 
   getAllUsers = async () => {
     const users = await this.userRepository.getAllUsers();
-
     return users;
   };
 
@@ -29,12 +28,16 @@ class UserService {
     return await this.userRepository.addUser(userArray);
   };
 
+  updateUser = async (globalUserId: string , userUpdates: UserDbUpdateEntry) => {
+    return await this.userRepository.updateUser(globalUserId, userUpdates);
+  };
+
   deleteUser = async (userId: number) => {
     const result = await this.userRepository.deleteUser(userId);
 
     if (result === 0) {
       throw new AppError(
-        `Unable to find any results for reactionId ${userId}`,
+        `Unable to find any results for User ID ${userId}.`,
         401
       );
     }

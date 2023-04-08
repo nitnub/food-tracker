@@ -16,31 +16,33 @@ const insertReaction = (reaction) => {
     const query = `
     INSERT 
       INTO reaction(
-        "user"
-        , food
+        user_id
+        , element_id
+        , food_grouping_id
         , reaction_type
         ${reaction.severityId && ', severity'}
-        ${typeof reaction.active === 'boolean' && ', active'}
+        ${typeof reaction.active === 'boolean' ? ', active' : ''}
         ${(reaction.subsidedOn || reaction.subsidedOn === null) ? `, subsided_on` : ''}
         ${(reaction.deletedOn || reaction.deletedOn === null) ? `, deleted_on` : ''}
       ) 
       VALUES (
         ${reaction.userId}
-        , ${reaction.foodId}
+        , ${reaction.elementId}
+        , ${reaction.foodGroupingId ? `, ${reaction.foodGroupingId}` : 1}
         , ${reaction.reactionTypeId}
         ${reaction.severityId && `, ${reaction.severityId}`}
-        ${typeof reaction.active === 'boolean' && `, ${reaction.active}`}
+        ${typeof reaction.active === 'boolean' ? `, ${reaction.active}` : ''}
         ${(reaction.subsidedOn || reaction.subsidedOn === null) ? `, '${reaction.subsidedOn}'` : ''}
         ${(reaction.deletedOn || reaction.deletedOn === null) ? `, '${reaction.deletedOn}'` : ''}
       )
-    ON CONFLICT ("user", food, reaction_type) 
+    ON CONFLICT (user_id, element_id, food_grouping_id, reaction_type) 
     DO 
       UPDATE SET 
         severity=EXCLUDED.severity
         , active=EXCLUDED.active
         , subsided_on=EXCLUDED.subsided_on
         , deleted_on=EXCLUDED.deleted_on
-    ;
+    RETURNING *;
   `;
     // console.log(query)
     return query;
@@ -49,7 +51,7 @@ exports.insertReaction = insertReaction;
 const selectUserReactions = (userId) => {
     return `
     SELECT * FROM reaction
-    WHERE "user" = ${userId} 
+    WHERE user_id = ${userId} 
     AND deleted_on IS null
     ORDER BY id ASC;
   `;
@@ -58,7 +60,7 @@ exports.selectUserReactions = selectUserReactions;
 const selectActiveUserReactions = (userId) => {
     return `
     SELECT * FROM reaction 
-    WHERE "user" = ${userId}
+    WHERE user_id = ${userId}
     AND active is true 
     AND deleted_on IS null;
   `;

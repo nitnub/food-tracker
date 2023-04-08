@@ -1,32 +1,33 @@
 export interface ReactionItem {
-  displayName: string
-  id: number
+  displayName: string;
+  id: number;
 }
 
-
 export interface Reaction {
-  id?: number
-  user: ReactionItem
-  food: ReactionItem
-  reactionType: ReactionItem
-  severity: ReactionItem
-  active: boolean
-  identifiedOn?: string
-  subsidedOn?: string
-  lastModifiedOn?: string
+  id?: number;
+  user: ReactionItem;
+  food: ReactionItem;
+  reactionType: ReactionItem;
+  severity: ReactionItem;
+  active: boolean;
+  identifiedOn?: string;
+  subsidedOn?: string;
+  lastModifiedOn?: string;
 }
 
 export interface ReactionDbEntry {
-  id?: number
-  userId: number
-  foodId: number
-  reactionTypeId: number
-  severityId: number
-  active?: boolean
-  identifiedOn?: string
-  subsidedOn?: string
-  lastModifiedOn?: string
-  deletedOn?: string
+  id?: number;
+  userId: number;
+  // foodId: number
+  elementId: number;
+  foodGroupingId: number;
+  reactionTypeId: number;
+  severityId: number;
+  active?: boolean;
+  identifiedOn?: string;
+  subsidedOn?: string;
+  lastModifiedOn?: string;
+  deletedOn?: string;
 }
 // export interface Reaction {
 //   id?: number

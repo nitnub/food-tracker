@@ -34,10 +34,13 @@ class UserService {
             // check for admin to allow more than one entry
             return yield this.userRepository.addUser(userArray);
         });
+        this.updateUser = (globalUserId, userUpdates) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.userRepository.updateUser(globalUserId, userUpdates);
+        });
         this.deleteUser = (userId) => __awaiter(this, void 0, void 0, function* () {
             const result = yield this.userRepository.deleteUser(userId);
             if (result === 0) {
-                throw new appError_1.default(`Unable to find any results for reactionId ${userId}`, 401);
+                throw new appError_1.default(`Unable to find any results for User ID ${userId}.`, 401);
             }
         });
         this.userRepository = new user_repository_1.default();

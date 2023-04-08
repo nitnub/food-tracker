@@ -35,7 +35,7 @@ class ReactionController {
   });
 
   deleteReaction = catchAsync(async (req: Request, res: Response) => {
-    const response = await this.reactionService.deleteReaction(req.params.id);
+    await this.reactionService.deleteReaction(req.params.id);
  
     res.status(202).json({
       status: 'success'

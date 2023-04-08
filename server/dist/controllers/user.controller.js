@@ -37,6 +37,13 @@ class UserController {
                 data,
             });
         }));
+        this.updateUser = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.userService.updateUser(req.params.id, req.body);
+            res.status(200).json({
+                status: 'success',
+                data
+            });
+        }));
         this.deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
             yield this.userService.deleteUser(req.params.id);
             res.status(202).json({

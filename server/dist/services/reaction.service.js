@@ -29,7 +29,7 @@ class ReactionService {
         this.deleteReaction = (reactionId) => __awaiter(this, void 0, void 0, function* () {
             const result = yield this.reactionRepository.deleteReaction(reactionId);
             if (Array.isArray(result) && result.length === 0) {
-                throw new appError_1.default(`Unable to find any results for reactionId ${reactionId}`, 401);
+                throw new appError_1.default(`Unable to find any results for Reaction ID ${reactionId}.`, 401);
             }
         });
         this.formatReactionForDb = (reaction) => {

@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_connection_1 = __importDefault(require("@connections/postgres.connection"));
+const appError_1 = __importDefault(require("../utils/appError"));
 const user_queries_1 = require("./queries/user.queries");
 class UserRepository {
     constructor() {
@@ -38,23 +39,34 @@ class UserRepository {
                 queryString += (0, user_queries_1.insertUser)(user);
             }
             // add select statement at end of query
-            queryString += (0, user_queries_1.selectAllUsers)();
+            if (userArray.length === 1) {
+                queryString += (0, user_queries_1.selectUserByEmail)(userArray[0].email);
+            }
+            else {
+                queryString += (0, user_queries_1.selectAllUsers)();
+            }
             const resp = yield this.runQuery(queryString);
-            return resp.rows;
+            if (!Array.isArray(resp)) {
+                return resp;
+            }
+            return resp[userArray.length].rows;
         });
-        this.updateUser = (user) => __awaiter(this, void 0, void 0, function* () { });
+        this.updateUser = (globalUserId, userUpdates) => __awaiter(this, void 0, void 0, function* () {
+            const resp = yield this.runQuery((0, user_queries_1.updateUserByGlobalId)(globalUserId, userUpdates));
+            if (!Array.isArray(resp)) {
+                throw new appError_1.default(`Unable to update user ${globalUserId}`, 400);
+            }
+            if (resp[1].rows.length === 0) {
+                throw new appError_1.default(`Unable to update user ${globalUserId}; user not found.`, 400);
+            }
+            return resp[1].rows;
+        });
         this.deleteUser = (userId) => __awaiter(this, void 0, void 0, function* () {
             const resp = yield this.runQuery((0, user_queries_1.deleteUser)(userId));
             return resp.rowCount;
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {
             return yield this.pool.query(queryString);
-            // .catch((resp) 
-            // => {
-            // console.log(resp)
-            // throw new AppError(`${resp.message}.${resp.detail ? ' ' + resp.detail : ''}`, 400);
-            // }
-            // );
         });
         this.pool = postgres_connection_1.default;
     }

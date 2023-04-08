@@ -39,7 +39,7 @@ class ReactionController {
             });
         }));
         this.deleteReaction = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
-            const response = yield this.reactionService.deleteReaction(req.params.id);
+            yield this.reactionService.deleteReaction(req.params.id);
             res.status(202).json({
                 status: 'success'
             });

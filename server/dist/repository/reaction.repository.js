@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_connection_1 = __importDefault(require("@connections/postgres.connection"));
-const appError_1 = __importDefault(require("../utils/appError"));
 const reaction_queries_1 = require("./queries/reaction.queries");
 class ReactionRepository {
     constructor() {
@@ -24,7 +23,7 @@ class ReactionRepository {
             if (!Array.isArray(resp)) {
                 return resp;
             }
-            console.log(resp[selectQuery]);
+            // console.log(resp[selectQuery]);
             return resp[selectQuery].rows;
         });
         this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
@@ -37,10 +36,10 @@ class ReactionRepository {
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {
             return yield this.pool
-                .query(queryString)
-                .catch((resp) => {
-                throw new appError_1.default(resp.message, 400);
-            });
+                .query(queryString);
+            // .catch((resp) => {
+            //   throw new AppError(resp.message, 400);
+            // });
         });
         this.createReactionArrayQuery = (reactionsArray) => {
             let queryString = '';

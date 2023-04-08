@@ -1,7 +1,14 @@
 import postgresConnect from '@connections/postgres.connection';
 import { Client } from 'pg';
 import AppError from '../utils/appError';
-import { deleteUser, insertUser, selectAllUsers, selectUser } from './queries/user.queries';
+import {
+  deleteUser,
+  insertUser,
+  selectAllUsers,
+  selectUser,
+  selectUserByEmail,
+  updateUserByGlobalId,
+} from './queries/user.queries';
 class UserRepository {
   private pool: Client;
   constructor() {
@@ -34,27 +41,41 @@ class UserRepository {
       queryString += insertUser(user);
     }
     // add select statement at end of query
-    queryString += selectAllUsers();
+    if (userArray.length === 1) {
+      queryString += selectUserByEmail(userArray[0].email);
+    } else {
+      queryString += selectAllUsers();
+    }
 
     const resp = await this.runQuery(queryString);
-    return resp.rows;
+
+    if (!Array.isArray(resp)) {
+      return resp;
+    }
+    return resp[userArray.length].rows;
   };
 
-  updateUser = async (user: UserDbEntry) => {};
+  updateUser = async (globalUserId: string, userUpdates: UserDbUpdateEntry) => {
+    const resp = await this.runQuery(
+      updateUserByGlobalId(globalUserId, userUpdates)
+    );
+    
+    if (!Array.isArray(resp)) {
+      throw new AppError(`Unable to update user ${globalUserId}`, 400)
+    }
+    if (resp[1].rows.length === 0) {
+      throw new AppError(`Unable to update user ${globalUserId}; user not found.`, 400)
+    }
+    return resp[1].rows;
+  };
   deleteUser = async (userId: number) => {
-    const resp = await this.runQuery(deleteUser(userId))
-   
+    const resp = await this.runQuery(deleteUser(userId));
+
     return resp.rowCount;
   };
 
   runQuery = async (queryString: string) => {
-    return await this.pool.query<UserDbEntry[]>(queryString)
-    // .catch((resp) 
-    // => {
-      // console.log(resp)
-      // throw new AppError(`${resp.message}.${resp.detail ? ' ' + resp.detail : ''}`, 400);
-    // }
-    // );
+    return await this.pool.query<UserDbEntry[]>(queryString);
   };
 }
 

@@ -5,6 +5,7 @@ const userRouter = Router();
 userRouter
   .route('/:id')
   .get(userController.getUser)
+  .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
 userRouter

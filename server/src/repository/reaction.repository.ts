@@ -24,7 +24,7 @@ class ReactionRepository {
     if (!Array.isArray(resp)) {
       return resp;
     }
-    console.log(resp[selectQuery]);
+    // console.log(resp[selectQuery]);
     return resp[selectQuery].rows;
   };
 
@@ -41,9 +41,9 @@ class ReactionRepository {
   runQuery = async (queryString: string) => {
     return await this.pool
       .query<ReactionDbEntry[]>(queryString)
-      .catch((resp) => {
-        throw new AppError(resp.message, 400);
-      });
+      // .catch((resp) => {
+      //   throw new AppError(resp.message, 400);
+      // });
   };
 
   createReactionArrayQuery = (reactionsArray: ReactionDbEntry[]) => {

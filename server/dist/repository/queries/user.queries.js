@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.insertUser = exports.selectUser = exports.selectAllUsers = void 0;
+exports.deleteUser = exports.updateUserByGlobalId = exports.insertUser = exports.selectUserByEmail = exports.selectUser = exports.selectAllUsers = void 0;
 const selectAllUsers = () => {
     return `
     SELECT * FROM app_user
@@ -14,6 +14,12 @@ const selectUser = (userId) => {
   `;
 };
 exports.selectUser = selectUser;
+const selectUserByEmail = (email) => {
+    return `
+    SELECT * FROM app_user WHERE lower(email) = '${email.toLowerCase()}';
+  `;
+};
+exports.selectUserByEmail = selectUserByEmail;
 const insertUser = (user) => {
     return `
     INSERT INTO app_user(
@@ -42,6 +48,25 @@ const insertUser = (user) => {
   `;
 };
 exports.insertUser = insertUser;
+const updateUserByGlobalId = (globalUserId, userUpdates) => {
+    const { modifiedBy, email, admin, avatar, active } = userUpdates;
+    console.log('userUpdates:', userUpdates);
+    const resp = `
+    UPDATE app_user SET 
+    last_modified_by = '${modifiedBy}'
+    ${email ? `, email  = '${email}'` : ''}
+    ${avatar ? `, avatar = '${avatar}'` : ''}
+    ${typeof admin === 'boolean' ? `, admin  = ${admin}` : ''}
+    ${typeof active === 'boolean' ? `, active = ${active}` : ''}
+    WHERE global_user_id = '${globalUserId}';  
+
+    SELECT * FROM app_user WHERE global_user_id = '${globalUserId}';
+  `;
+    console.log(resp);
+    return resp;
+};
+exports.updateUserByGlobalId = updateUserByGlobalId;
+// Update to modify date; not remove entirely(?)
 const deleteUser = (userId) => {
     return `
     DELETE FROM app_user where id = ${userId};

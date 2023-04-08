@@ -33,6 +33,15 @@ class UserController {
     });
   });
 
+  updateUser = catchAsync(async (req: Request, res: Response) => {
+    const data = await this.userService.updateUser(req.params.id, req.body);
+
+    res.status(200).json({
+      status: 'success',
+      data
+    })
+  })
+
   deleteUser = catchAsync(async (req: Request, res: Response) => {
     await this.userService.deleteUser(req.params.id);
 

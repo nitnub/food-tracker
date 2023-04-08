@@ -9,6 +9,7 @@ const userRouter = (0, express_1.Router)();
 userRouter
     .route('/:id')
     .get(user_controller_1.default.getUser)
+    .patch(user_controller_1.default.updateUser)
     .delete(user_controller_1.default.deleteUser);
 userRouter
     .route('/')
