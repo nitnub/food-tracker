@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
 import express, { Request, NextFunction, Response } from 'express';
-
+import cors from 'cors';
 import testRouter from '@routes/test.route';
 import foodRouter from '@routes/food.route';
 import reactionRouter from '@routes/reaction.route';
@@ -22,6 +22,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cors())
 app.use('/api/v1/food', foodRouter);
 app.use('/api/v1/reaction', reactionRouter);
 app.use('/api/v1/user', userRouter);

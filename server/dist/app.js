@@ -8,6 +8,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 // configure dotenv before module imports
 dotenv_1.default.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const food_route_1 = __importDefault(require("@routes/food.route"));
 const reaction_route_1 = __importDefault(require("@routes/reaction.route"));
 const error_controller_1 = __importDefault(require("./controllers/error.controller"));
@@ -21,6 +22,7 @@ const app = (0, express_1.default)();
 // console.log(`app= ${process.env.ENV_MESSAGE}`)
 const PORT = process.env.PORT;
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 app.use('/api/v1/food', food_route_1.default);
 app.use('/api/v1/reaction', reaction_route_1.default);
 app.use('/api/v1/user', user_route_1.default);

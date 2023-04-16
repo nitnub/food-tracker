@@ -1,19 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteFood = exports.addFood = exports.getAllMatchingFoods = exports.getAllFoods = void 0;
-const getAllFoods = () => {
+exports.deleteFood = exports.insertFood = exports.selectAllMatchingFoods = exports.selectAllFoods = void 0;
+const selectAllFoods = () => {
     return `
-    SELECT * FROM food;
+    SELECT 
+    id 
+    , name
+    , fodmap_id AS "fodmapId"
+    , vegetarian
+    , vegan
+    , gluten_free AS "glutenFree"
+    FROM food;
   `;
 };
-exports.getAllFoods = getAllFoods;
-const getAllMatchingFoods = (name) => {
+exports.selectAllFoods = selectAllFoods;
+const selectAllMatchingFoods = (name) => {
     return `
     SELECT * FROM food WHERE LOWER(name) LIKE '%${name}%';
   `;
 };
-exports.getAllMatchingFoods = getAllMatchingFoods;
-const addFood = (foodItem) => {
+exports.selectAllMatchingFoods = selectAllMatchingFoods;
+const insertFood = (foodItem) => {
     const { name, fodmapId, vegetarian, vegan, glutenFree } = foodItem;
     return `
     INSERT INTO food(name, fodmap_id, vegetarian, vegan, gluten_free) 
@@ -26,7 +33,7 @@ const addFood = (foodItem) => {
     );
   `;
 };
-exports.addFood = addFood;
+exports.insertFood = insertFood;
 const deleteFood = (foodId) => {
     return `
       DELETE FROM food

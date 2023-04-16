@@ -17,11 +17,31 @@ const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const appError_1 = __importDefault(require("../utils/appError"));
 class ReactionController {
     constructor() {
-        this.add = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.getReactionOptions = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
+            // if (!req.body.reactions) {
+            //   throw new AppError('Request must be a list of formatted reactions', 400);
+            // }
+            const data = yield this.reactionService.getReactionOptions();
+            res.status(200).json({
+                status: 'success',
+                data,
+            });
+        }));
+        this.adminAdd = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
             if (!req.body.reactions) {
                 throw new appError_1.default('Request must be a list of formatted reactions', 400);
             }
             const result = yield this.reactionService.addReactions(req.body.reactions);
+            res.status(200).json({
+                status: 'success',
+                result,
+            });
+        }));
+        this.addReaction = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
+            // temp sanitization; pre-middleware
+            const sanitizedRequest = Object.assign(Object.assign({}, req.body), { userId: Number(req.params.id) });
+            const result = yield this.reactionService.addReaction(sanitizedRequest);
             res.status(200).json({
                 status: 'success',
                 result,
@@ -32,10 +52,10 @@ class ReactionController {
                 throw new appError_1.default('Request must contain user ID', 400);
             }
             // const userId = req.params.id;
-            const results = yield this.reactionService.getUserReactions(req.params.id);
+            const data = yield this.reactionService.getUserReactions(req.params.id);
             res.status(200).json({
                 status: 'success',
-                results,
+                data,
             });
         }));
         this.deleteReaction = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {

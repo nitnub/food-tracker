@@ -13,10 +13,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_connection_1 = __importDefault(require("@connections/postgres.connection"));
+const appError_1 = __importDefault(require("../utils/appError"));
 const reaction_queries_1 = require("./queries/reaction.queries");
 class ReactionRepository {
     constructor() {
+        this.getReactionOptions = () => __awaiter(this, void 0, void 0, function* () {
+            // const severities = await this.runQuery(selectReactionSeverities());
+            // const reactionTypes = await this.runQuery(selectReactionTypes());
+            const reactionOptions = yield this.runQuery((0, reaction_queries_1.selectReactionSeveritiesAndTypes)());
+            // const reactionCategories = await this.runQuery(selectReactionCategories());
+            if (!Array.isArray(reactionOptions)) {
+                return reactionOptions;
+            }
+            return {
+                severities: reactionOptions[0].rows,
+                categories: reactionOptions[1].rows,
+                types: reactionOptions[2].rows
+                // reactionCategories: reactionCategories.rows,
+            };
+        });
+        this.addReaction = (reaction) => __awaiter(this, void 0, void 0, function* () {
+            // const selectQuery = reactionsArray.length;
+            // let queryString = this.insertReaction(reaction);
+            // console.log('reaction:', reaction)
+            console.log('reaction1:');
+            console.log(reaction);
+            console.log(typeof reaction);
+            const resp = yield this.runQuery((0, reaction_queries_1.insertReactionWithFormattedReturn)(reaction));
+            if (!Array.isArray(resp)) {
+                return resp;
+            }
+            if (resp[1].rows.length === 0) {
+                throw new appError_1.default('Unable to add reaction', 400);
+            }
+            // console.log(resp.rows);
+            return resp[1].rows;
+        });
         this.addReactions = (reactionsArray) => __awaiter(this, void 0, void 0, function* () {
+            console.log('adding reaction array...');
             const selectQuery = reactionsArray.length;
             let queryString = this.createReactionArrayQuery(reactionsArray);
             const resp = yield this.runQuery(queryString);
@@ -35,8 +69,7 @@ class ReactionRepository {
             return resp.rows;
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.pool
-                .query(queryString);
+            return yield this.pool.query(queryString);
             // .catch((resp) => {
             //   throw new AppError(resp.message, 400);
             // });

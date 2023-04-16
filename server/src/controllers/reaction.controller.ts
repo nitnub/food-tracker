@@ -9,11 +9,34 @@ class ReactionController {
   constructor() {
     this.reactionService = new ReactionService();
   }
-  add = catchAsync(async (req: Request, res: Response) => {
+  getReactionOptions = catchAsync(async (req: Request, res: Response) => {
+    // if (!req.body.reactions) {
+    //   throw new AppError('Request must be a list of formatted reactions', 400);
+    // }
+    const data = await this.reactionService.getReactionOptions();
+    res.status(200).json({
+      status: 'success',
+      data,
+    });
+  });
+
+  adminAdd = catchAsync(async (req: Request, res: Response) => {
     if (!req.body.reactions) {
       throw new AppError('Request must be a list of formatted reactions', 400);
     }
     const result = await this.reactionService.addReactions(req.body.reactions);
+    res.status(200).json({
+      status: 'success',
+      result,
+    });
+  });
+
+  addReaction = catchAsync(async (req: Request, res: Response) => {
+    console.log(req.body)
+// temp sanitization; pre-middleware
+    const sanitizedRequest = {...req.body, userId: Number(req.params.id)}
+
+    const result = await this.reactionService.addReaction(sanitizedRequest);
     res.status(200).json({
       status: 'success',
       result,
@@ -26,11 +49,11 @@ class ReactionController {
       throw new AppError('Request must contain user ID', 400);
     }
     // const userId = req.params.id;
-    const results = await this.reactionService.getUserReactions(req.params.id);
+    const data = await this.reactionService.getUserReactions(req.params.id);
 
     res.status(200).json({
       status: 'success',
-      results,
+      data,
     });
   });
 

@@ -1,18 +1,25 @@
 import { FoodDBObject } from '../../types/food.types';
 
-export const getAllFoods = () => {
+export const selectAllFoods = () => {
   return `
-    SELECT * FROM food;
+    SELECT 
+    id 
+    , name
+    , fodmap_id AS "fodmapId"
+    , vegetarian
+    , vegan
+    , gluten_free AS "glutenFree"
+    FROM food;
   `;
 };
 
-export const getAllMatchingFoods = (name: string) => {
+export const selectAllMatchingFoods = (name: string) => {
   return `
     SELECT * FROM food WHERE LOWER(name) LIKE '%${name}%';
   `;
 };
 
-export const addFood = (foodItem: FoodDBObject) => {
+export const insertFood = (foodItem: FoodDBObject) => {
   const { name, fodmapId, vegetarian, vegan, glutenFree } = foodItem;
 
   return `

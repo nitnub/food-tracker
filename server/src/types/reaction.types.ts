@@ -29,14 +29,73 @@ export interface ReactionDbEntry {
   lastModifiedOn?: string;
   deletedOn?: string;
 }
-// export interface Reaction {
-//   id?: number
-//   user: number
-//   food: number
-//   reactionType: number
-//   severity: number
-//   active: boolean
-//   identifiedOn?: string
-//   subsidedOn?: string
-//   lastModifiedOn?: string
-// }
+
+export interface FoodResponse {
+  id: number;
+  reactionScope: string;
+  name: string;
+  vegetarian: boolean;
+  vegan: boolean;
+  glutenFree: boolean;
+  fodMap: FodmapResponse
+};
+
+export interface FodmapResponse {
+  id: number;
+  category: string;
+  name: string;
+  freeUse: boolean;
+  oligos: boolean;
+  fructose: boolean;
+  polyols: boolean;
+  lactose: boolean;
+  color: string;
+  maxIntake: string;
+}
+
+export interface ReactionDetails { 
+  category: string; 
+  type: string; 
+  severity: string 
+};
+
+export interface ReactionComplete {
+  reactionId: number;
+  active: boolean;
+  subsidedOn: string;
+  modifiedOn: string;
+  identifiedOn: string;
+  deletedOn: string;
+  food: FoodResponse;
+  reaction: ReactionDetails
+}
+
+export interface ReactionDbResponse {
+  id: number;
+  userId: number;
+  active: boolean;
+  subsidedOn: string;
+  modifiedOn: string;
+  identifiedOn: string;
+  deletedOn: string;
+  reactionType: string;
+  reactionCategory: string;
+  reactionScope: string;
+  foodId: number;
+  foodName: string;
+  vegetarian: boolean;
+  vegan: boolean;
+  glutenFree: boolean;
+  reactionSeverity: string;
+  fodId: number;
+  fodCategory: string;
+  fodName: string;
+  fodFreeUse: boolean;
+  fodOligos: boolean;
+  fodFructose: boolean;
+  fodPolyols: boolean;
+  fodLactose: boolean;
+  fodColor: string;
+  maxIntake: string;
+  maxIntakeTest: string;
+}

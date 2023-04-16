@@ -16,15 +16,74 @@ const reaction_repository_1 = __importDefault(require("@repository/reaction.repo
 const appError_1 = __importDefault(require("../utils/appError"));
 class ReactionService {
     constructor() {
+        this.getReactionOptions = () => __awaiter(this, void 0, void 0, function* () {
+            const { categories, types, severities } = yield this.reactionRepository.getReactionOptions();
+            for (let category of categories) {
+                category.reactionTypes = [];
+            }
+            for (let type of types) {
+                for (let category of categories) {
+                    if (type.reactionCategory === category.id) {
+                        category.reactionTypes.push({ id: type.id, name: type.name });
+                    }
+                }
+            }
+            // console.log(categories)
+            return { severities, categories };
+        });
+        this.addReaction = (reaction) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.reactionRepository.addReaction(reaction);
+        });
         this.addReactions = (reactions) => __awaiter(this, void 0, void 0, function* () {
             return yield this.reactionRepository.addReactions(reactions);
         });
         this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
-            const reactions = yield this.reactionRepository.getUserReactions(userId);
+            // const formattedReaction = []
+            const response = yield this.reactionRepository.getUserReactions(userId);
             // if (Array.isArray(reactions) && reactions.length === 0) {
             //   throw AppError('Unable to find any reactions for userId') // two scenarios: 1) the user exists with no rows 2) user does not exist. Necessary to check here or just to return zero rows in both instance?
             // }
-            return reactions;
+            const reactions = response.map((reaction) => {
+                const myObj = {
+                    reactionId: reaction.id,
+                    active: reaction.active,
+                    subsidedOn: reaction.subsidedOn,
+                    modifiedOn: reaction.modifiedOn,
+                    identifiedOn: reaction.identifiedOn,
+                    deletedOn: reaction.deletedOn,
+                    food: {
+                        id: reaction.foodId,
+                        reactionScope: reaction.reactionScope,
+                        name: reaction.foodName,
+                        vegetarian: reaction.vegetarian,
+                        vegan: reaction.vegan,
+                        glutenFree: reaction.glutenFree,
+                        fodMap: {
+                            id: reaction.fodId,
+                            category: reaction.fodCategory,
+                            name: reaction.fodName,
+                            freeUse: reaction.fodFreeUse,
+                            oligos: reaction.fodOligos,
+                            fructose: reaction.fodFructose,
+                            polyols: reaction.fodPolyols,
+                            lactose: reaction.fodLactose,
+                            color: reaction.fodColor,
+                            maxIntake: reaction.maxIntake,
+                        },
+                    },
+                    reaction: {
+                        category: reaction.reactionCategory,
+                        type: reaction.reactionType,
+                        severity: reaction.reactionSeverity,
+                    },
+                };
+                return myObj;
+            });
+            return {
+                userId: response[0].userId,
+                resultCount: reactions.length,
+                reactions,
+            };
         });
         this.deleteReaction = (reactionId) => __awaiter(this, void 0, void 0, function* () {
             const result = yield this.reactionRepository.deleteReaction(reactionId);

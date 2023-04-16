@@ -18,9 +18,3 @@ interface UserDbUpdateEntry {
   active: boolean;
   modifiedBy: string;
 }
-
-// {"globalUserId": "AWEF3r23r",
-//   "email": "aTestEmail@gmail.com",
-//   "admin": true,
-//   "avatar": "mysite.com/avatar/link"
-// }
