@@ -6,6 +6,8 @@ import { FoodDbResponse } from '../../../types/food.types';
 import AppContext from '../../../context/AppContext';
 import { ReactionEntry } from '../../../types/dbTypes';
 import { isCompositeComponent } from 'react-dom/test-utils';
+import ReactionAPI from '../../../utils/ReactionAPI';
+
 
 interface ToggleState {
   active: number;
@@ -39,7 +41,10 @@ export default function ChipToggle({
   const { appContext, setAppContext } = useContext(AppContext);
   const [chipColor, setChipColor] = useState<ChipColor>('success');
 
-  const handler = () => {
+  const rAPI = new ReactionAPI(appContext.user.userId)
+
+
+  const handler = async () => {
     toggleState.setActive(toggleId);
 
     const contextCopy = { ...appContext };
@@ -51,19 +56,29 @@ export default function ChipToggle({
     //   reactionList: appContext.user.reactions
     // })
 
-    const reactions = getReactionListByFood(
-      Number(appContext.user.userId),
-      foodItem.id,
-      appContext.user.reactions
-    );
-    // foodItem.reactions = reactions;
-    contextCopy.activeFood = foodItem;
-    contextCopy.activeFood.reactions = reactions;
-    //       console.log('mState')
-    // console.log(contextCopy.activeFood)
-    // console.log(reactions)
 
-    setAppContext({ appContext: contextCopy, setAppContext });
+
+    const updatedContext = await rAPI.refreshReactionContext(appContext);
+    updatedContext.activeFood = foodItem;
+
+    setAppContext({ setAppContext, appContext: updatedContext });
+
+
+
+
+    // const reactions = rAPI.getReactionListByFood(
+    //   Number(appContext.user.userId),
+    //   foodItem.id,
+    //   appContext.user.reactions
+    // );
+    // // foodItem.reactions = reactions;
+    // contextCopy.activeFood = foodItem;
+    // contextCopy.activeFood.reactions = reactions;
+    // //       console.log('mState')
+    // // console.log(contextCopy.activeFood)
+    // // console.log(reactions)
+
+    // setAppContext({ appContext: contextCopy, setAppContext });
   };
 
   // console.log(foodItem.id)
@@ -84,40 +99,40 @@ export default function ChipToggle({
 
   const cow = 'success';
 
-  function getReactionListByFood(
-    userId: number,
-    foodId: number,
-    reactionList: any[]
-  ) {
-    const outputList: any = [];
-    const rawReactions: any = [];
+  // function getReactionListByFood(
+  //   userId: number,
+  //   foodId: number,
+  //   reactionList: any[]
+  // ) {
+  //   const outputList: any = [];
+  //   const rawReactions: any = [];
 
-    reactionList.forEach((reaction: any) => {
-      if (reaction.food.id === foodId) {
-        rawReactions.push(reaction);
-      }
-    });
-    rawReactions.forEach((entry: any) => {
-      const { reaction } = entry;
-      // console.log('RR', reaction);
-      // console.log('RR', entry);
-      const formattedReaction: ReactionEntry = {
-        // formattedReaction.userId = userId; // Included in API_params
-        userId,
-        elementId: foodId,
-        foodGroupingId: reaction.foodGroupingId,
-        reactionType: reaction.typeId,
-        severity: reaction.severityId,
-        active: reaction.active,
-      };
-      outputList.push(formattedReaction);
-    });
+  //   reactionList.forEach((reaction: any) => {
+  //     if (reaction.food.id === foodId) {
+  //       rawReactions.push(reaction);
+  //     }
+  //   });
+  //   rawReactions.forEach((entry: any) => {
+  //     const { reaction } = entry;
+  //     // console.log('RR', reaction);
+  //     // console.log('RR', entry);
+  //     const formattedReaction: ReactionEntry = {
+  //       // formattedReaction.userId = userId; // Included in API_params
+  //       userId,
+  //       elementId: foodId,
+  //       foodGroupingId: reaction.foodGroupingId,
+  //       reactionType: reaction.typeId,
+  //       severity: reaction.severityId,
+  //       active: reaction.active,
+  //     };
+  //     outputList.push(formattedReaction);
+  //   });
 
-    // console.log('ITEMS:');
-    // console.log();
-    // return {userId, foodId, reactionList};
-    return outputList;
-  }
+  //   // console.log('ITEMS:');
+  //   // console.log();
+  //   // return {userId, foodId, reactionList};
+  //   return outputList;
+  // }
 
   // <Chip label={props.foodStyle} color="success" size="small" />
   return (

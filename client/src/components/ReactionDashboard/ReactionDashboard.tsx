@@ -54,9 +54,11 @@ export default function ReactionDashboard(
 
       setReactions(() => json.data);
       // console.log('reaction categories:', json.data);
+    console.log('TEST!')
+    console.log(appContext)
     };
     getReactionDetails();
-  }, []);
+  }, [appContext]);
 
   // const {context, setContext} = useContext(AppContext)
   // const clickHandler = async () => {

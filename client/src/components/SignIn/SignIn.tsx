@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 
 import { useContext, useState } from 'react';
 import { ReactionEntry, ReactionOptionProps } from '../../types/dbTypes';
+import getReactionListByFood from '../../utils/getReactionListByFood';
+import ReactionAPI from '../../utils/ReactionAPI';
 
 const reactionDefault: ReactionOptionProps = {
   severities: [
@@ -35,66 +37,76 @@ export default function SignIn() {
     useState<ReactionOptionProps>(reactionDefault);
   const { appContext, setAppContext } = useContext(AppContext);
 
+  const rAPI = new ReactionAPI(Number(userId))
+
   const clickHandler = async () => {
     if (userId === '') {
       return;
     }
-    const res = await fetch(`http://localhost:3200/api/v1/reaction/${userId}`);
-    const json = await res.json();
-    const reactionArr = json.data.reactions;
-    // console.log(json.data);
+    // const res = await fetch(`http://localhost:3200/api/v1/reaction/${userId}`);
+    // const json = await res.json();
 
-    if (JSON.stringify(json.data).length > 1) {
-      const dataCopy = { ...appContext };
-      const reactions = getReactionListByFood(
-        Number(userId),
-        appContext.activeFood.id,
-        reactionArr
-      );
+    // const res = await rAPI.getReactions()
+    // const reactionArr = res.reactions;
+    // console.log('res');
+    // console.log(res);
 
-      dataCopy.user = json.data; // {id: Number(userId)}
-      dataCopy.activeFood.reactions = reactions;
-      setAppContext({ setAppContext, appContext: dataCopy });
-      // setAppContext({...appContext, user:{id: Number(userId)}})
-    }
+    // if (JSON.stringify(res).length > 1) {
+    //   const dataCopy = { ...appContext };
+    //   const reactions = rAPI.getReactionListByFood(
+    //     Number(userId),
+    //     appContext.activeFood.id,
+    //     reactionArr
+    //   );
 
+    //   dataCopy.user = res; // {id: Number(userId)}
+    //   dataCopy.activeFood.reactions = reactions;
+    //   setAppContext({ setAppContext, appContext: dataCopy });
+    //   // setAppContext({...appContext, user:{id: Number(userId)}})
+    // }
+
+    const updatedContext = await rAPI.refreshReactionContext(appContext);
+    setAppContext({ setAppContext, appContext: updatedContext });
+    // setAppContext({ setAppContext, appContext: dataCopy });
+    
     // Get REaction Test
-    // console.log(`User reactions for ${userId}: `, json.data.reactions);
-    function getReactionListByFood(
-      userId: number,
-      foodId: number,
-      reactionList: any[]
-    ) {
-      const outputList: any = [];
-      const rawReactions: any = [];
+    // console.log(`User reactions for ${userId}: `, res.reactions);
+    // function getReactionListByFood(
+    //   userId: number,
+    //   foodId: number,
+    //   reactionList: any[]
+    // ) {
+    //   const outputList: any = [];
+    //   const rawReactions: any = [];
 
-      reactionList.forEach((reaction: any) => {
-        if (reaction.food.id === foodId) {
-          rawReactions.push(reaction);
-        }
-      });
-      rawReactions.forEach((entry: any) => {
-        const { reaction } = entry;
-        // console.log('RR', reaction);
-        // console.log('RR', entry);
-        const formattedReaction: ReactionEntry = {
-          // formattedReaction.userId = userId; // Included in API_params
-          userId,
-          elementId: foodId,
-          foodGroupingId: reaction.foodGroupingId,
-          reactionType: reaction.typeId,
-          severity: reaction.severityId,
-          active: reaction.active,
-        };
-        outputList.push(formattedReaction);
-      });
+    //   reactionList.forEach((reaction: any) => {
+    //     if (reaction.food.id === foodId) {
+    //       rawReactions.push(reaction);
+    //     }
+    //   });
+    //   rawReactions.forEach((entry: any) => {
+    //     const { reaction } = entry;
+    //     // console.log('RR', reaction);
+    //     // console.log('RR', entry);
+    //     const formattedReaction: ReactionEntry = {
+    //       // formattedReaction.userId = userId; // Included in API_params
+    //       userId,
+    //       elementId: foodId,
+    //       foodGroupingId: reaction.foodGroupingId,
+    //       reactionType: reaction.typeId,
+    //       severity: reaction.severityId,
+    //       active: reaction.active,
+    //     };
+    //     outputList.push(formattedReaction);
+    //   });
 
-      // console.log('ITEMS:');
-      // console.log(outputList);
-      return outputList;
-    }
+    //   // console.log('ITEMS:');
+    //   // console.log(outputList);
+    //   return outputList;
+    // }
 
-    setUserReactions(() => json.data);
+    // setUserReactions(() => res);
+    setUserReactions(() => updatedContext.user);
   };
   return (
     <>

@@ -9,15 +9,14 @@ import { Severity } from '../../types/dbTypes';
 import styles from './SeveritySelector.module.css';
 import PendingIcon from '@mui/icons-material/Pending';
 
-
 // export default function Radio(severities: Severity[]) {
 export default function SeveritySelector({
   // reactionTypeId,
   reactionType,
   severities,
   categoryId,
-  // value
-}: {
+}: // value
+{
   // reactionTypeId: number;
   reactionType: any;
   categoryId: number;
@@ -26,14 +25,13 @@ export default function SeveritySelector({
 }) {
   const { appContext, setAppContext } = useContext(AppContext);
   const [updatingSeverity, setUpdatingSeverity] = useState(false);
-  const [value, setValue] = useState(0)
-
+  const [value, setValue] = useState(0);
 
   const handler = async (e: any) => {
-    console.log(e.target.value)
-    console.log(value)
-    setValue( e.target.value)
-    setUpdatingSeverity(() => true)
+    console.log(e.target.value);
+    console.log(value);
+    setValue(e.target.value);
+    setUpdatingSeverity(() => true);
     const updatedReaction = {
       severityId: Number(e.target.value),
       // reactionTypeId,
@@ -45,49 +43,92 @@ export default function SeveritySelector({
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(updatedReaction)
-  };
+      body: JSON.stringify(updatedReaction),
+    };
     // console.log('AC:', appContext)
     // console.log('AC:', updatedReaction)
-    const resp = await fetch(`http://localhost:3200/api/v1/reaction/${appContext.user.userId}`, requestOptions);
+    const resp = await fetch(
+      `http://localhost:3200/api/v1/reaction/${appContext.user.userId}`,
+      requestOptions
+    );
     const json = await resp.json();
     // console.log(json)
-    setUpdatingSeverity(() => false)
+    console.log('json', json.result[0]);
+
+    const response = json.result[0];
+    const reaction = {
+      reactionId: response.id,
+      active: response.active,
+      subsidedOn: response.subsidedOn,
+      modifiedOn: response.modifiedOn,
+      identifiedOn: response.identifiedOn,
+      deletedOn: response.deletedOn,
+      food: {
+        id: response.foodId,
+        reactionScope: response.reactionScope,
+        name: response.foodName,
+        vegetarian: response.vegetarian,
+        vegan: response.vegan,
+        glutenFree: response.glutenFree,
+        fodMap: {
+          id: response.fodId,
+          category: response.fodCategory,
+          categoryId: response.fodCategory,
+          name: response.fodName,
+          freeUse: response.fodFreeUse,
+          oligos: response.fodOligos,
+          fructose: response.fodFructose,
+          polyols: response.fodPolyols,
+          lactose: response.fodLactose,
+          color: response.fodColor,
+          maxIntake: response.maxIntake,
+        },
+      },
+      reaction: {
+        id: response.id,
+        category: response.reactionCategory,
+        typeName: response.reactionTypeName,
+        typeId: response.reactionTypeId,
+        severityName: response.severityName,
+        severityId: response.severityId,
+        foodGroupingId: response.foodGroupingId,
+      },
+    };
+
+    console.log(appContext)
+    appContext.user.reactions.push(reaction);
+    // console.log(appContext.activeFood)
+    setUpdatingSeverity(() => false);
   };
-
- 
-
 
   // const {appContext, setAppContext} = useContext(AppContext);
   // console.log('aaaaaaaaaaaafffff', appContext.activeFood.reactions)
-  const existingReactions = appContext.activeFood.reactions || []
-  
+  // console.log('af',appContext.activeFood)
+  const existingReactions = appContext.activeFood.reactions || [];
+
   // let value = null;
 
   useEffect(() => {
     // console.log('aa')
     // console.log(reaction)
-    setValue(0)
-    for(let reaction of existingReactions) {
+    setValue(0);
+    for (let reaction of existingReactions) {
       // console.log(reaction, reactionType)
       if (reaction.reactionType === reactionType.id) {
         // value = reactionType.id
         // console.log(reaction)
         // console.log('bb');
         // console.log(reaction.severity)
-        setValue(reaction.severity)
+        setValue(reaction.severity);
       }
     }
     // console.log('render now')
-
-  },[appContext.activeFood.id])
+  }, [appContext.activeFood.id]);
 
   // console.log(value)
 
   return (
     <>
-   
-   
       <FormControl>
         {/* <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel> */}
 
@@ -102,10 +143,9 @@ export default function SeveritySelector({
           {severities.map((severity: Severity, index: number) => {
             return (
               <FormControlLabel
-              key={index}
+                key={index}
                 className={styles.radioLabel}
-                value={
-                  severity.id}
+                value={severity.id}
                 control={<Radio size="small" />}
                 label={severity.name}
               />
