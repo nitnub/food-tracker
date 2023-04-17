@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import Chip from '@mui/material/Chip';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import AppContext from '../../context/AppContext';
 import ChipToggle from '../Chip/ChipToggle';
 import ChipToggleContainer from '../Chip/ChipToggleContainer';
 
@@ -16,16 +17,26 @@ interface FoodChip {
 export default function FoodPicker(
   // {foodState}: {foodState: object}
   ) {
-  const [foodArr, setFoodArr] = useState([]);
-  useEffect(() => {
-    const getFood = async () => {
-      const res = await fetch(process.env.REACT_APP_API_GET_ALL_FOODS || '');
-      const json = await res.json();
-      console.log('Food Array:', json.data);
-      setFoodArr(() => json.data);
-    };
-    getFood();
-  }, []);
+    const [foodArr, setFoodArr] = useState([]);
+
+    useEffect(() => {
+      const getFood = async () => {
+        const res = await fetch(process.env.REACT_APP_API_GET_ALL_FOODS || '');
+        const json = await res.json();
+        // console.log('Food Array:', json.data);
+        setFoodArr(() => json.data);
+      };
+      getFood();
+    }, []);
+    
+    
+
+
+  const {appContext, setAppContext} = useContext(AppContext);
+
+  if (appContext.user.id === 0) {
+    return <>Please select a valid user!</>;
+  }
   return (
       <ChipToggleContainer 
       // foodState={foodState} 

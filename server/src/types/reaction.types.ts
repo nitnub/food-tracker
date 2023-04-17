@@ -9,6 +9,7 @@ export interface Reaction {
   food: ReactionItem;
   reactionType: ReactionItem;
   severity: ReactionItem;
+  severityId: number;
   active: boolean;
   identifiedOn?: string;
   subsidedOn?: string;
@@ -54,6 +55,7 @@ export interface FodmapResponse {
 }
 
 export interface ReactionDetails { 
+  id: number;
   category: string; 
   type: string; 
   severity: string 
@@ -78,15 +80,18 @@ export interface ReactionDbResponse {
   modifiedOn: string;
   identifiedOn: string;
   deletedOn: string;
-  reactionType: string;
+  reactionTypeName: string;
+  reactionTypeId: number;
   reactionCategory: string;
   reactionScope: string;
+  foodGroupingId: number;
   foodId: number;
   foodName: string;
   vegetarian: boolean;
   vegan: boolean;
   glutenFree: boolean;
-  reactionSeverity: string;
+  severityName: string;
+  severityId: number;
   fodId: number;
   fodCategory: string;
   fodName: string;

@@ -18,3 +18,13 @@ export interface ReactionOptionProps {
   severities: Severity[];
   categories: Category[];
 }
+
+export interface ReactionEntry {
+  // typeId: number;
+  userId: number;
+  elementId: number;
+  reactionType: number;
+  severity: number;
+  foodGroupingId?: number;
+  active?: boolean;
+}

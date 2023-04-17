@@ -14,6 +14,7 @@ import FoodPicker from './components/FoodPicker';
 import { FoodDbResponse } from './types/food.types';
 // import AppContext, {defaultContext} from './context/AppContext';
 import AppContext, { defaultContext } from './context/AppContext';
+import SignIn from './components/SignIn';
 
 // dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
@@ -31,15 +32,16 @@ function App() {
 //   activeFood: null
 // };
 
-  const [context, setContext] = useState(defaultContext)
+  const [context, setAppContext] = useState(defaultContext)
 
   //@ts-nocheck
 
   
   return (
     <>
-      <AppContext.Provider value={{appContext: context, setAppContext: setContext}}>
+      <AppContext.Provider value={{appContext: context.appContext, setAppContext}}>
         {/* <Selector /> */}
+        <SignIn />
         <FoodPicker />
         <>
         {/* {`This is a test string:` + context?.activeFood?.name} */}

@@ -66,6 +66,7 @@ class ReactionService {
             fodMap: {
               id: reaction.fodId,
               category: reaction.fodCategory,
+              categoryId: reaction.fodCategory,
               name: reaction.fodName,
               freeUse: reaction.fodFreeUse,
               oligos: reaction.fodOligos,
@@ -77,17 +78,73 @@ class ReactionService {
             },
           },
           reaction: {
+            id: reaction.id,
             category: reaction.reactionCategory,
-            type: reaction.reactionType,
-            severity: reaction.reactionSeverity,
+            typeName: reaction.reactionTypeName,
+            typeId: reaction.reactionTypeId,
+            severityName: reaction.severityName,
+            severityId: reaction.severityId,
+            foodGroupingId: reaction.foodGroupingId
           },
         };
         return myObj;
       }
     );
 
+    const reactiveFoods: number[] = [] 
+    response.forEach(
+      (reaction: ReactionDbResponse) => {
+        // const myObj = {
+        //   reactionId: reaction.id,
+        //   active: reaction.active,
+        //   subsidedOn: reaction.subsidedOn,
+        //   modifiedOn: reaction.modifiedOn,
+        //   identifiedOn: reaction.identifiedOn,
+        //   deletedOn: reaction.deletedOn,
+        //   food: {
+        //     id: reaction.foodId,
+        //     reactionScope: reaction.reactionScope,
+        //     name: reaction.foodName,
+        //     vegetarian: reaction.vegetarian,
+        //     vegan: reaction.vegan,
+        //     glutenFree: reaction.glutenFree,
+        //     fodMap: {
+        //       id: reaction.fodId,
+        //       category: reaction.fodCategory,
+        //       categoryId: reaction.fodCategory,
+        //       name: reaction.fodName,
+        //       freeUse: reaction.fodFreeUse,
+        //       oligos: reaction.fodOligos,
+        //       fructose: reaction.fodFructose,
+        //       polyols: reaction.fodPolyols,
+        //       lactose: reaction.fodLactose,
+        //       color: reaction.fodColor,
+        //       maxIntake: reaction.maxIntake,
+        //     },
+        //   },
+        //   reaction: {
+        //     id: reaction.id,
+        //     category: reaction.reactionCategory,
+        //     typeName: reaction.reactionTypeName,
+        //     typeId: reaction.reactionTypeId,
+        //     severityName: reaction.severityName,
+        //     severityId: reaction.severityId,
+        //     foodGroupingId: reaction.foodGroupingId
+        //   },
+        // };
+        if (!reactiveFoods.includes(reaction.foodId)) {
+          
+          reactiveFoods.push(reaction.foodId);
+        }
+      }
+    );
+
+
+
     return {
+
       userId: response[0].userId,
+      reactiveFoods,
       resultCount: reactions.length,
       reactions,
     };

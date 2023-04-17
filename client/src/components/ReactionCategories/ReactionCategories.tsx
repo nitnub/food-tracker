@@ -38,32 +38,37 @@ export default function ReactionCategories(
     // foodState: object, 
     reactions: ReactionOptionProps, userReactions: any}
 ) {
-  // const [reactions, setReactions] =
-  //   useState<ReactionOptionProps>(reactionDefault);
 
-  // useEffect(() => {
-  //   const getReactionDetails = async () => {
-  //     const resp = await fetch('http://localhost:3200/api/v1/reaction');
-  //     const json = await resp.json();
+  // const {appContext, setAppContext} = useContext(AppContext);
+  // // console.log('aaaaaaaaaaaafffff', appContext.activeFood.reactions)
+  // const existingReactions = appContext.activeFood.reactions || []
+  
+  // const [activeFood, setActiveFood] = useState(appContext.activeFood)
+  // const existingReactions = activeFood.reactions || []
+//   useEffect(()=> {
+// console.log(activeFood)
+//   },[activeFood])
 
-  //     setReactions(() => json.data);
-  //   };
-  //   getReactionDetails();
-  // }, []);
-
-  // const ctx = useContext(AppContext)
-
-  // console.log('context check', ctx)
-  // ctx.cow = 'Moooooo!'
   return (
     <>
-      {reactions.categories.map((category: Category) => {
+      {reactions.categories.map((category: Category, index: number) => {
         return (
-          <>
+          <div key={index}>
             <h3>{category.name}</h3>
-            {category.reactionTypes?.map((reactionType: ReactionType) => {
+            {category.reactionTypes?.map((reactionType: ReactionType, index: number) => {
+
+              // let defaultValue = null;
+              // for(let reaction of existingReactions) {
+              //   // console.log(reaction, reactionType)
+              //   if (reaction.reactionType === reactionType.id) {
+              //     defaultValue = reactionType.id
+              //   }
+              // }
+              // console.log('render now')
               return (
                 <ReactionCategory
+                // defaultValue={defaultValue}
+                key={index}
                   categoryId={category.id}
                   // foodItem={foodItem}
                   // foodState={foodState}
@@ -72,7 +77,7 @@ export default function ReactionCategories(
                 />
               );
             })}
-          </>
+          </div>
         );
       })}
     </>

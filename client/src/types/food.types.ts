@@ -6,3 +6,7 @@ export interface FoodDbResponse {
   vegan: boolean;
   glutenFree: boolean;
 }
+
+// export interface Food extends FoodDbRespones {
+//   reaction: Reaction
+// }
