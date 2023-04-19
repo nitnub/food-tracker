@@ -1,0 +1,25 @@
+.test {
+  /* background-color: red; */
+  margin-left: 15px;
+}
+
+.reactionLabel {
+  font-size: 1.1em;
+  /* font-style:italic; */
+  /* text-decoration: underline; */
+}
+
+.reactionLabelContainer {
+  display: flex;
+  align-items: end;
+  /* justify-content: center; */
+}
+
+.saveMessage {
+  font-style: italic;
+  margin-left: 4px;
+  color: gray;
+  font-size: .9em;
+  padding-bottom: 1px;
+  /* background-color: red; */
+}

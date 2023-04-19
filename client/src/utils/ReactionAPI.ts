@@ -1,11 +1,24 @@
 import { join } from 'path';
 import { ReactionEntry } from '../types/dbTypes';
 
+interface ReactionUpdate {
+  severityId: number;
+  reactionTypeId: number;
+  elementId: number;
+}
+
 export default class ReactionAPI {
   private userId;
   constructor(userId: number) {
     this.userId = userId;
   }
+
+  getReactionTypeDetails = async () => {
+    const resp = await fetch('http://localhost:3200/api/v1/reaction');
+    const json = await resp.json();
+    // return await resp.json()
+    return json.data;
+  };
 
   getShortReaction = () => {
     const res = this.fetchById();
@@ -23,21 +36,30 @@ export default class ReactionAPI {
   refreshReactionContext = async (appContext: any) => {
     const res = await this.getReactions();
     const reactionArr = res.reactions;
-    console.log('res');
-    console.log(res);
+    // console.log('res');
+    // console.log(res);
 
     // if (JSON.stringify(res).length > 1) {
-      const reactions = this.getReactionListByFood(
-        Number(this.userId),
-        appContext.activeFood.id,
-        reactionArr
-      );
+    const reactions = await this.getReactionListByFood(
+      Number(this.userId),
+      appContext.activeFood.id,
+      reactionArr
+    );
 
-      const dataCopy = { ...appContext };
-      dataCopy.user = res;
-      dataCopy.activeFood.reactions = reactions;
-
-      return dataCopy;
+    const contextCopy = { ...appContext };
+    contextCopy.user = res;
+    // console.log('reactions:')
+    // console.log(reactions)
+    // console.log('input Array')
+    // console.log({
+    //   userId: Number(this.userId),
+    //   foodId: appContext.activeFood.id,
+    //   reactionArr
+    // })
+    contextCopy.activeFood.reactions = reactions;
+    // console.log('rf');
+    // console.log(contextCopy.user.reactiveFoods);
+    return contextCopy;
     // }
     return [];
   };
@@ -83,6 +105,21 @@ export default class ReactionAPI {
     // );
 
     return formattedReactions;
+  };
+
+  setReaction = async (updatedReaction: ReactionUpdate) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedReaction),
+    };
+
+    const resp = await fetch(
+      `http://localhost:3200/api/v1/reaction/${this.userId}`,
+      requestOptions
+    );
+
+    return await resp.json();
   };
 
   fetchById = async () => {

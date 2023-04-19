@@ -124,7 +124,7 @@ class ReactionService {
                 //     foodGroupingId: reaction.foodGroupingId
                 //   },
                 // };
-                if (!reactiveFoods.includes(reaction.foodId)) {
+                if (!reactiveFoods.includes(reaction.foodId) && reaction.severityId !== 1) {
                     reactiveFoods.push(reaction.foodId);
                 }
             });
