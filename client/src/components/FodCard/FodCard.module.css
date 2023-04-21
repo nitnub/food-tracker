@@ -7,9 +7,32 @@
 
 .aliasHolder {
   display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.maxIntake {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+}
+
+.cardBody {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  justify-content: space-between;
+}
 
 .notPresent {
   color: gray;
+}
+
+.fodColorCircle {
+  width: 30px;
+  height: 30px;
+  background-color: blue;
 }

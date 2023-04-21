@@ -45,60 +45,61 @@ export default function FodCard({ item }: { item: FodOptionType }) {
     </div>
   );
 
+  const maxIntakeLabel = <div className={styles.maxIntake}>{item.maxIntake?.toString()}<div>Limit</div></div>;
 
-  const maxIntakeLabel = <div>{item.maxIntake?.toString()}</div>
-  
   // const displayLabel ()
   const activeLabel = (label: string) => {
-    return <Tooltip title={`Contains ${label.toLowerCase()}`} followCursor><div>{label}</div></Tooltip>
-  }
+    // return <Tooltip title={`Contains ${label.toLowerCase()}`} followCursor><div>{label}</div></Tooltip>
+    return (
+      <Tooltip title={`Contains ${label}`} followCursor>
+        <div>{label}</div>
+      </Tooltip>
+    );
+  };
 
   const inactiveLabel = (label: string) => {
-    return <div className={styles.notPresent}>{label}</div>
-  }
+    return <div className={styles.notPresent}>{label}</div>;
+  };
 
-  type DynamicLabel = 'oligos' | 'fructose' | 'lactose' | 'polyols'
-  const dynamicOogLabel = (str: DynamicLabel) => {
-   return item[str] === true ? activeLabel('Oligos') : inactiveLabel('Oligos')
-  }
-  
+  type DynamicLabel = 'oligos' | 'fructose' | 'lactose' | 'polyols';
+  const dynamicOogLabel = (str: DynamicLabel, fodItem: FodOptionType) => {
+    return item[str] === true ? activeLabel(str) : inactiveLabel(str);
+  };
 
-
-  const oogLabel = <div>
-    {dynamicOogLabel('oligos')}
-    {item.oligos === true ? <Tooltip title="Contains oligos" followCursor><div>Oligos</div></Tooltip> : <div className={styles.notPresent}>Oligos</div>}
-    {item.fructose === true ? <Tooltip title="Contains fructose" followCursor><div>Fructose</div></Tooltip> : <div className={styles.notPresent}>Fructose</div>}
-    {item.polyols === true ? <Tooltip title="Contains polyols" followCursor><div>Polyols</div></Tooltip> : <div className={styles.notPresent}>Polyols</div>}
-    {item.lactose === true ? <Tooltip title="Contains lactose" followCursor><div>Lactose</div></Tooltip> : <div className={styles.notPresent}>Lactose</div>}
-    {/* {item.fructose ? <div>Fructose</div> : ''}
-    {item.polyols ? <div>Polyols</div> : ''}
-    {item.lactose ? <div>Lactose</div> : ''}
-    <div>Fructose</div>
-    <div>Polyols</div>
-    <div>Lactose</div> */}
-
-
-  </div>
+  const oogLabel = (
+    <div>
+      {['oligos', 'fructose', 'polyols', 'lactose'].map((el) =>
+        dynamicOogLabel(el as DynamicLabel, item)
+      )}
+    </div>
+  );
   console.log('item:', item);
   return (
     <Card sx={{ minWidth: 275 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {item.category}
         </Typography>
         <Typography variant="h5" component="div">
           {item.name}
         </Typography>
+          {item.category}
         {/* <Typography sx={{ mb: 1.5 }} color="text.secondary"> */}
         {/* <Typography > */}
         {aliasFormatted}
         {/* </Typography> */}
+        <div className={styles.cardBody}>
+          {/* <Typography variant="body2"> */}
+
+          {/* {item.maxIntake ? item.maxIntake.toString() : ''} */}
+          {item.maxIntake ? maxIntakeLabel : ''}
+        <div className={styles.fodColorCircle} />
+        {/* </Typography> */}
         <Typography variant="body2">
-          {item.maxIntake ? item.maxIntake.toString() : ''}
           <br />
           {oogLabel}
           {'"a benevolent smile"'}
         </Typography>
+          </div>
         {/* <Tooltip title="Contains oligos">{item.name} </Tooltip> */}
       </CardContent>
       <CardActions>
