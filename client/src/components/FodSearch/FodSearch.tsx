@@ -7,6 +7,8 @@ import { useState } from 'react';
 import styles from './FodSearch.module.css';
 import Icon from '@mui/material/Icon';
 import CircleIcon from '@mui/icons-material/Circle';
+import FodCard from '../FodCard';
+import { FodOptionType } from '../FodCard/FodCard';
 
 export default function FodSearch() {
   // const flatProps = {
@@ -31,13 +33,13 @@ export default function FodSearch() {
     getFodList();
   }, []);
 
-  const aliasFormatted = value?.aliasList.map((el, index: number) => {
-    return (
-      <div key={index} className={styles.aliasItem}>
-        {el}
-      </div>
-    );
-  });
+  // const aliasFormatted = value?.aliasList.map((el, index: number) => {
+  //   return (
+  //     <div key={index} className={styles.aliasItem}>
+  //       {el}
+  //     </div>
+  //   );
+  // });
 
   const fodColorEx = (colorString: string) => {
     if (colorString.toLowerCase() === 'green') return '#258f45';
@@ -77,7 +79,7 @@ export default function FodSearch() {
       <div>{value?.aliasPrimary}</div>
       <div>Aliases:</div>
       {/* <div>{value?.aliasList}</div> */}
-      <div>{aliasFormatted}</div>
+      {/* <div>{aliasFormatted}</div> */}
       <div>{value?.category}</div>
       <div>{value?.color}</div>
 
@@ -93,35 +95,23 @@ export default function FodSearch() {
       <div>{value?.oligos.toString()}</div>
       <div>{value?.fructose.toString()}</div>
       <div>{value?.polyols.toString()}</div>
+      {value && <FodCard  item={value}/>}
     </>
   );
 }
 
-interface FodOptionType {
-  aliasList: string[];
-  aliasPrimary: string;
-  category: string;
-  color: string;
-  freeUse: boolean;
-  fructose: boolean;
-  id: number;
-  lactose: false;
-  maxIntake: string;
-  name: string;
-  oligos: boolean;
-  polyols: boolean;
-}
 
-interface FilmOptionType {
-  title: string;
-  year: number;
-}
+
+// interface FilmOptionType {
+//   title: string;
+//   year: number;
+// }
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-];
+// const top100Films = [
+//   { title: 'The Shawshank Redemption', year: 1994 },
+//   { title: 'The Godfather', year: 1972 },
+// ];
 
 // export default function FodSearch() {
 

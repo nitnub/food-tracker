@@ -28,3 +28,4 @@ export interface ReactionEntry {
   foodGroupingId?: number;
   active?: boolean;
 }
+

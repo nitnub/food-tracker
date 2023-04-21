@@ -1,0 +1,15 @@
+.aliasItem {
+  font-size: 0.75em;
+  color: rgb(92, 92, 92);
+  font-style: italic;
+  text-decoration: underline;
+}
+
+.aliasHolder {
+  display: flex;
+}
+
+
+.notPresent {
+  color: gray;
+}
