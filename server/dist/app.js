@@ -14,6 +14,7 @@ const reaction_route_1 = __importDefault(require("@routes/reaction.route"));
 const error_controller_1 = __importDefault(require("./controllers/error.controller"));
 const appError_1 = __importDefault(require("./utils/appError"));
 const user_route_1 = __importDefault(require("@routes/user.route"));
+const fodmap_route_1 = __importDefault(require("@routes/fodmap.route"));
 // import cat from '@repository/test'
 const app = (0, express_1.default)();
 // console.log(process.env.NODE_ENV)
@@ -26,6 +27,7 @@ app.use((0, cors_1.default)());
 app.use('/api/v1/food', food_route_1.default);
 app.use('/api/v1/reaction', reaction_route_1.default);
 app.use('/api/v1/user', user_route_1.default);
+app.use('/api/v1/fodmap', fodmap_route_1.default);
 app.all('*', (req, res, next) => {
     next(new appError_1.default(`Can't find ${req.originalUrl} on this server!`, 404));
 });

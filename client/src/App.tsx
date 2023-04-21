@@ -15,7 +15,7 @@ import { FoodDbResponse } from './types/food.types';
 // import AppContext, {defaultContext} from './context/AppContext';
 import AppContext, { defaultContext } from './context/AppContext';
 import SignIn from './components/SignIn';
-
+import TabbedContainer from './components/TabbedContainer';
 // dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
 function App() {
@@ -42,13 +42,10 @@ function App() {
       <AppContext.Provider value={{appContext: context.appContext, setAppContext}}>
         {/* <Selector /> */}
         <SignIn />
-        <FoodPicker />
-        <>
-        {/* {`This is a test string:` + context?.activeFood?.name} */}
-        </>
-        <ReactionDashboard  />
-        {/* <FoodPicker foodState={foodState} />
-        <ReactionDashboard foodState={foodState} /> */}
+        <TabbedContainer />
+        {/* <FoodPicker />
+        <ReactionDashboard  /> */}
+
       </AppContext.Provider>
     </>
   );

@@ -1,0 +1,38 @@
+.aliasItem {
+  font-size: 0.75em;
+  color: gray;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+.fodCircle {
+  color: red;
+}
+
+.fodGreen {
+  color: #258f45;
+}
+
+.fodYellow {
+  color: #d6a211;
+}
+
+.fodRed {
+  color: #8f252a;
+}
+
+.green {
+  color: #258f45;
+}
+
+.yellow {
+  color: #d6a211;
+}
+
+.red {
+  color: #8f252a;
+}
+
+.unknownFodColor{
+  color: black
+}
