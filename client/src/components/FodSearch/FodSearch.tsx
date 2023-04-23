@@ -18,7 +18,10 @@ export default function FodSearch() {
   const [fodList, setFodList] = useState([]);
   const defaultProps = {
     options: fodList,
-    getOptionLabel: (option: FodOptionType) => option.aliasPrimary,
+    getOptionLabel: (option: FodOptionType) => option.name,
+  //   getOptionLabel: (option: FodOptionType) => <Icon className={fodColor(value!.color)}>
+  //   <CircleIcon />
+  // </Icon>,
   };
 
   useEffect(() => {
@@ -83,18 +86,19 @@ export default function FodSearch() {
       <div>{value?.category}</div>
       <div>{value?.color}</div>
 
-      {value && <Icon className={fodColor(value.color)}>
+      {/* {value && <Icon className={fodColor(value.color)}>
         <CircleIcon />
-      </Icon>}
+      </Icon>} */}
+      <div>Free Use:</div>
       <div>{value?.freeUse}</div>
       <div>{value?.id}</div>
-      <div>{value?.lactose.toString()}</div>
-      <div>Max Intake:</div>
-      <div>{value?.maxIntake}</div>
-      <div>{value?.name}</div>
-      <div>{value?.oligos.toString()}</div>
-      <div>{value?.fructose.toString()}</div>
-      <div>{value?.polyols.toString()}</div>
+      {/* <div>{value?.lactose.toString()}</div> */}
+      {/* <div>Max Intake:</div> */}
+      {/* <div>{value?.maxIntake}</div> */}
+      {/* <div>{value?.name}</div> */}
+      {/* <div>{value?.oligos.toString()}</div> */}
+      {/* <div>{value?.fructose.toString()}</div> */}
+      {/* <div>{value?.polyols.toString()}</div> */}
       {value && <FodCard  item={value}/>}
     </>
   );

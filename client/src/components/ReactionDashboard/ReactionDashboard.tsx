@@ -3,6 +3,8 @@ import { ReactionOptionProps } from '../../types/dbTypes';
 import ReactionCategories from '../ReactionCategories';
 import AppContext from '../../context/AppContext';
 import ReactionAPI from '../../utils/ReactionAPI';
+import styles from './ReactionDashboard.module.css';
+
 const reactionDefault: ReactionOptionProps = {
   severities: [
     {
@@ -50,10 +52,9 @@ export default function ReactionDashboard() {
   }
 
   return (
-    <>
+    <div className={styles.container}>
       {appContext?.activeFood?.name}
-
       <ReactionCategories reactions={reactions} userReactions={userReactions} />
-    </>
+    </div>
   );
 }
