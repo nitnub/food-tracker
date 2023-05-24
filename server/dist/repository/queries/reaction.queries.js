@@ -366,3 +366,29 @@ const updateReactionActive = (reactionId, active) => {
   `;
 };
 exports.updateReactionActive = updateReactionActive;
+// GET FULL DEPTH INGREDIENT REACTIONS - RAW (NOT FORMATTED)
+const rawReactionsAllIngredients = `
+SELECT * 
+FROM food 
+JOIN reaction ON reaction.element_id = food.id 
+WHERE reaction.user_id = 202 
+AND food.id IN (
+  WITH RECURSIVE full_depth_ingredients AS (
+    SELECT
+      ingredient_food_id
+    FROM
+      ingredient
+    WHERE
+      parent_id = 83
+    UNION
+      SELECT
+        i.ingredient_food_id
+      FROM
+        ingredient i
+      INNER JOIN full_depth_ingredients fdi ON fdi.ingredient_food_id = i.parent_id
+  ) SELECT
+    *
+  FROM full_depth_ingredients
+);
+
+`;

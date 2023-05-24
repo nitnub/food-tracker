@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteFood = exports.insertFood = exports.selectAllMatchingFoods = exports.selectAllFoods = void 0;
+exports.getAllIngredients = exports.deleteFood = exports.insertFood = exports.selectAllMatchingFoods = exports.selectAllFoods = void 0;
 const selectAllFoods = () => {
     return `
     SELECT 
@@ -37,8 +37,31 @@ const insertFood = (foodItem) => {
 exports.insertFood = insertFood;
 const deleteFood = (foodId) => {
     return `
-      DELETE FROM food
-      WHERE id = ${foodId};
-    `;
+    DELETE FROM food
+    WHERE id = ${foodId};
+  `;
 };
 exports.deleteFood = deleteFood;
+const getAllIngredients = (foodId) => {
+    return `
+    WITH RECURSIVE subordinates AS (
+      SELECT
+        parent_id,
+        ingredient_food_id
+      FROM
+        ingredient
+      WHERE
+        parent_id = ${foodId}
+      UNION
+        SELECT
+          i.parent_id,
+          i.ingredient_food_id
+        FROM
+          ingredient i
+        INNER JOIN subordinates s ON s.ingredient_food_id = i.parent_id
+    ) SELECT
+      *
+    FROM subordinates;
+  `;
+};
+exports.getAllIngredients = getAllIngredients;
