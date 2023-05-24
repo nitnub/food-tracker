@@ -21,6 +21,8 @@ class FoodService {
             return data;
         });
         this.addFoods = (foods) => __awaiter(this, void 0, void 0, function* () {
+            // const foodsChecked = [...foods]
+            // TODO: account for blank strings
             const data = yield this.foodRepository.addFoods(foods);
             return data;
         });

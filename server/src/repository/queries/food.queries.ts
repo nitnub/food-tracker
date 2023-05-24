@@ -24,16 +24,27 @@ export const insertFood = (foodItem: FoodDBObject) => {
 
   const correctedName = name.replace("'", "''");
 
+  // return `
+  //   INSERT INTO food(name, fodmap_id, vegetarian, vegan, gluten_free) 
+  //   VALUES (
+  //     '${correctedName}'
+  //     , ${fodmapId}
+  //     , ${vegetarian}
+  //     , ${vegan}
+  //     , ${glutenFree}      
+  //   );
+  // `;
   return `
-    INSERT INTO food(name, fodmap_id, vegetarian, vegan, gluten_free) 
-    VALUES (
-      '${correctedName}'
+    INSERT INTO food(name, fodmap_id, vegetarian, vegan, gluten_free)
+    SELECT '${correctedName}'
       , ${fodmapId}
       , ${vegetarian}
       , ${vegan}
-      , ${glutenFree}      
+      , ${glutenFree} 
+    WHERE NOT EXISTS (
+      SELECT name FROM food WHERE lower(name) = '${correctedName.toLowerCase()}'
     );
-  `;
+  `
 };
 
 export const deleteFood = (foodId: number) => {

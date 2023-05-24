@@ -13,6 +13,10 @@ class FoodService {
   };
 
   addFoods = async (foods: FoodDBObject) => {
+    // const foodsChecked = [...foods]
+
+    // TODO: account for blank strings
+
     const data = await this.foodRepository.addFoods(foods);
     return data;
   };

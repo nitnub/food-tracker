@@ -19,7 +19,6 @@ class FoodRepository {
         this.addFoods = (foodsArray) => __awaiter(this, void 0, void 0, function* () {
             // const selectQuery = foodsArray.length;
             // let queryString = this.createReactionArrayQuery(foodsArray);
-            console.log(123);
             const resp = yield this.runQuery(this.createFoodArrayQuery(foodsArray));
             if (!Array.isArray(resp)) {
                 return resp;

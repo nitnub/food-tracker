@@ -19,7 +19,7 @@ class FoodRepository {
   addFoods = async (foodsArray: any) => {
     // const selectQuery = foodsArray.length;
     // let queryString = this.createReactionArrayQuery(foodsArray);
-    console.log(123);
+  
     const resp = await this.runQuery(this.createFoodArrayQuery(foodsArray));
 
     if (!Array.isArray(resp)) {
