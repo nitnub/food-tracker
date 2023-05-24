@@ -13,9 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_connection_1 = __importDefault(require("@connections/postgres.connection"));
-const reaction_queries_1 = require("./queries/reaction.queries");
 const food_queries_1 = require("./queries/food.queries");
-class ReactionRepository {
+class FoodRepository {
     constructor() {
         this.addFoods = (foodsArray) => __awaiter(this, void 0, void 0, function* () {
             // const selectQuery = foodsArray.length;
@@ -29,22 +28,26 @@ class ReactionRepository {
             // console.log(resp[selectQuery]);
             // return resp[selectQuery].rows;
         });
-        this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, reaction_queries_1.selectUserReactions)(userId));
-            return resp.rows;
-        });
+        // getUserReactions = async (userId: number) => {
+        //   const resp = await this.runQuery(selectUserReactions(userId));
+        //   return resp.rows;
+        // };
         this.getAllFoods = () => __awaiter(this, void 0, void 0, function* () {
             const resp = yield this.runQuery((0, food_queries_1.selectAllFoods)());
             console.log(resp.rows);
             return resp.rows;
         });
-        this.deleteReaction = (reactionId) => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, reaction_queries_1.deleteReaction)(reactionId));
-            return resp.rows;
+        this.deleteFood = (foodId) => __awaiter(this, void 0, void 0, function* () {
+            const resp = yield this.runQuery((0, food_queries_1.deleteFood)(foodId));
+            // issue where resp.rowCount returns 1, but resp.rows is blank. This was causing issues with original logic. Updating to accommodate missing row info.
+            // console.log('response!');
+            // console.log(resp);
+            // console.log('response!');
+            // return resp.rows;
+            return resp.rowCount;
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {
-            return yield this.pool
-                .query(queryString);
+            return yield this.pool.query(queryString);
             // .catch((resp) => {
             //   throw new AppError(resp.message, 400);
             // });
@@ -60,4 +63,4 @@ class ReactionRepository {
         this.pool = postgres_connection_1.default;
     }
 }
-exports.default = ReactionRepository;
+exports.default = FoodRepository;

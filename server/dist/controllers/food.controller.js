@@ -332,6 +332,12 @@ class FoodController {
                 data,
             });
         }));
+        this.deleteFood = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
+            yield this.foodService.deleteFood(req.params.id);
+            res.status(200).json({
+                status: 'success',
+            });
+        }));
         this.foodService = new food_service_1.default();
     }
 }

@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const food_repository_1 = __importDefault(require("@repository/food.repository"));
+const appError_1 = __importDefault(require("../utils/appError"));
 class FoodService {
     constructor() {
         this.getAllFoods = () => __awaiter(this, void 0, void 0, function* () {
@@ -22,6 +23,18 @@ class FoodService {
         this.addFoods = (foods) => __awaiter(this, void 0, void 0, function* () {
             const data = yield this.foodRepository.addFoods(foods);
             return data;
+        });
+        this.deleteFood = (foodId) => __awaiter(this, void 0, void 0, function* () {
+            const result = yield this.foodRepository.deleteFood(foodId);
+            // issue where resp.rowCount returns 1, but resp.rows is blank. This was causing issues with original logic. Updating to accommodate missing row info.
+            // if (Array.isArray(result) && result.length === 0) {
+            //   console.log(result);
+            //   throw new AppError(`Unable to find a food with ID ${foodId}.`, 401);
+            // }
+            if (result !== 1) {
+                console.log(result);
+                throw new appError_1.default(`Unable to find a food with ID ${foodId}.`, 401);
+            }
         });
         this.foodRepository = new food_repository_1.default();
     }

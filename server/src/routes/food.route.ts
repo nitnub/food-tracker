@@ -5,7 +5,12 @@ const foodRouter = Router();
 
 foodRouter
   .route('/')
-  .post(foodController.addFoods)
-  .get(foodController.getAllFoods);
+  .get(foodController.getAllFoods)
+  .post(foodController.addFoods);
+
+foodRouter
+  .route('/:id')
+  // .patch(foodController.updateFood)  // need to implement
+  .delete(foodController.deleteFood);
 
 export default foodRouter;

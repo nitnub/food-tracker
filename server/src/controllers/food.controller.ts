@@ -360,6 +360,14 @@ class FoodController {
       data,
     });
   });
+
+  deleteFood = catchAsync(async (req: Request, res: Response) => {
+    await this.foodService.deleteFood(req.params.id)
+
+    res.status(200).json({
+      status: 'success',
+    });
+  });
 }
 
 export default new FoodController();

@@ -8,9 +8,9 @@ import {
   insertReaction,
   selectUserReactions,
 } from './queries/reaction.queries';
-import { insertFood, selectAllFoods } from './queries/food.queries';
+import { deleteFood, insertFood, selectAllFoods } from './queries/food.queries';
 
-class ReactionRepository {
+class FoodRepository {
   private pool: Client;
   constructor() {
     this.pool = postgresConnect;
@@ -19,7 +19,7 @@ class ReactionRepository {
   addFoods = async (foodsArray: any) => {
     // const selectQuery = foodsArray.length;
     // let queryString = this.createReactionArrayQuery(foodsArray);
-    console.log(123)
+    console.log(123);
     const resp = await this.runQuery(this.createFoodArrayQuery(foodsArray));
 
     if (!Array.isArray(resp)) {
@@ -30,27 +30,31 @@ class ReactionRepository {
     // return resp[selectQuery].rows;
   };
 
-  getUserReactions = async (userId: number) => {
-    const resp = await this.runQuery(selectUserReactions(userId));
-    return resp.rows;
-  };
+  // getUserReactions = async (userId: number) => {
+  //   const resp = await this.runQuery(selectUserReactions(userId));
+  //   return resp.rows;
+  // };
   getAllFoods = async () => {
     const resp = await this.runQuery(selectAllFoods());
-    console.log(resp.rows)
+    console.log(resp.rows);
     return resp.rows;
   };
 
-  deleteReaction = async (reactionId: number) => {
-    const resp = await this.runQuery(deleteReaction(reactionId));
-    return resp.rows;
+  deleteFood = async (foodId: number) => {
+    const resp = await this.runQuery(deleteFood(foodId));
+    // issue where resp.rowCount returns 1, but resp.rows is blank. This was causing issues with original logic. Updating to accommodate missing row info.
+    // console.log('response!');
+    // console.log(resp);
+    // console.log('response!');
+    // return resp.rows;
+    return resp.rowCount;
   };
 
   runQuery = async (queryString: string) => {
-    return await this.pool
-      .query(queryString)
-      // .catch((resp) => {
-      //   throw new AppError(resp.message, 400);
-      // });
+    return await this.pool.query(queryString);
+    // .catch((resp) => {
+    //   throw new AppError(resp.message, 400);
+    // });
   };
 
   createFoodArrayQuery = (foodArray: any[]) => {
@@ -64,4 +68,4 @@ class ReactionRepository {
   };
 }
 
-export default ReactionRepository;
+export default FoodRepository;

@@ -22,10 +22,12 @@ export const selectAllMatchingFoods = (name: string) => {
 export const insertFood = (foodItem: FoodDBObject) => {
   const { name, fodmapId, vegetarian, vegan, glutenFree } = foodItem;
 
+  const correctedName = name.replace("'", "''");
+
   return `
     INSERT INTO food(name, fodmap_id, vegetarian, vegan, gluten_free) 
     VALUES (
-      '${name}'
+      '${correctedName}'
       , ${fodmapId}
       , ${vegetarian}
       , ${vegan}

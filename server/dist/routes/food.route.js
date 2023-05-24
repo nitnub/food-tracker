@@ -8,6 +8,10 @@ const food_controller_1 = __importDefault(require("@controllers/food.controller"
 const foodRouter = (0, express_1.Router)();
 foodRouter
     .route('/')
-    .post(food_controller_1.default.addFoods)
-    .get(food_controller_1.default.getAllFoods);
+    .get(food_controller_1.default.getAllFoods)
+    .post(food_controller_1.default.addFoods);
+foodRouter
+    .route('/:id')
+    // .patch(foodController.updateFood)  // need to implement
+    .delete(food_controller_1.default.deleteFood);
 exports.default = foodRouter;
