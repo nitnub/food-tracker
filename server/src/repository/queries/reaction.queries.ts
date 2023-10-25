@@ -317,6 +317,7 @@ export const selectReactionTypes = () => {
     JOIN reaction_category rc ON rt.reaction_category = rc.id;
   `;
 };
+
 export const selectReactionSeveritiesAndTypes = () => {
   return `
     SELECT * FROM reaction_severity;
