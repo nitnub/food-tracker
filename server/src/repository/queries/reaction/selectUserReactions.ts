@@ -76,3 +76,42 @@ export default (userId: number) => {
 
   `;
 };
+
+const aa = {
+  reactionId: 13,
+  active: true,
+  subsidedOn: null,
+  modifiedOn: '2023-04-17T02:37:01.147433+00:00',
+  identifiedOn: '2023-04-08T02:50:32.525914+00:00',
+  deletedOn: null,
+  food: {
+    id: 1,
+    reactionScope: 'food',
+    name: 'Apple',
+    vegetarian: true,
+    vegan: true,
+    glutenFree: true,
+    fodMap: {
+      id: 16,
+      category: 'Fresh Fruit',
+      categoryId: 'Fresh Fruit',
+      name: 'apple',
+      freeUse: false,
+      oligos: false,
+      fructose: true,
+      polyols: true,
+      lactose: false,
+      color: 'Red',
+      maxIntake: '0g',
+    },
+  },
+  reaction: {
+    id: 13,
+    category: 'Stomach',
+    typeName: 'Vomiting',
+    typeId: 2,
+    severityName: 'Mild',
+    severityId: 2,
+    foodGroupingId: 1,
+  },
+};
