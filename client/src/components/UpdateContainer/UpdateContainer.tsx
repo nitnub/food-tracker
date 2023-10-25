@@ -179,8 +179,4 @@ export default function UpdateContainer() {
       </FormControl>
     </>
   );
-  // function toggleKey(key: CheckOption, obj: foodForm) {
-  //   foodForm[key]
-
-  // };
 }
