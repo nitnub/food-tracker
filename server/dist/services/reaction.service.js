@@ -28,7 +28,6 @@ class ReactionService {
                     }
                 }
             }
-            // console.log(categories)
             return { severities, categories };
         });
         this.addReaction = (reaction) => __awaiter(this, void 0, void 0, function* () {
@@ -38,98 +37,30 @@ class ReactionService {
             return yield this.reactionRepository.addReactions(reactions);
         });
         this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
-            // const formattedReaction = []
-            const response = yield this.reactionRepository.getUserReactions(userId);
-            // if (Array.isArray(reactions) && reactions.length === 0) {
-            //   throw AppError('Unable to find any reactions for userId') // two scenarios: 1) the user exists with no rows 2) user does not exist. Necessary to check here or just to return zero rows in both instance?
-            // }
-            const reactions = response.map((reaction) => {
-                const myObj = {
-                    reactionId: reaction.id,
-                    active: reaction.active,
-                    subsidedOn: reaction.subsidedOn,
-                    modifiedOn: reaction.modifiedOn,
-                    identifiedOn: reaction.identifiedOn,
-                    deletedOn: reaction.deletedOn,
-                    food: {
-                        id: reaction.foodId,
-                        reactionScope: reaction.reactionScope,
-                        name: reaction.foodName,
-                        vegetarian: reaction.vegetarian,
-                        vegan: reaction.vegan,
-                        glutenFree: reaction.glutenFree,
-                        fodMap: {
-                            id: reaction.fodId,
-                            category: reaction.fodCategory,
-                            categoryId: reaction.fodCategory,
-                            name: reaction.fodName,
-                            freeUse: reaction.fodFreeUse,
-                            oligos: reaction.fodOligos,
-                            fructose: reaction.fodFructose,
-                            polyols: reaction.fodPolyols,
-                            lactose: reaction.fodLactose,
-                            color: reaction.fodColor,
-                            maxIntake: reaction.maxIntake,
-                        },
-                    },
-                    reaction: {
-                        id: reaction.id,
-                        category: reaction.reactionCategory,
-                        typeName: reaction.reactionTypeName,
-                        typeId: reaction.reactionTypeId,
-                        severityName: reaction.severityName,
-                        severityId: reaction.severityId,
-                        foodGroupingId: reaction.foodGroupingId
-                    },
-                };
-                return myObj;
-            });
+            const reactions = yield this.reactionRepository.getUserReactions(userId);
+            console.log('reactions');
+            // console.log(reactions);
+            // console.log(Object.keys(response));
+            // console.log(response[0]);
+            // console.log(response[0]['json_build_object']);
+            // response.forEach(reaction: ReactionD)
+            // const reactions = response.map((reaction) => reaction['json_build_object']); //['json_build_object'];
             const reactiveFoods = [];
-            response.forEach((reaction) => {
-                // const myObj = {
-                //   reactionId: reaction.id,
-                //   active: reaction.active,
-                //   subsidedOn: reaction.subsidedOn,
-                //   modifiedOn: reaction.modifiedOn,
-                //   identifiedOn: reaction.identifiedOn,
-                //   deletedOn: reaction.deletedOn,
-                //   food: {
-                //     id: reaction.foodId,
-                //     reactionScope: reaction.reactionScope,
-                //     name: reaction.foodName,
-                //     vegetarian: reaction.vegetarian,
-                //     vegan: reaction.vegan,
-                //     glutenFree: reaction.glutenFree,
-                //     fodMap: {
-                //       id: reaction.fodId,
-                //       category: reaction.fodCategory,
-                //       categoryId: reaction.fodCategory,
-                //       name: reaction.fodName,
-                //       freeUse: reaction.fodFreeUse,
-                //       oligos: reaction.fodOligos,
-                //       fructose: reaction.fodFructose,
-                //       polyols: reaction.fodPolyols,
-                //       lactose: reaction.fodLactose,
-                //       color: reaction.fodColor,
-                //       maxIntake: reaction.maxIntake,
-                //     },
-                //   },
-                //   reaction: {
-                //     id: reaction.id,
-                //     category: reaction.reactionCategory,
-                //     typeName: reaction.reactionTypeName,
-                //     typeId: reaction.reactionTypeId,
-                //     severityName: reaction.severityName,
-                //     severityId: reaction.severityId,
-                //     foodGroupingId: reaction.foodGroupingId
-                //   },
-                // };
-                if (!reactiveFoods.includes(reaction.foodId) && reaction.severityId !== 1) {
-                    reactiveFoods.push(reaction.foodId);
+            reactions.forEach((el) => {
+                console.log(el);
+                if (
+                // !reactiveFoods.includes(reaction.foodId) &&
+                !reactiveFoods.includes(el.food.id) &&
+                    el.reaction.severityId !== 1
+                // el.reaction. .severityId !== 1
+                ) {
+                    // reactiveFoods.push(reaction.foodId);
+                    reactiveFoods.push(el.food.id);
                 }
             });
+            console.log(reactions);
             return {
-                userId: response[0].userId,
+                userId: reactions[0].userId,
                 reactiveFoods,
                 resultCount: reactions.length,
                 reactions,
@@ -142,7 +73,6 @@ class ReactionService {
             }
         });
         this.formatReactionForDb = (reaction) => {
-            // const formattedReaction: ReactionDbEntry = {
             return {
                 userId: reaction.user.id,
                 foodId: reaction.food.id,
@@ -155,13 +85,3 @@ class ReactionService {
     }
 }
 exports.default = ReactionService;
-// const formatReactionForDb = (reaction: Reaction) => {
-//   // const formattedReaction: ReactionDbEntry = {
-//   return {
-//     userId: reaction.user.id,
-//     foodId: reaction.food.id,
-//     reactionTypeId: reaction.reactionType.id,
-//     severityId: reaction.severity.id,
-//     active: reaction.active,
-//   };
-// };

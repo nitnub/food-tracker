@@ -58,7 +58,7 @@ export interface ReactionDetails {
   id: number;
   category: string; 
   type: string; 
-  severity: string 
+  severityId: string 
 };
 
 export interface ReactionComplete {
@@ -71,6 +71,7 @@ export interface ReactionComplete {
   food: FoodResponse;
   reaction: ReactionDetails
 }
+
 
 export interface ReactionDbResponse {
   id: number;
@@ -102,5 +103,8 @@ export interface ReactionDbResponse {
   fodLactose: boolean;
   fodColor: string;
   maxIntake: string;
-  maxIntakeTest: string;
+}
+
+export interface UnformattedReactionDbResponse {
+  json_build_object: ReactionDbResponse[]
 }

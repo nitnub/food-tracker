@@ -14,11 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_connection_1 = __importDefault(require("@connections/postgres.connection"));
 const appError_1 = __importDefault(require("../utils/appError"));
-const user_queries_1 = require("./queries/user.queries");
+const user_1 = require("./queries/user");
 class UserRepository {
     constructor() {
         this.userExists = (userId) => __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.runQuery((0, user_queries_1.selectUser)(userId));
+            const user = yield this.runQuery((0, user_1.selectUser)(userId));
             if (Array.isArray(user) && user.length > 0) {
                 // TODO: can check for deleted.
                 return true;
@@ -26,24 +26,24 @@ class UserRepository {
             return false;
         });
         this.getUser = (userId) => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, user_queries_1.selectUser)(userId));
+            const resp = yield this.runQuery((0, user_1.selectUser)(userId));
             return resp.rows;
         });
         this.getAllUsers = () => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, user_queries_1.selectAllUsers)());
+            const resp = yield this.runQuery((0, user_1.selectAllUsers)());
             return resp.rows;
         });
         this.addUser = (userArray) => __awaiter(this, void 0, void 0, function* () {
             let queryString = '';
             for (let user of userArray) {
-                queryString += (0, user_queries_1.insertUser)(user);
+                queryString += (0, user_1.insertUser)(user);
             }
             // add select statement at end of query
             if (userArray.length === 1) {
-                queryString += (0, user_queries_1.selectUserByEmail)(userArray[0].email);
+                queryString += (0, user_1.selectUserByEmail)(userArray[0].email);
             }
             else {
-                queryString += (0, user_queries_1.selectAllUsers)();
+                queryString += (0, user_1.selectAllUsers)();
             }
             const resp = yield this.runQuery(queryString);
             if (!Array.isArray(resp)) {
@@ -52,7 +52,7 @@ class UserRepository {
             return resp[userArray.length].rows;
         });
         this.updateUser = (globalUserId, userUpdates) => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, user_queries_1.updateUserByGlobalId)(globalUserId, userUpdates));
+            const resp = yield this.runQuery((0, user_1.updateUserByGlobalId)(globalUserId, userUpdates));
             if (!Array.isArray(resp)) {
                 throw new appError_1.default(`Unable to update user ${globalUserId}`, 400);
             }
@@ -62,7 +62,7 @@ class UserRepository {
             return resp[1].rows;
         });
         this.deleteUser = (userId) => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, user_queries_1.deleteUser)(userId));
+            const resp = yield this.runQuery((0, user_1.deleteUser)(userId));
             return resp.rowCount;
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {

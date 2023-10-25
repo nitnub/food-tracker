@@ -8,7 +8,7 @@ import {
   selectUser,
   selectUserByEmail,
   updateUserByGlobalId,
-} from './queries/user.queries';
+} from './queries/user';
 class UserRepository {
   private pool: Client;
   constructor() {
@@ -59,12 +59,15 @@ class UserRepository {
     const resp = await this.runQuery(
       updateUserByGlobalId(globalUserId, userUpdates)
     );
-    
+
     if (!Array.isArray(resp)) {
-      throw new AppError(`Unable to update user ${globalUserId}`, 400)
+      throw new AppError(`Unable to update user ${globalUserId}`, 400);
     }
     if (resp[1].rows.length === 0) {
-      throw new AppError(`Unable to update user ${globalUserId}; user not found.`, 400)
+      throw new AppError(
+        `Unable to update user ${globalUserId}; user not found.`,
+        400
+      );
     }
     return resp[1].rows;
   };

@@ -1,5 +1,7 @@
-export default (userId: number) => {
-  return `
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = (userId) => {
+    return `
 
     SELECT json_build_object(
       'reactionId', r.id,

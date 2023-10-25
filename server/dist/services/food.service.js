@@ -21,18 +21,12 @@ class FoodService {
             return data;
         });
         this.addFoods = (foods) => __awaiter(this, void 0, void 0, function* () {
-            // const foodsChecked = [...foods]
             // TODO: account for blank strings
             const data = yield this.foodRepository.addFoods(foods);
             return data;
         });
         this.deleteFood = (foodId) => __awaiter(this, void 0, void 0, function* () {
             const result = yield this.foodRepository.deleteFood(foodId);
-            // issue where resp.rowCount returns 1, but resp.rows is blank. This was causing issues with original logic. Updating to accommodate missing row info.
-            // if (Array.isArray(result) && result.length === 0) {
-            //   console.log(result);
-            //   throw new AppError(`Unable to find a food with ID ${foodId}.`, 401);
-            // }
             if (result !== 1) {
                 console.log(result);
                 throw new appError_1.default(`Unable to find a food with ID ${foodId}.`, 401);

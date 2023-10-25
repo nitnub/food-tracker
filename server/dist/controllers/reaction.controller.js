@@ -18,9 +18,6 @@ const appError_1 = __importDefault(require("../utils/appError"));
 class ReactionController {
     constructor() {
         this.getReactionOptions = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
-            // if (!req.body.reactions) {
-            //   throw new AppError('Request must be a list of formatted reactions', 400);
-            // }
             const data = yield this.reactionService.getReactionOptions();
             res.status(200).json({
                 status: 'success',
@@ -61,7 +58,7 @@ class ReactionController {
         this.deleteReaction = (0, catchAsync_1.default)((req, res) => __awaiter(this, void 0, void 0, function* () {
             yield this.reactionService.deleteReaction(req.params.id);
             res.status(202).json({
-                status: 'success'
+                status: 'success',
             });
         }));
         this.reactionService = new reaction_service_1.default();

@@ -14,7 +14,8 @@ class ReactionService {
   }
 
   getReactionOptions = async () => {
-    const {categories, types, severities} = await this.reactionRepository.getReactionOptions();
+    const { categories, types, severities } =
+      await this.reactionRepository.getReactionOptions();
 
     for (let category of categories) {
       category.reactionTypes = [];
@@ -23,12 +24,11 @@ class ReactionService {
     for (let type of types) {
       for (let category of categories) {
         if (type.reactionCategory === category.id) {
-          category.reactionTypes.push({id: type.id, name: type.name});
+          category.reactionTypes.push({ id: type.id, name: type.name });
         }
       }
     }
-    // console.log(categories)
-    return {severities, categories};
+    return { severities, categories };
   };
 
   addReaction = async (reaction: ReactionDbEntry) => {
@@ -40,110 +40,32 @@ class ReactionService {
   };
 
   getUserReactions = async (userId: number) => {
-    // const formattedReaction = []
-    const response = await this.reactionRepository.getUserReactions(userId);
+    const reactions = await this.reactionRepository.getUserReactions(userId);
+    console.log('reactions');
+    // console.log(reactions);
+    // console.log(Object.keys(response));
+    // console.log(response[0]);
+    // console.log(response[0]['json_build_object']);
 
-    // if (Array.isArray(reactions) && reactions.length === 0) {
-    //   throw AppError('Unable to find any reactions for userId') // two scenarios: 1) the user exists with no rows 2) user does not exist. Necessary to check here or just to return zero rows in both instance?
-    // }
-
-    const reactions: ReactionComplete[] = response.map(
-      (reaction: ReactionDbResponse) => {
-        const myObj = {
-          reactionId: reaction.id,
-          active: reaction.active,
-          subsidedOn: reaction.subsidedOn,
-          modifiedOn: reaction.modifiedOn,
-          identifiedOn: reaction.identifiedOn,
-          deletedOn: reaction.deletedOn,
-          food: {
-            id: reaction.foodId,
-            reactionScope: reaction.reactionScope,
-            name: reaction.foodName,
-            vegetarian: reaction.vegetarian,
-            vegan: reaction.vegan,
-            glutenFree: reaction.glutenFree,
-            fodMap: {
-              id: reaction.fodId,
-              category: reaction.fodCategory,
-              categoryId: reaction.fodCategory,
-              name: reaction.fodName,
-              freeUse: reaction.fodFreeUse,
-              oligos: reaction.fodOligos,
-              fructose: reaction.fodFructose,
-              polyols: reaction.fodPolyols,
-              lactose: reaction.fodLactose,
-              color: reaction.fodColor,
-              maxIntake: reaction.maxIntake,
-            },
-          },
-          reaction: {
-            id: reaction.id,
-            category: reaction.reactionCategory,
-            typeName: reaction.reactionTypeName,
-            typeId: reaction.reactionTypeId,
-            severityName: reaction.severityName,
-            severityId: reaction.severityId,
-            foodGroupingId: reaction.foodGroupingId
-          },
-        };
-        return myObj;
+    // response.forEach(reaction: ReactionD)
+    // const reactions = response.map((reaction) => reaction['json_build_object']); //['json_build_object'];
+    const reactiveFoods: number[] = [];
+    reactions.forEach((el) => {
+      console.log(el);
+      if (
+        // !reactiveFoods.includes(reaction.foodId) &&
+        !reactiveFoods.includes(el.food.id) &&
+        el.reaction.severityId !== 1
+        // el.reaction. .severityId !== 1
+      ) {
+        // reactiveFoods.push(reaction.foodId);
+        reactiveFoods.push(el.food.id);
       }
-    );
+    });
 
-    const reactiveFoods: number[] = [] 
-    response.forEach(
-      (reaction: ReactionDbResponse) => {
-        // const myObj = {
-        //   reactionId: reaction.id,
-        //   active: reaction.active,
-        //   subsidedOn: reaction.subsidedOn,
-        //   modifiedOn: reaction.modifiedOn,
-        //   identifiedOn: reaction.identifiedOn,
-        //   deletedOn: reaction.deletedOn,
-        //   food: {
-        //     id: reaction.foodId,
-        //     reactionScope: reaction.reactionScope,
-        //     name: reaction.foodName,
-        //     vegetarian: reaction.vegetarian,
-        //     vegan: reaction.vegan,
-        //     glutenFree: reaction.glutenFree,
-        //     fodMap: {
-        //       id: reaction.fodId,
-        //       category: reaction.fodCategory,
-        //       categoryId: reaction.fodCategory,
-        //       name: reaction.fodName,
-        //       freeUse: reaction.fodFreeUse,
-        //       oligos: reaction.fodOligos,
-        //       fructose: reaction.fodFructose,
-        //       polyols: reaction.fodPolyols,
-        //       lactose: reaction.fodLactose,
-        //       color: reaction.fodColor,
-        //       maxIntake: reaction.maxIntake,
-        //     },
-        //   },
-        //   reaction: {
-        //     id: reaction.id,
-        //     category: reaction.reactionCategory,
-        //     typeName: reaction.reactionTypeName,
-        //     typeId: reaction.reactionTypeId,
-        //     severityName: reaction.severityName,
-        //     severityId: reaction.severityId,
-        //     foodGroupingId: reaction.foodGroupingId
-        //   },
-        // };
-        if (!reactiveFoods.includes(reaction.foodId) && reaction.severityId !== 1) {
-          
-          reactiveFoods.push(reaction.foodId);
-        }
-      }
-    );
-
-
-
+    console.log(reactions);
     return {
-
-      userId: response[0].userId,
+      userId: reactions[0].userId,
       reactiveFoods,
       resultCount: reactions.length,
       reactions,
@@ -162,7 +84,6 @@ class ReactionService {
   };
 
   formatReactionForDb = (reaction: Reaction) => {
-    // const formattedReaction: ReactionDbEntry = {
     return {
       userId: reaction.user.id,
       foodId: reaction.food.id,
@@ -174,14 +95,3 @@ class ReactionService {
 }
 
 export default ReactionService;
-
-// const formatReactionForDb = (reaction: Reaction) => {
-//   // const formattedReaction: ReactionDbEntry = {
-//   return {
-//     userId: reaction.user.id,
-//     foodId: reaction.food.id,
-//     reactionTypeId: reaction.reactionType.id,
-//     severityId: reaction.severity.id,
-//     active: reaction.active,
-//   };
-// };

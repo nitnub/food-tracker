@@ -1,6 +1,6 @@
 import { Client } from 'pg';
 import postgresConnect from '@connections/postgres.connection';
-import { selectAllAsObj } from './queries/fodmap.queries';
+import { selectAllAsObj } from './queries/fodmap';
 
 interface JSONResponse {
   id: number;
@@ -21,26 +21,20 @@ class FodMapRepository {
   private pool: Client;
   constructor() {
     this.pool = postgresConnect;
-    
   }
 
   selectAll = async () => {
     const formatted: JSONResponse[] = [];
     const resp = await this.runQuery(selectAllAsObj());
 
-    // console.log(resp);
     resp.rows.forEach((jbo) => {
-      // console.log(jbo);
-      const formattedAlias = [];
-      // return {...jbo, aliasList: jbo.aliasList.split("&%&")}
       const aliasList = jbo.json_build_object.aliasList
         ? jbo.json_build_object.aliasList.split('&%&')
         : null;
-      // formatted.push({ ...jbo.json_build_object, aliasList: jbo.json_build_object.aliasList.split('&%&') });
+
       formatted.push({ ...jbo.json_build_object, aliasList });
     });
-    // return resp.rows;
-    // console.log(formatted);
+
     return formatted;
   };
 

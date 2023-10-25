@@ -13,50 +13,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const postgres_connection_1 = __importDefault(require("@connections/postgres.connection"));
-const food_queries_1 = require("./queries/food.queries");
+const food_1 = require("./queries/food");
 class FoodRepository {
     constructor() {
         this.addFoods = (foodsArray) => __awaiter(this, void 0, void 0, function* () {
-            // const selectQuery = foodsArray.length;
-            // let queryString = this.createReactionArrayQuery(foodsArray);
             const resp = yield this.runQuery(this.createFoodArrayQuery(foodsArray));
             if (!Array.isArray(resp)) {
                 return resp;
             }
             return foodsArray;
-            // console.log(resp[selectQuery]);
-            // return resp[selectQuery].rows;
         });
         // getUserReactions = async (userId: number) => {
         //   const resp = await this.runQuery(selectUserReactions(userId));
         //   return resp.rows;
         // };
         this.getAllFoods = () => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, food_queries_1.selectAllFoods)());
+            const resp = yield this.runQuery((0, food_1.selectAllFoods)());
             console.log(resp.rows);
             return resp.rows;
         });
         this.deleteFood = (foodId) => __awaiter(this, void 0, void 0, function* () {
-            const resp = yield this.runQuery((0, food_queries_1.deleteFood)(foodId));
-            // issue where resp.rowCount returns 1, but resp.rows is blank. This was causing issues with original logic. Updating to accommodate missing row info.
-            // console.log('response!');
-            // console.log(resp);
-            // console.log('response!');
-            // return resp.rows;
+            const resp = yield this.runQuery((0, food_1.deleteFood)(foodId));
             return resp.rowCount;
         });
         this.runQuery = (queryString) => __awaiter(this, void 0, void 0, function* () {
             return yield this.pool.query(queryString);
-            // .catch((resp) => {
-            //   throw new AppError(resp.message, 400);
-            // });
         });
         this.createFoodArrayQuery = (foodArray) => {
             let queryString = '';
             for (let food of foodArray) {
-                queryString += (0, food_queries_1.insertFood)(food);
+                queryString += (0, food_1.insertFood)(food);
             }
-            // queryString += selectAllFoods(reactionsArray[0].userId);
             return queryString;
         };
         this.pool = postgres_connection_1.default;
