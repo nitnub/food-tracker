@@ -33,7 +33,6 @@ class FoodAPI {
     );
 
     return await resp.json();
-
   };
 }
 
