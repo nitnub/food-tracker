@@ -21,6 +21,7 @@ class FodMapRepository {
   private pool: Client;
   constructor() {
     this.pool = postgresConnect;
+    
   }
 
   selectAll = async () => {

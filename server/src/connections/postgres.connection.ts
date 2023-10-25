@@ -1,5 +1,4 @@
 import Pool from 'pg-pool';
-import config from '@configs/postgres.config'
+import config from '@configs/postgres.config';
 
-
-export default new Pool(config)
+export default new Pool(config);
