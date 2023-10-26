@@ -23,10 +23,6 @@ class FoodRepository {
             }
             return foodsArray;
         });
-        // getUserReactions = async (userId: number) => {
-        //   const resp = await this.runQuery(selectUserReactions(userId));
-        //   return resp.rows;
-        // };
         this.getAllFoods = () => __awaiter(this, void 0, void 0, function* () {
             const resp = yield this.runQuery((0, food_1.selectAllFoods)());
             console.log(resp.rows);

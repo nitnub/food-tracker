@@ -3,7 +3,6 @@ import {
   Reaction,
   ReactionComplete,
   ReactionDbEntry,
-  ReactionDbResponse,
 } from '../types/reaction.types';
 import AppError from '../utils/appError';
 
@@ -41,29 +40,14 @@ class ReactionService {
 
   getUserReactions = async (userId: number) => {
     const reactions = await this.reactionRepository.getUserReactions(userId);
-    console.log('reactions');
-    // console.log(reactions);
-    // console.log(Object.keys(response));
-    // console.log(response[0]);
-    // console.log(response[0]['json_build_object']);
 
-    // response.forEach(reaction: ReactionD)
-    // const reactions = response.map((reaction) => reaction['json_build_object']); //['json_build_object'];
     const reactiveFoods: number[] = [];
-    reactions.forEach((el) => {
-      console.log(el);
-      if (
-        // !reactiveFoods.includes(reaction.foodId) &&
-        !reactiveFoods.includes(el.food.id) &&
-        el.reaction.severityId !== 1
-        // el.reaction. .severityId !== 1
-      ) {
-        // reactiveFoods.push(reaction.foodId);
+    reactions.forEach((el: ReactionComplete) => {
+      if (!reactiveFoods.includes(el.food.id) && el.reaction.severityId !== 1) {
         reactiveFoods.push(el.food.id);
       }
     });
 
-    console.log(reactions);
     return {
       userId: reactions[0].userId,
       reactiveFoods,

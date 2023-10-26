@@ -28,6 +28,7 @@ class UserRepository {
     const resp = await this.runQuery(selectUser(userId));
     return resp.rows;
   };
+
   getAllUsers = async () => {
     const resp = await this.runQuery(selectAllUsers());
 
@@ -71,6 +72,7 @@ class UserRepository {
     }
     return resp[1].rows;
   };
+
   deleteUser = async (userId: number) => {
     const resp = await this.runQuery(deleteUser(userId));
 

@@ -39,7 +39,6 @@ class ReactionRepository {
             return resp[1].rows;
         });
         this.addReactions = (reactionsArray) => __awaiter(this, void 0, void 0, function* () {
-            console.log('adding reaction array...');
             const selectQuery = reactionsArray.length;
             let queryString = this.createReactionArrayQuery(reactionsArray);
             const resp = yield this.runQuery(queryString);

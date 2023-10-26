@@ -58,7 +58,7 @@ export interface ReactionDetails {
   id: number;
   category: string; 
   type: string; 
-  severityId: string 
+  severityId: number 
 };
 
 export interface ReactionComplete {

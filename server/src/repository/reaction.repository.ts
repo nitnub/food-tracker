@@ -1,10 +1,6 @@
 import { Client } from 'pg';
-
 import postgresConnect from '@connections/postgres.connection';
-import {
-  ReactionDbEntry,
-  UnformattedReactionDbResponse,
-} from '../types/reaction.types';
+import { ReactionDbEntry } from '../types/reaction.types';
 import AppError from '../utils/appError';
 import {
   deleteReaction,
@@ -50,7 +46,6 @@ class ReactionRepository {
   };
 
   addReactions = async (reactionsArray: ReactionDbEntry[]) => {
-    console.log('adding reaction array...');
     const selectQuery = reactionsArray.length;
     let queryString = this.createReactionArrayQuery(reactionsArray);
 

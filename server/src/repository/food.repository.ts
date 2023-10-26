@@ -18,10 +18,6 @@ class FoodRepository {
     return foodsArray;
   };
 
-  // getUserReactions = async (userId: number) => {
-  //   const resp = await this.runQuery(selectUserReactions(userId));
-  //   return resp.rows;
-  // };
   getAllFoods = async () => {
     const resp = await this.runQuery(selectAllFoods());
     console.log(resp.rows);

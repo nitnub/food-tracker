@@ -38,27 +38,12 @@ class ReactionService {
         });
         this.getUserReactions = (userId) => __awaiter(this, void 0, void 0, function* () {
             const reactions = yield this.reactionRepository.getUserReactions(userId);
-            console.log('reactions');
-            // console.log(reactions);
-            // console.log(Object.keys(response));
-            // console.log(response[0]);
-            // console.log(response[0]['json_build_object']);
-            // response.forEach(reaction: ReactionD)
-            // const reactions = response.map((reaction) => reaction['json_build_object']); //['json_build_object'];
             const reactiveFoods = [];
             reactions.forEach((el) => {
-                console.log(el);
-                if (
-                // !reactiveFoods.includes(reaction.foodId) &&
-                !reactiveFoods.includes(el.food.id) &&
-                    el.reaction.severityId !== 1
-                // el.reaction. .severityId !== 1
-                ) {
-                    // reactiveFoods.push(reaction.foodId);
+                if (!reactiveFoods.includes(el.food.id) && el.reaction.severityId !== 1) {
                     reactiveFoods.push(el.food.id);
                 }
             });
-            console.log(reactions);
             return {
                 userId: reactions[0].userId,
                 reactiveFoods,
