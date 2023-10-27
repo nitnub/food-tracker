@@ -1,8 +1,7 @@
-import { createContext } from 'react';
+import { Dispatch, SetStateAction, createContext } from 'react';
 import { ReactionEntry } from '../types/dbTypes';
 import { FoodDbResponse } from '../types/food.types';
 
-// interface ActiveFood extends FoodDbResponse {
 interface ActiveFood {
   id: number;
   name: string;
@@ -10,34 +9,25 @@ interface ActiveFood {
   vegetarian: boolean;
   vegan: boolean;
   glutenFree: boolean;
+  reactions: ReactionEntry[];
 }
 
-// interface DefaultContext {
 interface DefaultContext {
-  appContext: {
-  // data: {
-    // activeFood: ActiveFood;
-    activeFood: {
-      id: number;
-      name: string;
-      fodmapId: number;
-      vegetarian: boolean;
-      vegan: boolean;
-      glutenFree: boolean;
-      reactions?: ReactionEntry[]
-    };
-    user: {
-      id: number;
-    };
-  // };
-  };
-  setAppContext: Function;
+  appContext: AppContext;
+  setAppContext: Dispatch<SetStateAction<DefaultContext>>;
 }
 
-// export const defaultContext: DefaultContext = {
-export const defaultContext: any = {
+interface UserContext {
+  id: number;
+  reactiveFoods: number[];
+}
+export interface AppContext {
+  activeFood: ActiveFood;
+  user: UserContext;
+}
+
+export const defaultContext: DefaultContext = {
   appContext: {
-  // data: {
     activeFood: {
       id: 0,
       name: '',
@@ -45,15 +35,14 @@ export const defaultContext: any = {
       vegetarian: false,
       vegan: false,
       glutenFree: false,
-      reactions: []
+      reactions: [],
     },
     user: {
       id: 0,
+      reactiveFoods: [],
     },
-  // },
   },
   setAppContext: (a: any): any => {},
 };
 
-// export default createContext(null)
 export default createContext(defaultContext);

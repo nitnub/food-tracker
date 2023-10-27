@@ -7,34 +7,25 @@ import { MouseEvent, useContext, useEffect, useState } from 'react';
 import AppContext from '../../context/AppContext';
 import { Severity } from '../../types/dbTypes';
 import styles from './SeveritySelector.module.css';
-// import PendingIcon from '@mui/icons-material/Pending';
 import ReactionAPI from '../../utils/ReactionAPI';
 
-// export default function Radio(severities: Severity[]) {
 export default function SeveritySelector({
-  // reactionTypeId,
   reactionType,
   severities,
   categoryId,
-  setLoadingSeverity
-}: // value
-{
-  // reactionTypeId: number;
+  setLoadingSeverity,
+}: {
   reactionType: any;
   categoryId: number;
   severities: Severity[];
-  setLoadingSeverity: Function
-  // value: number | null;
+  setLoadingSeverity: Function;
 }) {
   const { appContext, setAppContext } = useContext(AppContext);
-  // const [updatingSeverity, setUpdatingSeverity] = useState(false);
   const [value, setValue] = useState(0);
 
-
-  const rAPI = new ReactionAPI(appContext.user.userId);
+  const rAPI = new ReactionAPI(appContext.user.id);
   const handler = async (e: any) => {
     setValue(e.target.value);
-    // setUpdatingSeverity(() => true);
     setLoadingSeverity(() => true);
 
     const updatedReaction = {
@@ -43,107 +34,32 @@ export default function SeveritySelector({
       elementId: appContext.activeFood.id,
     };
 
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(updatedReaction),
-    // };
-
-    // const resp = await fetch(
-    //   `http://localhost:3200/api/v1/reaction/${appContext.user.userId}`,
-    //   requestOptions
-    // );
-
-    // const json = await resp.json();
-    // console.log(json)
     const json = await rAPI.setReaction(updatedReaction);
-    // console.log('json', json.status);
 
     const updatedContext = await rAPI.refreshReactionContext(appContext);
 
     setAppContext({ setAppContext, appContext: updatedContext });
-    // const response = json.result[0];
-    // const reaction = {
-    //   reactionId: response.id,
-    //   active: response.active,
-    //   subsidedOn: response.subsidedOn,
-    //   modifiedOn: response.modifiedOn,
-    //   identifiedOn: response.identifiedOn,
-    //   deletedOn: response.deletedOn,
-    //   food: {
-    //     id: response.foodId,
-    //     reactionScope: response.reactionScope,
-    //     name: response.foodName,
-    //     vegetarian: response.vegetarian,
-    //     vegan: response.vegan,
-    //     glutenFree: response.glutenFree,
-    //     fodMap: {
-    //       id: response.fodId,
-    //       category: response.fodCategory,
-    //       categoryId: response.fodCategory,
-    //       name: response.fodName,
-    //       freeUse: response.fodFreeUse,
-    //       oligos: response.fodOligos,
-    //       fructose: response.fodFructose,
-    //       polyols: response.fodPolyols,
-    //       lactose: response.fodLactose,
-    //       color: response.fodColor,
-    //       maxIntake: response.maxIntake,
-    //     },
-    //   },
-    //   reaction: {
-    //     id: response.id,
-    //     category: response.reactionCategory,
-    //     typeName: response.reactionTypeName,
-    //     typeId: response.reactionTypeId,
-    //     severityName: response.severityName,
-    //     severityId: response.severityId,
-    //     foodGroupingId: response.foodGroupingId,
-    //   },
-    // };
 
-    // // console.log(appContext)
-    // appContext.user.reactions.push(reaction);
-    // // console.log(appContext.activeFood)
-    // setUpdatingSeverity(() => false);
     setLoadingSeverity(() => false);
   };
 
-  // const {appContext, setAppContext} = useContext(AppContext);
-  // console.log('aaaaaaaaaaaafffff', appContext.activeFood.reactions)
-  // console.log('af',appContext.activeFood)
   const existingReactions = appContext.activeFood.reactions || [];
 
-  // let value = null;
-
   useEffect(() => {
-    // console.log('aa')
-    // console.log(reaction)
     setValue(0);
     for (let reaction of existingReactions) {
-      // console.log(reaction, reactionType)
       if (reaction.reactionType === reactionType.id) {
-        // value = reactionType.id
-        // console.log(reaction)
-        // console.log('bb');
-        // console.log(reaction.severity)
         setValue(reaction.severity);
       }
     }
-    // console.log('render now')
   }, [appContext.activeFood.id]);
-
-  // console.log(value)
 
   return (
     <>
       <FormControl>
-        {/* <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel> */}
-
         <RadioGroup
-        className={styles.radioRow}
+          className={styles.radioRow}
           onChange={handler}
-          // value={value}
           value={value}
           row
           aria-labelledby="demo-row-radio-buttons-group-label"
@@ -153,73 +69,14 @@ export default function SeveritySelector({
             return (
               <FormControlLabel
                 key={index}
-                // className={styles.radioLabel}
-                // size="small"
                 value={severity.id}
                 control={<Radio size="small" />}
                 label={<div className={styles.radioLabel}>{severity.name}</div>}
               />
             );
           })}
-
-          {/* <FormControlLabel value="female" control={<Radio />} label="Female" />
-          <FormControlLabel value="male" control={<Radio />} label="Male" />
-          <FormControlLabel value="other" control={<Radio />} label="Other" /> */}
         </RadioGroup>
       </FormControl>
-      
     </>
   );
-  // return (
-  //   <>
-  //     {severities.map((severity: Severity, index: number) => {
-  //       return (
-  //         <>
-  //           <div key={`i${index}`}>
-  //             <input
-  //               key={`i${index}`}
-  //               type="radio"
-  //               id={severity.id.toString()}
-  //               name="severity"
-  //               value={severity.name}
-  //             />
-  //             <label key={`${index}`} htmlFor={severity.name}>
-  //               {severity.name}{' '}
-  //             </label>
-  //           </div>
-
-  //           <FormControl>
-  //             <FormLabel id="demo-row-radio-buttons-group-label">
-  //               Gender
-  //             </FormLabel>
-
-  //             <RadioGroup
-  //               row
-  //               aria-labelledby="demo-row-radio-buttons-group-label"
-  //               name="row-radio-buttons-group"
-  //             >
-  //               <FormControlLabel
-  //                 value="female"
-  //                 control={<Radio />}
-  //                 label="Female"
-  //               />
-  //               <FormControlLabel
-  //                 value="male"
-  //                 control={<Radio />}
-  //                 label="Male"
-  //               />
-  //               <FormControlLabel
-  //                 value="other"
-  //                 control={<Radio />}
-  //                 label="Other"
-  //               />
-
-  //             </RadioGroup>
-
-  //           </FormControl>
-  //         </>
-  //       );
-  //     })}
-  //   </>
-  // );
 }

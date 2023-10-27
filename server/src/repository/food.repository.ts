@@ -20,7 +20,6 @@ class FoodRepository {
 
   getAllFoods = async () => {
     const resp = await this.runQuery(selectAllFoods());
-    console.log(resp.rows);
     return resp.rows;
   };
 

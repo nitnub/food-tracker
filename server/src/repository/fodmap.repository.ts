@@ -28,8 +28,8 @@ class FodMapRepository {
     const resp = await this.runQuery(selectAllAsObj());
 
     resp.rows.forEach((jbo) => {
-      const aliasList = jbo.json_build_object.aliasList
-        ? jbo.json_build_object.aliasList.split('&%&')
+      const aliasList = jbo['json_build_object'].aliasList
+        ? jbo['json_build_object'].aliasList
         : null;
 
       formatted.push({ ...jbo.json_build_object, aliasList });

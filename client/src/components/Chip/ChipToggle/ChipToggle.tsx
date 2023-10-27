@@ -36,7 +36,13 @@ export default function ChipToggle({
   const { appContext, setAppContext } = useContext(AppContext);
   const [chipColor, setChipColor] = useState<ChipColor>('success');
 
-  const rAPI = new ReactionAPI(appContext.user.userId);
+  // const rAPI = new ReactionAPI(appContext.user.userId);
+  // console.log('appContext:', appContext.user);
+  const rAPI = new ReactionAPI(appContext.user.id);
+  console.log('appContext.user.id');
+  console.log(appContext.user);
+  // console.log('appContext');
+  // console.log(appContext);
 
   const handler = async () => {
     toggleState.setActive(toggleId);
@@ -52,11 +58,11 @@ export default function ChipToggle({
 
   useEffect(() => {
     // const effect = () => {
-      if (appContext.user.reactiveFoods.includes(foodItem.id)) {
-        setChipColor('error');
-      } else {
-        setChipColor('success');
-      }
+    if (appContext.user.reactiveFoods.includes(foodItem.id)) {
+      setChipColor('error');
+    } else {
+      setChipColor('success');
+    }
     // };
     // effect();
   }, [appContext, foodItem.id]);

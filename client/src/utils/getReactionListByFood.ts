@@ -1,6 +1,6 @@
-import { ReactionEntry } from "../types/dbTypes";
+import { ReactionEntry } from '../types/dbTypes';
 
-export default  function getReactionListByFood(
+export default function getReactionListByFood(
   userId: number,
   foodId: number,
   reactionList: any[]
@@ -15,10 +15,8 @@ export default  function getReactionListByFood(
   });
   rawReactions.forEach((entry: any) => {
     const { reaction } = entry;
-    // console.log('RR', reaction);
-    // console.log('RR', entry);
+
     const formattedReaction: ReactionEntry = {
-      // formattedReaction.userId = userId; // Included in API_params
       userId,
       elementId: foodId,
       foodGroupingId: reaction.foodGroupingId,
@@ -29,7 +27,5 @@ export default  function getReactionListByFood(
     outputList.push(formattedReaction);
   });
 
-  // console.log('ITEMS:');
-  // console.log(outputList);
   return outputList;
 }

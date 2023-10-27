@@ -37,75 +37,18 @@ export default function SignIn() {
     useState<ReactionOptionProps>(reactionDefault);
   const { appContext, setAppContext } = useContext(AppContext);
 
-  const rAPI = new ReactionAPI(Number(userId))
+  const rAPI = new ReactionAPI(Number(userId));
 
   const clickHandler = async () => {
     if (userId === '') {
       return;
     }
-    // const res = await fetch(`http://localhost:3200/api/v1/reaction/${userId}`);
-    // const json = await res.json();
 
-    // const res = await rAPI.getReactions()
-    // const reactionArr = res.reactions;
-    // console.log('res');
-    // console.log(res);
-
-    // if (JSON.stringify(res).length > 1) {
-    //   const dataCopy = { ...appContext };
-    //   const reactions = rAPI.getReactionListByFood(
-    //     Number(userId),
-    //     appContext.activeFood.id,
-    //     reactionArr
-    //   );
-
-    //   dataCopy.user = res; // {id: Number(userId)}
-    //   dataCopy.activeFood.reactions = reactions;
-    //   setAppContext({ setAppContext, appContext: dataCopy });
-    //   // setAppContext({...appContext, user:{id: Number(userId)}})
-    // }
-
+    console.log('appContext');
+    console.log(appContext);
     const updatedContext = await rAPI.refreshReactionContext(appContext);
     setAppContext({ setAppContext, appContext: updatedContext });
-    // setAppContext({ setAppContext, appContext: dataCopy });
-    
-    // Get REaction Test
-    // console.log(`User reactions for ${userId}: `, res.reactions);
-    // function getReactionListByFood(
-    //   userId: number,
-    //   foodId: number,
-    //   reactionList: any[]
-    // ) {
-    //   const outputList: any = [];
-    //   const rawReactions: any = [];
 
-    //   reactionList.forEach((reaction: any) => {
-    //     if (reaction.food.id === foodId) {
-    //       rawReactions.push(reaction);
-    //     }
-    //   });
-    //   rawReactions.forEach((entry: any) => {
-    //     const { reaction } = entry;
-    //     // console.log('RR', reaction);
-    //     // console.log('RR', entry);
-    //     const formattedReaction: ReactionEntry = {
-    //       // formattedReaction.userId = userId; // Included in API_params
-    //       userId,
-    //       elementId: foodId,
-    //       foodGroupingId: reaction.foodGroupingId,
-    //       reactionType: reaction.typeId,
-    //       severity: reaction.severityId,
-    //       active: reaction.active,
-    //     };
-    //     outputList.push(formattedReaction);
-    //   });
-
-    //   // console.log('ITEMS:');
-    //   // console.log(outputList);
-    //   return outputList;
-    // }
-
-    // setUserReactions(() => res);
     setUserReactions(() => updatedContext.user);
   };
   return (
@@ -125,7 +68,6 @@ export default function SignIn() {
       <br />
       {userId}
       <br />
-      {/* {appContext. .userId && 'Logged in user: ' + JSON.stringify(userReactions.userId)} */}
       <br />
     </>
   );

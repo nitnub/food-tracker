@@ -1,3 +1,5 @@
+import { ReactionEntry } from "./dbTypes";
+
 export interface FoodDbResponse {
   id: number;
   name: string;
@@ -5,8 +7,5 @@ export interface FoodDbResponse {
   vegetarian: boolean;
   vegan: boolean;
   glutenFree: boolean;
+  reactions: ReactionEntry[]
 }
-
-// export interface Food extends FoodDbRespones {
-//   reaction: Reaction
-// }

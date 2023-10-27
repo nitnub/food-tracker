@@ -47,9 +47,11 @@ class ReactionService {
         reactiveFoods.push(el.food.id);
       }
     });
-
+    // console.log('reactions[0].userId');
+    // console.log(reactions[0].userId);
     return {
-      userId: reactions[0].userId,
+      // userId: reactions[0].userId,
+      id: reactions[0].id,
       reactiveFoods,
       resultCount: reactions.length,
       reactions,
@@ -69,7 +71,8 @@ class ReactionService {
 
   formatReactionForDb = (reaction: Reaction) => {
     return {
-      userId: reaction.user.id,
+      // userId: reaction.user.id,
+      id: reaction.user.id,
       foodId: reaction.food.id,
       reactionTypeId: reaction.reactionType.id,
       severityId: reaction.severity.id,

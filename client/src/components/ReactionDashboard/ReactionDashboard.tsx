@@ -36,12 +36,9 @@ export default function ReactionDashboard() {
   const { appContext, setAppContext } = useContext(AppContext);
 
   useEffect(() => {
-    const rAPI = new ReactionAPI(appContext.user.userId);
+    const rAPI = new ReactionAPI(appContext.user.id);
     const getReactionDetails = async () => {
       const res = await rAPI.getReactionTypeDetails();
-      // const resp = await fetch('http://localhost:3200/api/v1/reaction');
-      // const json = await resp.json();
-
       setReactions(() => res);
     };
     getReactionDetails();
