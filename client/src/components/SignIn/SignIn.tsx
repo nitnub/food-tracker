@@ -34,7 +34,6 @@ export default function SignIn() {
   const [userReactions, setUserReactions] =
     useState<ReactionOptionProps>(reactionDefault);
   const { appContext, setAppContext } = useContext(AppContext);
-
   const rAPI = new ReactionAPI(Number(userId));
 
   const clickHandler = async () => {
@@ -44,8 +43,6 @@ export default function SignIn() {
 
     const updatedContext = await rAPI.refreshReactionContext(appContext);
     setAppContext({ setAppContext, appContext: updatedContext });
-
-    // setUserReactions(() => updatedContext.user.reactiveFoods);
   };
   return (
     <>

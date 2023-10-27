@@ -1,6 +1,5 @@
 import TextField from '@mui/material/TextField';
 import { ChangeEvent, useState } from 'react';
-// import ChangeEvent from 'react'
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
@@ -33,7 +32,6 @@ export default function UpdateContainer() {
     loading: false,
   };
 
-  // type ClickOption = 'food' | 'fodmapId' | 'vegetarian' | 'vegan' | 'glutenFree'
   type CheckOption = 'vegetarian' | 'vegan' | 'glutenFree';
   const [foodForm, setFoodForm] = useState(defaultFoodForm);
   const [errorState, setErrorState] = useState(defaultErrorState);
@@ -56,13 +54,9 @@ export default function UpdateContainer() {
   };
 
   const submitHandler = async () => {
-    // setUpdateStatus({...updateStatus, loading: true})
     setUpdateStatus((updateStatus) => ({ ...updateStatus, loading: true }));
-    console.log(foodForm);
-
     const apiResponse = await fAPI.addFood(foodForm);
-    console.log('Status:');
-    console.log(apiResponse);
+
     if (apiResponse.status !== 'success') {
       // we had an error
       setUpdateStatus((updateStatus) => ({
@@ -71,60 +65,32 @@ export default function UpdateContainer() {
       }));
       setTimeout(() => {
         setUpdateStatus((updateStatus) => ({ ...updateStatus, fail: '' }));
-        // setUpdateStatus({...updateStatus, success: false})
       }, 3000);
     } else {
-      // success message..
       setFoodForm(defaultFoodForm);
-      console.log(updateStatus);
+
       setUpdateStatus((updateStatus) => ({ ...updateStatus, success: true }));
       setTimeout(() => {
         setUpdateStatus((updateStatus) => ({
           ...updateStatus,
           success: false,
         }));
-        // setUpdateStatus({...updateStatus, success: false})
       }, 3000);
     }
     setUpdateStatus((updateStatus) => ({ ...updateStatus, loading: false }));
-    // setUpdateStatus({...updateStatus, loading: false})
   };
 
   return (
     <>
       {' '}
-      {/* <TextField
-        // className="form-control"
-        // id={id}
-        // name={id}
-        // name="Name"
-        // label={label}
-        label="Name"
-        value={foodForm.food} //
-        onChange={(e) => setFoodForm({ ...foodForm, food: e.target.value })} //
-        // error={formik.touched[name] && Boolean(formik.errors[name])} //
-        error={errorState.food} //
-        // helperText={formik.touched[id] && formik.errors[id]} //
-        helperText="The name that will appear for this food item" //
-        // type={type}
-        variant="standard"
-        // min="0" // Hold for now in case of need for a dynamic num form field
-      /> */}
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
         <FormLabel component="legend">Add Food</FormLabel>
         <FormGroup>
           <TextField
-            // className="form-control"
-            // id={id}
-            // name={id}
-            // name="Name"
-            // label={label}
             label="Name"
-            value={foodForm.name} //
+            value={foodForm.name}
             onChange={(e) => setFoodForm({ ...foodForm, name: e.target.value })} //
-            // error={errorState.food} //
             helperText="The name that will appear for this food item" //
-            // type={type}
             variant="standard"
           />
 

@@ -5,23 +5,15 @@ import Stack from '@mui/material/Stack';
 import FodMapAPI from '../../utils/FodMapAPI';
 import { useState } from 'react';
 import styles from './FodSearch.module.css';
-import Icon from '@mui/material/Icon';
-import CircleIcon from '@mui/icons-material/Circle';
 import FodCard from '../FodCard';
 import { FodOptionType } from '../FodCard/FodCard';
 
 export default function FodSearch() {
-  // const flatProps = {
-  //   options: top100Films.map((option) => option.title),
-  // };
   const [value, setValue] = React.useState<FodOptionType | null>(null);
   const [fodList, setFodList] = useState([]);
   const defaultProps = {
     options: fodList,
     getOptionLabel: (option: FodOptionType) => option.name,
-  //   getOptionLabel: (option: FodOptionType) => <Icon className={fodColor(value!.color)}>
-  //   <CircleIcon />
-  // </Icon>,
   };
 
   useEffect(() => {
@@ -36,14 +28,6 @@ export default function FodSearch() {
     getFodList();
   }, []);
 
-  // const aliasFormatted = value?.aliasList.map((el, index: number) => {
-  //   return (
-  //     <div key={index} className={styles.aliasItem}>
-  //       {el}
-  //     </div>
-  //   );
-  // });
-
   const fodColorEx = (colorString: string) => {
     if (colorString.toLowerCase() === 'green') return '#258f45';
     if (colorString.toLowerCase() === 'yellow') return '#d6a211';
@@ -54,7 +38,7 @@ export default function FodSearch() {
   const fodColor = (color: string | null) => {
     let outputColor = 'black';
     if (color === null) {
-      return styles.unknownFodColor
+      return styles.unknownFodColor;
     }
     if (color.toLowerCase() === 'green') outputColor = '#258f45';
     if (color.toLowerCase() === 'yellow') outputColor = '#d6a211';
@@ -78,45 +62,15 @@ export default function FodSearch() {
           )}
         />
       </Stack>
-      {/* {JSON.stringify(value)} */}
+
       <div>{value?.aliasPrimary}</div>
       <div>Aliases:</div>
-      {/* <div>{value?.aliasList}</div> */}
-      {/* <div>{aliasFormatted}</div> */}
       <div>{value?.category}</div>
       <div>{value?.color}</div>
-
-      {/* {value && <Icon className={fodColor(value.color)}>
-        <CircleIcon />
-      </Icon>} */}
       <div>Free Use:</div>
       <div>{value?.freeUse}</div>
       <div>{value?.id}</div>
-      {/* <div>{value?.lactose.toString()}</div> */}
-      {/* <div>Max Intake:</div> */}
-      {/* <div>{value?.maxIntake}</div> */}
-      {/* <div>{value?.name}</div> */}
-      {/* <div>{value?.oligos.toString()}</div> */}
-      {/* <div>{value?.fructose.toString()}</div> */}
-      {/* <div>{value?.polyols.toString()}</div> */}
-      {value && <FodCard  item={value}/>}
+      {value && <FodCard item={value} />}
     </>
   );
 }
-
-
-
-// interface FilmOptionType {
-//   title: string;
-//   year: number;
-// }
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-// const top100Films = [
-//   { title: 'The Shawshank Redemption', year: 1994 },
-//   { title: 'The Godfather', year: 1972 },
-// ];
-
-// export default function FodSearch() {
-
-// }

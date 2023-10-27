@@ -21,7 +21,6 @@ export interface FodOptionType {
   polyols: boolean;
 }
 
-
 export default function FodCard({ item }: { item: FodOptionType }) {
   const aliasFormatted = (
     <div className={styles.aliasHolder}>
@@ -47,7 +46,6 @@ export default function FodCard({ item }: { item: FodOptionType }) {
     return outputColor;
   };
 
-  // const maxIntakeLabel = <div style={{backgroundColor: fodColor(item.color)}} className={styles.maxIntakeContainer}><div className={styles.maxIntake}>{item.maxIntake?.toString()}</div><div className={styles.maxIntakeSubheader}>Limit</div></div>;
   const maxIntakeLabel = (
     <div className={styles.maxIntakeContainer}>
       <div className={styles.maxIntake}>{item.maxIntake?.toString()}</div>
@@ -63,7 +61,6 @@ export default function FodCard({ item }: { item: FodOptionType }) {
       <div className={styles.fodSafeSubheader}>FODMAP Safe!</div>
     </div>
   );
-
 
   const activeLabel = (label: string) => {
     return (
@@ -101,9 +98,7 @@ export default function FodCard({ item }: { item: FodOptionType }) {
   );
   console.log('item:', item);
   return (
-    <Card
-      className={styles.card}
-    >
+    <Card className={styles.card}>
       <div
         className={styles.fodFlag}
         style={{ backgroundColor: fodColor(item.color) }}
@@ -118,31 +113,19 @@ export default function FodCard({ item }: { item: FodOptionType }) {
           <div className={styles.itemNameContainer}>{item.name}</div>
         </Typography>
         {item.category}
-        {/* <Typography sx={{ mb: 1.5 }} color="text.secondary"> */}
-        {/* <Typography > */}
         {aliasFormatted}
-        {/* </Typography> */}
         <div className={styles.cardBody}>
-          {/* <Typography variant="body2"> */}
-
-          {/* {item.maxIntake ? item.maxIntake.toString() : ''} */}
           <div
             style={{ backgroundColor: fodColor(item.color) }}
             className={styles.fodColorCircle}
           />
           {item.maxIntake ? maxIntakeLabel : fodSafeLabel}
-          {/* </Typography> */}
           <Typography variant="body2">
             <br />
             {oogLabel}
-
           </Typography>
         </div>
-
       </CardContent>
-      {/* <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions> */}
     </Card>
   );
 }
