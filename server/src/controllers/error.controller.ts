@@ -17,14 +17,14 @@ const sendErrorProd = (err: AppError, res: Response) => {
       status: err.status,
       message: err.message,
     });
-    // Programming or other unknown error: don't want to leak details tto the client
+    // Programming or other unknown error: don't want to leak details to the client
   } else {
     // 1) Log error
     console.error('ERROR!', err);
     // 2) Send generic message
     res.status(500).json({
       status: 'error',
-      message: 'Something went very wrong!',
+      message: 'Something went wrong!',
     });
   }
 };

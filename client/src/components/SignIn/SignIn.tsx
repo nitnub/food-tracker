@@ -4,10 +4,8 @@ import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
-
 import { useContext, useState } from 'react';
-import { ReactionEntry, ReactionOptionProps } from '../../types/dbTypes';
-import getReactionListByFood from '../../utils/getReactionListByFood';
+import { ReactionOptionProps } from '../../types/dbTypes';
 import ReactionAPI from '../../utils/ReactionAPI';
 
 const reactionDefault: ReactionOptionProps = {
@@ -44,12 +42,10 @@ export default function SignIn() {
       return;
     }
 
-    console.log('appContext');
-    console.log(appContext);
     const updatedContext = await rAPI.refreshReactionContext(appContext);
     setAppContext({ setAppContext, appContext: updatedContext });
 
-    setUserReactions(() => updatedContext.user);
+    // setUserReactions(() => updatedContext.user.reactiveFoods);
   };
   return (
     <>

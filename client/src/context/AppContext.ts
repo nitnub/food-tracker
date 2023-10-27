@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, createContext } from 'react';
 import { ReactionEntry } from '../types/dbTypes';
-import { FoodDbResponse } from '../types/food.types';
 
 interface ActiveFood {
   id: number;

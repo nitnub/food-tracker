@@ -9,7 +9,6 @@ export default (globalUserId: string, userUpdates: UserDbUpdateEntry) => {
     ${typeof admin === 'boolean' ? `, admin  = ${admin}` : ''}
     ${typeof active === 'boolean' ? `, active = ${active}` : ''}
     WHERE global_user_id = '${globalUserId}';  
-
     SELECT * FROM app_user WHERE global_user_id = '${globalUserId}';
   `;
 

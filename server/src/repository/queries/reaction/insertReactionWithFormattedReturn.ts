@@ -135,6 +135,6 @@ LEFT JOIN (
 
 
   `;
-  // console.log(query)
+
   return query;
 };

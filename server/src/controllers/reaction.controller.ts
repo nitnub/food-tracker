@@ -9,6 +9,7 @@ class ReactionController {
   constructor() {
     this.reactionService = new ReactionService();
   }
+  
   getReactionOptions = catchAsync(async (req: Request, res: Response) => {
     const data = await this.reactionService.getReactionOptions();
     res.status(200).json({
@@ -29,7 +30,6 @@ class ReactionController {
   });
 
   addReaction = catchAsync(async (req: Request, res: Response) => {
-    console.log(req.body);
     // temp sanitization; pre-middleware
     const sanitizedRequest = { ...req.body, userId: Number(req.params.id) };
 
@@ -44,7 +44,6 @@ class ReactionController {
     if (!req.params.id) {
       throw new AppError('Request must contain user ID', 400);
     }
-    // const userId = req.params.id;
     const data = await this.reactionService.getUserReactions(req.params.id);
 
     res.status(200).json({

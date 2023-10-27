@@ -1,3 +1,5 @@
+import { AppContext } from '../context/AppContext';
+
 interface ReactionUpdate {
   severityId: number;
   reactionTypeId: number;
@@ -25,7 +27,7 @@ export default class ReactionAPI {
     return res.reactiveFoods;
   };
 
-  refreshReactionContext = async (appContext: any) => {
+  refreshReactionContext = async (appContext: AppContext) => {
     const res = await this.getReactions();
     const reactionArr = res.reactions;
     const reactions = await this.getReactionListByFood(
@@ -34,7 +36,13 @@ export default class ReactionAPI {
       reactionArr
     );
 
-    const contextCopy = { ...appContext, user: res };
+    // const contextCopy = { ...appContext, user: res };
+    const contextCopy = {
+      ...appContext,
+      user: { id: this.userId, reactiveFoods: res.reactiveFoods },
+    };
+    console.log('CCOPY:');
+    console.log(contextCopy);
     contextCopy.activeFood.reactions = reactions;
 
     return contextCopy;
