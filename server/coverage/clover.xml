@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <coverage generated="1698767717233" clover="3.2.0">
@@ -9,6 +10,10 @@
 >>>>>>> Stashed changes
 <coverage generated="1698767223789" clover="3.2.0">
   <project timestamp="1698767223790" name="All files">
+=======
+<coverage generated="1698767173117" clover="3.2.0">
+  <project timestamp="1698767173117" name="All files">
+>>>>>>> server-tests-p1
     <metrics statements="82" coveredstatements="52" conditionals="20" coveredconditionals="0" methods="7" coveredmethods="0" elements="109" coveredelements="52" complexity="0" loc="82" ncloc="82" packages="4" files="5" classes="5"/>
     <package name="src">
       <metrics statements="27" coveredstatements="19" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
@@ -119,6 +124,9 @@
         <line num="18" count="1" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
 >>>>>>> Stashed changes
+=======
+>>>>>>> server-tests-p1
   </project>
 </coverage>
