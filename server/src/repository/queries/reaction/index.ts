@@ -1,4 +1,3 @@
-import insertTest from './insertTest';
 import insertReaction from './insertReaction';
 import insertReactionWithFormattedReturn from './insertReactionWithFormattedReturn';
 import selectUserReactions from './selectUserReactions';
@@ -14,7 +13,6 @@ import updateReactionActive from './updateReactionActive';
 import deleteReaction from './deleteReaction';
 
 export {
-  insertTest,
   insertReaction,
   insertReactionWithFormattedReturn,
   selectUserReactions,
