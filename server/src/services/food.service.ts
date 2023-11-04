@@ -1,6 +1,7 @@
 import FoodRepository from '@repository/food.repository';
 import { FoodDBObject } from '../types/food.types';
 import AppError from '../utils/appError';
+
 class FoodService {
   private foodRepository;
   constructor() {

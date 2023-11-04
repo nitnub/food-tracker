@@ -1,6 +1,6 @@
-export default (globalUserId: string, userUpdates: UserDbUpdateEntry) => {
+export default (id: string, userUpdates: UserDbUpdateEntry) => {
   const { modifiedBy, email, admin, avatar, active } = userUpdates;
-  console.log('userUpdates:', userUpdates);
+
   const resp = `
     UPDATE app_user SET 
     last_modified_by = '${modifiedBy}'
@@ -8,8 +8,8 @@ export default (globalUserId: string, userUpdates: UserDbUpdateEntry) => {
     ${avatar ? `, avatar = '${avatar}'` : ''}
     ${typeof admin === 'boolean' ? `, admin  = ${admin}` : ''}
     ${typeof active === 'boolean' ? `, active = ${active}` : ''}
-    WHERE global_user_id = '${globalUserId}';  
-    SELECT 
+    WHERE id = '${id}';  
+    SELECT
       id,
       global_user_id as "globalUserId",
       email,
@@ -19,8 +19,8 @@ export default (globalUserId: string, userUpdates: UserDbUpdateEntry) => {
       created_on as "createdOn",
       last_modified_on as "lastModifiedOn",
       deleted_on as "deletedOn",
-      last_modified_by as "lastModifiedBy"
-    FROM app_user WHERE global_user_id = '${globalUserId}';
+      last_modified_by as "lastModifiedBy" 
+    FROM app_user WHERE id = '${id}';
   `;
 
   return resp;

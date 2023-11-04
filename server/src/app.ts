@@ -1,11 +1,5 @@
-import 'module-alias/register';
-// import dotenv from 'dotenv';
-// configure dotenv before module imports
-// dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
-
 import express, { Request, NextFunction, Response } from 'express';
 import cors from 'cors';
-// import testRouter from '@routes/test.route';
 import foodRouter from '@routes/food.route';
 import reactionRouter from '@routes/reaction.route';
 import globalErrorHandler from './controllers/error.controller';

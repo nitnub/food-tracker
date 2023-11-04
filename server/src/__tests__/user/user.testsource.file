@@ -1,0 +1,429 @@
+// import request from 'supertest';
+// import app from '@root/app';
+// import { v4 as uuidv4 } from 'uuid';
+// import { validDateResponses } from '../../../.jest/test-utils';
+
+// import postgresConnect from '@connections/postgres.connection';
+
+// beforeEach(() => {
+//   const trimTestDb = 'DELETE FROM app_user WHERE id > 100;';
+//   postgresConnect.query(trimTestDb);
+// });
+// afterEach(() => {});
+
+// // interface UserUpdate { modifiedBy: string, email?: string, admin?: boolean, avatar?: string, active?: boolean }
+
+// // interface User {
+// //   id: 34,
+// // global_user_id?: string;
+// // email: string;
+// // admin: true,
+// // avatar:string;
+// // active: true,
+// // created_on?: string,
+// // last_modified_on?: string,
+// // deleted_on?: string | null,
+// // last_modified_by?: string;
+
+// // }
+
+// const expectedGetResponse = {
+//   id: expect.any(Number),
+//   globalUserId: expect.any(String),
+//   email: expect.any(String),
+//   admin: expect.any(Boolean),
+//   avatar: expect.any(String),
+//   active: expect.any(Boolean),
+//   createdOn: expect.toBeOneOf(validDateResponses),
+//   lastModifiedOn: expect.toBeOneOf(validDateResponses),
+//   deletedOn: expect.toBeOneOf(validDateResponses),
+//   lastModifiedBy: expect.any(String),
+// };
+
+// // const cow: Function = dateMatcher() as Function
+// const expectedAddResponse = {
+//   id: expect.any(Number),
+//   globalUserId: expect.any(String),
+//   email: expect.any(String),
+//   admin: expect.any(Boolean),
+//   avatar: expect.any(String),
+//   active: expect.any(Boolean),
+//   createdOn: expect.toBeOneOf(validDateResponses),
+//   lastModifiedOn: expect.toBeOneOf(validDateResponses),
+//   deletedOn: expect.toBeOneOf(validDateResponses),
+//   lastModifiedBy: expect.toBeOneOf([expect.any(String), null]),
+// };
+
+// // getUser
+// describe('getUser endpoint', () => {
+//   const userId = 34;
+//   it('sends 200 response on valid call', async () => {
+//     const res = await request(app).get(`/api/v1/user/${userId}`);
+//     expect(res.statusCode).toEqual(200);
+//   });
+
+//   it('has results of proper length', async () => {
+//     const res = await request(app).get(`/api/v1/user/${userId}`);
+//     const testRecords = res.body.data;
+
+//     expect(testRecords).toHaveLength(1);
+//   });
+
+//   it('has results of proper format', async () => {
+//     const res = await request(app).get(`/api/v1/user/${userId}`);
+//     const testRecord = res.body.data[0];
+
+//     expect(testRecord).toEqual(expectedGetResponse);
+//   });
+
+//   it.todo('sends expected error response in invalid request');
+// });
+
+// // updateUser
+// describe('updateUser endpoint', () => {
+//   const userId = 1;
+
+//   it('sends 200 response on valid call', async () => {
+//     const userId = 34;
+//     const res = await request(app).patch(`/api/v1/user/${userId}`).send({
+//       modifiedBy: 'ADMIN@GMAIL.COM',
+//       email: 'test12345',
+//       admin: true,
+//       avatar: 'avatar modified!1',
+//       active: true,
+//     });
+//     expect(res.statusCode).toEqual(200);
+//   });
+
+//   it('updates a record', async () => {
+//     const userId = 34;
+//     // get a record
+
+//     const initialRes = await request(app).get(`/api/v1/user/${userId}`);
+//     const initialRecord: UserDbEntry = initialRes.body.data[0];
+
+//     // create values for all fields that are different from existing
+
+//     const randId = uuidv4();
+
+//     const newRecord = {
+//       modifiedBy: `${randId}@tester.com`,
+//       email: `${randId}@user.com`,
+//       admin: !initialRecord.admin,
+//       avatar: `mysite.com/avatar/${randId}`,
+//       active: !initialRecord.active,
+//     };
+
+//     //update record
+//     const updateRes = await request(app)
+//       .patch(`/api/v1/user/${userId}`)
+//       .send(newRecord);
+
+//     // verify received record matches changes
+//     // const updatedRecord = updateRes.body.data[0];
+
+//     // // expect(updatedRecord).toEqual(initialRecord)
+//     // // get record again and verify updates are still returned
+//     const finalGetRes = await request(app).get(`/api/v1/user/${userId}`);
+//     const finalDbRecord: UserDbEntry = finalGetRes.body.data[0];
+
+//     // // const res = await request(app).get(`/api/v1/user/${userId}`);
+//     // // const testRecord = res.body.data[0];
+//     // expect(finalDbRecord).toEqual(newRecord);
+//     // // expect(testRecord).toEqual({});
+
+//     expect(finalDbRecord.lastModifiedBy).toEqual(newRecord.modifiedBy);
+//     expect(finalDbRecord.email).toEqual(newRecord.email);
+//     expect(finalDbRecord.admin).toEqual(newRecord.admin);
+//     expect(finalDbRecord.avatar).toEqual(newRecord.avatar);
+//     expect(finalDbRecord.active).toEqual(newRecord.active);
+//   });
+
+//   it('has response of proper length', async () => {
+//     const userId = 34;
+//     const res = await request(app).patch(`/api/v1/user/${userId}`).send({
+//       modifiedBy: 'ADMIN@GMAIL.COM',
+//       email: 'test12345',
+//       admin: true,
+//       avatar: 'avatar modified!1',
+//       active: true,
+//     });
+//     const testRecords = res.body.data;
+
+//     expect(testRecords).toHaveLength(1);
+//   });
+
+//   it('has results of proper format', async () => {
+//     const randId = uuidv4();
+
+//     const newRecord = {
+//       modifiedBy: `${randId}@tester.com`,
+//       email: `${randId}@user.com`,
+//       admin: true,
+//       avatar: `mysite.com/avatar/${randId}`,
+//       active: false,
+//     };
+
+//     //update record
+//     const updateRes = await request(app)
+//       .patch(`/api/v1/user/${userId}`)
+//       .send(newRecord);
+
+//     expect(updateRes.body.data).toEqual({
+//       id: expect.any(Number),
+//       globalUserId: expect.any(String),
+//       email: `${randId}@user.com`,
+//       admin: true,
+//       avatar: `mysite.com/avatar/${randId}`,
+//       active: false,
+//       createdOn: expect.toBeOneOf(validDateResponses),
+//       lastModifiedOn: expect.toBeOneOf(validDateResponses),
+//       deletedOn: expect.toBeOneOf(validDateResponses),
+//       lastModifiedBy: `${randId}@tester.com`,
+//     });
+//   });
+// });
+
+// // deleteUser
+
+// describe('deleteUser endpoint', () => {
+//   const userId = 34;
+//   it('sends 200 response on valid call', async () => {
+//     // add user
+//     const postRes = await request(app).post('/api/v1/user').send(uniqueUser());
+//     const newRecord = postRes.body.data[0];
+//     const userId = newRecord.id;
+
+//     // confirm user is in db
+//     const getRes = await request(app).get(`/api/v1/user/${userId}`);
+//     expect(getRes.body.status).toEqual('success');
+//     // delete user
+
+//     const delRes = await request(app).delete(`/api/v1/user/${userId}`);
+//     // confirm user is not in db
+//     expect(delRes.body.status).toEqual('success');
+//     expect(delRes.statusCode).toEqual(200);
+
+//     // const res = await request(app).get(`/api/v1/user/${userId}`);
+//   });
+
+//   it('has results of proper format', async () => {
+//     // add user
+//     const postRes = await request(app).post('/api/v1/user').send(uniqueUser());
+//     const newRecord = postRes.body.data[0];
+//     const userId = newRecord.id;
+
+//     // confirm user is in db
+//     const getRes = await request(app).get(`/api/v1/user/${userId}`);
+//     expect(getRes.body.status).toEqual('success');
+//     // delete user
+
+//     const delRes = await request(app).delete(`/api/v1/user/${userId}`);
+//     // confirm user is not in db
+//     expect(delRes.body).toEqual({ status: 'success' });
+//   });
+
+//   it('deletes a record', async () => {
+//     // add user
+//     const postRes = await request(app).post('/api/v1/user').send(uniqueUser());
+//     const newRecord = postRes.body.data[0];
+//     const userId = newRecord.id;
+
+//     // expect(userId).toBe(0); // test - can delete
+//     // confirm user is in db
+//     const getRes = await request(app).get(`/api/v1/user`);
+//     const startingCount = getRes.body.data.length;
+//     expect(getRes.body.status).toEqual('success');
+//     // delete user
+//     await request(app).delete(`/api/v1/user/${userId}`);
+//     // confirm user is not in db
+//     // confirm user is in db
+//     // const userExists = await request(app).get(`/api/v1/user/${userId}`);
+
+//     // expect(userExists.body.status).toBe('fail');
+//     const getResAfter = await request(app).get(`/api/v1/user`);
+//     const endingCount = getResAfter.body.data.length;
+
+//     expect(endingCount).toBe(startingCount - 1);
+//   });
+// });
+
+// // getAllUsers
+
+// describe('getAllUsers endpoint', () => {
+//   it('sends 200 response on valid call', async () => {
+//     const res = await request(app).get('/api/v1/user');
+//     expect(res.statusCode).toEqual(200);
+//   });
+
+//   it('has results of proper format', async () => {
+//     const res = await request(app).get('/api/v1/user');
+//     const responseData = res.body.data;
+//     const testRecord = responseData[0];
+
+//     console.log('responseData.length');
+//     console.log(responseData.length);
+//     expect(responseData).toBeArray();
+//     expect(responseData.length).toBeGreaterThan(1);
+//     expect(testRecord).toEqual(expectedGetResponse);
+//   });
+// });
+
+// // addUser
+
+// describe('addUser endpoint', () => {
+//   it('sends 200 response on valid call (single-entry)', async () => {
+//     const res = await request(app).post('/api/v1/user').send([uniqueUser()]);
+
+//     expect(res.statusCode).toEqual(200);
+//   });
+
+//   it('sends 200 response on valid call (multi-entry)', async () => {
+//     const res = await request(app)
+//       .post('/api/v1/user')
+//       .send([uniqueUser(), uniqueUser(), uniqueAdmin(), uniqueAdmin()]);
+
+//     expect(res.statusCode).toEqual(200);
+//   });
+
+//   it('updates the db (single-entry)', async () => {
+//     const getResponse1 = await request(app).get('/api/v1/user');
+//     const initialLength = getResponse1.body.data.length;
+
+//     await request(app).post('/api/v1/user').send([uniqueUser()]);
+
+//     const getResponse2 = await request(app).get('/api/v1/user');
+//     const finalLength = getResponse2.body.data.length;
+
+//     expect(finalLength).toBe(initialLength + 1);
+//   });
+
+//   it('updates the db (multi-entry)', async () => {
+//     const getResponse1 = await request(app).get('/api/v1/user');
+//     const initialLength = getResponse1.body.data.length;
+
+//     const newUsers = [uniqueAdmin(), uniqueUser(), uniqueUser(), uniqueAdmin()];
+//     await request(app).post('/api/v1/user').send(newUsers);
+
+//     const getResponse2 = await request(app).get('/api/v1/user');
+//     const finalLength = getResponse2.body.data.length;
+
+//     expect(finalLength).toBe(initialLength + newUsers.length);
+//   });
+
+//   it('has results of proper length (single-entry)', async () => {
+//     const res = await request(app).post('/api/v1/user').send([uniqueUser()]);
+
+//     expect(res.body.data).toHaveLength(1);
+//   });
+
+//   it('has results of proper length (multi-entry)', async () => {
+//     const getResponse = await request(app).get('/api/v1/user');
+//     const initialLength = getResponse.body.data.length;
+
+//     const updateReq = [uniqueUser(), uniqueAdmin(), uniqueUser()];
+//     const postResponse = await request(app)
+//       .post('/api/v1/user')
+//       .send(updateReq);
+
+//     expect(postResponse.body.data).toHaveLength(
+//       initialLength + updateReq.length
+//     );
+//   });
+
+//   it('has results of proper format (single-entry)', async () => {
+//     const res = await request(app).post('/api/v1/user').send([uniqueUser()]);
+//     const testRecord = res.body.data[0];
+
+//     expect(testRecord).toEqual(expectedAddResponse);
+//   });
+
+//   it('has results of proper format (multi-entry)', async () => {
+//     const res = await request(app)
+//       .post('/api/v1/user')
+//       .send([uniqueUser(), uniqueUser(), uniqueAdmin()]);
+//     expect(res.body.data).toBeArray();
+
+//     const testRecord = res.body.data[0];
+//     expect(testRecord).toEqual(expectedAddResponse);
+//     // expect(
+//     //   // [
+//     //   {
+//     //     id: 174,
+//     //     globalUserId: 'guid_7850e21b-97c1-4f92-9ed6-a3d5257e4509',
+//     //     email: '7850e21b-97c1-4f92-9ed6-a3d5257e4509@gmail.com',
+//     //     admin: false,
+//     //     avatar: 'mysite.com/avatar/7850e21b-97c1-4f92-9ed6-a3d5257e4509',
+//     //     active: true,
+//     //     createdOn: '2023-11-02T19:05:58.632Z',
+//     //     lastModifiedOn: '2023-11-02T19:05:58.632Z',
+//     //     deletedOn: null,
+//     //     lastModifiedBy: null,
+//     //   }
+//     //   //   {
+//     //   //     id: 175,
+//     //   //     globalUserId: 'guid_9fd03d6f-1889-4ef8-9d6f-2a3331409eab',
+//     //   //     email: '9fd03d6f-1889-4ef8-9d6f-2a3331409eab@gmail.com',
+//     //   //     admin: false,
+//     //   //     avatar: 'mysite.com/avatar/9fd03d6f-1889-4ef8-9d6f-2a3331409eab',
+//     //   //     active: true,
+//     //   //     createdOn: '2023-11-02T19:05:58.632Z',
+//     //   //     lastModifiedOn: '2023-11-02T19:05:58.632Z',
+//     //   //     deletedOn: null,
+//     //   //   },
+//     //   // ][0]
+//     // ).toEqual(expectedAddResponse);
+//   });
+// });
+
+// // describe('User endpoints test suite', () => {
+// //   it('sends 200 response on valid call', async () => {
+// //     const res = await request(app).get('/api/v1/fodmap');
+// //     expect(res.statusCode).toEqual(200);
+// //   });
+
+// //   it('has results of proper length', async () => {
+// //     const res = await request(app).get('/api/v1/fodmap');
+// //     const testRecords = res.body.data;
+
+// //     expect(testRecords).toHaveLength(432);
+// //   });
+
+// //   it('has results of proper format', async () => {
+// //     const res = await request(app).get('/api/v1/fodmap');
+// //     const testRecord = res.body.data[0];
+
+// //     expect(testRecord).toEqual({
+// //       id: expect.any(Number),
+// //       category: expect.any(String),
+// //       name: expect.any(String),
+// //       freeUse: expect.any(Boolean),
+// //       oligos: expect.any(Boolean),
+// //       fructose: expect.any(Boolean),
+// //       polyols: expect.any(Boolean),
+// //       lactose: expect.any(Boolean),
+// //       color: expect.any(String),
+// //       aliasPrimary: expect.any(String),
+// //       aliasList: expect.arrayContaining([expect.any(String)]),
+// //       maxIntake: expect.toBeOneOf([expect.any(String), null]),
+// //     });
+// //   });
+// // });
+
+// function uniqueAdmin() {
+//   return getUserObject(true);
+// }
+
+// function uniqueUser() {
+//   return getUserObject(false);
+// }
+
+// function getUserObject(admin: boolean) {
+//   const randId = uuidv4();
+//   return {
+//     globalUserId: `guid_${randId}`,
+//     email: `${randId}@gmail.com`,
+//     admin,
+//     avatar: `mysite.com/avatar/${randId}`,
+//   };
+// }

@@ -1,5 +1,4 @@
 import { Client } from 'pg';
-
 import postgresConnect from '@connections/postgres.connection';
 import { deleteFood, insertFood, selectAllFoods } from './queries/food';
 

@@ -10,7 +10,6 @@ class UserController {
 
   getAllUsers = catchAsync(async (req: Request, res: Response) => {
     const data = await this.userService.getAllUsers();
-
     res.status(200).json({
       status: 'success',
       data,
@@ -26,7 +25,8 @@ class UserController {
   });
 
   addUser = catchAsync(async (req: Request, res: Response) => {
-    const data = await this.userService.addUser(req.body.data);
+   
+    const data = await this.userService.addUser(req.body);
     res.status(200).json({
       status: 'success',
       data,
@@ -35,17 +35,15 @@ class UserController {
 
   updateUser = catchAsync(async (req: Request, res: Response) => {
     const data = await this.userService.updateUser(req.params.id, req.body);
-
     res.status(200).json({
       status: 'success',
-      data
-    })
-  })
+      data,
+    });
+  });
 
   deleteUser = catchAsync(async (req: Request, res: Response) => {
     await this.userService.deleteUser(req.params.id);
-
-    res.status(202).json({
+    res.status(200).json({
       status: 'success',
     });
   });

@@ -1,5 +1,6 @@
 import UserRepository from '@repository/user.repository';
 import AppError from '../utils/appError';
+
 class UserService {
   private userRepository;
   constructor() {
@@ -25,10 +26,23 @@ class UserService {
 
   addUser = async (userArray: UserDbEntry[]) => {
     // check for admin to allow more than one entry
+    if (!Array.isArray(userArray)) {
+      userArray = [userArray];
+    }
+    
+    for (let user of userArray) {
+      if (!isValidNewUser(user)) {
+        throw new AppError(
+          `Database was not updated. Invalid user: ${JSON.stringify(user)}.`,
+          400
+        );
+      }
+    }
+
     return await this.userRepository.addUser(userArray);
   };
 
-  updateUser = async (globalUserId: string , userUpdates: UserDbUpdateEntry) => {
+  updateUser = async (globalUserId: string, userUpdates: UserDbUpdateEntry) => {
     return await this.userRepository.updateUser(globalUserId, userUpdates);
   };
 
@@ -45,3 +59,22 @@ class UserService {
 }
 
 export default UserService;
+
+function isValidNewUser(user: UserDbEntry) {
+  return (
+    isObject(user) &&
+    Object.keys(user).length === 4 &&
+    user.hasOwnProperty('globalUserId') &&
+    user.hasOwnProperty('email') &&
+    user.hasOwnProperty('admin') &&
+    user.hasOwnProperty('avatar')
+  );
+}
+
+function isObject(candidate: UserDbEntry) {
+  return (
+    typeof candidate === 'object' &&
+    !Array.isArray(candidate) &&
+    candidate !== null
+  );
+}

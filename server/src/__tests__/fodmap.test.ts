@@ -1,4 +1,3 @@
-import 'module-alias/register';
 import request from 'supertest';
 import app from '@root/app';
 
@@ -17,7 +16,7 @@ interface FODMAPResponseItem {
   maxIntake: number;
 }
 
-describe('fodmap endpoint test suite', () => {
+describe('FODMAP endpoint test suite', () => {
   it('sends 200 response on valid call', async () => {
     const res = await request(app).get('/api/v1/fodmap');
     expect(res.statusCode).toEqual(200);

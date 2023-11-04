@@ -1,5 +1,6 @@
+declare module '@testRepo/*';
 declare module '@root/*';
-declare module '@/root/*';
+// declare module '@/root/*';
 declare module '@configs/*';
 declare module '@connections/*';
 declare module '@controllers/*';

@@ -1,7 +1,10 @@
 import type { Config } from '@jest/types';
 
 const baseDir = '<rootDir>/src';
+// const baseDir = '<rootDir>';
+// const baseDir = './src';
 const baseTestDir = '<rootDir>/src';
+const testResources = '<rootDir>/.jest';
 
 const config: Config.InitialOptions = {
   preset: 'ts-jest',
@@ -10,7 +13,9 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   moduleNameMapper: {
     '\\.(css|less|scss|sass|svg)$': 'identity-obj-proxy',
+    '^@testRepo(.*)$': `${testResources}/$1`,
     '^@root(.*)$': `${baseDir}/$1`,
+    // '^@root$': `${baseDir}/$1`,
     '^@configs(.*)$': `${baseDir}/configs/$1`,
     '^@connections(.*)$': `${baseDir}/connections/$1`,
     '^@controllers(.*)$': `${baseDir}/controllers/$1`,
@@ -24,7 +29,8 @@ const config: Config.InitialOptions = {
   },
   collectCoverageFrom: [`${baseDir}/**/*.ts`],
   testMatch: [`${baseTestDir}/**/*.test.ts`],
-  setupFiles: ['<rootDir>/.jest/setup-tests.ts'],
+  setupFiles: [`${testResources}/test-setup.ts`],
+  // setupFiles: ['.jest/test-setup.ts'],
   setupFilesAfterEnv: ['jest-extended/all'],
 };
 
