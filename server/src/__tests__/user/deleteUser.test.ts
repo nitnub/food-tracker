@@ -10,7 +10,7 @@ beforeEach(async () => {
   postRes = await request(app).post('/api/v1/user').send(getUniqueUser());
 });
 
-describe('deleteUser endpoint', () => {
+describe('user delete integration', () => {
   it('sends 200 response on valid call', async () => {
     const newRecord = postRes.body.data[0];
     const userId = newRecord.id;

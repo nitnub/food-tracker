@@ -15,31 +15,53 @@ const expectedGetResponse = {
   deletedOn: expect.toBeOneOf(validDateResponses),
   lastModifiedBy: expect.any(String),
 };
+const testDBSize = 22;
 
-describe('getUser endpoint integration', () => {
-  const userId = 34;
-  it('sends 200 response on valid call', async () => {
-    const res = await request(app).get(`/api/v1/user/${userId}`);
-    expect(res.statusCode).toEqual(200);
+describe('user get integration', () => {
+  describe('by id', () => {
+    const userId = 34;
+    it('sends 200 response on valid call', async () => {
+      const res = await request(app).get(`/api/v1/user/${userId}`);
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it('has results of proper length', async () => {
+      const res = await request(app).get(`/api/v1/user/${userId}`);
+      const testRecords = res.body.data;
+
+      expect(testRecords).toHaveLength(1);
+    });
+
+    it('has results of proper format', async () => {
+      const res = await request(app).get(`/api/v1/user/${userId}`);
+      const testRecord = res.body.data[0];
+
+      expect(testRecord).toEqual(expectedGetResponse);
+    });
+
+    it.skip('sends expected error response in invalid request', async () => {
+      await request(app).get(`/api/v1/user/${10001}`).expect(400);
+    });
   });
 
-  it('has results of proper length', async () => {
-    const res = await request(app).get(`/api/v1/user/${userId}`);
-    const testRecords = res.body.data;
+  describe('all users', () => {
+    it('sends 200 response on valid call', async () => {
+      const res = await request(app).get('/api/v1/user');
+      expect(res.statusCode).toEqual(200);
+    });
 
-    expect(testRecords).toHaveLength(1);
-  });
+    it('has results of proper length', async () => {
+      const res = await request(app).get('/api/v1/user');
+      const testRecords = res.body.data;
 
-  it('has results of proper format', async () => {
-    const res = await request(app).get(`/api/v1/user/${userId}`);
-    const testRecord = res.body.data[0];
+      expect(testRecords).toHaveLength(testDBSize);
+    });
 
-    expect(testRecord).toEqual(expectedGetResponse);
-  });
+    it('has results of proper format', async () => {
+      const res = await request(app).get('/api/v1/user');
+      const testRecord = res.body.data[0];
 
-  it.skip('sends expected error response in invalid request', async () => {
-    await request(app)
-    .get(`/api/v1/user/${10001}`)
-    .expect(400);
+      expect(testRecord).toEqual(expectedGetResponse);
+    });
   });
 });
