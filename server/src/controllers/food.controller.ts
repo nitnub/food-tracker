@@ -4,6 +4,7 @@ import catchAsync from '../utils/catchAsync';
 
 class FoodController {
   private foodService;
+
   constructor() {
     this.foodService = new FoodService();
   }
@@ -18,13 +19,18 @@ class FoodController {
   });
 
   addFoods = catchAsync(async (req: Request, res: Response) => {
-    let data;
-    if (req.body.data) {
-      data = await this.foodService.addFoods(req.body.data);
-    } else {
-      data = await this.foodService.addFoods([req.body]);
-    }
+    let response;
 
+    if (req.body.data.length === 1) {
+      response = await this.foodService.addFood(req.body.data[0]);
+    } else {
+      response = await this.foodService.addFoods(req.body.data);
+    }
+    res.status(200).json(response);
+  });
+
+  updateFood = catchAsync(async (req: Request, res: Response) => {
+    const data = await this.foodService.updateFood(req.params.id, req.body);
     res.status(200).json({
       status: 'success',
       data,

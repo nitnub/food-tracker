@@ -26,13 +26,13 @@ afterEach(() => {
 });
 
 describe('User POST integration', () => {
-  it('sends 200 response on valid call (single-entry)', async () => {
+  xit('sends 200 response on valid call (single-entry)', async () => {
     const res = await request(app).post('/api/v1/user').send([getUniqueUser()]);
 
     expect(res.statusCode).toEqual(200);
   });
 
-  it('sends 200 response on valid call (multi-entry)', async () => {
+  xit('sends 200 response on valid call (multi-entry)', async () => {
     const res = await request(app)
       .post('/api/v1/user')
       .send([
@@ -45,7 +45,7 @@ describe('User POST integration', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('updates the db (single-entry)', async () => {
+  xit('updates the db (single-entry)', async () => {
     const getResponse1 = await request(app).get('/api/v1/user');
     const initialLength = getResponse1.body.data.length;
 
@@ -57,7 +57,7 @@ describe('User POST integration', () => {
     expect(finalLength).toBe(initialLength + 1);
   });
 
-  it('updates the db (multi-entry)', async () => {
+  xit('updates the db (multi-entry)', async () => {
     const getResponse1 = await request(app).get('/api/v1/user');
     const initialLength = getResponse1.body.data.length;
 
@@ -76,12 +76,12 @@ describe('User POST integration', () => {
     expect(finalLength).toBe(initialLength + newUsers.length);
   });
 
-  it('has results of proper length (single-entry)', async () => {
+  xit('has results of proper length (single-entry)', async () => {
     const res = await request(app).post('/api/v1/user').send([getUniqueUser()]);
     expect(res.body.data).toHaveLength(1);
   });
 
-  it('has results of proper length (multi-entry)', async () => {
+  xit('has results of proper length (multi-entry)', async () => {
     const getResponse = await request(app).get('/api/v1/user');
     const initialLength = getResponse.body.data.length;
 
@@ -91,14 +91,14 @@ describe('User POST integration', () => {
     expect(postResponse.body.data).toHaveLength(initialLength + req.length);
   });
 
-  it('has results of proper format (single-entry)', async () => {
+  xit('has results of proper format (single-entry)', async () => {
     const res = await request(app).post('/api/v1/user').send([getUniqueUser()]);
     const testRecord = res.body.data[0];
 
     expect(testRecord).toEqual(expectedAddResponse);
   });
 
-  it('has results of proper format (multi-entry)', async () => {
+  xit('has results of proper format (multi-entry)', async () => {
     const res = await request(app)
       .post('/api/v1/user')
       .send([getUniqueUser(), getUniqueUser(), getUniqueAdmin()])

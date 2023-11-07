@@ -16,7 +16,7 @@ interface FODMAPResponseItem {
   maxIntake: number;
 }
 
-describe('FODMAP endpoint test suite', () => {
+describe('FODMAP GET integration', () => {
   it('sends 200 response on valid call', async () => {
     const res = await request(app).get('/api/v1/fodmap');
     expect(res.statusCode).toEqual(200);

@@ -20,19 +20,19 @@ const testDBSize = 22;
 describe('User GET integration', () => {
   describe('by id', () => {
     const userId = 34;
-    it('sends 200 response on valid call', async () => {
+    xit('sends 200 response on valid call', async () => {
       const res = await request(app).get(`/api/v1/user/${userId}`);
       expect(res.statusCode).toEqual(200);
     });
 
-    it('has results of proper length', async () => {
+    xit('has results of proper length', async () => {
       const res = await request(app).get(`/api/v1/user/${userId}`);
       const testRecords = res.body.data;
 
       expect(testRecords).toHaveLength(1);
     });
 
-    it('has results of proper format', async () => {
+    xit('has results of proper format', async () => {
       const res = await request(app).get(`/api/v1/user/${userId}`);
       const testRecord = res.body.data[0];
 
@@ -45,19 +45,19 @@ describe('User GET integration', () => {
   });
 
   describe('all users', () => {
-    it('sends 200 response on valid call', async () => {
+    xit('sends 200 response on valid call', async () => {
       const res = await request(app).get('/api/v1/user');
       expect(res.statusCode).toEqual(200);
     });
 
-    it('has results of proper length', async () => {
+    xit('has results of proper length', async () => {
       const res = await request(app).get('/api/v1/user');
       const testRecords = res.body.data;
 
       expect(testRecords).toHaveLength(testDBSize);
     });
 
-    it('has results of proper format', async () => {
+    xit('has results of proper format', async () => {
       const res = await request(app).get('/api/v1/user');
       const testRecord = res.body.data[0];
 

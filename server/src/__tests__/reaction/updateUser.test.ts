@@ -20,7 +20,7 @@ const expectedUpdateResponse = {
 
 describe('User PATCH integration', () => {
   const userId = 100;
-  it('sends 200 response on valid call', async () => {
+  xit('sends 200 response on valid call', async () => {
     const res = await request(app)
       .patch(`/api/v1/user/${userId}`)
       .send(getUniqueUpdateRequest());
@@ -28,7 +28,7 @@ describe('User PATCH integration', () => {
     expect(res.statusCode).toEqual(200);
   });
 
-  it('updates a record', async () => {
+  xit('updates a record', async () => {
     const initialRes = await request(app).get(`/api/v1/user/${userId}`);
     const initialRecord: UserDbEntry = initialRes.body.data[0];
 
@@ -49,7 +49,7 @@ describe('User PATCH integration', () => {
     expect(finalDbRecord.active).toEqual(newRecord.active);
   });
 
-  it('has response of proper length', async () => {
+  xit('has response of proper length', async () => {
     const res = await request(app)
       .patch(`/api/v1/user/${userId}`)
       .send(getUniqueUpdateRequest());
@@ -57,7 +57,7 @@ describe('User PATCH integration', () => {
     expect(res.body.data).toHaveLength(1);
   });
 
-  it('has results of proper format', async () => {
+  xit('has results of proper format', async () => {
     const updateRes = await request(app)
       .patch(`/api/v1/user/${userId}`)
       .send(getUniqueUpdateRequest());

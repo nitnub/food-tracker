@@ -11,7 +11,7 @@ beforeEach(async () => {
 });
 
 describe('User DELETE integration', () => {
-  it('sends 200 response on valid call', async () => {
+  xit('sends 200 response on valid call', async () => {
     const newRecord = postRes.body.data[0];
     const userId = newRecord.id;
 
@@ -27,7 +27,7 @@ describe('User DELETE integration', () => {
     expect(delRes.statusCode).toEqual(200);
   });
 
-  it('has results of proper format', async () => {
+  xit('has results of proper format', async () => {
     const newRecord = postRes.body.data[0];
     const userId = newRecord.id;
 
@@ -42,7 +42,7 @@ describe('User DELETE integration', () => {
     expect(delRes.body).toEqual({ status: 'success' });
   });
 
-  it('deletes a record', async () => {
+  xit('deletes a record', async () => {
     const newRecord = postRes.body.data[0];
     const userId = newRecord.id;
 

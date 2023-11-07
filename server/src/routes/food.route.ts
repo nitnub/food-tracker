@@ -10,7 +10,7 @@ foodRouter
 
 foodRouter
   .route('/:id')
-  // .patch(foodController.updateFood)  // need to implement
+  .patch(foodController.updateFood)
   .delete(foodController.deleteFood);
 
 export default foodRouter;
