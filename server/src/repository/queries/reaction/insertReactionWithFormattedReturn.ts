@@ -25,7 +25,7 @@ export default (reaction: ReactionDbEntry) => {
       VALUES (
         ${reaction.userId}
         , ${reaction.elementId}
-        , ${reaction.foodGroupingId ? `, ${reaction.foodGroupingId}` : 1}
+        , ${reaction.foodGroupingId ? `${reaction.foodGroupingId}` : 1}
         , ${reaction.reactionTypeId}
         ${reaction.severityId && `, ${reaction.severityId}`}
         ${typeof reaction.active === 'boolean' ? `, ${reaction.active}` : ''}
@@ -116,7 +116,7 @@ LEFT JOIN (
 
     
     AND food_grouping_id = ${
-      reaction.foodGroupingId ? `, ${reaction.foodGroupingId}` : 1
+      reaction.foodGroupingId ? `${reaction.foodGroupingId}` : 1
     }
     AND reaction_type = ${reaction.reactionTypeId}
     ${reaction.severityId && `AND severity = ${reaction.severityId}`}
@@ -125,15 +125,8 @@ LEFT JOIN (
     typeof reaction.active === 'boolean'
       ? `AND active = ${reaction.active}`
       : ''
-  }
-    
+  }   
 ;
-
-
-
-
-
-
   `;
 
   return query;

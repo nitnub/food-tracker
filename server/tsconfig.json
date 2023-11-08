@@ -105,24 +105,14 @@
       "@/controllers/*": ["./dist/controllers/*"],
       "@/configs/*": ["./dist/configs/*"],
       "@/connections/*": ["./dist/connections/*"],
-      // "@/graphql/*": ["graphql/*"],
-      // "@/libs/*": ["libs/*"],
-      // "@/models/*": ["models/*"],
-      // "@/mutations/*": ["mutations/*"],
-      // "@/pages/*": ["pages/*"],
       "@/repository/*": ["./dist/repository/*"],
       "@/routes/*": ["./dist/routes/*"],
       "@/services/*": ["./dist/services/*"],
-      // "@/src/*": ["src/*"],
       "@/types/*": ["./dist/types/*"],
       "@/utils/*": ["./dist/utils/*"]
     }
   }
   ,
   "exclude": ["jest.config.ts"]
-  // , "files": ["testing.d.ts"]
-  // , "include": ["src/**/*", "./jest/**/*"]
-  // , "include": ["src/**/*", "jest/**/*", "jest.config.ts"]
-  // , "include": [ "./jest/**/*", "../jest.config.ts", "global.d.ts"]
-  // , "include": [ "../jest/**/*", "../jest.config.ts", "../global.d.ts"]
+
 }

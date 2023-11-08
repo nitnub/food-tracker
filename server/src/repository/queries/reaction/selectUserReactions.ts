@@ -61,7 +61,7 @@ export default (userId: number) => {
           'foodGroupingId', eg.id
         )
       )
-    )
+    ) as entry
   FROM reaction r
   JOIN reaction_type rt ON r.reaction_type = rt.id
   JOIN reaction_category rc ON rt.reaction_category = rc.id

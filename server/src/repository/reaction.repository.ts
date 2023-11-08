@@ -59,7 +59,8 @@ class ReactionRepository {
 
   getUserReactions = async (userId: number) => {
     const resp = await this.runQuery(selectUserReactions(userId));
-    return resp.rows.map((reaction) => reaction['json_build_object']);
+
+    return resp.rows.map((reaction) => reaction['entry']);
   };
 
   deleteReaction = async (reactionId: number) => {

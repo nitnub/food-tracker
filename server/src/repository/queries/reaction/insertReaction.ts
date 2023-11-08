@@ -40,13 +40,13 @@ export default (reaction: ReactionDbEntry) => {
         }
       )
     ON CONFLICT (user_id, element_id, food_grouping_id, reaction_type) 
-    DO 
-      UPDATE SET 
-        severity=EXCLUDED.severity
-        , active=EXCLUDED.active
-        , subsided_on=EXCLUDED.subsided_on
-        , deleted_on=EXCLUDED.deleted_on
-    RETURNING 
+    DO NOTHING;
+    --        UPDATE SET 
+    --          severity=EXCLUDED.severity
+    --          , active=EXCLUDED.active
+    --         , subsided_on=EXCLUDED.subsided_on
+    --         , deleted_on=EXCLUDED.deleted_on
+    --     RETURNING 
    --   id
    --   , user_id AS "userId"
    --   , element_id AS "elementId"
@@ -60,6 +60,6 @@ export default (reaction: ReactionDbEntry) => {
    --   , deleted_on AS "",     
    -- user_id AS "userId";
   `;
-  console.log(query);
+
   return query;
 };

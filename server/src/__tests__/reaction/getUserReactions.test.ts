@@ -3,6 +3,8 @@ import app from '@root/app';
 import { validDateResponses } from '../../../.jest/test-utils';
 // import { validDateResponses } from '@testRepo/test-utils';
 
+const ENDPOINT = '/api/v1/reaction';
+
 const expectedGetResponse = {
   id: expect.any(Number),
   globalUserId: expect.any(String),
@@ -17,51 +19,58 @@ const expectedGetResponse = {
 };
 const testDBSize = 22;
 
-describe('User GET integration', () => {
-  describe('by id', () => {
-    const userId = 34;
-    xit('sends 200 response on valid call', async () => {
-      const res = await request(app).get(`/api/v1/user/${userId}`);
-      expect(res.statusCode).toEqual(200);
-    });
+const food = {
+  id: expect.any(Number),
+  reactionScope: expect.any(String),
+  name: expect.any(String),
+  vegetarian: expect.any(Boolean),
+  vegan: expect.any(Boolean),
+  glutenFree: expect.any(Boolean),
+  fodMap: expect.toBeOneOf([expect.any(Number), null]),
+};
 
-    xit('has results of proper length', async () => {
-      const res = await request(app).get(`/api/v1/user/${userId}`);
-      const testRecords = res.body.data;
+const reaction = {
+  id: expect.any(Number),
+  category: expect.any(String),
+  typeName: expect.any(String),
+  typeId: expect.any(Number),
+  severityName: expect.any(String),
+  severityId: expect.any(Number),
+  foodGroupingId: expect.any(Number),
+};
 
-      expect(testRecords).toHaveLength(1);
-    });
+const reactionDetails = {
+  reactionId: expect.any(Number),
+  active: expect.any(Boolean),
+  subsidedOn: expect.toBeOneOf(validDateResponses),
+  modifiedOn: expect.toBeOneOf(validDateResponses),
+  identifiedOn: expect.toBeOneOf(validDateResponses),
+  deletedOn: expect.toBeOneOf(validDateResponses),
+  food,
+  reaction,
+};
 
-    xit('has results of proper format', async () => {
-      const res = await request(app).get(`/api/v1/user/${userId}`);
-      const testRecord = res.body.data[0];
+const status = expect.toBeOneOf(['success', 'fail']);
+const data = {
+  reactiveFoods: expect.arrayContaining([expect.any(Number)]),
+  resultCount: expect.any(Number),
+  reactions: expect.arrayContaining([reactionDetails]),
+};
 
-      expect(testRecord).toEqual(expectedGetResponse);
-    });
+const expectedResponse = { status, data };
 
-    it.skip('sends expected error response in invalid request', async () => {
-      await request(app).get(`/api/v1/user/${10001}`).expect(400);
-    });
+describe('UserReaction GET integration', () => {
+  const userId = 202;
+  it('sends 200 response on valid call', async () => {
+    await request(app).get(`${ENDPOINT}/${userId}`).expect(200);
   });
 
-  describe('all users', () => {
-    xit('sends 200 response on valid call', async () => {
-      const res = await request(app).get('/api/v1/user');
-      expect(res.statusCode).toEqual(200);
-    });
+  it('has results of proper format', async () => {
+    const res = await request(app).get(`${ENDPOINT}/${userId}`);
+    expect(res.body).toEqual(expectedResponse);
+  });
 
-    xit('has results of proper length', async () => {
-      const res = await request(app).get('/api/v1/user');
-      const testRecords = res.body.data;
-
-      expect(testRecords).toHaveLength(testDBSize);
-    });
-
-    xit('has results of proper format', async () => {
-      const res = await request(app).get('/api/v1/user');
-      const testRecord = res.body.data[0];
-
-      expect(testRecord).toEqual(expectedGetResponse);
-    });
+  xit('sends expected error response in invalid request', async () => {
+    await request(app).get(`${ENDPOINT}/${10001}`).expect(400);
   });
 });

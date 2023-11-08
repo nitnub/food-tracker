@@ -33,15 +33,12 @@ const expectedResponse = {
 };
 
 describe('Reaction GET integration', () => {
-  describe('by id', () => {
-    it('sends 200 response on valid call', async () => {
-      const res = await request(app).get(ENDPOINT);
-      expect(res.statusCode).toEqual(200);
-    });
+  it('sends 200 response on valid call', async () => {
+    await request(app).get(ENDPOINT).expect(200);
+  });
 
-    it('has results of proper format', async () => {
-      const res = await request(app).get(ENDPOINT);
-      expect(res.body).toEqual(expectedResponse);
-    });
+  it('has results of proper format', async () => {
+    const res = await request(app).get(ENDPOINT);
+    expect(res.body).toEqual(expectedResponse);
   });
 });

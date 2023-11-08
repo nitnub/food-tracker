@@ -1,7 +1,7 @@
 import type { Config } from '@jest/types';
 
 const baseDir = '<rootDir>/src';
-const baseTestDir = '<rootDir>/src/__tests__/reaction';
+const baseTestDir = '<rootDir>/src';
 const testResources = '<rootDir>/.jest';
 
 const config: Config.InitialOptions = {
