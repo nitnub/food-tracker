@@ -5,6 +5,10 @@ import {
   getUniqueUpdateRequest,
 } from '../../../.jest/test-utils';
 
+const userId = 100;
+const invalidUserId = 500;
+const ROUTE = '/api/v1/user';
+
 const expectedUpdateResponse = {
   id: expect.any(Number),
   globalUserId: expect.any(String),
@@ -19,17 +23,15 @@ const expectedUpdateResponse = {
 };
 
 describe('User PATCH integration', () => {
-  const userId = 100;
   it('sends 200 response on valid call', async () => {
-    const res = await request(app)
-      .patch(`/api/v1/user/${userId}`)
-      .send(getUniqueUpdateRequest());
-
-    expect(res.statusCode).toEqual(200);
+    await request(app)
+      .patch(`${ROUTE}/${userId}`)
+      .send(getUniqueUpdateRequest())
+      .expect(200);
   });
 
   it('updates a record', async () => {
-    const initialRes = await request(app).get(`/api/v1/user/${userId}`);
+    const initialRes = await request(app).get(`${ROUTE}/${userId}`);
     const initialRecord: UserDbEntry = initialRes.body.data[0];
 
     const newRecord = {
@@ -38,20 +40,37 @@ describe('User PATCH integration', () => {
       active: !initialRecord.active,
     };
 
-    await request(app).patch(`/api/v1/user/${userId}`).send(newRecord);
-    const finalGetRes = await request(app).get(`/api/v1/user/${userId}`);
+    await request(app).patch(`${ROUTE}/${userId}`).send(newRecord);
+    const finalGetRes = await request(app).get(`${ROUTE}/${userId}`);
     const finalDbRecord: UserDbEntry = finalGetRes.body.data[0];
 
-    expect(finalDbRecord.lastModifiedBy).toEqual(newRecord.modifiedBy);
-    expect(finalDbRecord.email).toEqual(newRecord.email);
-    expect(finalDbRecord.admin).toEqual(newRecord.admin);
-    expect(finalDbRecord.avatar).toEqual(newRecord.avatar);
-    expect(finalDbRecord.active).toEqual(newRecord.active);
+    // expect(finalDbRecord.lastModifiedBy).toEqual(newRecord.modifiedBy);
+    // expect(finalDbRecord.email).toEqual(newRecord.email);
+    // expect(finalDbRecord.admin).toEqual(newRecord.admin);
+    // expect(finalDbRecord.avatar).toEqual(newRecord.avatar);
+    // expect(finalDbRecord.active).toEqual(newRecord.active);
+
+    expect(finalDbRecord).toEqual({
+      // ...newRecord,
+      // lastModifiedBy: newRecord.modifiedBy,
+      lastModifiedBy: newRecord.modifiedBy,
+      email: newRecord.email,
+      admin: newRecord.admin,
+      avatar: newRecord.avatar,
+      active: newRecord.active,
+    });
+    // expect(finalDbRecord).toBe({
+    //   lastModifiedBy: newRecord.modifiedBy,
+    //   email: newRecord.email,
+    //   admin: newRecord.admin,
+    //   avatar: newRecord.avatar,
+    //   active: newRecord.active,
+    // });
   });
 
   it('has response of proper length', async () => {
     const res = await request(app)
-      .patch(`/api/v1/user/${userId}`)
+      .patch(`${ROUTE}/${userId}`)
       .send(getUniqueUpdateRequest());
 
     expect(res.body.data).toHaveLength(1);
@@ -59,7 +78,7 @@ describe('User PATCH integration', () => {
 
   it('has results of proper format', async () => {
     const updateRes = await request(app)
-      .patch(`/api/v1/user/${userId}`)
+      .patch(`${ROUTE}/${userId}`)
       .send(getUniqueUpdateRequest());
 
     expect(updateRes.body.data[0]).toEqual(expectedUpdateResponse);

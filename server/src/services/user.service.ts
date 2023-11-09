@@ -7,9 +7,7 @@ class UserService {
     this.userRepository = new UserRepository();
   }
 
-  userExists = async (userId: number) => {
-    return await this.userRepository.userExists(userId);
-  };
+
 
   getAllUsers = async () => {
     const users = await this.userRepository.getAllUsers();

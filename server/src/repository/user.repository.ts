@@ -17,15 +17,6 @@ class UserRepository {
     this.pool = postgresConnect;
   }
 
-  userExists = async (userId: number) => {
-    const user = await this.runQuery(selectUser(userId));
-    if (Array.isArray(user) && user.length > 0) {
-      // TODO: can check for deleted.
-      return true;
-    }
-    return false;
-  };
-
   getUser = async (userId: number) => {
     const resp = await this.runQuery(selectUser(userId));
     return resp.rows;
@@ -69,21 +60,6 @@ class UserRepository {
         `Unable to update user with id ${id}; user not found.`,
         400
       );
-    }
-    return resp[1].rows;
-  };
-
-  updateUserByGlobalId = async (
-    guid: string,
-    userUpdates: UserDbUpdateEntry
-  ) => {
-    const resp = await this.runQuery(updateUserByGlobalId(guid, userUpdates));
-
-    if (!Array.isArray(resp)) {
-      throw new AppError(`Unable to update user ${guid}`, 400);
-    }
-    if (resp[1].rows.length === 0) {
-      throw new AppError(`Unable to update user ${guid}; user not found.`, 400);
     }
     return resp[1].rows;
   };

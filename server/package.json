@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "set NODE_ENV=development&&nodemon ./dist/server.js",
     "devProdTest": "set NODE_ENV=production&&nodemon ./dist/server.js",
-    "test": "jest --watch --coverage --verbose  --detectOpenHandles"
+    "test": "jest --coverage --no-cache --watchAll --verbose  --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
