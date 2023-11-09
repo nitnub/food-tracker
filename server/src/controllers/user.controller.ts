@@ -25,7 +25,6 @@ class UserController {
   });
 
   addUser = catchAsync(async (req: Request, res: Response) => {
-   
     const data = await this.userService.addUser(req.body);
     res.status(200).json({
       status: 'success',

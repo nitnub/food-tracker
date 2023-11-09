@@ -50,15 +50,38 @@ describe('User PATCH integration', () => {
     // expect(finalDbRecord.avatar).toEqual(newRecord.avatar);
     // expect(finalDbRecord.active).toEqual(newRecord.active);
 
+
     expect(finalDbRecord).toEqual({
-      // ...newRecord,
-      // lastModifiedBy: newRecord.modifiedBy,
-      lastModifiedBy: newRecord.modifiedBy,
+      id: expect.any(Number),
+      // id: 100,
+      globalUserId: expect.any(String),
+      // globalUserId: 'guid_17dad8bc-ff7b-4f5a-949c-709c5e3e4451',
       email: newRecord.email,
+      // email: 'cae035cc-5bb3-49e9-b34d-250a969d60c1@user.com',
       admin: newRecord.admin,
+      // admin: true,
       avatar: newRecord.avatar,
+      // avatar: 'mysite.com/avatar/cae035cc-5bb3-49e9-b34d-250a969d60c1',
       active: newRecord.active,
+      // active: true,
+      createdOn: expect.toBeOneOf(validDateResponses),
+      // createdOn: '2023-11-02T17:57:12.715Z',
+      lastModifiedOn: expect.toBeOneOf(validDateResponses),
+      // lastModifiedOn: '2023-11-09T16:21:18.977Z',
+      deletedOn: expect.toBeOneOf(validDateResponses),
+      // deletedOn: null,
+      lastModifiedBy: newRecord.modifiedBy,
+      // lastModifiedBy: 'cae035cc-5bb3-49e9-b34d-250a969d60c1@tester.com',
     });
+    // expect(finalDbRecord).toEqual({
+    //   // ...newRecord,
+    //   // lastModifiedBy: newRecord.modifiedBy,
+    //   lastModifiedBy: newRecord.modifiedBy,
+    //   email: newRecord.email,
+    //   admin: newRecord.admin,
+    //   avatar: newRecord.avatar,
+    //   active: newRecord.active,
+    // });
     // expect(finalDbRecord).toBe({
     //   lastModifiedBy: newRecord.modifiedBy,
     //   email: newRecord.email,

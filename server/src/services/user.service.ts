@@ -7,8 +7,6 @@ class UserService {
     this.userRepository = new UserRepository();
   }
 
-
-
   getAllUsers = async () => {
     const users = await this.userRepository.getAllUsers();
     return users;
@@ -27,7 +25,7 @@ class UserService {
     if (!Array.isArray(userArray)) {
       userArray = [userArray];
     }
-    
+
     for (let user of userArray) {
       if (!isValidNewUser(user)) {
         throw new AppError(
