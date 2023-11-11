@@ -3,7 +3,7 @@ import app from '@root/app';
 import { getUniqueFood } from '../../../.jest/test-utils';
 import { FoodDBObject } from '../../types/food.types';
 
-const ENDPOINT = '/api/v1/food';
+const ROUTE = '/api/v1/food';
 
 const expectedFoodObject = {
   id: expect.any(Number),
@@ -28,36 +28,35 @@ beforeEach(() => {
 describe('Food PATCH integration', () => {
   it('sends 200 response on valid call', async () => {
     const res = await request(app)
-      .patch(`${ENDPOINT}/${userId}`)
+      .patch(`${ROUTE}/${userId}`)
       .send(getUniqueFood());
 
     expect(res.statusCode).toEqual(200);
   });
 
   it('updates a record', async () => {
-    await request(app).patch(`${ENDPOINT}/${userId}`).send(newFood);
+    await request(app).patch(`${ROUTE}/${userId}`).send(newFood);
 
-    const finalGetRes = await request(app).get(ENDPOINT);
+    const finalGetRes = await request(app).get(ROUTE);
     const finalDbRecord = finalGetRes.body.data.filter(
       (food: FoodDBObject) => food.id === userId
     )[0];
 
-    expect(finalDbRecord.name).toEqual(newFood.name);
-    expect(finalDbRecord.fodmapId).toEqual(newFood.fodmapId);
-    expect(finalDbRecord.vegetarian).toEqual(newFood.vegetarian);
-    expect(finalDbRecord.vegan).toEqual(newFood.vegan);
-    expect(finalDbRecord.glutenFree).toEqual(newFood.glutenFree);
+    expect(finalDbRecord).toEqual({
+      ...newFood,
+      id: expect.any(Number),
+    });
   });
 
   it('has results of proper format', async () => {
     const updateRes = await request(app)
-      .patch(`${ENDPOINT}/${userId}`)
+      .patch(`${ROUTE}/${userId}`)
       .send(newFood);
 
     expect(updateRes.body).toEqual(expectedResp);
   });
 
   it.skip('has results of proper format', () => {
-    request(app).patch(`${ENDPOINT}/${23132}`).send(newFood).expect(400);
+    request(app).patch(`${ROUTE}/${23132}`).send(newFood).expect(400);
   });
 });

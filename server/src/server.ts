@@ -1,6 +1,6 @@
 import 'module-alias/register';
 
-// configure dotenv before module imports !
+// configure dotenv before module imports!
 import dotenv from 'dotenv';
 dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 import app from './app';

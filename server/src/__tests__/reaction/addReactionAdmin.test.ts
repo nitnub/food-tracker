@@ -3,7 +3,7 @@ import app from '@root/app';
 import postgresConnect from '@connections/postgres.connection';
 import { validDateResponses } from '../../../.jest/test-utils';
 
-const ENDPOINT = '/api/v1/reaction';
+const ROUTE = '/api/v1/reaction';
 
 const food = {
   id: expect.any(Number),
@@ -80,23 +80,23 @@ describe('ReactionAdmin POST integration', () => {
 
   describe('single entry', () => {
     it('sends 200 response on valid call', async () => {
-      await request(app).post(ENDPOINT).send(reactionRequest).expect(200);
+      await request(app).post(ROUTE).send(reactionRequest).expect(200);
     });
 
     it('updates the db', async () => {
-      const getResponse1 = await request(app).get(`${ENDPOINT}/${userId}`);
+      const getResponse1 = await request(app).get(`${ROUTE}/${userId}`);
       const initialLength = getResponse1.body.data.resultCount;
 
-      await request(app).post(ENDPOINT).send(reactionRequest);
+      await request(app).post(ROUTE).send(reactionRequest);
 
-      const getResponse2 = await request(app).get(`${ENDPOINT}/${userId}`);
+      const getResponse2 = await request(app).get(`${ROUTE}/${userId}`);
       const finalLength = getResponse2.body.data.resultCount;
 
       expect(finalLength).toBe(initialLength + 1);
     });
 
     it('has response of proper format', async () => {
-      const res = await request(app).post(ENDPOINT).send(reactionRequest);
+      const res = await request(app).post(ROUTE).send(reactionRequest);
 
       expect(res.body).toEqual(expectedAddResponse);
     });
@@ -104,23 +104,23 @@ describe('ReactionAdmin POST integration', () => {
 
   describe('multi-entry', () => {
     it('sends 200 response on valid call', async () => {
-      await request(app).post(ENDPOINT).send(reactionArrayRequest).expect(200);
+      await request(app).post(ROUTE).send(reactionArrayRequest).expect(200);
     });
 
     it('updates the db', async () => {
-      const getResponse1 = await request(app).get(`${ENDPOINT}/${userId}`);
+      const getResponse1 = await request(app).get(`${ROUTE}/${userId}`);
       const initialLength = getResponse1.body.data.resultCount;
 
-      await request(app).post(ENDPOINT).send(reactionArrayRequest);
+      await request(app).post(ROUTE).send(reactionArrayRequest);
 
-      const getResponse2 = await request(app).get(`${ENDPOINT}/${userId}`);
+      const getResponse2 = await request(app).get(`${ROUTE}/${userId}`);
       const finalLength = getResponse2.body.data.resultCount;
 
       expect(finalLength).toBe(initialLength + reactionArray.length);
     });
 
     it('has response of proper format', async () => {
-      const res = await request(app).post(ENDPOINT).send(reactionArrayRequest);
+      const res = await request(app).post(ROUTE).send(reactionArrayRequest);
       expect(res.body).toEqual(expectedAddResponse);
     });
   });

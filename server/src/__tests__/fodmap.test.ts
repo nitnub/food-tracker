@@ -1,37 +1,24 @@
 import request from 'supertest';
 import app from '@root/app';
 
-interface FODMAPResponseItem {
-  id: number;
-  category: string;
-  name: string;
-  freeUse: boolean;
-  oligos: boolean;
-  fructose: boolean;
-  polyols: boolean;
-  lactose: boolean;
-  color: string;
-  aliasPrimary: string;
-  aliasList: string[];
-  maxIntake: number;
-}
+const ROUTE = '/api/v1/fodmap';
 
 describe('FODMAP GET integration', () => {
   it('sends 200 response on valid call', async () => {
-    const res = await request(app).get('/api/v1/fodmap');
+    const res = await request(app).get(ROUTE);
     expect(res.statusCode).toEqual(200);
   });
 
   it('results are of proper length', async () => {
-    const res = await request(app).get('/api/v1/fodmap');
+    const res = await request(app).get(ROUTE);
     const testRecords = res.body.data;
 
     expect(testRecords).toHaveLength(432);
   });
 
   it('results are of proper format', async () => {
-    const res = await request(app).get('/api/v1/fodmap');
-    const testRecord: FODMAPResponseItem = res.body.data[0];
+    const res = await request(app).get(ROUTE);
+    const testRecord = res.body.data[0];
 
     expect(testRecord).toEqual({
       id: expect.any(Number),

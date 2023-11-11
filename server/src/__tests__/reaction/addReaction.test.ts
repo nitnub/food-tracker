@@ -7,7 +7,7 @@ import {
   validDateResponses,
 } from '../../../.jest/test-utils';
 
-const ENDPOINT = '/api/v1/reaction';
+const ROUTE = '/api/v1/reaction';
 
 // const expectedAddResponse_OLD = {
 //   id: expect.any(Number),
@@ -81,18 +81,18 @@ describe('UserReaction POST integration', () => {
 
   it('sends 200 response on valid call', async () => {
     await request(app)
-      .post(`${ENDPOINT}/${userId}`)
+      .post(`${ROUTE}/${userId}`)
       .send(newReaction)
       .expect(200);
   });
 
   it('updates the db', async () => {
-    const getResponse1 = await request(app).get(`${ENDPOINT}/${userId}`);
+    const getResponse1 = await request(app).get(`${ROUTE}/${userId}`);
     const initialLength = getResponse1.body.data.resultCount;
 
-    await request(app).post(`${ENDPOINT}/${userId}`).send(newReaction);
+    await request(app).post(`${ROUTE}/${userId}`).send(newReaction);
 
-    const getResponse2 = await request(app).get(`${ENDPOINT}/${userId}`);
+    const getResponse2 = await request(app).get(`${ROUTE}/${userId}`);
     const finalLength = getResponse2.body.data.resultCount;
 
     expect(finalLength).toBe(initialLength + 1);
@@ -100,7 +100,7 @@ describe('UserReaction POST integration', () => {
 
   it('has response of proper format', async () => {
     const res = await request(app)
-      .post(`${ENDPOINT}/${userId}`)
+      .post(`${ROUTE}/${userId}`)
       .send(newReaction);
 
     expect(res.body).toEqual(expectedAddResponse);

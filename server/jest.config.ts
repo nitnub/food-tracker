@@ -26,6 +26,8 @@ const config: Config.InitialOptions = {
   },
   collectCoverageFrom: [`${baseDir}/**/*.ts`],
   testMatch: [`${baseTestDir}/**/*.test.ts`],
+  // testPathIgnorePatterns: [`${baseTestDir}/repository/queries/**/*.*`],
+  coveragePathIgnorePatterns: [`${baseTestDir}/repository/queries/`],
   setupFiles: [`${testResources}/test-setup.ts`],
   setupFilesAfterEnv: ['jest-extended/all'],
 };

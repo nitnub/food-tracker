@@ -3,6 +3,7 @@ import AppError from '../utils/appError';
 
 class UserService {
   private userRepository;
+
   constructor() {
     this.userRepository = new UserRepository();
   }
@@ -57,14 +58,11 @@ class UserService {
 export default UserService;
 
 function isValidNewUser(user: UserDbEntry) {
-  return (
-    isObject(user) &&
-    Object.keys(user).length === 4 &&
-    user.hasOwnProperty('globalUserId') &&
-    user.hasOwnProperty('email') &&
-    user.hasOwnProperty('admin') &&
-    user.hasOwnProperty('avatar')
-  );
+  const props = ['globalUserId', 'email', 'admin', 'avatar'];
+  const hasProps = props.every((p) => user.hasOwnProperty(p));
+  const isCorrectLength = Object.keys(user).length === props.length;
+
+  return isObject(user) && hasProps && isCorrectLength;
 }
 
 function isObject(candidate: UserDbEntry) {

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '@root/app';
 
-const ENDPOINT = '/api/v1/reaction';
+const ROUTE = '/api/v1/reaction';
 
 const reactionTypes = expect.arrayContaining([
   expect.objectContaining({ id: expect.any(Number), name: expect.any(String) }),
@@ -34,11 +34,11 @@ const expectedResponse = {
 
 describe('Reaction GET integration', () => {
   it('sends 200 response on valid call', async () => {
-    await request(app).get(ENDPOINT).expect(200);
+    await request(app).get(ROUTE).expect(200);
   });
 
   it('has results of proper format', async () => {
-    const res = await request(app).get(ENDPOINT);
+    const res = await request(app).get(ROUTE);
     expect(res.body).toEqual(expectedResponse);
   });
 });

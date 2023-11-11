@@ -3,7 +3,7 @@ import app from '@root/app';
 import { validDateResponses } from '../../../.jest/test-utils';
 // import { validDateResponses } from '@testRepo/test-utils';
 
-const ENDPOINT = '/api/v1/reaction';
+const ROUTE = '/api/v1/reaction';
 
 const expectedGetResponse = {
   id: expect.any(Number),
@@ -62,15 +62,15 @@ const expectedResponse = { status, data };
 describe('UserReaction GET integration', () => {
   const userId = 202;
   it('sends 200 response on valid call', async () => {
-    await request(app).get(`${ENDPOINT}/${userId}`).expect(200);
+    await request(app).get(`${ROUTE}/${userId}`).expect(200);
   });
 
   it('has results of proper format', async () => {
-    const res = await request(app).get(`${ENDPOINT}/${userId}`);
+    const res = await request(app).get(`${ROUTE}/${userId}`);
     expect(res.body).toEqual(expectedResponse);
   });
 
   xit('sends expected error response in invalid request', async () => {
-    await request(app).get(`${ENDPOINT}/${10001}`).expect(400);
+    await request(app).get(`${ROUTE}/${10001}`).expect(400);
   });
 });

@@ -8,7 +8,6 @@ import {
   selectUser,
   selectUserByEmail,
   updateUser,
-  updateUserByGlobalId,
 } from './queries/user';
 class UserRepository {
   private pool: Client;

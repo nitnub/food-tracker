@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '@root/app';
 
-const ENDPOINT = '/api/v1/food';
+const ROUTE = '/api/v1/food';
 
 const expectedFoodObject = {
   id: expect.any(Number),
@@ -22,19 +22,19 @@ const testDBSize = 29;
 describe('Food GET integration', () => {
   describe('GET all foods users', () => {
     it('sends 200 response on valid call', async () => {
-      const res = await request(app).get(ENDPOINT);
+      const res = await request(app).get(ROUTE);
       expect(res.statusCode).toEqual(200);
     });
 
     it('has results of proper length', async () => {
-      const res = await request(app).get(ENDPOINT);
+      const res = await request(app).get(ROUTE);
       const testRecords = res.body.data;
 
       expect(testRecords).toHaveLength(testDBSize);
     });
 
     it('has results of proper format', async () => {
-      const res = await request(app).get(ENDPOINT);
+      const res = await request(app).get(ROUTE);
       expect(res.body).toEqual(expectedResp);
     });
   });
