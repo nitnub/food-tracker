@@ -1,6 +1,7 @@
 import type { Config } from '@jest/types';
 
 const baseDir = '<rootDir>/src';
+// const baseTestDir = '<rootDir>/src/controllers';
 const baseTestDir = '<rootDir>/src';
 const testResources = '<rootDir>/.jest';
 
@@ -27,7 +28,7 @@ const config: Config.InitialOptions = {
   collectCoverageFrom: [`${baseDir}/**/*.ts`],
   testMatch: [`${baseTestDir}/**/*.test.ts`],
   // testPathIgnorePatterns: [`${baseTestDir}/repository/queries/**/*.*`],
-  coveragePathIgnorePatterns: [`${baseTestDir}/repository/queries/`],
+  // coveragePathIgnorePatterns: [`${baseTestDir}/repository/queries/`],
   setupFiles: [`${testResources}/test-setup.ts`],
   setupFilesAfterEnv: ['jest-extended/all'],
 };

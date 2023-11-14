@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Client, QueryResult } from 'pg';
 import postgresConnect from '@connections/postgres.connection';
 import { deleteFood, insertFood, selectAllFoods } from './queries/food';
 import { FoodUpdateObject } from '../types/food.types';
@@ -53,7 +53,7 @@ class FoodRepository {
     return resp.rowCount;
   };
 
-  runQuery = async (queryString: string) => {
+  runQuery = async (queryString: string): Promise<QueryResult<any>> => {
     return await this.pool.query(queryString);
   };
 

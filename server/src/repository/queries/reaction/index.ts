@@ -1,10 +1,10 @@
 import insertReaction from './insertReaction';
-import insertReactionWithFormattedReturn from './insertReactionWithFormattedReturn';
+import insertReactionFormatted from './insertReactionFormatted';
 import selectUserReactions from './selectUserReactions';
 import selectActiveUserReactions from './selectActiveUserReactions';
 import selectReactionSeverities from './selectReactionSeverities';
 import selectReactionTypes from './selectReactionTypes';
-import selectReactionSeveritiesAndTypes from './selectReactionSeveritiesAndTypes';
+import selectReactionAll from './selectReactionDetails';
 import selectReactionCategories from './selectReactionCategories';
 import updateReactionTypeAndSeverity from './updateReactionTypeAndSeverity';
 import updateReactionType from './updateReactionType';
@@ -14,12 +14,12 @@ import deleteReaction from './deleteReaction';
 
 export {
   insertReaction,
-  insertReactionWithFormattedReturn,
+  insertReactionFormatted,
   selectUserReactions,
   selectActiveUserReactions,
   selectReactionSeverities,
   selectReactionTypes,
-  selectReactionSeveritiesAndTypes,
+  selectReactionAll,
   selectReactionCategories,
   updateReactionTypeAndSeverity,
   updateReactionType,

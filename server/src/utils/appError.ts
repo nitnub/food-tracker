@@ -1,8 +1,8 @@
-interface AppError  {
-  statusCode: number
-  status: string
-  isOperational: boolean
-  code?: string
+interface AppError {
+  statusCode: number;
+  status: string;
+  isOperational: boolean;
+  code?: string;
 }
 
 class AppError extends Error {

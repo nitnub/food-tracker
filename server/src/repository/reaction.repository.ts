@@ -5,8 +5,8 @@ import AppError from '../utils/appError';
 import {
   deleteReaction,
   insertReaction,
-  insertReactionWithFormattedReturn,
-  selectReactionSeveritiesAndTypes,
+  insertReactionFormatted,
+  selectReactionAll,
   selectUserReactions,
 } from './queries/reaction';
 
@@ -17,9 +17,7 @@ class ReactionRepository {
   }
 
   getReactionOptions = async () => {
-    const reactionOptions = await this.runQuery(
-      selectReactionSeveritiesAndTypes()
-    );
+    const reactionOptions = await this.runQuery(selectReactionAll());
     if (!Array.isArray(reactionOptions)) {
       return reactionOptions;
     }
@@ -31,9 +29,7 @@ class ReactionRepository {
   };
 
   addReaction = async (reaction: ReactionDbEntry) => {
-    const resp = await this.runQuery(
-      insertReactionWithFormattedReturn(reaction)
-    );
+    const resp = await this.runQuery(insertReactionFormatted(reaction));
 
     if (!Array.isArray(resp)) {
       return resp;
@@ -47,8 +43,7 @@ class ReactionRepository {
 
   addReactions = async (reactionsArray: ReactionDbEntry[]) => {
     const selectQuery = reactionsArray.length;
-    let queryString = this.createReactionArrayQuery(reactionsArray);
-
+    const queryString = this.createReactionArrayQuery(reactionsArray);
     const resp = await this.runQuery(queryString);
 
     if (!Array.isArray(resp)) {
@@ -59,7 +54,6 @@ class ReactionRepository {
 
   getUserReactions = async (userId: number) => {
     const resp = await this.runQuery(selectUserReactions(userId));
-
     return resp.rows.map((reaction) => reaction['entry']);
   };
 
