@@ -1,5 +1,6 @@
 import UserRepository from '@repository/user.repository';
 import AppError from '../utils/appError';
+import { isValidNewUser } from '../utils/validators';
 
 class UserService {
   private userRepository;
@@ -57,18 +58,18 @@ class UserService {
 
 export default UserService;
 
-function isValidNewUser(user: UserDbEntry) {
-  const props = ['globalUserId', 'email', 'admin', 'avatar'];
-  const hasProps = props.every((p) => user.hasOwnProperty(p));
-  const isCorrectLength = Object.keys(user).length === props.length;
+// function isValidNewUser(user: UserDbEntry) {
+//   const props = ['globalUserId', 'email', 'admin', 'avatar'];
+//   const hasProps = props.every((p) => user.hasOwnProperty(p));
+//   const isCorrectLength = Object.keys(user).length === props.length;
 
-  return isObject(user) && hasProps && isCorrectLength;
-}
+//   return isObject(user) && hasProps && isCorrectLength;
+// }
 
-function isObject(candidate: UserDbEntry) {
-  return (
-    typeof candidate === 'object' &&
-    !Array.isArray(candidate) &&
-    candidate !== null
-  );
-}
+// function isObject(candidate: UserDbEntry) {
+//   return (
+//     typeof candidate === 'object' &&
+//     !Array.isArray(candidate) &&
+//     candidate !== null
+//   );
+// }

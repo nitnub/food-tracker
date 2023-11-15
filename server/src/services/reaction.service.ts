@@ -59,7 +59,7 @@ class ReactionService {
   deleteReaction = async (reactionId: number) => {
     const result = await this.reactionRepository.deleteReaction(reactionId);
 
-    if (Array.isArray(result) && result.length === 0) {
+    if (result === 0) {
       throw new AppError(
         `Unable to find any results for Reaction ID ${reactionId}.`,
         401

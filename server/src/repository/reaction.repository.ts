@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { Client, Pool, PoolClient, PoolConfig } from 'pg';
 import postgresConnect from '@connections/postgres.connection';
 import { ReactionDbEntry } from '../types/reaction.types';
 import AppError from '../utils/appError';
@@ -9,6 +9,37 @@ import {
   selectReactionAll,
   selectUserReactions,
 } from './queries/reaction';
+import { isPGError } from '../utils/validators';
+
+// interface PGError{
+//   length: number
+//   severity: 'ERROR'
+//   code: '42703'
+//   detail: undefined
+//   hint: undefined
+//   position: '64'
+//   internalPosition: undefined
+//   internalQuery: undefined
+//   where: undefined
+//   schema: undefined
+//   table: undefined
+//   column: undefined
+//   dataType: undefined
+//   constraint: undefined
+//   file: 'parse_relation.c'
+//   line: '3661'
+//   routine: 'errorMissingColumn'
+// }
+
+interface PGError {
+  length: number;
+  severity: string;
+  code: string;
+  position: string;
+  file: string;
+  line: string;
+  routine: string;
+}
 
 class ReactionRepository {
   private pool: Client;
@@ -59,7 +90,7 @@ class ReactionRepository {
 
   deleteReaction = async (reactionId: number) => {
     const resp = await this.runQuery(deleteReaction(reactionId));
-    return resp.rows;
+    return resp.rowCount;
   };
 
   runQuery = async (queryString: string) => {
