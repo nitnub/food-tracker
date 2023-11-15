@@ -15,6 +15,7 @@ export default class ReactionAPI {
   getReactionTypeDetails = async () => {
     const resp = await fetch('http://localhost:3200/api/v1/reaction');
     const json = await resp.json();
+
     return json.data;
   };
 
@@ -41,8 +42,7 @@ export default class ReactionAPI {
       ...appContext,
       user: { id: this.userId, reactiveFoods: res.reactiveFoods },
     };
-    console.log('CCOPY:');
-    console.log(contextCopy);
+
     contextCopy.activeFood.reactions = reactions;
 
     return contextCopy;
@@ -65,6 +65,7 @@ export default class ReactionAPI {
       return {
         userId,
         elementId: foodId,
+        reactionId: raw.reaction.id,
         foodGroupingId: raw.reaction.foodGroupingId,
         reactionType: raw.reaction.typeId,
         severity: raw.reaction.severityId,
@@ -88,16 +89,24 @@ export default class ReactionAPI {
     return await resp.json();
   };
 
+  deleteReaction = async (reactionId: number) => {
+    const requestOptions = { method: 'DELETE' };
+
+    const resp = await fetch(
+      `http://localhost:3200/api/v1/reaction/${reactionId}`,
+      requestOptions
+    );
+
+    return await resp.json();
+  };
+
   fetchById = async () => {
     const res = await fetch(
       `http://localhost:3200/api/v1/reaction/${this.userId}`
     );
 
     const json = await res.json();
-    console.log('json:');
-    console.log(json);
-    console.log('this.userId:');
-    console.log(this.userId);
+
     if (json.status !== 'success') {
       throw new Error('Whoops - unable to fetch reactions!');
     }

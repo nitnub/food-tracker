@@ -19,6 +19,7 @@ export default function getReactionListByFood(
     const formattedReaction: ReactionEntry = {
       userId,
       elementId: foodId,
+      reactionId: reaction.id,
       foodGroupingId: reaction.foodGroupingId,
       reactionType: reaction.typeId,
       severity: reaction.severityId,

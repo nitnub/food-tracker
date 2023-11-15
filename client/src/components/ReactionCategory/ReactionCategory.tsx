@@ -4,11 +4,9 @@ import { ReactionType, Severity } from '../../types/dbTypes';
 import SeveritySelector from '../SeveritySelector';
 
 export default function ReactionCategory({
-  categoryId,
   reactionType,
   severities,
 }: {
-  categoryId: number;
   reactionType: ReactionType;
   severities: Severity[];
 }) {
@@ -23,7 +21,6 @@ export default function ReactionCategory({
       <SeveritySelector
         setLoadingSeverity={setLoadingSeverity}
         reactionType={reactionType}
-        categoryId={categoryId}
         severities={severities}
       />
       <br />

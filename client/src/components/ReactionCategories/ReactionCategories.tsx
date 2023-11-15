@@ -5,27 +5,6 @@ import {
 } from '../../types/dbTypes';
 import ReactionCategory from '../ReactionCategory';
 
-const reactionDefault: ReactionOptionProps = {
-  severities: [
-    {
-      id: 0,
-      name: '',
-    },
-  ],
-  categories: [
-    {
-      id: 0,
-      name: '',
-      reactionTypes: [
-        {
-          id: 0,
-          name: '',
-        },
-      ],
-    },
-  ],
-};
-
 export default function ReactionCategories({
   reactions,
   userReactions,
@@ -44,7 +23,6 @@ export default function ReactionCategories({
                 return (
                   <ReactionCategory
                     key={index}
-                    categoryId={category.id}
                     reactionType={reactionType}
                     severities={reactions.severities}
                   />

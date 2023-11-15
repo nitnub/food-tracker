@@ -23,6 +23,7 @@ export interface ReactionEntry {
   // typeId: number;
   userId: number;
   elementId: number;
+  reactionId: number;
   reactionType: number;
   severity: number;
   foodGroupingId?: number;
