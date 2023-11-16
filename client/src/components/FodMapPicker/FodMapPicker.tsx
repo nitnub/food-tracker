@@ -1,9 +1,15 @@
 import FodSearch from '../FodSearch';
 
-export default function FodMapPicker() {
+export default function FodMapPicker({
+  foodForm,
+  setFoodForm,
+}: {
+  foodForm: object;
+  setFoodForm: Function;
+}) {
   return (
     <>
-      <FodSearch />
+      <FodSearch foodForm={foodForm}  setFoodForm={setFoodForm} />
     </>
   );
 }

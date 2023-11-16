@@ -13,18 +13,11 @@ class FoodAPI {
   }
 
   addFood = async (foodItem: FoodItem) => {
-    const foodItemS = {
-      name: foodItem.name,
-      fodmapId: foodItem.fodmapId,
-      vegetarian: foodItem.vegetarian,
-      vegan: foodItem.vegan,
-      glutenFree: foodItem.glutenFree,
-    };
-
+    const reqBody = { data: [foodItem] };
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(foodItemS),
+      body: JSON.stringify(reqBody),
     };
 
     const resp = await fetch(
@@ -35,5 +28,6 @@ class FoodAPI {
     return await resp.json();
   };
 }
+const instance = new FoodAPI();
 
-export default new FoodAPI();
+export default instance;

@@ -8,7 +8,8 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import { Button } from '@mui/material';
 import FoodAPI from '../../utils/FoodAPI';
-
+import FodMapPicker from '../FodMapPicker';
+import style from './UpdateContainer.module.css';
 export default function UpdateContainer() {
   const defaultFoodForm = {
     name: '',
@@ -55,6 +56,8 @@ export default function UpdateContainer() {
 
   const submitHandler = async () => {
     setUpdateStatus((updateStatus) => ({ ...updateStatus, loading: true }));
+    console.log('foodForm:');
+    console.log(foodForm);
     const apiResponse = await fAPI.addFood(foodForm);
 
     if (apiResponse.status !== 'success') {
@@ -86,45 +89,56 @@ export default function UpdateContainer() {
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
         <FormLabel component="legend">Add Food</FormLabel>
         <FormGroup>
-          <TextField
-            label="Name"
-            value={foodForm.name}
-            onChange={(e) => setFoodForm({ ...foodForm, name: e.target.value })} //
-            helperText="The name that will appear for this food item" //
-            variant="standard"
-          />
+          <div className={style.formInner}>
+            <div className={style.columnOne}>
+              <TextField
+                label="Name"
+                value={foodForm.name}
+                onChange={(e) =>
+                  setFoodForm({ ...foodForm, name: e.target.value })
+                } //
+                helperText="The name that will appear for this food item" //
+                variant="standard"
+              />
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={foodForm.vegetarian}
-                onChange={checkHandler}
-                name="vegetarian"
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={foodForm.vegetarian}
+                    onChange={checkHandler}
+                    name="vegetarian"
+                  />
+                }
+                label="Vegetarian"
               />
-            }
-            label="Vegetarian"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={foodForm.vegan}
-                onChange={checkHandler}
-                name="vegan"
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={foodForm.vegan}
+                    onChange={checkHandler}
+                    name="vegan"
+                  />
+                }
+                label="Vegan"
               />
-            }
-            label="Vegan"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={foodForm.glutenFree}
-                onChange={checkHandler}
-                name="glutenFree"
+
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={foodForm.glutenFree}
+                    onChange={checkHandler}
+                    name="glutenFree"
+                  />
+                }
+                label="Gluten Free"
               />
-            }
-            label="Gluten Free"
-          />
+            </div>
+            <div className={style.columnTwo}>
+              <FodMapPicker foodForm={foodForm} setFoodForm={setFoodForm} />
+            </div>
+          </div>
         </FormGroup>
+
         <Button
           disabled={updateStatus.loading}
           onClick={submitHandler}

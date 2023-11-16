@@ -1,0 +1,25 @@
+.formInner {
+  /* background-color: orange; */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* width: 400px; */
+  /* width: 1002px; */
+  /* width: 1002px; */
+  /* width: 850px; */
+  /* width: 100%; */
+}
+.columnOne {
+  display: flex;
+  flex-direction: column;
+  /* background-color: red; */
+  width: 250px;
+  padding-right: 16px;
+}
+.columnTwo {
+  display: flex;
+  flex-direction: column;
+  /* background-color: blue; */
+  width: 310px;
+  padding-left: 16px;
+}

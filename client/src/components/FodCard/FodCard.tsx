@@ -40,9 +40,9 @@ export default function FodCard({ item }: { item: FodOptionType }) {
     if (color === null) {
       return outputColor;
     }
-    if (color.toLowerCase() === 'green') outputColor = '#258f45';
-    if (color.toLowerCase() === 'yellow') outputColor = '#d6a211';
-    if (color.toLowerCase() === 'red') outputColor = '#8f252a';
+    if (color.toLowerCase() === 'green') outputColor = styles.fodGreen;
+    if (color.toLowerCase() === 'yellow') outputColor = styles.fodYellow;
+    if (color.toLowerCase() === 'red') outputColor = styles.fodRed;
     return outputColor;
   };
 
@@ -96,12 +96,12 @@ export default function FodCard({ item }: { item: FodOptionType }) {
       )}
     </div>
   );
-  console.log('item:', item);
+
   return (
     <Card className={styles.card}>
       <div
-        className={styles.fodFlag}
-        style={{ backgroundColor: fodColor(item.color) }}
+        className={`${styles.fodFlag} ${fodColor(item.color)}`}
+        // style={{ backgroundColor: fodColor(item.color) }}
       />
       <CardContent>
         <Typography
@@ -116,8 +116,8 @@ export default function FodCard({ item }: { item: FodOptionType }) {
         {aliasFormatted}
         <div className={styles.cardBody}>
           <div
-            style={{ backgroundColor: fodColor(item.color) }}
-            className={styles.fodColorCircle}
+            // style={{ backgroundColor: fodColor(item.color) }}
+            className={`${styles.fodColorCircle} ${fodColor(item.color)}`}
           />
           {item.maxIntake ? maxIntakeLabel : fodSafeLabel}
           <Typography variant="body2">

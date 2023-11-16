@@ -12,7 +12,7 @@ export default () => {
       'lactose', fm.lactose,
       'color', fodmap_color.name,
       'aliasPrimary', (SELECT "alias" from "fodmap_alias" where is_primary = true AND fodmap_main_id = fm.id),
-      'aliasList', (SELECT array_agg(alias) FROM "fodmap_alias" WHERE fodmap_main_id = 38),
+      'aliasList', (SELECT array_agg(alias) FROM "fodmap_alias" WHERE fodmap_main_id = fm.id),
       'maxIntake', (
           SELECT
             CASE

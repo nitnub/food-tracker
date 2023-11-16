@@ -50,7 +50,6 @@ export default function TabbedContainer() {
 
   return (
     <Box
-    
       sx={{
         flexGrow: 1,
         bgcolor: 'background.paper',
@@ -75,17 +74,17 @@ export default function TabbedContainer() {
         <Tab label="Item Seven" {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-      Shop!
+        Shop!
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <FoodPicker />
-        <ReactionDashboard  />
+        <FoodPicker />
+        <ReactionDashboard />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <UpdateContainer />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <FodMapPicker />
+        <FodMapPicker foodForm={{}} setFoodForm={() => null} />
       </TabPanel>
       <TabPanel value={value} index={4}>
         Item Five
