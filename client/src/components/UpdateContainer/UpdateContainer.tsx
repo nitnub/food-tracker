@@ -10,6 +10,7 @@ import { Button } from '@mui/material';
 import FoodAPI from '../../utils/FoodAPI';
 import FodMapPicker from '../FodMapPicker';
 import style from './UpdateContainer.module.css';
+
 export default function UpdateContainer() {
   const defaultFoodForm = {
     name: '',
@@ -56,8 +57,7 @@ export default function UpdateContainer() {
 
   const submitHandler = async () => {
     setUpdateStatus((updateStatus) => ({ ...updateStatus, loading: true }));
-    console.log('foodForm:');
-    console.log(foodForm);
+
     const apiResponse = await fAPI.addFood(foodForm);
 
     if (apiResponse.status !== 'success') {
@@ -138,24 +138,28 @@ export default function UpdateContainer() {
             </div>
           </div>
         </FormGroup>
+        <div className={style.submitContainer}>
+          <div>
+            <Button
+              disabled={updateStatus.loading}
+              onClick={submitHandler}
+              variant="contained"
+              size="small"
+            >
+              Submit
+            </Button>
 
-        <Button
-          disabled={updateStatus.loading}
-          onClick={submitHandler}
-          variant="contained"
-          size="small"
-        >
-          Submit
-        </Button>
-        {(updateStatus.loading && (
-          <FormHelperText>Sending data...</FormHelperText>
-        )) ||
-          (updateStatus.success && (
-            <FormHelperText>Food added!</FormHelperText>
-          ))}
-        {updateStatus.fail && (
-          <FormHelperText>{updateStatus.fail}</FormHelperText>
-        )}
+            {(updateStatus.loading && (
+              <FormHelperText>Sending data...</FormHelperText>
+            )) ||
+              (updateStatus.success && (
+                <FormHelperText>Food added!</FormHelperText>
+              ))}
+            {updateStatus.fail && (
+              <FormHelperText>{updateStatus.fail}</FormHelperText>
+            )}
+          </div>
+        </div>
       </FormControl>
     </>
   );

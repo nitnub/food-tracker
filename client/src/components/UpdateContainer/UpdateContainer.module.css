@@ -23,3 +23,9 @@
   width: 310px;
   padding-left: 16px;
 }
+
+.submitContainer {
+  display: flex;
+  justify-content: end;
+  /* background-color: red; */
+}
