@@ -6,7 +6,7 @@ const foodRouter = Router();
 foodRouter
   .route('/')
   .get(c.getAllFoods)
-  .post(c.addFoods);
+  .post(c.addFood);
 
 foodRouter
   .route('/:id')

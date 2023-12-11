@@ -1,0 +1,12 @@
+.mealChip {
+  margin: 4px;
+}
+
+.severe {
+  color: red;
+  border-color: red;
+}
+
+.mild {
+  color: blue;
+}

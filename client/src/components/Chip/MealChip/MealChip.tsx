@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import Chip from '@mui/material/Chip';
-import styles from './ChipToggle.module.css';
-import { FoodDbResponse } from '../../../types/food.types';
+import styles from './MealChip.module.css';
 import AppContext from '../../../context/AppContext';
-import ReactionAPI from '../../../utils/ReactionAPI';
+import { MealItem } from '../../MealModal/MealModal';
 
 interface ToggleState {
   active: number;
@@ -20,30 +19,17 @@ type ChipColor =
   | 'warning'
   | undefined;
 
-export default function ChipToggle({
+export default function MealChip({
   foodItem,
-  toggleState,
-  toggleId,
-  onClick
+  clickHandler,
 }: {
-  foodItem: FoodDbResponse;
+  foodItem: MealItem;
   toggleState: ToggleState;
   toggleId: number;
-  onClick?: Function;
+  clickHandler: Function;
 }) {
-  const [active, setActive] = useState(false);
   const { appContext, setAppContext } = useContext(AppContext);
   const [chipColor, setChipColor] = useState<ChipColor>('success');
-
-  const rAPI = new ReactionAPI(appContext.user.id);
-
-  const handler = async () => {
-    toggleState.setActive(toggleId);
-    appContext.activeFood = foodItem;
-    const updatedContext = await rAPI.refreshReactionContext(appContext);
-
-    setAppContext({ setAppContext, appContext: updatedContext });
-  };
 
   useEffect(() => {
     if (appContext.user.reactiveFoods.includes(foodItem.id)) {
@@ -55,9 +41,10 @@ export default function ChipToggle({
 
   return (
     <Chip
-      className={styles.chipToggle}
-      onClick={handler}
-      variant={toggleState.active === toggleId ? 'filled' : 'outlined'}
+      className={styles.mealChip}
+      onClick={() => clickHandler(foodItem.id)}
+      variant={'outlined'}
+      // variant={toggleState.active === toggleId ? 'filled' : 'outlined'}
       label={foodItem.name}
       color={chipColor}
       size="small"

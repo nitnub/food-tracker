@@ -18,7 +18,7 @@ class FoodController {
     });
   });
 
-  addFoods = catchAsync(async (req: Request, res: Response) => {
+  addFood = catchAsync(async (req: Request, res: Response) => {
     let response;
 
     if (req.body.data.length === 1) {

@@ -9,15 +9,12 @@ import styles from './MealModal.module.css';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Divider from '@mui/material/Divider';
 import dayjs, { Dayjs } from 'dayjs';
-import FoodPicker from '../FoodPicker';
+import MealPicker from '../MealPicker';
 import { useContext, useEffect, useState } from 'react';
-// import Chip from '@mui/material/Chip';
-// import styles from './ChipToggle.module.css';
-// import { FoodDbResponse } from '../../../types/food.types';
 import AppContext from '../../context/AppContext';
 import { ActiveFood } from '../../context/AppContext';
-import ChipToggle from '../Chip/ChipToggle';
-// import AppContext, { defaultContext } from './context/AppContext';
+import MealChip from '../Chip/MealChip';
+
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -30,27 +27,35 @@ const style = {
   p: 4,
 };
 
+export interface MealItem extends ActiveFood {
+  partOfMeal?: boolean;
+}
+
 export default function MealModal() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<Dayjs | null>(dayjs(dayjs())); // default to Now
-  const [meal, setMeal] = React.useState<ActiveFood[]>([]);
+  const [foodArr, setFoodArr] = useState<ActiveFood[]>([]);
+  const [active, setActive] = useState(-1);
+
+  const toggleState = { active, setActive };
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const { appContext, setAppContext } = useContext(AppContext);
-  // console.log(app);
-  console.log(appContext.activeFood);
+
 
   useEffect(() => {
-    const activeFood = appContext.activeFood;
-    const mealExists = meal.some((m) => m.id === activeFood.id);
-    console.log('meal exitst:', mealExists);
-    if (mealExists) {
-      setMeal(() => meal.filter((m) => m.id !== activeFood.id));
-    } else {
-      setMeal(() => [...meal, appContext.activeFood]);
-    }
-  }, [appContext.activeFood]);
+    const getFood = async () => {
+      const res = await fetch(process.env.REACT_APP_API_GET_ALL_FOODS || '');
+      const json = await res.json();
+
+      setFoodArr(() =>
+        json.data.map((el: MealItem) => ({ ...el, partOfMeal: false }))
+      );
+    };
+    getFood();
+  }, []);
+
   const onMonthChange = (e: any) => {
     //     Signature:
     // function(month: TDate) => void
@@ -66,12 +71,17 @@ export default function MealModal() {
     console.log('onYearChange was changed in picker with argument', e);
   };
 
-  const mealHandler = (e: any) => {
-    console.log('mh:', e);
+  const mealHandler = (id: number) => {
+    const newArr: MealItem[] = foodArr.map((el: MealItem) => {
+      if (el.id === id) {
+        el.partOfMeal = !el.partOfMeal;
+      }
+      return el;
+    });
+    setFoodArr(() => newArr);
   };
 
-  const [active, setActive] = useState(-1);
-  const toggleState = { active, setActive };
+
 
   return (
     <div>
@@ -110,17 +120,19 @@ export default function MealModal() {
               modify existing // delete existing
             </Typography>
             <Divider />
-            {meal.map((m, index) => (
-              <ChipToggle
-                onClick={mealHandler}
-                toggleState={toggleState}
-                key={index}
-                toggleId={index}
-                foodItem={m}
-              />
-            ))}
+            {foodArr
+              .filter((el: MealItem) => el.partOfMeal)
+              .map((m, index) => (
+                <MealChip
+                  clickHandler={mealHandler}
+                  toggleState={toggleState}
+                  key={index}
+                  toggleId={index}
+                  foodItem={m}
+                />
+              ))}
             <Divider />
-            <FoodPicker />
+            <MealPicker clickHandler={mealHandler} foodOptions={foodArr} />
             <Typography id="add a meal" sx={{ mt: 2 }}>
               chips // search // arrange by most recent update // add time //
               add reaction(s) // add severity // modify existing // delete
