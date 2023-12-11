@@ -9,10 +9,10 @@ interface Props {
 
 export default function LoginButton({ signInRoute }: Props) {
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <Box sx={{ flexGrow: 0}}>
       <Tooltip title="Open guest options">
         <Link to={signInRoute}>
-          <Button color="inherit">Login</Button>
+          <Button sx={{ color: 'white' }}>Login</Button>
         </Link>
       </Tooltip>
     </Box>

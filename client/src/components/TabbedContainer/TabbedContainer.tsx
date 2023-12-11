@@ -7,7 +7,7 @@ import FoodPicker from '../FoodPicker';
 import ReactionDashboard from '../ReactionDashboard';
 import UpdateContainer from '../UpdateContainer';
 import FodMapPicker from '../FodMapPicker';
-
+import MealModal from '../MealModal';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -71,7 +71,7 @@ export default function TabbedContainer() {
         <Tab label="FODMAP" {...a11yProps(3)} />
         <Tab label="Item Five" {...a11yProps(4)} />
         <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} />
+        <Tab label="MealModal Rough" {...a11yProps(6)} />
       </Tabs>
       <TabPanel value={value} index={0}>
         Shop!
@@ -93,7 +93,7 @@ export default function TabbedContainer() {
         Item Six
       </TabPanel>
       <TabPanel value={value} index={6}>
-        Item Seven
+        <MealModal />
       </TabPanel>
     </Box>
   );

@@ -57,19 +57,3 @@ class UserService {
 }
 
 export default UserService;
-
-// function isValidNewUser(user: UserDbEntry) {
-//   const props = ['globalUserId', 'email', 'admin', 'avatar'];
-//   const hasProps = props.every((p) => user.hasOwnProperty(p));
-//   const isCorrectLength = Object.keys(user).length === props.length;
-
-//   return isObject(user) && hasProps && isCorrectLength;
-// }
-
-// function isObject(candidate: UserDbEntry) {
-//   return (
-//     typeof candidate === 'object' &&
-//     !Array.isArray(candidate) &&
-//     candidate !== null
-//   );
-// }

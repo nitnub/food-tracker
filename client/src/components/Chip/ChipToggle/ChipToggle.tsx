@@ -24,10 +24,12 @@ export default function ChipToggle({
   foodItem,
   toggleState,
   toggleId,
+  onClick
 }: {
   foodItem: FoodDbResponse;
   toggleState: ToggleState;
   toggleId: number;
+  onClick?: Function;
 }) {
   const [active, setActive] = useState(false);
   const { appContext, setAppContext } = useContext(AppContext);

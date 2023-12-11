@@ -5,6 +5,7 @@ import './index.css';
 import App from './App';
 import SignIn from './components/SignIn';
 import TabbedContainer from './components/TabbedContainer';
+import PageNotFound from './components/PageNotFound';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -13,11 +14,11 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route index element={<App />} />
+          {/* <Route index element={<App />} /> */}
           <Route path="signin" element={<SignIn />} />
           <Route path="dashboard" element={<TabbedContainer />} />
           {/* <Route path="contact" element={<Contact />} /> */}
-          {/* <Route path="*" element={<NoPage />} /> */}
+          <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

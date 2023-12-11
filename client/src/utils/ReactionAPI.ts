@@ -1,3 +1,4 @@
+import { isCompositeComponent } from 'react-dom/test-utils';
 import { AppContext } from '../context/AppContext';
 
 interface ReactionUpdate {

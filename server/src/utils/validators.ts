@@ -1,4 +1,4 @@
-export function isPGError(error: any) {
+export function isPGError(error: Error) {
   const props = [
     'length',
     'name',

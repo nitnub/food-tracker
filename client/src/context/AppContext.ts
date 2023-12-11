@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, createContext } from 'react';
 import { ReactionEntry } from '../types/dbTypes';
 
-interface ActiveFood {
+export interface ActiveFood {
   id: number;
   name: string;
   fodmapId: number;

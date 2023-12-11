@@ -34,14 +34,15 @@ export default function SignIn() {
   const [userReactions, setUserReactions] =
     useState<ReactionOptionProps>(reactionDefault);
   const { appContext, setAppContext } = useContext(AppContext);
-  const rAPI = new ReactionAPI(Number(userId));
-
   const clickHandler = async () => {
+    const rAPI = new ReactionAPI(Number(userId));
+
     if (userId === '') {
       return;
     }
 
     const updatedContext = await rAPI.refreshReactionContext(appContext);
+
     setAppContext({ setAppContext, appContext: updatedContext });
   };
   return (
@@ -56,7 +57,7 @@ export default function SignIn() {
         <FormHelperText id="my-helper-text">
           This is some helper text
         </FormHelperText>
-        <Button onClick={clickHandler}>Text</Button>
+        <Button onClick={clickHandler}>Sign In</Button>
       </FormControl>
       <br />
       {userId}

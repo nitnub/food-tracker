@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import fodmapController from '@controllers/fodmap.controller';
+import c from '@controllers/fodmap.controller';
 
 const fodmapRouter = Router();
 
-fodmapRouter.get('/', fodmapController.getAll);
+fodmapRouter.get('/', c.getAll);
 
 export default fodmapRouter;

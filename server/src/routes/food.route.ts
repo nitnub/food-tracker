@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import foodController from '@controllers/food.controller';
+import c from '@controllers/food.controller';
 
 const foodRouter = Router();
 
 foodRouter
   .route('/')
-  .get(foodController.getAllFoods)
-  .post(foodController.addFoods);
+  .get(c.getAllFoods)
+  .post(c.addFoods);
 
 foodRouter
   .route('/:id')
-  .patch(foodController.updateFood)
-  .delete(foodController.deleteFood);
+  .patch(c.updateFood)
+  .delete(c.deleteFood);
 
 export default foodRouter;

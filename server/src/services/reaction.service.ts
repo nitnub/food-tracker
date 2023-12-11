@@ -48,6 +48,15 @@ class ReactionService {
       }
     });
 
+    if (reactions.length === 0) {
+      return {
+        id: userId,
+        reactiveFoods: [],
+        resultCount: 0,
+        reactions: [],
+      };
+    }
+
     return {
       id: reactions[0].id,
       reactiveFoods,

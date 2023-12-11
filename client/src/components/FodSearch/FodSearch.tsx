@@ -38,7 +38,7 @@ export default function FodSearch({
       <Stack spacing={1} sx={{ width: 300 }}>
         <Autocomplete
           {...defaultProps}
-          id="controlled-demo"
+          id="fod-search"
           value={value}
           onChange={(event: any, newValue: FodOptionType | null) => {
             setValue(newValue);
@@ -48,7 +48,7 @@ export default function FodSearch({
             }));
           }}
           renderInput={(params) => (
-            <TextField {...params} label="controlled" variant="standard" />
+            <TextField {...params} label="FODMAP Name" variant="standard" />
           )}
         />
       </Stack>

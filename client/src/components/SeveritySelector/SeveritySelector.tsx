@@ -30,6 +30,10 @@ export default function SeveritySelector({
     const resp = await rAPI.deleteReaction(reactionId);
 
     if (resp.status === 'success') setValue(() => 0);
+
+    const updatedContext = await rAPI.refreshReactionContext(appContext);
+    setAppContext({ setAppContext, appContext: updatedContext });
+
     setLoadingSeverity(() => false);
   };
 

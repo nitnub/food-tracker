@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv';
 import { useState } from 'react';
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link } from 'react-router-dom';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -10,6 +10,9 @@ import AppContext, { defaultContext } from './context/AppContext';
 import SignIn from './components/SignIn';
 import TabbedContainer from './components/TabbedContainer';
 import NavBar from './components/NavBar';
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 // dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` });
 
 function App() {
@@ -17,15 +20,17 @@ function App() {
   const [route, setRoute] = useState({ signIn: <SignIn /> });
   return (
     <>
-      <AppContext.Provider
-        value={{ appContext: context.appContext, setAppContext }}
-      >
-        <NavBar />
-        {/* <SignIn /> */}
-        {/* <TabbedContainer /> */}
-        {/* {route.signIn} */}
-        <Outlet />
-      </AppContext.Provider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <AppContext.Provider
+          value={{ appContext: context.appContext, setAppContext }}
+        >
+          <NavBar />
+          {/* <SignIn /> */}
+          {/* <TabbedContainer /> */}
+          {/* {route.signIn} */}
+          <Outlet />
+        </AppContext.Provider>
+      </LocalizationProvider>
     </>
   );
 }

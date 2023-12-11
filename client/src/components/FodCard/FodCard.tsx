@@ -37,12 +37,13 @@ export default function FodCard({ item }: { item: FodOptionType }) {
 
   const fodColor = (color: string | null) => {
     let outputColor = 'white';
-    if (color === null) {
-      return outputColor;
-    }
+
+    if (color === null) return outputColor;
+
     if (color.toLowerCase() === 'green') outputColor = styles.fodGreen;
     if (color.toLowerCase() === 'yellow') outputColor = styles.fodYellow;
     if (color.toLowerCase() === 'red') outputColor = styles.fodRed;
+
     return outputColor;
   };
 
@@ -99,10 +100,7 @@ export default function FodCard({ item }: { item: FodOptionType }) {
 
   return (
     <Card className={styles.card}>
-      <div
-        className={`${styles.fodFlag} ${fodColor(item.color)}`}
-        // style={{ backgroundColor: fodColor(item.color) }}
-      />
+      <div className={`${styles.fodFlag} ${fodColor(item.color)}`} />
       <CardContent>
         <Typography
           sx={{ fontSize: 14 }}
@@ -115,10 +113,7 @@ export default function FodCard({ item }: { item: FodOptionType }) {
         {item.category}
         {aliasFormatted}
         <div className={styles.cardBody}>
-          <div
-            // style={{ backgroundColor: fodColor(item.color) }}
-            className={`${styles.fodColorCircle} ${fodColor(item.color)}`}
-          />
+          <div className={`${styles.fodColorCircle} ${fodColor(item.color)}`} />
           {item.maxIntake ? maxIntakeLabel : fodSafeLabel}
           <Typography variant="body2">
             <br />
