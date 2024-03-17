@@ -1,0 +1,12 @@
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\bin\Debug\net8.0\FoodTracker.Models.deps.json
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\bin\Debug\net8.0\FoodTracker.Models.dll
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\bin\Debug\net8.0\FoodTracker.Models.pdb
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\FoodTracker.Models.csproj.AssemblyReference.cache
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\FoodTracker.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\FoodTracker.Models.AssemblyInfoInputs.cache
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\FoodTracker.Models.AssemblyInfo.cs
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\FoodTracker.Models.csproj.CoreCompileInputs.cache
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\FoodTracker.Models.dll
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\refint\FoodTracker.Models.dll
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\FoodTracker.Models.pdb
+C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Models\obj\Debug\net8.0\ref\FoodTracker.Models.dll

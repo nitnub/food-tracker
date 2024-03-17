@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FoodTracker.Utility": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SQL_SCRIPT_DIRECTORY": "Value from debug!"
+      }
+    }
+  }
+}

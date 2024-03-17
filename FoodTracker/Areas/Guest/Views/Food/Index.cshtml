@@ -1,0 +1,103 @@
+﻿@model FoodVM
+
+<!-- Delete Confirmation Modal (Food) -->
+<div id="dvModal" class="modal delete-food-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    Search Bar [       ]
+    @foreach (var food in Model.FoodList)
+    {
+        @* <span href="#" class="badge bg-primary">@food.Name</span>  *@
+        @* <a onclick="updateSelected(@food.Id)" class="badge text-bg-success food-chip">@food.Name</a> *@
+        <a id="foodChip-@food.Id" onclick="selectFood(@food.Id)" class="badge food-chip">@food.Name</a>
+    }
+
+    <div class="card-body p-4">
+
+        <form method="post" class="row" enctype="multipart/form-data">
+            <input id="foodId" asp-for="Food.Id" hidden />
+            <input asp-for="FoodList" value="FoodList" hidden />
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="border p-3">
+                        <div class="d-flex justify-content-between">
+
+                            <span id="foodHeader">Add Food</span>
+                          
+                            <a id="cancelButton" class="hiddenButton" type="button" onclick="resetAllFields()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"  class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                            </a>
+
+
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <input id="nameInput" asp-for="Food.Name" class="form-control border-0 shadow" />
+                            <label asp-for="Food.Name" class="ms-2"></label>
+                            <span asp-validation-for="Food.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-check py-2 col-12">
+                            <input id="vegetarianInput" asp-for="Food.Vegetarian" class="form-check-input border-0 shadow" />
+                            <label asp-for="Food.Vegetarian" class="form-check-label ms-2"></label>
+
+                        </div>
+
+                        <div class="form-check py-2 col-12">
+                            <input id="veganInput" asp-for="Food.Vegan" class="form-check-input border-0 shadow" />
+                            <label asp-for="Food.Vegan" class="form-check-label ms-2"></label>
+                        </div>
+
+                        <div class="form-check py-2 col-12">
+                            <input id="glutenInput" asp-for="Food.GlutenFree" class="form-check-input border-0 shadow" />
+                            <label asp-for="Food.GlutenFree" class="form-check-label ms-2"></label>
+                        </div>
+                        <div class="form-floating py-2 col-12">
+                            <select id="fodmapInput" asp-for="Food.FodmapId" asp-items="Model.FodmapList" class="form-select">
+                                <option value="" selected>--Select Fodmap--</option>
+                            </select>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-6 col-md-3">
+                                <button id="submitButton" class="btn btn-primary form-control">Add</button>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <a asp-area="Guest" asp-controller="Food" asp-action="Index" class="btn btn-outline-primary border form-control">
+                                    Back to List
+                                </a>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+
+                                <button id="deleteFoodButton" onclick="removeFoodConfirmation()" type="button" class="btn btn-danger form-control hiddenButton" style="display: none;">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{
+        <script>
+            var foodList = @Json.Serialize(Model.FoodList);
+        </script>
+        <script src="~/js/food.js"></script>
+    }
+}

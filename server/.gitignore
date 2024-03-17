@@ -1,7 +1,0 @@
-node_modules/
-.local-files/
-.jest/
-dist/
-sql/
-afolder/
-.env*
