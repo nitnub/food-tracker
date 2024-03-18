@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aD+MLsJ34PvOck0GJp0gHtEg7aHRdQ6r/evitDRnJlAwljr8bUHb8bLrNZURBW0NOdObzHSsTfWTd03wpEBSag==",
+  "dgSpecHash": "Lv0DxzpZqo3uI8d8xezrGb5zZtKEBRD1J8CbAaku97ppA8vTxi240/8ud3Lag94cSnZf/L3y2x9FsD5y3RYz6A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker.Utility\\FoodTracker.Utility.csproj",
+  "projectFilePath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Utility\\FoodTracker.Utility.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nick\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.3\\microsoft.aspnetcore.cryptography.internal.8.0.3.nupkg.sha512",
     "C:\\Users\\Nick\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.3\\microsoft.aspnetcore.cryptography.keyderivation.8.0.3.nupkg.sha512",

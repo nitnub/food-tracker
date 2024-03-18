@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {}
+    "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
+    "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker.Models\\FoodTracker.Models.csproj",
+        "projectUniqueName": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj",
         "projectName": "FoodTracker.Models",
-        "projectPath": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker.Models\\FoodTracker.Models.csproj",
+        "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj",
         "packagesPath": "C:\\Users\\Nick\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker.Models\\obj\\",
+        "outputPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",

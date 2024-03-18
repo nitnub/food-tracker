@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zM1WrOMUgN1eoManBnt8ZnV5b8FncABBopLhnhj4pTkOCaiZrMMs32FsjKe6htXbTQSGP2pHgAwiCuz++OTRVQ==",
+  "dgSpecHash": "Sc+3msAqjleXO26hQ9GrW3hHEb5YdDRppeScEnToLZ2/wz7QhPqkmBsWR5hXP1NRgKs+BJGUl8ArASDJZrAjJg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker\\FoodTrackerWeb.csproj",
+  "projectFilePath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\FoodTrackerWeb.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nick\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Nick\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

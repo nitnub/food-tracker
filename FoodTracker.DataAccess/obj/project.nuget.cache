@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "L+I05r/HIT7x3KlATRCtbg63eU0AWNq2JP8qWBjg470XYVXQy99OLPnbDY1KPUGyexIYcNwR7FnsTOTeo6VoXQ==",
+  "dgSpecHash": "5lkTAMNMhxeSRByp7K+K1TqF0P4sOTwxLFx6k9TaWST7urZ0pyeYsKCWawWR053mTGh/zcNwU3WnTTDF+/WNuQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj",
+  "projectFilePath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nick\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Nick\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

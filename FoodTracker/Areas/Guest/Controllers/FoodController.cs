@@ -16,13 +16,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             FoodVM = new()
             {
-                FoodList = _unitOfWork.Food.GetAll(),
+                FoodList = _unitOfWork.Food.GetAll(includeProperties: "Fodmap"),
                 Food = new Food() { Id = 0 },
-                //FodmapList = _unitOfWork.Fodmap.GetAll().Select(f => new SelectListItem()
-                //{
-                //    Text = f.Name,
-                //    Value = f.Id.ToString()
-                //}),
                 FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Aliases,Category,Color,MaxUseUnits"),
             };
 
@@ -48,9 +43,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
 
         [HttpPost]
-        public IActionResult Index(FoodVM foodVM)
+        public IActionResult Index(Food food)
         {
-            var food = foodVM.Food;
             if (ModelState.IsValid)
             {
                 if (food.Id == 0)

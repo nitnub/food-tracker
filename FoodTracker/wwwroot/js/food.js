@@ -7,8 +7,8 @@ function selectFood(id) {
 
     foodId = id;
     foodName = food.name;
-    //$(`#foodChip-${foodId}`).addClass('selectedFoodChip');
-    // Update UI on click
+
+    // Update Food details UI 
     $('#foodHeader').html(`<div>${food.name} </div>`)
 
     $('#foodId').val(food.id);
@@ -19,6 +19,10 @@ function selectFood(id) {
     $('#fodmapInput').val(food.fodmapId);
     $('#submitButton').html('Update');
     $('.hiddenButton').show();
+
+    // Update FODMAP details card
+    fodChange(food.fodmapId ? food.fodmapId : '');
+
 }
 
 function removeFood() {
@@ -30,9 +34,7 @@ function removeFood() {
             if (data.success) {
                 $(`#foodChip-${foodId}`).remove();
                 $('.delete-food-modal').modal('hide');
-
                 resetAllFields();
-                
             }
         }
     })
@@ -75,7 +77,6 @@ function clickVegan() {
     }
 }
 
-clickVegetarian
 function clickVegetarian() {
     if (!$('#vegitarianInput').prop('checked')) {
         $('#veganInput').prop('checked', false);
