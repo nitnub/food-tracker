@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RzZcwom3mYt5iVAyB9q9n+vfW867/uTgxJCsyEsIyT0=",
+  "Hash": "IQkKdvsP4bC9vQ8EBcR1o8sxwRD0EscuSCpBlnROR+Q=",
   "Source": "FoodTrackerWeb",
   "BasePath": "_content/FoodTrackerWeb",
   "Mode": "Default",
@@ -148,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker\\wwwroot\\js\\fodmap.js",
+      "SourceId": "FoodTrackerWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker\\wwwroot\\",
+      "BasePath": "_content/FoodTrackerWeb",
+      "RelativePath": "js/fodmap.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\fodmap.js"
     },
     {
       "Identity": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker\\wwwroot\\js\\food.js",

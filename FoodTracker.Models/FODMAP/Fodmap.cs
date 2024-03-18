@@ -39,5 +39,6 @@ namespace FoodTracker.Models.FODMAP
         public bool Lactose {  get; set; }
 
 
+        public IEnumerable<FodmapAlias> Aliases { get; set; }
     }
 }

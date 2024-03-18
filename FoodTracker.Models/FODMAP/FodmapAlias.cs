@@ -16,9 +16,9 @@ namespace FoodTracker.Models.FODMAP
         public string Alias { get; set; }
         public int FodmapId { get; set; }
 
-        [ForeignKey(nameof(FodmapId))]
-        [ValidateNever]
-        public Fodmap Fodmap { get; set; }
+        //[ForeignKey(nameof(FodmapId))]
+        //[ValidateNever]
+        //public Fodmap Fodmap { get; set; }
 
         // TODO: redundant with above?
         public string OriginalName { get; set; }

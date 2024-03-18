@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker\\wwwroot\\js\\fodmap.js",
+      "PackagePath": "staticwebassets\\js\\fodmap.js"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\projects\\cs\\FoodTracker\\FoodTracker\\wwwroot\\js\\food.js",
       "PackagePath": "staticwebassets\\js\\food.js"
     },
