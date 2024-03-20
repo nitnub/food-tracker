@@ -19,12 +19,8 @@ function fodChange() {
         $('#fodName').html(fm.name);
         $('#fodCategory').html(fm.category.name);
 
-        $("#fodColor").removeClass();
-        $('#fodColor').addClass(`fodFlag fod${fm.color.name}`);
-
-        $("#fodDot").removeClass();
-        $('#fodDot').addClass(`fodColorCircle fod${fm.color.name}`);
-
+        $("#fodColor").removeClass().addClass(`fodFlag fod${fm.color.name}`);
+        $("#fodDot").removeClass().addClass(`fodColorCircle fod${fm.color.name}`);
 
         var dailyIntakeResult = `
                 <div class="fodSafeCheckContainer">
@@ -69,12 +65,8 @@ function resetFodmapCard() {
 
     $('#fodName').html('No FODMAP');
 
-    $("#fodColor").removeClass();
-    $('#fodColor').addClass(`fodFlag fodBlue`);
-
-    $("#fodDot").removeClass();
-    $('#fodDot').addClass(`fodColorCircle fodBlue`);
-
+    $("#fodColor").removeClass().addClass(`fodFlag fodBlue`);
+    $("#fodDot").removeClass().addClass(`fodColorCircle fodBlue`);
 
     $('#fodCategory').html('FODMAP Category');
     $('#fodAlias').html('...');

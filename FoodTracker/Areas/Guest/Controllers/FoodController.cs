@@ -1,12 +1,15 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models.Food;
 using FoodTracker.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
+    [Area("Guest")]
+    [Authorize]
     public class FoodController(IUnitOfWork unitOfWork) : Controller
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;

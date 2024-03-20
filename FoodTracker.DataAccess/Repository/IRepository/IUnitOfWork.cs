@@ -11,6 +11,7 @@ namespace FoodTracker.DataAccess.Repository.IRepository
         IActivityRepository Activity { get; }
         IActivityIntensityRepository ActivityIntensity { get; }
         IActivityTypeRepository ActivityType { get; }
+        IAppUserRepository AppUser { get; }
         IColorRepository Color { get; }
         IEventRepository Event { get; }
         IEventTypeRepository EventType { get; }

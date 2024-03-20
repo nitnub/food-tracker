@@ -1,15 +1,13 @@
 using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.DataAccess.Repository;
 using FoodTracker.DataAccess.Data;
+using FoodTracker.Utility;
 using Microsoft.EntityFrameworkCore;
 using FoodTracker.DataAccess.DBInitializer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
-//namespace FoodTracker
-//{
-//    public class Program
-//    {
-//        public static void Main(string[] args)
-//{
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,8 +15,29 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
@@ -34,20 +53,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 
 SeedDatabase(); // DBI
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
-    //pattern: "{controller=Home}/{action=Index}/{id?}");
     pattern: "{area=Guest}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-//        }
-//    }
-//}
 
 
 void SeedDatabase()

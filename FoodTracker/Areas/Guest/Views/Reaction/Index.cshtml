@@ -1,0 +1,111 @@
+﻿@model ReactionVM
+
+
+<div>
+    Search Bars [       ]
+    <div>cow</div>
+    <div>cowsa</div>
+    @foreach (var food in Model.Foods)
+    {
+        <a id="foodChip-@food.Id" onclick="viewReactions(@food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a>
+    }
+
+
+
+    <div class="card-body p-4 col-12">
+
+        <form method="post" class="row" enctype="multipart/form-data">
+            @*          <input id="foodId" asp-for="Food.Id" hidden />
+            <input asp-for="FoodList" value="@Model.FoodList" hidden /> *@
+            <div class="row">
+                <div class="col-12">
+                    <div class="border p-12">
+
+                        @{
+                            foreach (var category in Model.Categories.Keys)
+                            {
+                                <h4>@category</h4>
+                                <div>
+                                    @foreach (var r in Model.Categories[category])
+                                    {
+                                        // <div>@reaction</div> <br />
+                                        <div class="">
+                                            <div>
+                                                <h5>@r.Name</h5>
+                                            </div>
+                                            <div class="d-flex">
+                       
+                                                @foreach (var s in Model.Severities)
+                                                {
+
+                                             
+
+                                                    <div class="d-flex px-2">
+
+                                                            <div class="form-check " >
+                                                            
+                                                            <input class="form-check-input"  type="radio" name="radioGroup-@(category)-@(r.Id)" id="radio@(r.Id)-@(s.Id)" value="@(f.Id)-@(r.Id)-@(s.Id)">
+                                                            <label class="form-check-label" for="radio@(r.Id)-@(s.Id)">
+                                                                @s.Name 
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+
+                        <div class="d-flex">
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+                                <label class="form-check-label" for="exampleRadios1">
+                                    Default radio
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                <label class="form-check-label" for="exampleRadios2">
+                                    Second default radio
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+                                <label class="form-check-label" for="exampleRadios3">
+                                    Disabled radios
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row pt-2">
+                            <div class="col-6 col-md-3">
+                                <button id="submitButton" class="btn btn-primary form-control">Add</button>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <a asp-area="Guest" asp-controller="Food" asp-action="Index" class="btn btn-outline-primary border form-control">
+                                    Back to List
+                                </a>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+
+                                <button id="deleteFoodButton" onclick="removeFoodConfirmation()" type="button" class="btn btn-danger form-control hiddenButton" style="display: none;">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+</div>
+@section Scripts {
+    @{
+        <script src="~/js/reaction.js"></script>
+    }
+}

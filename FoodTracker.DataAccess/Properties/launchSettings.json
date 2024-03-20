@@ -1,7 +1,14 @@
 {
   "profiles": {
     "FoodTracker.DataAccess": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "environmentVariables": {
+        "USER_ADMIN_USERNAME": "test@test.com",
+        "USER_ADMIN_EMAIL": "test@test.com",
+        "USER_ADMIN_FIRST_NAME": "John",
+        "USER_ADMIN_LAST_NAME": "Smith",
+        "USER_ADMIN_PASSWORD": "1bfQac6aFEd5c8"
+      }
     }
   }
 }

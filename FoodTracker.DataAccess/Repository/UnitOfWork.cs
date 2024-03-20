@@ -17,6 +17,7 @@ namespace FoodTracker.DataAccess.Repository
         public IActivityRepository Activity { get; set; }
         public IActivityIntensityRepository ActivityIntensity { get; set; }
         public IActivityTypeRepository ActivityType { get; set; }
+        public IAppUserRepository AppUser { get; set; }
         public IColorRepository Color { get; set; }
         public IEventRepository Event { get; set; }
         public IEventTypeRepository EventType { get; set; }
@@ -40,6 +41,7 @@ namespace FoodTracker.DataAccess.Repository
             Activity = new ActivityRepository(_db);
             ActivityIntensity = new ActivityIntensityRepository(_db);
             ActivityType = new ActivityTypeRepository(_db);
+            AppUser = new AppUserRepository(_db);
             Color = new ColorRepository(_db);
             Event = new EventRepository(_db);
             EventType = new EventTypeRepository(_db);

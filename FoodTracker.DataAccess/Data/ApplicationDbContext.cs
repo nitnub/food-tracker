@@ -3,6 +3,7 @@ using FoodTracker.Models.Activity;
 using FoodTracker.Models.Event;
 using FoodTracker.Models.FODMAP;
 using FoodTracker.Models.Food;
+using FoodTracker.Models.Identity;
 using FoodTracker.Models.Meal;
 using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Identity;
@@ -28,6 +29,7 @@ namespace FoodTracker.DataAccess.Data
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityIntensity> ActivityIntensities { get; set; }
         public DbSet<ActivityType> ActivityTypes { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Color> Colors { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<EventType> EventTypes { get; set; }
@@ -50,15 +52,7 @@ namespace FoodTracker.DataAccess.Data
         {
 
             base.OnModelCreating(modelBuilder);
-
-
-
-            //modelBuilder.Entity<Food>().HasData(
-
-            //    );
-
-           
-
+    
 
         }
     }

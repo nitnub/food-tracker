@@ -2,11 +2,14 @@ using FoodTracker.DataAccess.Data;
 using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models;
 using FoodTracker.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
+    [Area("Guest")]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,23 +25,23 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         public IActionResult Index()
         {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            Console.WriteLine(new string('*', 40));
+            //var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            //Console.WriteLine(new string('*', 40));
             //Console.WriteLine(env);
             //Console.WriteLine(Env.ASPNETCORE_ENVIRONMENT);
-            Console.WriteLine(_config["AllowedHosts"]);
-            Console.WriteLine(_config["ConnectionStrings:DefaultConnection"]);
+            //Console.WriteLine(_config["AllowedHosts"]);
+            //Console.WriteLine(_config["ConnectionStrings:DefaultConnection"]);
             var food = _unitOfWork.Food.GetAll(includeProperties: "Fodmap,Fodmap.Category,Fodmap.Color"); // Fodmap is not necessary when child items are included. What is best practice?
 
-            if (Env.SQL_SCRIPT_DIRECTORY != null)
-            {
+            //if (Env.SQL_SCRIPT_DIRECTORY != null)
+            //{
 
-                Console.WriteLine(Env.SQL_SCRIPT_DIRECTORY);
-            }
-            else
-            {
-                Console.WriteLine("Is empty!");
-            }
+            //    Console.WriteLine(Env.SQL_SCRIPT_DIRECTORY);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Is empty!");
+            //}
 
             return View(food);
         }
