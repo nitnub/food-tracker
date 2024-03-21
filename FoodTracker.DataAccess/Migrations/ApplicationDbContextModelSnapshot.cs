@@ -375,22 +375,28 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("IdentifiedOn")
+                    b.Property<DateTime?>("IdentifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SeverityId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SubsidedOn")
+                    b.Property<DateTime?>("SubsidedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("FoodId");
 
@@ -399,6 +405,44 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Reactions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+                            FoodId = 1,
+                            SeverityId = 3,
+                            TypeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Active = true,
+                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+                            FoodId = 1,
+                            SeverityId = 2,
+                            TypeId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Active = true,
+                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+                            FoodId = 2,
+                            SeverityId = 2,
+                            TypeId = 4
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Active = true,
+                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+                            FoodId = 1,
+                            SeverityId = 3,
+                            TypeId = 7
+                        });
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Reaction.ReactionCategory", b =>
@@ -458,6 +502,371 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("ReactionTypes");
+                });
+
+            modelBuilder.Entity("FoodTracker.Models.State", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Abbreviation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("States");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Abbreviation = "AL",
+                            Name = "Alabama"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Abbreviation = "AK",
+                            Name = "Alaska"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Abbreviation = "AZ",
+                            Name = "Arizona"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Abbreviation = "AR",
+                            Name = "Arkansas"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Abbreviation = "AS",
+                            Name = "American Samoa"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Abbreviation = "CA",
+                            Name = "California"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Abbreviation = "CO",
+                            Name = "Colorado"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Abbreviation = "CT",
+                            Name = "Connecticut"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Abbreviation = "DE",
+                            Name = "Delaware"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Abbreviation = "DC",
+                            Name = "District of Columbia"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Abbreviation = "FL",
+                            Name = "Florida"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Abbreviation = "GA",
+                            Name = "Georgia"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Abbreviation = "GU",
+                            Name = "Guam"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Abbreviation = "HI",
+                            Name = "Hawaii"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Abbreviation = "ID",
+                            Name = "Idaho"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Abbreviation = "IL",
+                            Name = "Illinois"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Abbreviation = "IN",
+                            Name = "Indiana"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Abbreviation = "IA",
+                            Name = "Iowa"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Abbreviation = "KS",
+                            Name = "Kansas"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Abbreviation = "KY",
+                            Name = "Kentucky"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Abbreviation = "LA",
+                            Name = "Louisiana"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Abbreviation = "ME",
+                            Name = "Maine"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Abbreviation = "MD",
+                            Name = "Maryland"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Abbreviation = "MA",
+                            Name = "Massachusetts"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Abbreviation = "MI",
+                            Name = "Michigan"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Abbreviation = "MN",
+                            Name = "Minnesota"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Abbreviation = "MS",
+                            Name = "Mississippi"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Abbreviation = "MO",
+                            Name = "Missouri"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Abbreviation = "MT",
+                            Name = "Montana"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Abbreviation = "NE",
+                            Name = "Nebraska"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Abbreviation = "NV",
+                            Name = "Nevada"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Abbreviation = "NH",
+                            Name = "New Hampshire"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Abbreviation = "NJ",
+                            Name = "New Jersey"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Abbreviation = "NM",
+                            Name = "New Mexico"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Abbreviation = "NY",
+                            Name = "New York"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Abbreviation = "NC",
+                            Name = "North Carolina"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Abbreviation = "ND",
+                            Name = "North Dakota"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Abbreviation = "MP",
+                            Name = "Northern Mariana Islands"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Abbreviation = "OH",
+                            Name = "Ohio"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Abbreviation = "OK",
+                            Name = "Oklahoma"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Abbreviation = "OR",
+                            Name = "Oregon"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Abbreviation = "PA",
+                            Name = "Pennsylvania"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Abbreviation = "PR",
+                            Name = "Puerto Rico"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Abbreviation = "RI",
+                            Name = "Rhode Island"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Abbreviation = "SC",
+                            Name = "South Carolina"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Abbreviation = "SD",
+                            Name = "South Dakota"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Abbreviation = "TN",
+                            Name = "Tennessee"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Abbreviation = "TX",
+                            Name = "Texas"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Abbreviation = "TT",
+                            Name = "Trust Territories"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Abbreviation = "UT",
+                            Name = "Utah"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Abbreviation = "VT",
+                            Name = "Vermont"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Abbreviation = "VA",
+                            Name = "Virginia"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Abbreviation = "VI",
+                            Name = "Virgin Islands"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Abbreviation = "WA",
+                            Name = "Washington"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Abbreviation = "WV",
+                            Name = "West Virginia"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Abbreviation = "WI",
+                            Name = "Wisconsin"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Abbreviation = "WY",
+                            Name = "Wyoming"
+                        });
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Unit", b =>
@@ -700,6 +1109,9 @@ namespace FoodTracker.DataAccess.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -707,6 +1119,20 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StreetAddressOne")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddressTwo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("StateId");
 
                     b.HasDiscriminator().HasValue("AppUser");
                 });
@@ -846,6 +1272,12 @@ namespace FoodTracker.DataAccess.Migrations
 
             modelBuilder.Entity("FoodTracker.Models.Reaction.Reaction", b =>
                 {
+                    b.HasOne("FoodTracker.Models.Identity.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FoodTracker.Models.Food.Food", "Food")
                         .WithMany()
                         .HasForeignKey("FoodId")
@@ -863,6 +1295,8 @@ namespace FoodTracker.DataAccess.Migrations
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Food");
 
@@ -931,6 +1365,15 @@ namespace FoodTracker.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FoodTracker.Models.Identity.AppUser", b =>
+                {
+                    b.HasOne("FoodTracker.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId");
+
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("FoodTracker.Models.FODMAP.Fodmap", b =>

@@ -33,6 +33,7 @@ namespace FoodTracker.DataAccess.Repository
         public IReactionRepository Reaction { get; set; }
         public IReactionSeverityRepository ReactionSeverity { get; set; }
         public IReactionTypeRepository ReactionType { get; set; }
+        public IStateRepository State { get; set; }
         public IUnitRepository Unit { get; set; }
 
         public UnitOfWork(ApplicationDbContext db) 
@@ -57,6 +58,7 @@ namespace FoodTracker.DataAccess.Repository
             Reaction = new ReactionRepository(_db);
             ReactionSeverity = new ReactionSeverityRepository(_db);
             ReactionType = new ReactionTypeRepository(_db);
+            State = new StateRepository(_db);
             Unit = new UnitRepository(_db);
         }
 

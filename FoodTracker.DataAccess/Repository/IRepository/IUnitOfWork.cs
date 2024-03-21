@@ -25,6 +25,7 @@ namespace FoodTracker.DataAccess.Repository.IRepository
         IReactionRepository Reaction { get; }
         IReactionSeverityRepository ReactionSeverity { get; }
         IReactionTypeRepository ReactionType { get; }
+        IStateRepository State { get; }
         IUnitRepository Unit { get; }
 
         void Save();

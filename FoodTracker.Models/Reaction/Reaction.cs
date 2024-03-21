@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using FoodTracker.Models.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,10 +13,14 @@ namespace FoodTracker.Models.Reaction
 {
     public class Reaction  
     {
-        // TODO: User
         // TODO: Element (food or environment to extend "Allergen")
         [Key]
         public int Id { get; set; }
+        // TODO: User
+        public string AppUserId {  get; set; }
+        [ForeignKey(nameof(AppUserId))]
+        [ValidateNever]
+        public AppUser AppUser { get; set; }
         public int FoodId { get; set; }
         [ForeignKey(nameof(FoodId))]
         [ValidateNever]
@@ -27,8 +33,9 @@ namespace FoodTracker.Models.Reaction
         [ForeignKey(nameof(SeverityId))]
         [ValidateNever]
         public ReactionSeverity Severity { get; set; }
+        [DefaultValue(true)]
         public bool Active { get; set; }
-        public DateTime IdentifiedOn { get; set; }
-        public DateTime SubsidedOn { get; set;}
+        public DateTime? IdentifiedOn { get; set; }
+        public DateTime? SubsidedOn { get; set;}
     }
 }
