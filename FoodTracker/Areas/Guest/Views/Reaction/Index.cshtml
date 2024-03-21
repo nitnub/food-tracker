@@ -1,26 +1,32 @@
 ﻿@model ReactionVM
 
-
+@{
+    int focusFood =6;
+    ViewData["FocusFood"] = 0;
+}
 <div>
     Search Bars [       ]
     <div>cow</div>
-    <div>cowsa</div>
+    <div>cowsaaa</div>
     @foreach (var food in Model.Foods)
     {
-        <a id="foodChip-@food.Id" onclick="viewReactions(@food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a>
+        @* <a id="pvtestButton" onclick="viewReactions(@food.Id) @(Model.FoodId = food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a> *@
+         <a value="@(food.Id)" onclick="viewReactions(@food.Id) @(Model.FoodId = food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a> 
     }
 
+    <div id="pvtest">
+        <partial name="_ReactionPartial" />  
+          @* @Html.Partial("_ReactionPartial", Model)   *@
+        @* @Html.Partial("_ReactionPartial") *@
 
-
+    </div>
+ @*    <partial name="_ReactionPartial" /> *@
+@* 
     <div class="card-body p-4 col-12">
-
         <form method="post" class="row" enctype="multipart/form-data">
-            @*          <input id="foodId" asp-for="Food.Id" hidden />
-            <input asp-for="FoodList" value="@Model.FoodList" hidden /> *@
             <div class="row">
                 <div class="col-12">
                     <div class="border p-12">
-
                         @{
                             foreach (var category in Model.Categories.Keys)
                             {
@@ -28,25 +34,30 @@
                                 <div>
                                     @foreach (var r in Model.Categories[category])
                                     {
-                                        // <div>@reaction</div> <br />
-                                        <div class="">
+                                        <div class="px-3 py-2">
                                             <div>
                                                 <h5>@r.Name</h5>
                                             </div>
                                             <div class="d-flex">
-                       
+
                                                 @foreach (var s in Model.Severities)
                                                 {
+                                                   
+                                                        // int? reactionSeverity = Model.ExistingReactions?[focusFood]?[r.Id];
+                                                    var er = Model.ExistingReactions;
+                                                    var rDict = new Dictionary<int, int>();
+                                                    int activeSeverity = 0;
+                                                    // _ = (Model.ExistingReactions.TryGetValue(focusFood, out rDict) && er[focusFood].TryGetValue(r.Id, out activeSeverity));
+                                                    _ = (Model.ExistingReactions.TryGetValue(Int32.Parse(ViewData["FocusFood"].ToString()), out rDict) && er[Int32.Parse(ViewData["FocusFood"].ToString())].TryGetValue(r.Id, out activeSeverity));
 
-                                             
+                                                    
+                                                    <div class="d-flex px-2 pt-1">
 
-                                                    <div class="d-flex px-2">
+                                                        <div class="form-check ">
 
-                                                            <div class="form-check " >
-                                                            
-                                                            <input class="form-check-input"  type="radio" name="radioGroup-@(category)-@(r.Id)" id="radio@(r.Id)-@(s.Id)" value="@(f.Id)-@(r.Id)-@(s.Id)">
+                                                            <input @(activeSeverity == s.Id ? "checked" : "")  dTest="@(activeSeverity)" class="form-check-input" type="radio" name="radioGroup-@(category)-@(r.Id)" id="radio@(r.Id)-@(s.Id)" value="@(focusFood)-@(r.Id)-@(s.Id)">
                                                             <label class="form-check-label" for="radio@(r.Id)-@(s.Id)">
-                                                                @s.Name 
+                                                                @s.Name
                                                             </label>
                                                         </div>
                                                     </div>
@@ -101,11 +112,38 @@
         </form>
     </div>
 
-
+ *@
 
 </div>
 @section Scripts {
     @{
-        <script src="~/js/reaction.js"></script>
+                    <script>
+                        var focusFood = @focusFood
+                    </script>
+                    <script>
+                        $(".food-chip").click(function (e) {
+
+                            var foodId = e.target.attributes.value.value;
+
+
+
+                            $.ajax({
+                    url: `/guest/reaction/getreactions?foodId=${foodId}`,
+
+
+                                success: function (data) {
+                                    console.log("Successful send");
+
+
+                                    $("#pvtest").html(data);
+
+                                }
+                            })
+                            console.log(321);
+
+                          
+                        });
+                    </script>
+                    <script src="~/js/reaction.js"></script>
     }
 }
