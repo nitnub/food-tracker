@@ -66,19 +66,9 @@
                             </div>
                             <div class="fodSelectContainer">
 
-    @*                             @{
-                                    Fodmap fm = null;
-                                }
+                                <div id="fodCardContainer">
 
-                                @if (fm == null)
-                                {
-                                    
-                                }
-                                else
-                                { *@
-                                    <div id="fodCardContainer">
 
-                          
                                     <div class="card fodCard col-6 p">
                                         <div id="fodColor" class="fodFlag fodBlue"></div>
                                         <div class="card-body">
@@ -86,31 +76,17 @@
                                             <div class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root">
                                                 <h4 id="fodName" class="fodTitle">Arigulafeafef dsf f</h4>
                                             </div>
-                                          <div id="fodCategory">
-                                            Fresh Vegetables
+                                            <div id="fodCategory">
+                                                Fresh Vegetables
 
-                                          </div>
-                                        <div class="d-flex align-items-end">
+                                            </div>
+                                            <div class="d-flex align-items-end">
                                                 <div class="fodAliasLabel">Aliases: &nbsp;</div>
                                                 <div id="fodAlias" class="fodAlias">None</div>
                                             </div>
                                             <div id="fodDailyIntake" class="d-flex justify-content-between pt-2">
                                                 <div id="fodDot" class="fodColorCircle fodRed"></div>
-                                                @* <div class="d-flex align-items-between flex-column "> *@
 
-
-                                                
-
-
-                                                @* <div id="fodMaxIntakeContainer" class="fodMaxIntakeContainer">
-
-                                                    <div class="fodMaxIntake">
-                                                        0g
-                                                        </div>
-                                                    <div class="pt-3">Max Daily Intake</div>
-
-                                                </div>
- *@
                                                 <div id="fodMaxIntakeContainer">
 
 
@@ -120,27 +96,14 @@
                                                                 <path d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
                                                             </svg>
                                                         </div>
-                                                        </div>
-
-
-                                         @*            <div class="fodSafeCheckContainer">
-                                                        <svg class=" fodSafeCheck " focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CheckIcon">
-                                                            <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
-                                                        </svg>
                                                     </div>
-
-                                                    <div class="pt-3">FODMAP Safe!</div> *@
                                                 </div>
 
-
-
-
-
-                              
                                                 <div class=" fodElements">
-                                                    @* <br> *@
+
                                                     <div id="elementsContainer">
-                                                        <div id="fodOligos" class="inactiveReactant" aria-label="contains oligos"> @* TODO: UPDATE ARIA *@
+                                                        <div id="fodOligos" class="inactiveReactant" aria-label="contains oligos">
+                                                            @* TODO: UPDATE ARIA *@
                                                             <div id="fodOligosLabel">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="currentColor" class="bi bi-question-lg" viewBox="0 0 16 16">
                                                                     <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
@@ -152,12 +115,12 @@
                                                         </div>
 
                                                         <div class="d-flex" aria-label="free of fructose">
-                                                           
+
                                                             <svg class="inactiveReactant" xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="currentColor" class="bi bi-question-lg" viewBox="0 0 16 16">
                                                                 <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
                                                             </svg>
 
-                                                           
+
                                                             <div>
                                                                 fructose
                                                             </div>
@@ -186,10 +149,8 @@
                                     </div>
                                 </div>
 
-                                @* } *@
- 
                                 <div class="form-floating py-2 col-12">
-                                    @* <select id="fodmapInput" asp-for="Food.FodmapId" asp-items="Model.FodmapList" class="form-select"> *@
+
                                     <select id="fodmapInput" asp-for="Food.FodmapId" class="form-select">
                                         <option value="" selected>--Select Fodmap--</option>
                                         @foreach (var fodItem in Model.FodmapList)

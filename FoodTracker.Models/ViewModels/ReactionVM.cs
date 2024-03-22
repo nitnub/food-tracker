@@ -17,5 +17,6 @@ namespace FoodTracker.Models.ViewModels
         public IEnumerable<ReactionSeverity> Severities {  get; set; }
 
         public int FoodId {  get; set; }
+        public Food.Food ActiveFood { get; set; }
     }
 }

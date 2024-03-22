@@ -14,161 +14,121 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
     public class ReactionController(IUnitOfWork unitOfWork) : Controller
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
-       
 
-        public ReactionVM ReactionVM{ get; set; }
+
+        public ReactionVM ReactionVM { get; set; }
 
 
         public IActionResult Index()
         {
-
-            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: "Category");
-            var reactionDict = new Dictionary<string, List<ReactionType>>();
-
-
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            //var user = _unitOfWork.AppUser.Get(u => u.Id == userId, includeProperties: "Reactions");
-            var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
-
-            var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
-            //var foodTypeSeverityDict = new Dictionary<int, (int, int)>();
-            foreach (var reaction in existingReactions)
-            {
-                var typeSeverityDict = new Dictionary<int, int>();
-
-
-
-                if (!foodTypeSeverityDict.TryGetValue(reaction.FoodId, out typeSeverityDict))
-                {
-                    typeSeverityDict = new Dictionary<int, int>();
-                    foodTypeSeverityDict[reaction.FoodId] = [];
-                }
-
-                //if (!typeSeverityDict.TryGetValue(reaction.TypeId, out int severity)) 
-                //{
-                //    typeSeverityDict[reaction.TypeId] = severity;
-                //}
-
-                //foodTypeSeverityDict[reaction.FoodId][reaction.TypeId] = severity;
-                foodTypeSeverityDict[reaction.FoodId][reaction.TypeId] = reaction.SeverityId;
-            }
-
-
-            foreach (var reaction in reactions)
-            {
-                //if (reactionDict.TryGetValue(reaction.Category.Name, out List<ReactionType> types))
-                //{
-                //    types.Add(reaction);
-                //}
-                //else
-                //{
-
-                //    reactionDict[reaction.Category.Name] = [reaction];
-                //}
-                //List<ReactionType> types;
-                if (!reactionDict.TryGetValue(reaction.Category.Name, out List<ReactionType> _))
-                {
-                    reactionDict[reaction.Category.Name] = [];
-                }
-                reactionDict[reaction.Category.Name].Add(reaction);
-            }
-
             ReactionVM = new ReactionVM
             {
                 Foods = _unitOfWork.Food.GetAll(includeProperties: "Fodmap.Color"),
-                Categories = reactionDict,
-                Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                //ExistingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId)
-                ExistingReactions = foodTypeSeverityDict
             };
             return View(ReactionVM);
         }
 
-        //[HttpPost]
-        //public IActionResult Index(int id)
-        //{
-
-        //    return RedirectToAction("Index(1)");
-        //}
 
         [HttpGet]
-        public IActionResult GetReactions(string foodId)
-        //public IActionResult GetReactions(ReactionVM Model)
+        public IActionResult GetReactions(string activeFoodId)
         {
-            //ReactionVM = new()
-            //{
-            //    FoodId = foodId
-            //};
-
-
-            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: "Category");
-            var reactionDict = new Dictionary<string, List<ReactionType>>();
-
-
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-            //var user = _unitOfWork.AppUser.Get(u => u.Id == userId, includeProperties: "Reactions");
-            var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
-
+            var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == GetAppUserId(User));
             var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
-            //var foodTypeSeverityDict = new Dictionary<int, (int, int)>();
+
             foreach (var reaction in existingReactions)
             {
                 var typeSeverityDict = new Dictionary<int, int>();
 
 
-
-                if (!foodTypeSeverityDict.TryGetValue(reaction.FoodId, out typeSeverityDict))
+                var foodId = reaction.FoodId;
+                if (foodTypeSeverityDict.TryGetValue(foodId, out typeSeverityDict))
                 {
-                    typeSeverityDict = new Dictionary<int, int>();
-                    foodTypeSeverityDict[reaction.FoodId] = [];
+                    typeSeverityDict[reaction.TypeId] = reaction.SeverityId;
+                }
+                else
+                {
+                    foodTypeSeverityDict[foodId] = [];
+                    foodTypeSeverityDict[foodId][reaction.TypeId] = reaction.SeverityId;
                 }
 
-                //if (!typeSeverityDict.TryGetValue(reaction.TypeId, out int severity)) 
-                //{
-                //    typeSeverityDict[reaction.TypeId] = severity;
-                //}
-
-                //foodTypeSeverityDict[reaction.FoodId][reaction.TypeId] = severity;
-                foodTypeSeverityDict[reaction.FoodId][reaction.TypeId] = reaction.SeverityId;
             }
 
+
+            var reactionDict = new Dictionary<string, List<ReactionType>>();
+            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: "Category");
 
             foreach (var reaction in reactions)
             {
-                //if (reactionDict.TryGetValue(reaction.Category.Name, out List<ReactionType> types))
-                //{
-                //    types.Add(reaction);
-                //}
-                //else
-                //{
-
-                //    reactionDict[reaction.Category.Name] = [reaction];
-                //}
-                //List<ReactionType> types;
-                if (!reactionDict.TryGetValue(reaction.Category.Name, out List<ReactionType> _))
+                var category = reaction.Category.Name;
+                
+                if (reactionDict.TryGetValue(category, out List<ReactionType> categoryDict))
                 {
-                    reactionDict[reaction.Category.Name] = [];
+                    categoryDict.Add(reaction);
                 }
-                reactionDict[reaction.Category.Name].Add(reaction);
+                else
+                {
+                    reactionDict[category] = [];
+                    reactionDict[category].Add(reaction);
+                }
             }
 
-            //var claimsIdentity = (ClaimsIdentity)User.Identity;
-            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //return RedirectToAction("Index");
             ReactionVM = new ReactionVM
             {
-                Foods = _unitOfWork.Food.GetAll(includeProperties: "Fodmap.Color"),
                 Categories = reactionDict,
                 Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                //ExistingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId)
-                FoodId = Int32.Parse(foodId),
+                ActiveFood = _unitOfWork.Food.Get(f => f.Id == Int32.Parse(activeFoodId)),
                 ExistingReactions = foodTypeSeverityDict
             };
             return PartialView("_ReactionPartial", ReactionVM);
+        }
+
+
+        [HttpPost]
+        public IActionResult RemoveReaction([FromBody] Reaction reactionToRemove)
+        {
+            if (ModelState.IsValid)
+            {
+                reactionToRemove.AppUserId = GetAppUserId(User);
+                QueueRemovalOfRelatedReactions(_unitOfWork, reactionToRemove);
+
+                _unitOfWork.Save();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult AddReaction([FromBody] Reaction newReaction)
+        {
+
+            if (ModelState.IsValid)
+            {
+                newReaction.AppUserId = GetAppUserId(User);
+                QueueRemovalOfRelatedReactions(_unitOfWork, newReaction);
+
+                _unitOfWork.Reaction.Add(newReaction);
+                _unitOfWork.Save();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        private static void QueueRemovalOfRelatedReactions(IUnitOfWork unitOfWork, Reaction newReaction) 
+        {
+            var reactionsToRemove = unitOfWork.Reaction.GetAll(r => r.FoodId == newReaction.FoodId
+                                           && r.TypeId == newReaction.TypeId);
+
+            if (reactionsToRemove != null)
+            {
+                unitOfWork.Reaction.RemoveRange(reactionsToRemove);
+            }
+        }
+
+        private static string GetAppUserId(ClaimsPrincipal User)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return userId;
         }
     }
 }
