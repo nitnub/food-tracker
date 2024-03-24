@@ -17,5 +17,8 @@ namespace FoodTracker.Utility
         public static string USER_ADMIN_FIRST_NAME = Environment.GetEnvironmentVariable("USER_ADMIN_FIRST_NAME");
         public static string USER_ADMIN_LAST_NAME = Environment.GetEnvironmentVariable("USER_ADMIN_LAST_NAME");
         public static string USER_ADMIN_PASSWORD = Environment.GetEnvironmentVariable("USER_ADMIN_PASSWORD");
+
+        public static string USDA_API_KEY = Environment.GetEnvironmentVariable("USDA_API_KEY");
+
     }
 }

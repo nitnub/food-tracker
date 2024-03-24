@@ -63,7 +63,6 @@ body {
 }
 
 /* Food Area */
-
 .food-chip {
   text-decoration: none;
   color: green;
@@ -275,4 +274,15 @@ body {
   margin-bottom: -10px;
   /* background-color: blue; */
   height: 90px;
+}
+
+
+/* Product Area */
+
+.product-card {
+        width: 400px;
+}
+.product-ingredient-divider {
+    font-weight: bold;
+    /*font-size: 2em;*/
 }

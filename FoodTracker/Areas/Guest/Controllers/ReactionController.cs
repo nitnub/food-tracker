@@ -39,7 +39,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             {
                 var typeSeverityDict = new Dictionary<int, int>();
 
-
                 var foodId = reaction.FoodId;
                 if (foodTypeSeverityDict.TryGetValue(foodId, out typeSeverityDict))
                 {

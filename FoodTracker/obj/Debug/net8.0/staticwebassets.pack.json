@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\js\\food.js"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\product.js",
+      "PackagePath": "staticwebassets\\js\\product.js"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\reaction.js",
       "PackagePath": "staticwebassets\\js\\reaction.js"
     },

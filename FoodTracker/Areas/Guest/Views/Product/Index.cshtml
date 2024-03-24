@@ -1,0 +1,58 @@
+﻿@model ProductVM
+
+
+
+
+
+
+
+
+
+
+<div>
+    <h1>Products Search</h1>
+
+
+    <form >
+        <div class="form-floating py-2 col-12">
+            <input id="searchQuery" class="form-control form-control-lg" type="text" placeholder="ex: Chao Cheese">
+            <label asp-for="QueryString" class="ms-2"></label>
+            @* <span asp-validation-for="QueryString" class="text-danger"></span> *@
+        </div>
+        <button id="searchButton" class="btn btn-primary" type="button">Search USDA</button>
+    </form>
+
+
+ @*    @if (Model?.BrandedResult != null)
+    {
+        foreach(var food in Model.BrandedResult.Foods)
+        {
+            <div>@food.GtinUpc</div>
+        }
+    } *@
+
+    <div id="pView">
+        @if (Model?.BrandedResult != null)
+        {
+            <partial name="_ProductBrandedPartial" />
+        }
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        <script src="~/js/product.js"></script>
+        <script>
+            // $(document).ready(function () {
+            //     $("#myInput").on("keyup", function () {
+            //         var value = $(this).val().toLowerCase();
+            //         $("#myTable tr").filter(function () {
+            //             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            //         });
+            //     });
+            // });
+        </script>
+    }
+}
