@@ -37,6 +37,7 @@ namespace FoodTracker.DataAccess.Data
         public DbSet<FodmapAlias> FodmapAliases { get; set; }
         public DbSet<FodmapCategory> FodmapCategories { get; set; }
         public DbSet<Food> Food { get; set; }
+        public DbSet<FoodAlias> FoodAliases { get; set; }
         public DbSet<IngredientMap> IngredientMaps { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Meal> Meals { get; set; }
@@ -54,43 +55,44 @@ namespace FoodTracker.DataAccess.Data
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Reaction>().HasData(
-                new Reaction
-                {
-                    Id = 1,
-                    AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                    FoodId = 1,
-                    TypeId = 1,
-                    SeverityId = 3,
-                    Active = true
-                },
-                new Reaction
-                {
-                    Id = 2,
-                    AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                    FoodId = 1,
-                    TypeId = 2,
-                    SeverityId = 2,
-                    Active = true
-                },
-                new Reaction
-                {
-                    Id = 3,
-                    AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                    FoodId = 2,
-                    TypeId = 4,
-                    SeverityId = 2,
-                    Active = true
-                },
-                new Reaction
-                {
-                    Id = 4,
-                    AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                    FoodId = 1,
-                    TypeId = 7,
-                    SeverityId = 3,
-                    Active = true
-                });
+
+            //modelBuilder.Entity<Reaction>().HasData(
+            //    new Reaction
+            //    {
+            //        Id = 1,
+            //        AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+            //        FoodId = 1,
+            //        TypeId = 1,
+            //        SeverityId = 3,
+            //        Active = true
+            //    },
+            //    new Reaction
+            //    {
+            //        Id = 2,
+            //        AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+            //        FoodId = 1,
+            //        TypeId = 2,
+            //        SeverityId = 2,
+            //        Active = true
+            //    },
+            //    new Reaction
+            //    {
+            //        Id = 3,
+            //        AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+            //        FoodId = 2,
+            //        TypeId = 4,
+            //        SeverityId = 2,
+            //        Active = true
+            //    },
+            //    new Reaction
+            //    {
+            //        Id = 4,
+            //        AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
+            //        FoodId = 1,
+            //        TypeId = 7,
+            //        SeverityId = 3,
+            //        Active = true
+            //    });
 
             modelBuilder.Entity<State>().HasData(
                 new State { Id = 1, Name = "Alabama", Abbreviation = "AL" },

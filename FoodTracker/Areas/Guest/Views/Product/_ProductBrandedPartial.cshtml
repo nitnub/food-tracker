@@ -1,52 +1,55 @@
 ﻿@model ProductVM
 
-<div class="card-body p-4 col-12">
-    <form method="post" class="row" enctype="multipart/form-data">
-        <div class="row">
-            @Model.BrandedResult.Foods.Count results...
-            <div class="col-12">
 
-                <div class="d-flex flex-wrap border p-12">
-                    @{
-                        foreach (var product in Model.BrandedResult.Foods)
-                        {
-                            <div class="card product-card m-1">
-                                <div class="card-body">
+@if (Model.QueryError)
+{
+    <div>@Model.QueryErrorMessage</div>
+}
+else
+{
+    <div class="card-body p-4 col-12">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <div class="row">
+                @Model.BrandedResult.Foods.Count results...
+                <div class="col-12">
 
-                                    <h3 class="card-title">@product.Description</h3>
-                                    <h4 class="card-subtitle mb-2 text-muted">@product.BrandName</h4>
-                                    <h4 class="card-subtitle mb-2 text-muted">@product.FoodCategory</h4>
+                    <div class="d-flex flex-wrap border p-12">
+                        @{
+                            foreach (var product in Model.BrandedResult.Foods)
+                            {
+                                <div class="card product-card m-1">
+                                    <div class="card-body">
 
-                                    <div>Ingredients:</div>
-                                    <div class="d-flex flex-wrap">
-                                        @foreach (var item in Model.IngredientsDict[product.FdcId])
-                                        {
-                                            if (item.GetType().Name == nameof(Food))
+                                        <h3 class="card-title">@product.Description</h3>
+                                        <h4 class="card-subtitle mb-2 text-muted">@product.BrandName</h4>
+                                        <h4 class="card-subtitle mb-2 text-muted">@product.FoodCategory</h4>
+
+                                        <div>Ingredients:</div>
+                                        <div class="d-flex flex-wrap">
+                                            @foreach (var item in Model.IngredientsDict[product.FdcId])
                                             {
-                                                var f = (Food)item;
-                                                <a id="foodChip-@f.Id" class="badge food-chip foodChip@(f.Fodmap?.Color.Name) m-1">@f.Name @f.Fodmap?.Color.Name</a>
+                                                if (item.GetType().Name == nameof(Food))
+                                                {
+                                                    var f = (Food)item;
+                                                    <a id="foodChip-@f.Id" class="badge food-chip foodChip@(f.Fodmap?.Color.Name) m-1" onClick="(activateModal('@f.Name'))">@f.Name @f.Fodmap?.Color.Name</a>
+                                                }
+                                                else
+                                                {
+                                                    <div class="product-ingredient-divider">&nbsp;@item.ToString()&nbsp;</div>
+                                                }
                                             }
-                                            else
-                                            {
-                                                <div class="product-ingredient-divider">&nbsp;@item.ToString()&nbsp;</div>
-                                            }
-                                        }
+                                        </div>
+
                                     </div>
-
                                 </div>
-                            </div>
-                            <div>
-                                <br />
-
-
-
-
-                            </div>
+                                <div>
+                                    <br />
+                                </div>
+                            }
                         }
-                    }
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
-
+        </form>
+    </div>
+}

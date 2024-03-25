@@ -24,8 +24,8 @@ function addReaaction(foodId, typeId, severityId, active) {
         dataType: "json",
         success: function () {
             console.log("Add was a success...");
-  }
-})
+        }
+    })
 
 }
 
@@ -62,7 +62,7 @@ function testSubmit(s) {
 
     var theDiv = $(`#radio${s}`);
 
-    $(theDiv).on('click',  (e) => e.preventDefault() )
+    $(theDiv).on('click', (e) => e.preventDefault())
 
     if (theDiv.is(':checked')) {
         theDiv.prop('checked', false);

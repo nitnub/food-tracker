@@ -3,16 +3,17 @@ using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models;
 using FoodTracker.Models.Event;
 using FoodTracker.Models.Food;
+using FoodTracker.Models.Meal;
 
 namespace FoodTracker.DataAccess.Repository
 {
-    public class IngredientMapRepository(ApplicationDbContext db) : Repository<IngredientMap>(db), IIngredientMapRepository
+    public class MealRepository(ApplicationDbContext db) : Repository<Meal>(db), IMealRepository
     {
         private ApplicationDbContext _db = db;
 
-        public void Update(IngredientMap obj)
+        public void Update(Meal obj)
         {
-            _db.IngredientMaps.Update(obj);
+            _db.Meals.Update(obj);
         }
     }
 }

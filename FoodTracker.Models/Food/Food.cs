@@ -12,23 +12,27 @@ using System.Threading.Tasks;
 
 namespace FoodTracker.Models.Food
 {
+
+
+
     public class Food
     {
         [Key]
         public int Id { get; set; }
+        public string? AppUserId { get; set; }
         public string Name { get; set; }
         public int? FodmapId { get; set; }
 
         [ForeignKey(nameof(FodmapId))]
         [ValidateNever]
         public Fodmap Fodmap { get; set; }
-        
+
         [DefaultValue(false)]
         public bool Vegetarian { get; set; }
-        
+
         [DefaultValue(false)]
         public bool Vegan { get; set; }
-        
+
         [DefaultValue(false)]
         public bool GlutenFree { get; set; }
 
@@ -37,5 +41,8 @@ namespace FoodTracker.Models.Food
 
         [InverseProperty(nameof(IngredientMap.IngredientFood))]
         public ICollection<IngredientMap>? IngredientFoods { get; set; }
+        public IEnumerable<FoodAlias>? Aliases { get; set; }
+        public bool Global { get; set; } = false;
     }
+
 }

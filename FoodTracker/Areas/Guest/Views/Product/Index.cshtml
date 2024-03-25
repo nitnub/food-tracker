@@ -1,18 +1,26 @@
 ﻿@model ProductVM
 
 
+<!-- Food Details Modal (Product) -->
+<div class="modal food-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Food Details</h5>
+            </div>
+            <div id="modal-body" class="modal-body">
 
+               @*  <partial name="_AddFoodPartial" /> *@
 
-
-
-
-
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
 
 
 <div>
     <h1>Products Search</h1>
-
-
     <form >
         <div class="form-floating py-2 col-12">
             <input id="searchQuery" class="form-control form-control-lg" type="text" placeholder="ex: Chao Cheese">
@@ -22,21 +30,13 @@
         <button id="searchButton" class="btn btn-primary" type="button">Search USDA</button>
     </form>
 
+        <div id="pView">
+            @if (Model.BrandedResult != null)
+            {
+                <partial name="_ProductBrandedPartial" />
+            }
+        </div>
 
- @*    @if (Model?.BrandedResult != null)
-    {
-        foreach(var food in Model.BrandedResult.Foods)
-        {
-            <div>@food.GtinUpc</div>
-        }
-    } *@
-
-    <div id="pView">
-        @if (Model?.BrandedResult != null)
-        {
-            <partial name="_ProductBrandedPartial" />
-        }
-    </div>
 </div>
 
 
@@ -44,15 +44,5 @@
 @section Scripts {
     @{
         <script src="~/js/product.js"></script>
-        <script>
-            // $(document).ready(function () {
-            //     $("#myInput").on("keyup", function () {
-            //         var value = $(this).val().toLowerCase();
-            //         $("#myTable tr").filter(function () {
-            //             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            //         });
-            //     });
-            // });
-        </script>
     }
 }

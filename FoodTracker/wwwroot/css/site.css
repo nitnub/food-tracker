@@ -62,14 +62,17 @@ body {
   display: none;
 }
 
+.strikeThrough {
+    text-decoration: line-through;
+}
 /* Food Area */
 .food-chip {
-  text-decoration: none;
-  color: green;
-  background-color: green;
-  background-color: white;
-  border: solid 1px green;
-  transition: 0.3s;
+    text-decoration: none;
+    color: green;
+    background-color: green;
+    background-color: white;
+    border: solid 1px green;
+    transition: 0.3s;
 }
 
 .foodChip,
@@ -285,4 +288,72 @@ body {
 .product-ingredient-divider {
     font-weight: bold;
     /*font-size: 2em;*/
+}
+
+
+.food-chipT1,
+.food-chipT2,
+.food-chipT3,
+.food-chipT4 {
+    text-decoration: none;
+    color: green;
+    background-color: green;
+    background-color: white;
+    border: solid 1px green;
+    transition: 0.3s;
+}
+
+
+.foodChipTOne,
+.foodChipTTwo,
+.foodChipTThree,
+.foodChipTFour {
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border: solid 1px var(--clr-fm-blue-dk);
+    transition: 0.3s;
+}
+
+
+
+
+.foodChipTOne:hover,
+
+.foodChipTThree:hover,
+.foodChipTFour:hover {
+    background-color: var(--clr-fm-blue-dk);
+    color: white;
+    cursor: pointer;
+}
+
+
+.foodChipGreenSolid {
+    text-decoration: none;
+    color: var(--clr-fm-green-dk);
+    border-color: var(--clr-fm-green-dk);
+    background-color: var(--clr-fm-green-dk);
+    /*transition: 0.3s;*/
+}
+
+.foodChipYellowSolid {
+    text-decoration: none;
+    color: var(--clr-fm-yellow-dk);
+    border-color: var(--clr-fm-yellow-dk);
+    background-color: var(--clr-fm-yellow-dk);
+    /* transition: 0.3s;*/
+}
+
+
+.foodChipRedSolid {
+    text-decoration: none;
+    color: var(--clr-fm-red-dk);
+    border-color: var(--clr-fm-red-dk);
+    background-color: var(--clr-fm-red-dk);
+    /*tr*/
+}
+
+/*Default Hidden*/
+.chip-dot {
+    visibility: hidden;
 }

@@ -24,6 +24,7 @@ namespace FoodTracker.DataAccess.Repository
         public IFodmapAliasRepository FodmapAlias { get; set; }
         public IFodmapCategoryRepository FodmapCategory { get; set; }
         public IFodmapRepository Fodmap { get; set; }
+        public IFoodAliasRepository FoodAlias { get; set; }
         public IFoodRepository Food { get; set; }
         public IIngredientMapRepository IngredientMap { get; set; }
         public ILocationRepository Location { get; set; }
@@ -50,6 +51,7 @@ namespace FoodTracker.DataAccess.Repository
             FodmapCategory = new FodmapCategoryRepository(_db);
             Fodmap = new FodmapRepository(_db);
             Food = new FoodRepository(_db);
+            FoodAlias = new FoodAliasRepository(_db);
             IngredientMap = new IngredientMapRepository(_db);
             Location = new LocationRepository(_db);
             Meal = new MealRepository(_db);

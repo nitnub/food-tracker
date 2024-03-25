@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodTracker.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240320180917_AddStates")]
-    partial class AddStates
+    [Migration("20240325185852_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -257,8 +257,14 @@ namespace FoodTracker.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("FodmapId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Global")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("GlutenFree")
                         .HasColumnType("bit");
@@ -278,6 +284,34 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasIndex("FodmapId");
 
                     b.ToTable("Food");
+                });
+
+            modelBuilder.Entity("FoodTracker.Models.Food.FoodAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Global")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("FoodAliases");
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Food.IngredientMap", b =>
@@ -385,13 +419,13 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("IdentifiedOn")
+                    b.Property<DateTime?>("IdentifiedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("SeverityId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SubsidedOn")
+                    b.Property<DateTime?>("SubsidedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("TypeId")
@@ -487,7 +521,7 @@ namespace FoodTracker.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("State");
+                    b.ToTable("States");
 
                     b.HasData(
                         new
@@ -1088,14 +1122,16 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("StateId")
+                        .HasColumnType("int");
 
                     b.Property<string>("StreetAddressOne")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StreetAddressTwo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("StateId");
 
                     b.HasDiscriminator().HasValue("AppUser");
                 });
@@ -1189,6 +1225,15 @@ namespace FoodTracker.DataAccess.Migrations
                         .HasForeignKey("FodmapId");
 
                     b.Navigation("Fodmap");
+                });
+
+            modelBuilder.Entity("FoodTracker.Models.Food.FoodAlias", b =>
+                {
+                    b.HasOne("FoodTracker.Models.Food.Food", null)
+                        .WithMany("Aliases")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Food.IngredientMap", b =>
@@ -1330,6 +1375,15 @@ namespace FoodTracker.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FoodTracker.Models.Identity.AppUser", b =>
+                {
+                    b.HasOne("FoodTracker.Models.State", "State")
+                        .WithMany()
+                        .HasForeignKey("StateId");
+
+                    b.Navigation("State");
+                });
+
             modelBuilder.Entity("FoodTracker.Models.FODMAP.Fodmap", b =>
                 {
                     b.Navigation("Aliases");
@@ -1337,6 +1391,8 @@ namespace FoodTracker.DataAccess.Migrations
 
             modelBuilder.Entity("FoodTracker.Models.Food.Food", b =>
                 {
+                    b.Navigation("Aliases");
+
                     b.Navigation("IngredientFoods");
 
                     b.Navigation("ParentFoods");

@@ -6,13 +6,13 @@ using FoodTracker.Models.Food;
 
 namespace FoodTracker.DataAccess.Repository
 {
-    public class FoodRepository(ApplicationDbContext db) : Repository<Food>(db), IFoodRepository
+    public class IngredientMapRepository(ApplicationDbContext db) : Repository<IngredientMap>(db), IIngredientMapRepository
     {
         private ApplicationDbContext _db = db;
 
-        public void Update(Food obj)
+        public void Update(IngredientMap obj)
         {
-            _db.Food.Update(obj);
+            _db.IngredientMaps.Update(obj);
         }
     }
 }

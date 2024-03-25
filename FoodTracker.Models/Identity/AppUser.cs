@@ -24,7 +24,7 @@ namespace FoodTracker.Models.Identity
         public int? StateId { get; set; }
         [ForeignKey(nameof(StateId))]
         [ValidateNever]
-        public State State { get; set; }
+        public State? State { get; set; }
         public string? PostalCode { get; set; }
 
         [NotMapped] 

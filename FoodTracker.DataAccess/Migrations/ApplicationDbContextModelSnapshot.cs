@@ -254,8 +254,14 @@ namespace FoodTracker.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("FodmapId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Global")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("GlutenFree")
                         .HasColumnType("bit");
@@ -275,6 +281,34 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasIndex("FodmapId");
 
                     b.ToTable("Food");
+                });
+
+            modelBuilder.Entity("FoodTracker.Models.Food.FoodAlias", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Global")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("FoodAliases");
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Food.IngredientMap", b =>
@@ -405,44 +439,6 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Reactions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Active = true,
-                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                            FoodId = 1,
-                            SeverityId = 3,
-                            TypeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Active = true,
-                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                            FoodId = 1,
-                            SeverityId = 2,
-                            TypeId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Active = true,
-                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                            FoodId = 2,
-                            SeverityId = 2,
-                            TypeId = 4
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Active = true,
-                            AppUserId = "ee5af4ea-6a83-42c7-8f7b-5b1fc16c58c9",
-                            FoodId = 1,
-                            SeverityId = 3,
-                            TypeId = 7
-                        });
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Reaction.ReactionCategory", b =>
@@ -1228,6 +1224,15 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Navigation("Fodmap");
                 });
 
+            modelBuilder.Entity("FoodTracker.Models.Food.FoodAlias", b =>
+                {
+                    b.HasOne("FoodTracker.Models.Food.Food", null)
+                        .WithMany("Aliases")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("FoodTracker.Models.Food.IngredientMap", b =>
                 {
                     b.HasOne("FoodTracker.Models.Food.Food", "IngredientFood")
@@ -1383,6 +1388,8 @@ namespace FoodTracker.DataAccess.Migrations
 
             modelBuilder.Entity("FoodTracker.Models.Food.Food", b =>
                 {
+                    b.Navigation("Aliases");
+
                     b.Navigation("IngredientFoods");
 
                     b.Navigation("ParentFoods");

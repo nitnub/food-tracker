@@ -83,7 +83,7 @@ namespace FoodTracker.DataAccess.DBInitializer
                     FirstName = Env.USER_ADMIN_FIRST_NAME,
                     LastName = Env.USER_ADMIN_LAST_NAME
 
-                }, Env.USER_ADMIN_PASSWORD).GetAwaiter().GetResult();
+                }, Env.USER_ADMIN_PASSWORD).GetAwaiter().GetResult(); // Must satisfy PW complexity
 
                 AppUser user = _db.AppUsers.FirstOrDefault(u => u.Email == Env.USER_ADMIN_EMAIL);
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();

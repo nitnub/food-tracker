@@ -48,15 +48,25 @@ function fodChange() {
         $('#fodAlias').html(aliasString);
 
         $('#elementsContainer').html(
-            ['oligos', 'fructose', 'polyols', 'lactose'].map(el =>
-                `<div id="fodOligos" class="${fm[el] ? 'activeReactant' : 'inactiveReactant'}" aria-label="${fm[el] ? 'contains' : 'free of'} ${fm}"> 
+            ['oligos', 'fructose', 'polyols', 'lactose'].map(el => 
+                `<div 
+                    id="fodOligos"
+                    class="${fm[el] ? 'activeReactant' : 'inactiveReactant'}" 
+                    aria-label="${fm[el] ? 'contains' : 'free of'} ${el}" 
+                    data-toggle="tooltip" 
+                    title="${fm[el] ? 'contains' : 'free of'} ${el}"
+                    > 
                     <div id="fodOligosLabel">
                      ${fm[el] ? elementWarn : elementSafe}
                     </div>
-                    <div>
+                    <div class="${fm[el] ? '' : 'strikeThrough'}">
                         ${el}
                     </div>
-                </div>`));
+                </div>`
+
+
+
+            ));
     }
 }
 
@@ -95,3 +105,14 @@ function resetFodmapCard() {
             </div>`);
 }
 
+
+// FODMAP Icons
+var elementWarn = `
+        <svg focusable="false" aria-hidden="true" height="24" width="24">
+            <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"></path>
+        </svg>`
+
+var elementSafe = `
+        <svg class="inactiveReactant" focusable="false" aria-hidden="true" height="24" width="24">
+            <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+        </svg>`

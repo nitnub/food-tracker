@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using FoodTracker.DataAccess.DBInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using FoodTrackerWeb.Services.Interfaces;
+using FoodTrackerWeb.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 
+// Add USDA
+builder.Services.AddHttpClient<IUSDAService, USDAService>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

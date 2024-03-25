@@ -11,6 +11,57 @@
         <a value="@(food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a>
     }
 
+    <br />
+    <br />
+    <div>
+        <a value="(food.Id)" class="badge food-chipT1 foodChipTOne">Test One</a>
+        <a value="(food.Id)" class="badge food-chipT2 foodChipTTwo position-relative">
+            Test Two
+            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipGreenSolid border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+            </a>
+        <a value="(food.Id)" class="badge food-chipT3 foodChipTThree position-relative">
+            Test Threea
+            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipYellowSolid border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+
+        </a>
+        <a value="(food.Id)" class="badge food-chipT4 foodChipTFour position-relative">
+            Test Four  
+            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipRedSolid border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+        </a>
+
+
+    </div>
+    <div>
+        <a value="(food.Id)" class="badge food-chipT1 food-chip foodChipTOne">Test Onea</a>
+        <a value="(food.Id)" class="badge food-chipT2 position-relative ">
+            Test Two
+            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipGreenSolid border border-light rounded-circle chip-dot">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+        </a>
+        <a value="(food.Id)" class="badge food-chipT3 foodChipTThree position-relative">
+            Test Threea
+            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipYellowSolid border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+
+        </a>
+        <a value="(food.Id)" class="badge food-chipT4 foodChipTFour position-relative">
+            Test Four
+            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipRedSolid border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+            </span>
+        </a>
+
+
+    </div>
+
     <div id="pView">
         @if (Model.ActiveFood != null)
         {

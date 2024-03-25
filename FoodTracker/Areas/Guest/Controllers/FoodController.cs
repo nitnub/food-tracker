@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
@@ -17,9 +18,13 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         public IActionResult Index()
         {
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
             FoodVM = new()
             {
-                FoodList = _unitOfWork.Food.GetAll(includeProperties: "Fodmap"),
+                FoodList = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global == true, includeProperties: "Fodmap"),
                 Food = new Food() { Id = 0 },
                 FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Aliases,Category,Color,MaxUseUnits"),
             };
@@ -50,6 +55,11 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             if (ModelState.IsValid)
             {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                food.AppUserId = userId;
+
                 if (food.Id == 0)
                 {
                     _unitOfWork.Food.Add(food);
@@ -62,6 +72,19 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             _unitOfWork.Save();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult GetFoodDetails(string foodName)
+        {
+
+            // can be either identified or not
+
+            // if identified, prepopulate with info and food id
+
+            // if not, should be empty with id = 0
+
+            return PartialView("_AddFoodPartial", FoodVM);
         }
     }
 }

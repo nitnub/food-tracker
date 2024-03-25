@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace FoodTracker.DataAccess.Migrations
 {
     /// <inheritdoc />
@@ -50,39 +52,6 @@ namespace FoodTracker.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StreetAddressOne = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StreetAddressTwo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,6 +147,20 @@ namespace FoodTracker.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "States",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Abbreviation = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_States", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Units",
                 columns: table => new
                 {
@@ -210,6 +193,165 @@ namespace FoodTracker.DataAccess.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Events",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventTypeId = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Events", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Events_EventTypes_EventTypeId",
+                        column: x => x.EventTypeId,
+                        principalTable: "EventTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReactionTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReactionTypes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ReactionTypes_ReactionCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "ReactionCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressOne = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressTwo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StateId = table.Column<int>(type: "int", nullable: true),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_States_StateId",
+                        column: x => x.StateId,
+                        principalTable: "States",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Activities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TypeId = table.Column<int>(type: "int", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    DurationUnitId = table.Column<int>(type: "int", nullable: false),
+                    IntensityId = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Activities_ActivityIntensities_IntensityId",
+                        column: x => x.IntensityId,
+                        principalTable: "ActivityIntensities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Activities_ActivityTypes_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "ActivityTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Activities_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Activities_Units_DurationUnitId",
+                        column: x => x.DurationUnitId,
+                        principalTable: "Units",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fodmaps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ColorId = table.Column<int>(type: "int", nullable: false),
+                    FreeUse = table.Column<bool>(type: "bit", nullable: false),
+                    MaxUse = table.Column<int>(type: "int", nullable: false),
+                    MaxUseUnitsId = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Oligos = table.Column<bool>(type: "bit", nullable: false),
+                    Fructose = table.Column<bool>(type: "bit", nullable: false),
+                    Polyols = table.Column<bool>(type: "bit", nullable: false),
+                    Lactose = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fodmaps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Fodmaps_Colors_ColorId",
+                        column: x => x.ColorId,
+                        principalTable: "Colors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Fodmaps_FodmapCategories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "FodmapCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Fodmaps_Units_MaxUseUnitsId",
+                        column: x => x.MaxUseUnitsId,
+                        principalTable: "Units",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -300,134 +442,13 @@ namespace FoodTracker.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EventTypeId = table.Column<int>(type: "int", nullable: false),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Events_EventTypes_EventTypeId",
-                        column: x => x.EventTypeId,
-                        principalTable: "EventTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ReactionTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReactionTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ReactionTypes_ReactionCategories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "ReactionCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Activities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeId = table.Column<int>(type: "int", nullable: false),
-                    Duration = table.Column<int>(type: "int", nullable: false),
-                    DurationUnitId = table.Column<int>(type: "int", nullable: false),
-                    IntensityId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Activities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Activities_ActivityIntensities_IntensityId",
-                        column: x => x.IntensityId,
-                        principalTable: "ActivityIntensities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Activities_ActivityTypes_TypeId",
-                        column: x => x.TypeId,
-                        principalTable: "ActivityTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Activities_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Activities_Units_DurationUnitId",
-                        column: x => x.DurationUnitId,
-                        principalTable: "Units",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Fodmaps",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ColorId = table.Column<int>(type: "int", nullable: false),
-                    FreeUse = table.Column<bool>(type: "bit", nullable: false),
-                    MaxUse = table.Column<int>(type: "int", nullable: false),
-                    MaxUseUnitsId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    Oligos = table.Column<bool>(type: "bit", nullable: false),
-                    Fructose = table.Column<bool>(type: "bit", nullable: false),
-                    Polyols = table.Column<bool>(type: "bit", nullable: false),
-                    Lactose = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fodmaps", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Fodmaps_Colors_ColorId",
-                        column: x => x.ColorId,
-                        principalTable: "Colors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Fodmaps_FodmapCategories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "FodmapCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Fodmaps_Units_MaxUseUnitsId",
-                        column: x => x.MaxUseUnitsId,
-                        principalTable: "Units",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "FodmapAliases",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Alias = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FodmapId = table.Column<int>(type: "int", nullable: false),
+                    Alias = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OriginalName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsPrimary = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -448,11 +469,13 @@ namespace FoodTracker.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AppUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FodmapId = table.Column<int>(type: "int", nullable: true),
                     Vegetarian = table.Column<bool>(type: "bit", nullable: false),
                     Vegan = table.Column<bool>(type: "bit", nullable: false),
-                    GlutenFree = table.Column<bool>(type: "bit", nullable: false)
+                    GlutenFree = table.Column<bool>(type: "bit", nullable: false),
+                    Global = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -462,6 +485,28 @@ namespace FoodTracker.DataAccess.Migrations
                         column: x => x.FodmapId,
                         principalTable: "Fodmaps",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodAliases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppUserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FoodId = table.Column<int>(type: "int", nullable: false),
+                    Alias = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Global = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodAliases", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FoodAliases_Food_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Food",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -533,8 +578,8 @@ namespace FoodTracker.DataAccess.Migrations
                     TypeId = table.Column<int>(type: "int", nullable: false),
                     SeverityId = table.Column<int>(type: "int", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
-                    IdentifiedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SubsidedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    IdentifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SubsidedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -563,6 +608,70 @@ namespace FoodTracker.DataAccess.Migrations
                         principalTable: "ReactionTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "States",
+                columns: new[] { "Id", "Abbreviation", "Name" },
+                values: new object[,]
+                {
+                    { 1, "AL", "Alabama" },
+                    { 2, "AK", "Alaska" },
+                    { 3, "AZ", "Arizona" },
+                    { 4, "AR", "Arkansas" },
+                    { 5, "AS", "American Samoa" },
+                    { 6, "CA", "California" },
+                    { 7, "CO", "Colorado" },
+                    { 8, "CT", "Connecticut" },
+                    { 9, "DE", "Delaware" },
+                    { 10, "DC", "District of Columbia" },
+                    { 11, "FL", "Florida" },
+                    { 12, "GA", "Georgia" },
+                    { 13, "GU", "Guam" },
+                    { 14, "HI", "Hawaii" },
+                    { 15, "ID", "Idaho" },
+                    { 16, "IL", "Illinois" },
+                    { 17, "IN", "Indiana" },
+                    { 18, "IA", "Iowa" },
+                    { 19, "KS", "Kansas" },
+                    { 20, "KY", "Kentucky" },
+                    { 21, "LA", "Louisiana" },
+                    { 22, "ME", "Maine" },
+                    { 23, "MD", "Maryland" },
+                    { 24, "MA", "Massachusetts" },
+                    { 25, "MI", "Michigan" },
+                    { 26, "MN", "Minnesota" },
+                    { 27, "MS", "Mississippi" },
+                    { 28, "MO", "Missouri" },
+                    { 29, "MT", "Montana" },
+                    { 30, "NE", "Nebraska" },
+                    { 31, "NV", "Nevada" },
+                    { 32, "NH", "New Hampshire" },
+                    { 33, "NJ", "New Jersey" },
+                    { 34, "NM", "New Mexico" },
+                    { 35, "NY", "New York" },
+                    { 36, "NC", "North Carolina" },
+                    { 37, "ND", "North Dakota" },
+                    { 38, "MP", "Northern Mariana Islands" },
+                    { 39, "OH", "Ohio" },
+                    { 40, "OK", "Oklahoma" },
+                    { 41, "OR", "Oregon" },
+                    { 42, "PA", "Pennsylvania" },
+                    { 43, "PR", "Puerto Rico" },
+                    { 44, "RI", "Rhode Island" },
+                    { 45, "SC", "South Carolina" },
+                    { 46, "SD", "South Dakota" },
+                    { 47, "TN", "Tennessee" },
+                    { 48, "TX", "Texas" },
+                    { 49, "TT", "Trust Territories" },
+                    { 50, "UT", "Utah" },
+                    { 51, "VT", "Vermont" },
+                    { 52, "VA", "Virginia" },
+                    { 53, "VI", "Virgin Islands" },
+                    { 54, "WA", "Washington" },
+                    { 55, "WV", "West Virginia" },
+                    { 56, "WI", "Wisconsin" },
+                    { 57, "WY", "Wyoming" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -618,6 +727,11 @@ namespace FoodTracker.DataAccess.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_StateId",
+                table: "AspNetUsers",
+                column: "StateId");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -653,6 +767,11 @@ namespace FoodTracker.DataAccess.Migrations
                 name: "IX_Food_FodmapId",
                 table: "Food",
                 column: "FodmapId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodAliases_FoodId",
+                table: "FoodAliases",
+                column: "FoodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IngredientMaps_IngredientFoodId",
@@ -733,6 +852,9 @@ namespace FoodTracker.DataAccess.Migrations
                 name: "FodmapAliases");
 
             migrationBuilder.DropTable(
+                name: "FoodAliases");
+
+            migrationBuilder.DropTable(
                 name: "IngredientMaps");
 
             migrationBuilder.DropTable(
@@ -770,6 +892,9 @@ namespace FoodTracker.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "ReactionTypes");
+
+            migrationBuilder.DropTable(
+                name: "States");
 
             migrationBuilder.DropTable(
                 name: "Fodmaps");

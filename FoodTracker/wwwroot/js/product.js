@@ -5,16 +5,11 @@
 
 
 $("#searchButton").click(function (e) {
-    //var val = { searchQuery: $("#searchQuery").val() };
-    console.log(e);
-    var val = $("#searchQuery").val().replace(" ", "%20");
-    //var foodId = e.target.attributes.value.value;
-    console.log(val);
-    console.log(val);
+    const val = $("#searchQuery").val().replace(" ", "%20");
     $.ajax({
         url: `/guest/product/getusdaproducts?userQuery=${val}`,
         success: function (data) {
-            console.log(data)
+            //console.log(data)
             $("#pView").html(data);
         }
     })
@@ -23,7 +18,22 @@ $("#searchButton").click(function (e) {
 
 
 
+function activateModal(productName) {
 
+    $('.food-details-modal').modal('show');
+    $('.modal-title').html(productName);
+    console.log("Clicked");
+    console.log(productName);
+
+
+    $.ajax({
+        url: `/guest/food/getfooddetails?foodName=${productName}`,
+        success: function (data) {
+            //console.log(data)
+            $("#modal-body").html(data);
+        }
+    })
+}
 
 
 

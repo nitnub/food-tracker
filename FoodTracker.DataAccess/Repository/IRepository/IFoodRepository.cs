@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace FoodTracker.DataAccess.Repository.IRepository
 {
-    public interface IIngredientMapRepository : IRepository<IngredientMap>
+    public interface IFoodRepository : IRepository<Food>
     {
-     public void Update(IngredientMap obj);
+        public void Update(Food obj);
     }
 }
