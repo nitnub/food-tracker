@@ -1,0 +1,43 @@
+﻿@* @model FoodVM
+
+@{      
+    var severityColor = Helper.GetMaxSeverityColorString(Model.Food);
+}
+
+<a value="@(Model.Food.Id)" class="badge food-chip @(severityColor.ToLower()) position-relative">
+    @Model.Food.Name
+
+    @if (Model.Food.Fodmap != null)
+    {
+        <span class="position-absolute top-0 start-100 translate-middle p-2 foodChip@(Model.Food.Fodmap.Color.Name)Solid chip-badge"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="FODMAP: @(Model.Food.Fodmap.Color.Name)">
+            <span class="chip-badge-label">F</span>
+        </span>
+    }
+</a>
+
+ *@
+
+
+@model Food
+
+@{      
+    var severityColor = Helper.GetMaxSeverityColorString(Model);
+}
+
+<a value="@(Model.Id)" class="badge food-chip @(severityColor.ToLower()) position-relative">
+    @Model.Name
+
+    @if (Model.Fodmap != null)
+    {
+        <span class="position-absolute top-0 start-100 translate-middle p-2 foodChip@(Model.Fodmap.Color.Name)Solid chip-badge"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="FODMAP: @(Model.Fodmap.Color.Name)">
+            <span class="chip-badge-label">F</span>
+        </span>
+    }
+</a>
+

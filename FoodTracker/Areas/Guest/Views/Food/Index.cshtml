@@ -17,9 +17,7 @@
     Search Bar [       ]
     @foreach (var food in Model.FoodList)
     {
-        
-       @* <a id="foodChip-@food.Id" onclick="selectFood(@food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a> *@
-        <a id="foodChip-@food.Id" onclick="selectFood(@food.Id)" class="badge food-chip @(Model.MaxReactionColor?.ToLower())">@food.Name</a>
+        <partial name="_FoodChipPartial" model="food" />
     }
 
     <div class="card-body p-4 col-7">

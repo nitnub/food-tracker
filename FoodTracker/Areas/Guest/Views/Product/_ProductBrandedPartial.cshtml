@@ -30,11 +30,7 @@ else
                                             {
                                                 if (item.GetType().Name == nameof(FoodVM))
                                                 {
-                                                    var fvm = (FoodVM)item;
-                                                    var f = fvm.Food;
-
-                                                    <a id="foodChip-@f.Id" class="badge food-chip foodChip@(fvm.MaxReactionColor) m-1" onClick="(activateModal('@f.Name', @f.Id))">@f.Name</a>
-                                                    
+                                                    <partial name="../Food/_FoodChipPartial.cshtml" model="((FoodVM)item).Food" />
                                                 }
                                                 else
                                                 {

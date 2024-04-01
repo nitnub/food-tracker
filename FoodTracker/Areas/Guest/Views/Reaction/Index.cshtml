@@ -8,27 +8,10 @@
 
     @foreach (var food in Model.Foods)
     {
-        var severityColor = Helper.GetMaxSeverityColorString(food);
-         @* <a value="@(food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a>  *@
-        <a value="@(food.Id)" class="badge food-chip @(severityColor.ToLower()) position-relative">
-            @food.Name
+ 
 
-            @if(food.Fodmap != null)
-            {
-                <span class="position-absolute top-0 start-100 translate-middle p-2 foodChip@(food.Fodmap.Color.Name)Solid chip-badge"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      title="FODMAP: @(food.Fodmap.Color.Name)">
-                    <span class="chip-badge-label">F</span>
-                </span>
-                
-            }
+         <partial name="../Food/_FoodChipPartial.cshtml" model="food" />
 
-
-
-
-        
-        </a>
     }
    
     <br />

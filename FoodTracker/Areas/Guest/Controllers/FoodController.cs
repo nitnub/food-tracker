@@ -27,7 +27,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             //_unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId); // load user's food aliases
             FoodVM = new()
             {
-                FoodList = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global == true, includeProperties: "UserSafeFoods,Fodmap.Color,Reactions"),
+                FoodList = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global == true, includeProperties: "UserSafeFoods,Fodmap.Color,Reactions.Severity"),
                 Food = new Food() { Id = 0, Aliases = [] },
                 FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits"),
             };
