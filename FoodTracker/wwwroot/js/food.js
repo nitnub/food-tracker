@@ -1,27 +1,19 @@
 ﻿var foodId;
 var foodName;
 
+
 function selectFood(id) {
-    var food = foodList.find(f => f.id === id);
 
-    foodId = id;
-    foodName = food.name;
-
-    // Update Food details UI 
-    $('#foodHeader').html(`<div>${food.name} </div>`)
-
-    $('#foodId').val(food.id);
-    $('#nameInput').val(food.name);
-    $('#vegetarianInput').prop('checked', food.vegetarian);
-    $('#veganInput').prop('checked', food.vegan);
-    $('#glutenInput').prop('checked', food.glutenFree);
-    $('#fodmapInput').val(food.fodmapId);
-    $('#submitButton').html('Update');
-    $('.hiddenButton').show();
-
-    // Update FODMAP details card
-    fodChange(food.fodmapId ? food.fodmapId : '');
-
+        $.ajax({
+            url: `/Guest/Food/GetFoodDetailsById/${id}`,
+            type: 'GET',
+            success: function (data) {
+                if (data) {
+                    console.log('DATA PULLED FROM DB!');
+                    $(`#foodCard`).html(data);
+                }
+            }
+        })
 }
 
 function removeFood() {
@@ -52,6 +44,10 @@ function removeFoodConfirmation() {
 }
 
 function resetAllFields() {
+    // Show and activate all fields
+    $('.food-input').prop('disabled', false);
+    $('.food-input-button').prop('visible', true);
+
     // Clear food details
     $('#foodHeader').html(`<div>Add Food</div>`)
 
@@ -68,13 +64,11 @@ function resetAllFields() {
     resetFodmapCard();
 }
 
-
-
 function clickVegan() {
     if ($('#veganInput').prop('checked')) {
         $('#vegetarianInput').prop('checked', true);
     }
-}
+} 
 
 function clickVegetarian() {
     if (!$('#vegitarianInput').prop('checked')) {

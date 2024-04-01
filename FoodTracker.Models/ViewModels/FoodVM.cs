@@ -21,9 +21,11 @@ namespace FoodTracker.Models.ViewModels
 
         [ValidateNever]
         public IEnumerable<Fodmap> FodmapList { get; set; }
-        public Fodmap FodmapSelected { get; set; } 
+        public Fodmap FodmapSelected { get; set; }
 
-        
+        public double MaxReaction { get; set; } = -1;
+        public string MaxReactionColor { get; set; }
+
         //public int FoodID { get; set; }
     }
 }

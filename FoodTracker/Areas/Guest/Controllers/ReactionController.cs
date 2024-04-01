@@ -23,7 +23,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             ReactionVM = new ReactionVM
             {
-                Foods = _unitOfWork.Food.GetAll(includeProperties: "Fodmap.Color"),
+                Foods = _unitOfWork.Food.GetAll(includeProperties: "Reactions.Severity,Fodmap.Color"),
             };
             return View(ReactionVM);
         }
@@ -70,12 +70,13 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     reactionDict[category].Add(reaction);
                 }
             }
-
+            //_unitOfWork.UserSafeFood.GetAll();
             ReactionVM = new ReactionVM
             {
                 Categories = reactionDict,
                 Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                ActiveFood = _unitOfWork.Food.Get(f => f.Id == Int32.Parse(activeFoodId)),
+                ActiveFood = _unitOfWork.Food.Get(f => f.Id == Int32.Parse(activeFoodId), includeProperties: "UserSafeFoods"),
+                //ActiveFood = _unitOfWork.Food.Get(f => f.Id == Int32.Parse(activeFoodId)),
                 ExistingReactions = foodTypeSeverityDict
             };
             return PartialView("_ReactionPartial", ReactionVM);
@@ -109,6 +110,41 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 _unitOfWork.Save();
             }
 
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateUserSafeFood(int id)
+        {
+            bool success = false;
+            bool active = false;
+            string message = "Error updating user's safe foods";
+
+            if (id != 0)
+            {
+                var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == GetAppUserId(User) && f.FoodId == id);
+
+                if (existingSafeFood != null)
+                {
+                    _unitOfWork.UserSafeFood.Remove(existingSafeFood);
+                }
+                else
+                {
+                    var safeFood = new UserSafeFood()
+                    {
+                        AppUserId = GetAppUserId(User),
+                        FoodId = id
+                    };
+                    _unitOfWork.UserSafeFood.Add(safeFood);
+                    active = true;
+                }
+                success = true;
+                message = "Safe foods updated";
+                _unitOfWork.Save();
+            }
+
+
+            return Json(new { success, active, message });
             return RedirectToAction("Index");
         }
 

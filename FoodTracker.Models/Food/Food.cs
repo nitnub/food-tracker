@@ -1,4 +1,5 @@
 ﻿using FoodTracker.Models.FODMAP;
+using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,8 @@ namespace FoodTracker.Models.Food
         [InverseProperty(nameof(IngredientMap.IngredientFood))]
         public ICollection<IngredientMap>? IngredientFoods { get; set; }
         public IEnumerable<FoodAlias>? Aliases { get; set; }
+        public IEnumerable<UserSafeFood>? UserSafeFoods { get; set; }
+        public IEnumerable<Reaction.Reaction>? Reactions { get; set; }
         public bool Global { get; set; } = false;
     }
 

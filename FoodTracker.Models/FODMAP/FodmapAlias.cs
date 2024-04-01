@@ -13,6 +13,7 @@ namespace FoodTracker.Models.FODMAP
     {
         [Key]
         public int Id { get; set; }
+        public string? AppUserId { get; set; }
         public int FodmapId { get; set; }
         public string Alias { get; set; }
 
@@ -23,5 +24,6 @@ namespace FoodTracker.Models.FODMAP
         // TODO: redundant with above?
         public string OriginalName { get; set; }
         public bool IsPrimary { get; set; }
+        public bool Global { get; set; } = false;
     }
 }

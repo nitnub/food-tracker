@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@for (int i = 20; i < Model.Food.Aliases.Count() + 20; i++)
+{
+    var alias = Model.Food.Aliases[i];
+    @* <li  id="alias-@alias.Id"> *@
+    <li id="@alias.Id">
+        @* <input asp-for="Food.Aliases" /> *@
+        @Model.Food.Aliases[i].Alias
+        <label asp-for="@Model.Food.Aliases[i].Alias">
+
+            <svg class="delete-button xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+            </svg>
+        </label>
+        <input hidden asp-for="Food.Aliases[i].Alias" value="@Model.Food.Aliases[i].Alias" />
+        <input hidden asp-for="Food.Aliases[i].Id" />
+        <input hidden asp-for="Food.Aliases[i].FoodId" value="@Model.Food.Id" />
+        @* <input hidden asp-for="Food.Aliases[i].Alias" value="Food.Aliases[i].Alias" /> *@
+
+        @* @alias.Alias *@
+        @* @alias.Alias *@
+        @*     <svg class="delete-button xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+    </svg> *@
+    </li>
+
+}
+
+
+
+
+
+
+        
+
+                                    @*         var alias = Model.Food.Aliases[i];
+                                  
+                                            <li id="@alias.Id">
+                  
+                                                @Model.Food.Aliases[i].Alias
+                   
+                                                <input hidden asp-for="Food.Aliases[i].Alias" value="PUT VALUE HERE" />
+                                                <input hidden asp-for="Food.Aliases[i].Id" />
+                                                <input hidden asp-for="Food.Aliases[i].FoodId" value="@Model.Food.Id" />
+
+                                                </li>
+ *@
+
+
+
+
+                                                "abc<div>\n                        <label asp-for=\"@Model.Food.Aliases[0].Alias\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[0].Alias\" value=\"whole milk \">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[0].Id\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[0].FoodId\" value=\"1\">\n                        \n                        \n                        </label></div><div>\n                        <label asp-for=\"@Model.Food.Aliases[1].Alias\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[1].Alias\" value=\"regular milk \">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[1].Id\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[1].FoodId\" value=\"1\">\n                        \n                        \n                        </label></div><div>\n                        <label asp-for=\"@Model.Food.Aliases[2].Alias\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[2].Alias\" value=\"cow's milk \">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[2].Id\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[2].FoodId\" value=\"1\">\n                        \n                        \n                        </label></div><div>\n                        <label asp-for=\"@Model.Food.Aliases[3].Alias\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[3].Alias\" value=\"few\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[3].Id\">\n                        <input hidden=\"\" asp-for=\"Food.Aliases[3].FoodId\" value=\"1\">\n                        \n                        \n                        </label></div>"

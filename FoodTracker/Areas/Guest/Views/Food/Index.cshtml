@@ -13,180 +13,21 @@
     </div>
 </div>
 
-
 <div>
     Search Bar [       ]
     @foreach (var food in Model.FoodList)
     {
-        <a id="foodChip-@food.Id" onclick="selectFood(@food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a>
+        
+       @* <a id="foodChip-@food.Id" onclick="selectFood(@food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a> *@
+        <a id="foodChip-@food.Id" onclick="selectFood(@food.Id)" class="badge food-chip @(Model.MaxReactionColor?.ToLower())">@food.Name</a>
     }
 
     <div class="card-body p-4 col-7">
-
-        <form method="post" class="row" enctype="multipart/form-data">
-            <input id="foodId" asp-for="Food.Id" hidden />
-            <input asp-for="FoodList" value="@Model.FoodList" hidden />
-            <div class="row">
-                <div class="col-12">
-                    <div class="border p-3">
-                        <div class="d-flex justify-content-between">
-
-                            <span id="foodHeader">Add Food</span>
-
-                            <a id="cancelButton" class="hiddenButton" type="button" onclick="resetAllFields()">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="bi bi-x" viewBox="0 0 16 16">
-                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="form-floating py-2 col-12">
-                            <input id="nameInput" asp-for="Food.Name" class="form-control border-0 shadow" />
-                            <label asp-for="Food.Name" class="ms-2"></label>
-                            <span asp-validation-for="Food.Name" class="text-danger"></span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-
-                            <div>
-
-                                <div class="form-check py-2 col-12">
-                                    <input id="vegetarianInput" onclick="clickVegetarian()" asp-for="Food.Vegetarian" class="form-check-input border-0 shadow" />
-                                    <label asp-for="Food.Vegetarian" class="form-check-label ms-2"></label>
-
-                                </div>
-
-                                <div class="form-check py-2 col-12">
-                                    <input id="veganInput" onclick="clickVegan()" asp-for="Food.Vegan" class="form-check-input border-0 shadow" />
-                                    <label asp-for="Food.Vegan" class="form-check-label ms-2"></label>
-                                </div>
-
-                                <div class="form-check py-2 col-12">
-                                    <input id="glutenInput" asp-for="Food.GlutenFree" class="form-check-input border-0 shadow" />
-                                    <label asp-for="Food.GlutenFree" class="form-check-label ms-2"></label>
-                                </div>
-                            </div>
-                            <div class="fodSelectContainer">
-
-                                <div id="fodCardContainer">
-
-
-                                    <div class="card fodCard col-6 p">
-                                        <div id="fodColor" class="fodFlag fodBlue"></div>
-                                        <div class="card-body">
-                                            <p class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-16m3jxf-MuiTypography-root"></p>
-                                            <div class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root">
-                                                <h4 id="fodName" class="fodTitle">Arigulafeafef dsf f</h4>
-                                            </div>
-                                            <div id="fodCategory">
-                                                Fresh Vegetables
-
-                                            </div>
-                                            <div class="d-flex align-items-end">
-                                                <div class="fodAliasLabel">Aliases: &nbsp;</div>
-                                                <div id="fodAlias" class="fodAlias">None</div>
-                                            </div>
-                                            <div id="fodDailyIntake" class="d-flex justify-content-between pt-2">
-                                                <div id="fodDot" class="fodColorCircle fodRed"></div>
-
-                                                <div id="fodMaxIntakeContainer">
-
-
-                                                    <div class="fodUnknownContainer">
-                                                        <div>
-                                                            <svg class="fodCheckUnknown" xmlns="http://www.w3.org/2000/svg" height="100" width="100" viewBox="0 0 16 16">
-                                                                <path d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class=" fodElements">
-
-                                                    <div id="elementsContainer">
-                                                        <div id="fodOligos" class="inactiveReactant" aria-label="contains oligos">
-                                                            @* TODO: UPDATE ARIA *@
-                                                            <div id="fodOligosLabel">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="currentColor" class="bi bi-question-lg" viewBox="0 0 16 16">
-                                                                    <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
-                                                                </svg>
-                                                            </div>
-                                                            <div>
-                                                                oligos
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="d-flex" aria-label="free of fructose">
-
-                                                            <svg class="inactiveReactant" xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="currentColor" class="bi bi-question-lg" viewBox="0 0 16 16">
-                                                                <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
-                                                            </svg>
-
-
-                                                            <div>
-                                                                fructose
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="d-flex" aria-label="free of polyols">
-                                                            <svg class="inactiveReactant" xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="currentColor" class="bi bi-question-lg" viewBox="0 0 16 16">
-                                                                <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
-                                                            </svg>
-                                                            <div>
-                                                                polyols
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex" aria-label="free of lactose" data-mui-internal-clone-element="true">
-                                                            <svg class="inactiveReactant" xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="currentColor" class="bi bi-question-lg" viewBox="0 0 16 16">
-                                                                <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
-                                                            </svg>
-                                                            <div>
-                                                                lactose
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-floating py-2 col-12">
-
-                                    <select id="fodmapInput" asp-for="Food.FodmapId" class="form-select">
-                                        <option value="" selected>--Select Fodmap--</option>
-                                        @foreach (var fodItem in Model.FodmapList)
-                                        {
-                                            <option value="@fodItem.Id">@fodItem.Name</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row pt-2">
-                            <div class="col-6 col-md-3">
-                                <button id="submitButton" class="btn btn-primary form-control">Add</button>
-                            </div>
-                            <div class="col-6 col-md-3">
-                                <a asp-area="Guest" asp-controller="Food" asp-action="Index" class="btn btn-outline-primary border form-control">
-                                    Back to List
-                                </a>
-                            </div>
-
-                            <div class="col-6 col-md-3">
-
-                                <button id="deleteFoodButton" onclick="removeFoodConfirmation()" type="button" class="btn btn-danger form-control hiddenButton" style="display: none;">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    
-    
+        <div id="foodCard">
+            <partial name="_AddFoodPartial" />
+        </div>
     </div>
-
-
 </div>
-
 
 @section Scripts {
     @{

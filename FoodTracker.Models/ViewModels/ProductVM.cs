@@ -24,5 +24,7 @@ namespace FoodTracker.Models.ViewModels
         public bool QueryError { get; set; } = false;
         public string QueryErrorMessage { get; set; } = "Error processing query. Please try again later.";
 
+        public FoodVM? FoodVM { get; set; }
+
     }
 }

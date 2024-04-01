@@ -961,6 +961,7 @@
       },
       "FoodTracker.Utility/1.0.0": {
         "dependencies": {
+          "FoodTracker.Models": "1.0.0",
           "Microsoft.AspNetCore.Identity.UI": "8.0.3"
         },
         "runtime": {

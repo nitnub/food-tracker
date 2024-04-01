@@ -38,7 +38,7 @@ namespace FoodTracker.Models.FODMAP
         public bool Polyols {  get; set; }
         public bool Lactose {  get; set; }
 
-
-        public IEnumerable<FodmapAlias> Aliases { get; set; }
+        [ValidateNever]
+        public List<FodmapAlias> Aliases { get; set; }
     }
 }

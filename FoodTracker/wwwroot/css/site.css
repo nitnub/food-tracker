@@ -1,44 +1,54 @@
 :root {
-  --lt-blue: rgb(212, 231, 248);
-  --blugray: rgb(168, 183, 196);
-  --lt-brown: rgb(235, 234, 234);
-  --dk-text: rgb(48, 48, 48);
-  --hl-text: rgb(1, 251, 180);
-  /* Updated color family */
-  --nav-dark: #221d1b;
-  --bg-dark: #524442;
-  --bg-med: #db95b4;
-  --bg-lght: #f9c0b4;
-  --bg-white: #fdf3ed;
-  --bg-white-card: #fffbf8;
-  /* Updated color family */
-  /* --nav-dark: #2b2e38; */
-  /* --bg-dark: #424552; */
-  /* --bg-med: #db95b4; */
-  /* --bg-lght: #f9c0b4; */
-  /* --bg-white: #fdf3ed; */
-  /* --bg-white-card: #fffbf8; */
-  /* Container variables */
-  --container-max-width: 1200px;
-  --container-padding: 20px;
-  --clr-fm-green: rgba(13, 211, 40, 0.663);
-  --clr-fm-yellow: rgba(228, 228, 18, 0.4);
-  --clr-fm-red: rgba(180, 4, 4, 0.23);
-  --clr-fm-blue: #94c4f8;
-  --clr-fm-green-dk: rgb(17, 117, 30);
-  --clr-fm-yellow-dk: rgb(156, 156, 13);
-  --clr-fm-red-dk: rgb(180, 4, 4);
-  --clr-fm-blue-dk: #4696eb;
+    --lt-blue: rgb(212, 231, 248);
+    --blugray: rgb(168, 183, 196);
+    --lt-brown: rgb(235, 234, 234);
+    --dk-text: rgb(48, 48, 48);
+    --hl-text: rgb(1, 251, 180);
+    /* Updated color family */
+    --nav-dark: #221d1b;
+    --bg-dark: #524442;
+    --bg-med: #db95b4;
+    --bg-lght: #f9c0b4;
+    --bg-white: #fdf3ed;
+    --bg-white-card: #fffbf8;
+    /* Updated color family */
+    /* --nav-dark: #2b2e38; */
+    /* --bg-dark: #424552; */
+    /* --bg-med: #db95b4; */
+    /* --bg-lght: #f9c0b4; */
+    /* --bg-white: #fdf3ed; */
+    /* --bg-white-card: #fffbf8; */
+    /* Container variables */
+    --container-max-width: 1200px;
+    --container-padding: 20px;
+    --clr-fm-green: rgba(13, 211, 40, 0.663);
+    --clr-fm-yellow: rgba(228, 228, 18, 0.4);
+    --clr-fm-red: rgba(180, 4, 4, 0.23);
+    --clr-fm-blue: #94c4f8;
+    --clr-fm-green-dk: rgb(17, 117, 30);
+    --clr-fm-yellow-dk: rgb(156, 156, 13);
+    --clr-fm-red-dk: rgb(180, 4, 4);
+    --clr-fm-blue-dk: #4696eb;
+
+
+    --clr-fd-green: rgba(13, 211, 40, 0.663);
+    --clr-fd-yellow: rgba(228, 228, 18, 0.4);
+    --clr-fd-red: rgba(180, 4, 4, 0.23);
+    --clr-fd-blue: #94c4f8;
+    --clr-fd-green-dk: rgb(17, 117, 30);
+    --clr-fd-yellow-dk: rgb(156, 156, 13);
+    --clr-fd-red-dk: rgb(180, 4, 4);
+    --clr-fd-blue-dk: #4696eb;
 }
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus,
@@ -46,44 +56,55 @@ html {
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
 .hiddenButton {
-  display: none;
+    display: none;
+}
+
+.hidden {
+    display: none;
 }
 
 .strikeThrough {
     text-decoration: line-through;
 }
+
+
 /* Food Area */
+
 .food-chip {
     text-decoration: none;
-    color: green;
-    background-color: green;
+    /*color: green;*/
+    color: #2f2a2a;
+    /*background-color: green;*/
     background-color: white;
     border: solid 1px green;
+    border: solid 1px #2f2a2a;
     transition: 0.3s;
+    cursor: pointer;
+    margin: 2px;
 }
 
 .foodChip,
 .foodChipGreen,
 .foodChipYellow,
 .foodChipRed {
-  text-decoration: none;
-  color: black;
-  background-color: white;
-  border: solid 1px var(--clr-fm-blue-dk);
-  transition: 0.3s;
+    text-decoration: none;
+    color: black;
+    background-color: white;
+    border: solid 1px var(--clr-fm-blue-dk);
+    transition: 0.3s;
 }
 
 .foodChip:hover {
@@ -93,10 +114,10 @@ body {
 }
 
 .foodChipGreen {
-  text-decoration: none;
-  color: var(--clr-fm-green-dk);
-  border-color: var(--clr-fm-green-dk);
-  transition: 0.3s;
+    text-decoration: none;
+    color: var(--clr-fm-green-dk);
+    border-color: var(--clr-fm-green-dk);
+    transition: 0.3s;
 }
 
 .foodChipGreen:hover {
@@ -106,10 +127,10 @@ body {
 }
 
 .foodChipYellow {
-  text-decoration: none;
-  color: var(--clr-fm-yellow-dk);
-  border-color: var(--clr-fm-yellow-dk);
-  transition: 0.3s;
+    text-decoration: none;
+    color: var(--clr-fm-yellow-dk);
+    border-color: var(--clr-fm-yellow-dk);
+    transition: 0.3s;
 }
 
 .foodChipYellow:hover {
@@ -119,10 +140,10 @@ body {
 }
 
 .foodChipRed {
-  text-decoration: none;
-  color: var(--clr-fm-red-dk);
-  border-color: var(--clr-fm-red-dk);
-  transition: 0.3s;
+    text-decoration: none;
+    color: var(--clr-fm-red-dk);
+    border-color: var(--clr-fm-red-dk);
+    transition: 0.3s;
 }
 
 .foodChipRed:hover {
@@ -132,79 +153,97 @@ body {
 }
 
 .selectedFoodChip {
-  background-color: green;
-  color: white;
+    background-color: green;
+    color: white;
 }
 
+.chip-badge {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border-radius: 4px;
+    z-index: 1;
+    height: 14px;
+    width: 14px;
+}
+
+.chip-badge-label {
+    color: white;
+    font-size: .8em;
+    align-content: center;
+
+}
 /* FODMAP */
 .fodSelectContainer,
 .fodCard {
-  width: 275px;
+    width: 275px;
 }
+
 .fodFlag {
-  position: absolute;
-  translate: 175px;
-  width: 100px;
-  height: 100px;
-  border-bottom-left-radius: 100%;
-  border-top-right-radius: 4px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(0.8px);
-  -webkit-backdrop-filter: blur(0.8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+    position: absolute;
+    translate: 175px;
+    width: 100px;
+    height: 100px;
+    border-bottom-left-radius: 100%;
+    border-top-right-radius: 4px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(0.8px);
+    -webkit-backdrop-filter: blur(0.8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .fodBlue {
-  background: #94c4f8;
-  background: var(--clr-fm-blue);
+    background: #94c4f8;
+    background: var(--clr-fm-blue);
 }
 
 .fodGreen {
-  background: rgba(23, 81, 31, 0.663);
-  background: rgba(13, 211, 40, 0.663);
-  background: var(--clr-fm-green);
+    background: rgba(23, 81, 31, 0.663);
+    background: rgba(13, 211, 40, 0.663);
+    background: var(--clr-fm-green);
 }
 
 .fodYellow {
-  background: rgba(229, 191, 37, 0.2);
-  background: rgba(228, 228, 18, 0.663);
-  background: rgba(228, 228, 18, 0.4);
-  background: var(--clr-fm-yellow);
+    background: rgba(229, 191, 37, 0.2);
+    background: rgba(228, 228, 18, 0.663);
+    background: rgba(228, 228, 18, 0.4);
+    background: var(--clr-fm-yellow);
 }
 
 .fodRed {
-  background: rgba(180, 4, 4, 0.23);
-  background: var(--clr-fm-red);
+    background: rgba(180, 4, 4, 0.23);
+    background: var(--clr-fm-red);
 }
 
 .fodSafeContainer {
-  /*background-color: red;*/
-  /*    display: flex;
+    /*background-color: red;*/
+    /*    display: flex;
      flex-direction: column;
      align-content: space-between;*/
 }
 
 .fodCheckUnknown {
-  /*background-color: orange;*/
-  /*  display: flex;
+    /*background-color: orange;*/
+    /*  display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;*/
 }
 
 .fodSafeCheckContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /*background-color: blue;*/
-  height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*background-color: blue;*/
+    height: 90px;
 }
+
 .fodCheckUnknown,
 .fodSafeCheck {
-  /* font-size: larger; */
-  color: rgb(92, 92, 92);
-  fill: rgb(92, 92, 92);
+    /* font-size: larger; */
+    color: rgb(92, 92, 92);
+    fill: rgb(92, 92, 92);
 }
 
 /*.fodTitle {
@@ -212,79 +251,80 @@ body {
 }*/
 
 .fodAliasLabel {
-  font-size: 0.95em;
-  /* font-weight:600; */
-  color: rgb(92, 92, 92);
+    font-size: 0.95em;
+    /* font-weight:600; */
+    color: rgb(92, 92, 92);
 }
 
 .fodAlias {
-  font-style: italic;
-  font-size: 0.8em;
-  color: rgb(92, 92, 92);
+    font-style: italic;
+    font-size: 0.8em;
+    color: rgb(92, 92, 92);
 }
 
 .fodColorCircle {
-  /* position: absolute; */
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+    /* position: absolute; */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
 }
 
 .activeReactant,
 .inactiveReactant {
-  display: flex;
-  align-items: center;
-  /*    height: 24px;
+    display: flex;
+    align-items: center;
+    /*    height: 24px;
     width: 24px;*/
 }
 
 .activeReactant {
-  color: red; /* needed for text */
-  fill: red; /* needed for svg */
+    color: red; /* needed for text */
+    fill: red; /* needed for svg */
 }
 
 .notPresent,
 .inactiveReactant {
-  /* color: rgb(103, 103, 103); */
-  color: rgb(159, 159, 174);
-  fill: rgb(159, 159, 174);
+    /* color: rgb(103, 103, 103); */
+    color: rgb(159, 159, 174);
+    fill: rgb(159, 159, 174);
 }
 
 .fodElements {
-  /*background-color: purple;*/
-  /*width: fit-content;*/
+    /*background-color: purple;*/
+    /*width: fit-content;*/
 }
 
 .fodMaxIntakeContainer {
-  border-radius: 50%;
-  /* background-color: blueviolet; */
-  display: flex;
-  flex-direction: column;
-  /* width: 175px; */
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  /* background-color: red; */
-  /* margin-right: 12px; */
-  /* font-size: 3em; */
+    border-radius: 50%;
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: column;
+    /* width: 175px; */
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+    /* margin-right: 12px; */
+    /* font-size: 3em; */
 }
 
 .fodMaxIntake {
-  font-size: 3em;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: -10px;
-  /* background-color: blue; */
-  height: 90px;
+    font-size: 3em;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: flex-end;*/
+    margin-bottom: -10px;
+    /* background-color: blue; */
+    height: 90px;
 }
 
 
 /* Product Area */
 
 .product-card {
-        width: 400px;
+    width: 400px;
 }
+
 .product-ingredient-divider {
     font-weight: bold;
     /*font-size: 2em;*/
@@ -315,18 +355,13 @@ body {
     transition: 0.3s;
 }
 
-
-
-
 .foodChipTOne:hover,
-
 .foodChipTThree:hover,
 .foodChipTFour:hover {
     background-color: var(--clr-fm-blue-dk);
     color: white;
     cursor: pointer;
 }
-
 
 .foodChipGreenSolid {
     text-decoration: none;
@@ -356,4 +391,85 @@ body {
 /*Default Hidden*/
 .chip-dot {
     visibility: hidden;
+}
+
+
+.tags-input {
+/*    display: inline-block;
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 2px 2px 5px #00000033;*/
+    /*width: 50%;*/
+}
+
+.tags-input ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tags-input li {
+    display: inline-block;
+    /*background-color: #f2f2f2;*/
+    /*background-color:aquamarine;*/
+    color: #333;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+
+.alias-item {
+    background-color:paleturquoise;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.alias-item-new {
+    background-color: gainsboro;
+}
+
+.alias-delete {
+    /*background-color: black;*/
+    /*opacity: 20%;*/
+}
+
+.tags-input input[type="text"] {
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.tags-input input[type="text"]:focus {
+    outline: none;
+}
+
+.tags-input .alias-delete {
+    background-color: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+
+.green {
+    color: var(--clr-fd-green-dk);
+    /*background-color: var(--clr-fd-green-dk);*/
+    /*border-color: var(--clr-fd-green-dk);*/
+}
+
+.yellow {
+    color: var(--clr-fd-yellow-dk);
+    /*border-color: var(--clr-fd-yellow-dk);*/
+}
+
+.red {
+    color: var(--clr-fd-red-dk);
+    /*border-color: var(--clr-fd-red-dk);*/
 }

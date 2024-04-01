@@ -3,13 +3,13 @@
 
 <!-- Food Details Modal (Product) -->
 <div class="modal food-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Food Details</h5>
             </div>
             <div id="modal-body" class="modal-body">
-
+                <div id="foodCard"></div>
                @*  <partial name="_AddFoodPartial" /> *@
 
             </div>
@@ -31,10 +31,10 @@
     </form>
 
         <div id="pView">
-            @if (Model.BrandedResult != null)
+     @*        @if (Model.BrandedResult != null)
             {
                 <partial name="_ProductBrandedPartial" />
-            }
+            } *@
         </div>
 
 </div>
@@ -43,6 +43,14 @@
 
 @section Scripts {
     @{
-        <script src="~/js/product.js"></script>
+
+        // <script>
+        //     var foodList = "Json.Serialize(Model.FoodList)";
+        //     var fodMapList = @Json.Serialize(Model.FoodVM.FodmapList);
+        // </script>
+            // <script src="~/js/fodmap.js"></script>
+            <script src="~/js/product.js"></script>
+        // <script src="~/js/food.js"></script>
+        // <script src="~/js/addFood.js"></script>
     }
 }

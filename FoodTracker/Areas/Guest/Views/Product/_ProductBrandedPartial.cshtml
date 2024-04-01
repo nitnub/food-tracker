@@ -28,10 +28,13 @@ else
                                         <div class="d-flex flex-wrap">
                                             @foreach (var item in Model.IngredientsDict[product.FdcId])
                                             {
-                                                if (item.GetType().Name == nameof(Food))
+                                                if (item.GetType().Name == nameof(FoodVM))
                                                 {
-                                                    var f = (Food)item;
-                                                    <a id="foodChip-@f.Id" class="badge food-chip foodChip@(f.Fodmap?.Color.Name) m-1" onClick="(activateModal('@f.Name'))">@f.Name @f.Fodmap?.Color.Name</a>
+                                                    var fvm = (FoodVM)item;
+                                                    var f = fvm.Food;
+
+                                                    <a id="foodChip-@f.Id" class="badge food-chip foodChip@(fvm.MaxReactionColor) m-1" onClick="(activateModal('@f.Name', @f.Id))">@f.Name</a>
+                                                    
                                                 }
                                                 else
                                                 {
@@ -52,4 +55,11 @@ else
             </div>
         </form>
     </div>
+}
+
+@section Scripts {
+    @{
+        <script src="~/js/product.js"></script>
+        <script src="~/js/food.js"></script>
+    }
 }

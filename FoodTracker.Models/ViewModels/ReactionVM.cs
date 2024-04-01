@@ -18,5 +18,6 @@ namespace FoodTracker.Models.ViewModels
 
         public int FoodId {  get; set; }
         public Food.Food ActiveFood { get; set; }
+        public FoodVM? FoodVM { get; set; }
     }
 }

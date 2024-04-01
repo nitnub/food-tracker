@@ -1,115 +1,61 @@
 ﻿
-
-
-
-
-
 $("#searchButton").click(function (e) {
     const val = $("#searchQuery").val().replace(" ", "%20");
     $.ajax({
         url: `/guest/product/getusdaproducts?userQuery=${val}`,
         success: function (data) {
-            //console.log(data)
             $("#pView").html(data);
         }
     })
 });
 
-
-
-
 function activateModal(productName) {
 
     $('.food-details-modal').modal('show');
     $('.modal-title').html(productName);
-    console.log("Clicked");
-    console.log(productName);
 
-
-    $.ajax({
-        url: `/guest/food/getfooddetails?foodName=${productName}`,
-        success: function (data) {
-            //console.log(data)
-            $("#modal-body").html(data);
-        }
-    })
+    selectFoodByName(productName);
+ 
 }
 
 
 
 
+function selectFoodByName(foodName) {
 
-//$(".food-chip").click(function (e) {
-//    var foodId = e.target.attributes.value.value;
-//    $.ajax({
-//        url: `/guest/reaction/getreactions?activeFoodId=${foodId}`,
-//        success: function (data) {
-//            $("#pView").html(data);
-//        }
-//    })
-//});
-
-
-//function addReaaction(foodId, typeId, severityId, active) {
-//    $.ajax({
-//        url: "/guest/reaction/addreaction",
-//        type: "POST",
-//        data: JSON.stringify({
-//            foodId, typeId, severityId,
-//            AppUserId: "0",
-//            Active: true,
-
-//        }),
-//        contentType: "application/json",
-//        dataType: "json",
-//        success: function () {
-//            console.log("Add was a success...");
-//  }
-//})
-
-//}
-
-//function removeReaaction(foodId, typeId, severityId, active) {
-//    $.ajax({
-//        url: "/guest/reaction/removereaction",
-//        type: "POST",
-//        data: JSON.stringify({
-//            Id: 0,
-//            foodId, typeId, severityId,
-//            AppUserId: "0",
-//            Active: false,
-
-//        }),
-
-//        contentType: "application/json",
-//        dataType: "json",
-//        success: function () {
-//            console.log("Remove was a success...");
-//        }
-//    });
-//}
-
-//function viewReactions(id) {
-//    foodId = id;
-//    focusFood = id;
-//}
+    console.log('calling from product.js...');
 
 
 
+    $.ajax({
+        url: `/Guest/Food/GetFoodDetailsByName?foodName=${foodName}`,
+        type: 'GET',
+        success: function (data) {
+            if (data) {
 
-//function testSubmit(s) {
-//    const [foodId, typeId, severityId] = s.split('-');
+                console.log('DATA PULLED FROM DB!');
+                $(`#foodCard`).html(data);
 
-//    var theDiv = $(`#radio${s}`);
+                //listenForTabs();
+                //$('.delete-food-modal').modal('hide');
+                //resetAllFields();
+            }
+            //console.log(data)
+        }
+    })
 
-//    $(theDiv).on('click',  (e) => e.preventDefault() )
+    //$(function () {
+    //    $('form').submit(function () {
+    //        $(this).append($(tags));
+    //        return true;
+    //    });
+    //});
 
-//    if (theDiv.is(':checked')) {
-//        theDiv.prop('checked', false);
-//        removeReaaction(foodId, typeId, severityId);
-//    }
-//    else {
-//        theDiv.prop('checked', true);
-//        addReaaction(foodId, typeId, severityId);
-//    }
-//}
+
+    //$(function () {
+    //    $('form').submit(function () {
+    //        $(this).append($("#ValueOutsideForm"));
+    //        return true;
+    //    });
+    //});
+}

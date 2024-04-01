@@ -48,6 +48,7 @@ namespace FoodTracker.DataAccess.Data
         public DbSet<ReactionType> ReactionTypes { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<UserSafeFood> UserSafeFoods { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -8,19 +8,44 @@
 
     @foreach (var food in Model.Foods)
     {
-        <a value="@(food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a>
-    }
+        var severityColor = Helper.GetMaxSeverityColorString(food);
+         @* <a value="@(food.Id)" class="badge food-chip foodChip@(food.Fodmap?.Color.Name)">@food.Name</a>  *@
+        <a value="@(food.Id)" class="badge food-chip @(severityColor.ToLower()) position-relative">
+            @food.Name
 
+            @if(food.Fodmap != null)
+            {
+                <span class="position-absolute top-0 start-100 translate-middle p-2 foodChip@(food.Fodmap.Color.Name)Solid chip-badge"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="FODMAP: @(food.Fodmap.Color.Name)">
+                    <span class="chip-badge-label">F</span>
+                </span>
+                
+            }
+
+
+
+
+        
+        </a>
+    }
+   
     <br />
     <br />
     <div>
         <a value="(food.Id)" class="badge food-chipT1 foodChipTOne">Test One</a>
+
         <a value="(food.Id)" class="badge food-chipT2 foodChipTTwo position-relative">
             Test Two
-            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipGreenSolid border border-light rounded-circle">
-                <span class="visually-hidden">New alerts</span>
+            <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipGreenSolid chip-badge"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top" 
+                title="FODMAP: Green">
+                <span class="chip-badge-label">F</span>
             </span>
             </a>
+
         <a value="(food.Id)" class="badge food-chipT3 foodChipTThree position-relative">
             Test Threea
             <span class="position-absolute top-0 start-100 translate-middle p-2 foodChipYellowSolid border border-light rounded-circle">
@@ -58,9 +83,9 @@
                 <span class="visually-hidden">New alerts</span>
             </span>
         </a>
-
-
     </div>
+
+
 
     <div id="pView">
         @if (Model.ActiveFood != null)

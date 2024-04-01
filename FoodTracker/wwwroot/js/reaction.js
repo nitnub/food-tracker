@@ -1,5 +1,5 @@
 ﻿
-$(".food-chip").click(function (e) {
+$(".food-chip").on('click', function (e) {
     var foodId = e.target.attributes.value.value;
     $.ajax({
         url: `/guest/reaction/getreactions?activeFoodId=${foodId}`,
@@ -59,8 +59,7 @@ function viewReactions(id) {
 
 function testSubmit(s) {
     const [foodId, typeId, severityId] = s.split('-');
-
-    var theDiv = $(`#radio${s}`);
+    const theDiv = $(`#radio${s}`);
 
     $(theDiv).on('click', (e) => e.preventDefault())
 
@@ -72,4 +71,25 @@ function testSubmit(s) {
         theDiv.prop('checked', true);
         addReaaction(foodId, typeId, severityId);
     }
+}
+
+
+
+function updateUserSafeFood(id) {
+    $.ajax({
+        url: `/Guest/Reaction/UpdateUserSafeFood?id=${id}`,
+        type: 'POST',
+        success: function (r) {
+            if (r.success) {
+
+                if (r.active) {
+                    $('#userSafeFoodInput').prop('checked', true);
+                    $('#reactionPicker').hide();
+                } else {
+                    $('#userSafeFoodInput').prop('checked', false);
+                    $('#reactionPicker').show()
+                }
+            }
+        }
+    })
 }

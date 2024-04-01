@@ -7,7 +7,7 @@ namespace FoodTracker.DataAccess.Repository
 {
     public class LocationRepository(ApplicationDbContext db) : Repository<Location>(db), ILocationRepository
     {
-        private ApplicationDbContext _db = db;
+        private readonly ApplicationDbContext _db = db;
 
         public void Update(Location obj)
         {

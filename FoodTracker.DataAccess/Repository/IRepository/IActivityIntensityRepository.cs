@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace FoodTracker.DataAccess.Repository.IRepository
 {
-    public interface IAppUserRepository : IRepository<AppUser>
+    public interface IActivityIntensityRepository : IRepository<ActivityIntensity>
     {
-     public void Update(AppUser obj);
+     public void Update(ActivityIntensity obj);
     }
 }

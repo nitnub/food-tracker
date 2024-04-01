@@ -20,8 +20,7 @@ namespace FoodTracker.DataAccess.Repository
         public Repository(ApplicationDbContext db)
         {
             _db = db;
-            dbSet = _db.Set<T>();
-            //_db.Food.Include(u => u.Fodmap);
+            this.dbSet = _db.Set<T>();
         }
 
         public void Add(T entity)

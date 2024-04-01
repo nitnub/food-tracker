@@ -1,16 +1,86 @@
-﻿$(document).ready(function () {
-    fodChange();
-})
+﻿//$(document).ready(function () {
+//    fodChange();
+//})
 
 
-document.getElementById('fodmapInput').addEventListener('change', fodChange);
+//document.getElementById('fodmapInput').addEventListener('change', fodChange);
 
+//function fodChange_ORIGINAL() {
+//    var fodId
+//    if (document.getElementById('fodmapInput')) {
+//        fodId = document.getElementById('fodmapInput').value;
+//    }
+
+//    var fm = fodMapList.find(f => f.id == fodId);
+
+//    if (fm == null) {
+//        resetFodmapCard();
+//    }
+//    else {
+
+//        $('#fodName').html(fm.name);
+//        $('#fodCategory').html(fm.category.name);
+
+//        $("#fodColor").removeClass().addClass(`fodFlag fod${fm.color.name}`);
+//        $("#fodDot").removeClass().addClass(`fodColorCircle fod${fm.color.name}`);
+        
+//        var dailyIntakeResult = `
+//                <div class="fodSafeCheckContainer">
+//                    <svg class=" fodSafeCheck " focusable="false" aria-hidden="true" viewBox="0 0 24 24">
+//                        <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
+//                    </svg>
+//                </div>
+//                <div >FODMAP Safe!</div> `
+
+//        if (fm.maxUse < 9999) {
+//            dailyIntakeResult = `                   
+//                <div id="fodMaxIntakeContainer" class="fodMaxIntakeContainer">
+//                    <div class="fodMaxIntake">
+//                        ${fm.maxUse}${fm.maxUse === 1 ? fm.maxUse.shortName : fm.maxUseUnits.shortNamePlural}
+//                    </div>
+//                    <div >Max Daily Intake</div>
+//                </div>`
+//        }
+
+//        $('#fodMaxIntakeContainer').html(dailyIntakeResult);
+
+//        var aliasString = fm.aliases.map(a => a.alias).join(", ");
+//        //var aliasString = "update line 48 of fodmap.js";
+//        $('#fodAlias').html(aliasString);
+
+//        $('#elementsContainer').html(
+//            ['oligos', 'fructose', 'polyols', 'lactose'].map(el => 
+//                `<div 
+//                    id="fodOligos"
+//                    class="${fm[el] ? 'activeReactant' : 'inactiveReactant'}" 
+//                    aria-label="${fm[el] ? 'contains' : 'free of'} ${el}" 
+//                    data-toggle="tooltip" 
+//                    title="${fm[el] ? 'contains' : 'free of'} ${el}"
+//                    > 
+//                    <div id="fodOligosLabel">
+//                     ${fm[el] ? elementWarn : elementSafe}
+//                    </div>
+//                    <div class="${fm[el] ? '' : 'strikeThrough'}">
+//                        ${el}
+//                    </div>
+//                </div>`
+//            ));
+//    }
+//}
+//let fodMapList;
 function fodChange() {
+    var fodId
+    if (document.getElementById('fodmapInput')) {
+        fodId = document.getElementById('fodmapInput').value;
+    }
 
-    const fodId = document.getElementById('fodmapInput').value
+
+
+
+
 
     var fm = fodMapList.find(f => f.id == fodId);
-
+    console.log('fm',fm)
     if (fm == null) {
         resetFodmapCard();
     }
@@ -35,20 +105,19 @@ function fodChange() {
                 <div id="fodMaxIntakeContainer" class="fodMaxIntakeContainer">
                     <div class="fodMaxIntake">
                         ${fm.maxUse}${fm.maxUse === 1 ? fm.maxUse.shortName : fm.maxUseUnits.shortNamePlural}
-                        </div>
+                    </div>
                     <div >Max Daily Intake</div>
                 </div>`
-
-
         }
 
         $('#fodMaxIntakeContainer').html(dailyIntakeResult);
 
         var aliasString = fm.aliases.map(a => a.alias).join(", ");
+
         $('#fodAlias').html(aliasString);
 
         $('#elementsContainer').html(
-            ['oligos', 'fructose', 'polyols', 'lactose'].map(el => 
+            ['oligos', 'fructose', 'polyols', 'lactose'].map(el =>
                 `<div 
                     id="fodOligos"
                     class="${fm[el] ? 'activeReactant' : 'inactiveReactant'}" 
@@ -63,11 +132,47 @@ function fodChange() {
                         ${el}
                     </div>
                 </div>`
-
-
-
             ));
     }
+}
+
+function updateFodmapCard(e) {
+
+    //console.log(e);
+    //const fodmapId = $('#fodmapInput').val();
+    //console.log(fodmapId);
+
+
+    if (fodMapList == null) {
+        $.ajax({
+            url: `/Guest/Food/GetFodmapList`,
+            type: 'GET',
+            //contentType: 'application/json',
+            success: function (data) {
+                //if (data.success) {
+                //    console.log(data.aliases);
+                //    //$(`#foodChip-${foodId}`).remove();
+                //    //$('.delete-food-modal').modal('hide');
+                //    //resetAllFields();
+                //}
+                console.log("DATA:")
+                console.log(data);
+                fodMapList = data.list;
+                fodChange();
+                //fodMapList = await JSON.parse(data);
+            }
+        })
+    } else {
+        fodChange();
+    }
+
+
+
+   
+}
+
+function clickTest() {
+    console.log('aaa')
 }
 
 
@@ -106,6 +211,10 @@ function resetFodmapCard() {
 }
 
 
+
+
+
+
 // FODMAP Icons
 var elementWarn = `
         <svg focusable="false" aria-hidden="true" height="24" width="24">
@@ -116,3 +225,25 @@ var elementSafe = `
         <svg class="inactiveReactant" focusable="false" aria-hidden="true" height="24" width="24">
             <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path>
         </svg>`
+
+
+
+
+//function getFodAliases(id) {
+
+//    if (id === null) return;
+
+//    $.ajax({
+//        url: `/Guest/Food/GetFodmapAliases/${foodId}`,
+//        type: 'GET',
+//        //contentType: 'application/json',
+//        success: function (data) {
+//            if (data.success) {
+//                console.log(data.aliases);
+//                //$(`#foodChip-${foodId}`).remove();
+//                //$('.delete-food-modal').modal('hide');
+//                //resetAllFields();
+//            }
+//        }
+//    })
+//}

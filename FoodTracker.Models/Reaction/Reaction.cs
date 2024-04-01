@@ -21,10 +21,22 @@ namespace FoodTracker.Models.Reaction
         [ForeignKey(nameof(AppUserId))]
         [ValidateNever]
         public AppUser AppUser { get; set; }
+
+
+        [ForeignKey(nameof(Food))]
         public int FoodId { get; set; }
-        [ForeignKey(nameof(FoodId))]
-        [ValidateNever]
-        public Food.Food Food { get; set; }
+
+
+
+        //public int FoodId { get; set; }
+        //[ForeignKey(nameof(FoodId))]
+        //[ValidateNever]
+        //public Food.Food Food { get; set; }
+
+
+
+
+
         public int TypeId { get; set; }
         [ForeignKey(nameof(TypeId))]
         [ValidateNever]

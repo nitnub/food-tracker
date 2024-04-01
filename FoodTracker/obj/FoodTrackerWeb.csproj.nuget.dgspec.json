@@ -191,7 +191,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
+                "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

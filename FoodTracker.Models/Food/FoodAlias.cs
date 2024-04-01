@@ -16,6 +16,7 @@ namespace FoodTracker.Models.Food
     {
         [Key]
         public int Id { get; set; }
+        [ForeignKey("AppUser")]
         public string? AppUserId { get; set; }
         public int FoodId { get; set; }
         //[ForeignKey(nameof(FoodId))]
@@ -26,6 +27,10 @@ namespace FoodTracker.Models.Food
         public string Alias { get; set; }
 
         public bool Global { get; set; } = false;
+
+        [Timestamp]
+        [ValidateNever]
+        public byte[] Version { get; set; }
 
     }
 }
