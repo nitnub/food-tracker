@@ -4,10 +4,20 @@ $(".food-chip").on('click', function (e) {
     $.ajax({
         url: `/guest/reaction/getreactions?activeFoodId=${foodId}`,
         success: function (data) {
-            $("#pView").html(data);
+            $("#reactionView").html(data);
         }
     })
 });
+
+function displayReactionDetails(e) {
+    var foodId = e.target.attributes.value.value;
+    $.ajax({
+        url: `/guest/reaction/getreactions?activeFoodId=${foodId}`,
+        success: function (data) {
+            $("#reactionView").html(data);
+        }
+    })
+}
 
 
 function addReaaction(foodId, typeId, severityId, active) {
@@ -40,7 +50,6 @@ function removeReaaction(foodId, typeId, severityId, active) {
             Active: false,
 
         }),
-
         contentType: "application/json",
         dataType: "json",
         success: function () {
@@ -53,9 +62,6 @@ function viewReactions(id) {
     foodId = id;
     focusFood = id;
 }
-
-
-
 
 function testSubmit(s) {
     const [foodId, typeId, severityId] = s.split('-');
@@ -72,8 +78,6 @@ function testSubmit(s) {
         addReaaction(foodId, typeId, severityId);
     }
 }
-
-
 
 function updateUserSafeFood(id) {
     $.ajax({

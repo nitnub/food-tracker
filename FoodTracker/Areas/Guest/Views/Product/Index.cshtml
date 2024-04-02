@@ -1,6 +1,5 @@
 ﻿@model ProductVM
 
-
 <!-- Food Details Modal (Product) -->
 <div class="modal food-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -25,31 +24,24 @@
         <div class="form-floating py-2 col-12">
             <input id="searchQuery" class="form-control form-control-lg" type="text" placeholder="ex: Chao Cheese">
             <label asp-for="QueryString" class="ms-2"></label>
-            @* <span asp-validation-for="QueryString" class="text-danger"></span> *@
         </div>
         <button id="searchButton" class="btn btn-primary" type="button">Search USDA</button>
     </form>
 
-        <div id="pView">
-     @*        @if (Model.BrandedResult != null)
-            {
-        <partial name="_ProductBrandedPartial" />
-            } *@
+        <div id="productView">
+
         </div>
 </div>
 
 
-
 @section Scripts {
     @{
-
-        // <script>
-        //     var foodList = "Json.Serialize(Model.FoodList)";
-        //     var fodMapList = @Json.Serialize(Model.FoodVM.FodmapList);
-        // </script>
-            // <script src="~/js/fodmap.js"></script>
-            <script src="~/js/product.js"></script>
-        // <script src="~/js/food.js"></script>
+        <script>
+            var foodList = @Json.Serialize(Model.FoodVM.FoodList);
+            var fodMapList = @Json.Serialize(Model.FodmapList);
+        </script>
         // <script src="~/js/addFood.js"></script>
+        <script src="~/js/fodmap.js"></script>
+        <script src="~/js/product.js"></script>
     }
 }

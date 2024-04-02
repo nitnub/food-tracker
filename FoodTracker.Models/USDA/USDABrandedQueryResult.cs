@@ -12,8 +12,7 @@ namespace FoodTracker.Models.USDA
         public int TotalHits {get; set;}
         public int CurrentPage {get; set;}
         public int TotalPages {get; set;}
-        //public int pageList { get; set; }
-        //foodSearchCriteria
+
         public bool Success { get; set; } = true;
         public System.Net.HttpStatusCode Status { get; set; }
         public List<USDAFood> Foods { get; set;}

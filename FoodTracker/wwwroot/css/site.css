@@ -157,23 +157,45 @@ body {
     color: white;
 }
 
-.chip-badge {
+
+.chip-badge,
+.chip-badge-large {
     display: flex;
     align-content: center;
     justify-content: center;
     border-radius: 4px;
     z-index: 1;
+}
+
+.chip-badge {
     height: 14px;
     width: 14px;
 }
 
-.chip-badge-label {
-    color: white;
-    font-size: .8em;
-    align-content: center;
-
+.chip-badge-large {
+    min-height: 36px;
+    max-height: 36px;
+    min-width: 36px;
+    max-width: 36px;
 }
+
+.chip-badge-label,
+.chip-badge-label-large {
+    color: white;
+    align-content: center;
+}
+
+.chip-badge-label {
+    font-size: .8em;
+}
+
+.chip-badge-label-large {
+    font-size: 1.5em;
+}
+
+
 /* FODMAP */
+
 .fodSelectContainer,
 .fodCard {
     width: 275px;
@@ -363,29 +385,37 @@ body {
     cursor: pointer;
 }
 
-.foodChipGreenSolid {
+.foodChipGreenSolid,
+.foodChipYellowSolid,
+.foodChipRedSolid,
+.foodChipBlueSolid {
     text-decoration: none;
+    user-select: none;
+}
+
+.foodChipGreenSolid {
     color: var(--clr-fm-green-dk);
     border-color: var(--clr-fm-green-dk);
     background-color: var(--clr-fm-green-dk);
-    /*transition: 0.3s;*/
 }
 
 .foodChipYellowSolid {
-    text-decoration: none;
     color: var(--clr-fm-yellow-dk);
     border-color: var(--clr-fm-yellow-dk);
     background-color: var(--clr-fm-yellow-dk);
-    /* transition: 0.3s;*/
 }
 
 
 .foodChipRedSolid {
-    text-decoration: none;
     color: var(--clr-fm-red-dk);
     border-color: var(--clr-fm-red-dk);
     background-color: var(--clr-fm-red-dk);
-    /*tr*/
+}
+
+.foodChipBlueSolid {
+    color: var(--clr-fm-blue-dk);
+    border-color: var(--clr-fm-blue-dk);
+    background-color: var(--clr-fm-blue-dk);
 }
 
 /*Default Hidden*/

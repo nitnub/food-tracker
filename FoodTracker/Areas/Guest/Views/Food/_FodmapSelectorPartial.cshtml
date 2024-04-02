@@ -1,12 +1,6 @@
 ﻿@model FoodVM
 
-
-
-
-
 <div>
-
-
     @if (Model != null)
     {
         <div id="fodMapCardHolder">
@@ -15,30 +9,22 @@
     }
     else
     {
-        <div>In the fodmap selector... Model was null</div>
+        <div>Fodmap Card not available...</div>
     }
-
-
 
     <div class="form-floating py-2 col-12">
         <select id="fodmapInput" class="form-select food-input" onchange="updateFodmapCard(this)" asp-for="Food.FodmapId">
             <option value="" selected>--Select Fodmap--</option>
             @foreach (var fodItem in Model.FodmapList)
             {
-                <option  value="@fodItem.Id">@fodItem.Name</option>
+                <option value="@fodItem.Id">@fodItem.Name</option>
             }
         </select>
     </div>
 
 </div>
 
-@section Scripts {
-    @{
-        // <script>
-        //     var foodList = @Json.Serialize(Model.FoodList);
-        //     var fodMapList = @Json.Serialize(Model.FodmapList);
-        // </script>
-        <script src="~/js/fodmap.js"></script>
-        // <script src="~/js/food.js"></script>
-    }
-}
+<script>
+    var fodMapList = @Json.Serialize(Model.FodmapList);
+</script>
+<script src="~/js/fodmap.js"></script>

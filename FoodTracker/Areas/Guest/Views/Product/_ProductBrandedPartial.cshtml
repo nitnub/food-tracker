@@ -19,10 +19,18 @@ else
                             {
                                 <div class="card product-card m-1">
                                     <div class="card-body">
-
-                                        <h3 class="card-title">@product.Description</h3>
+                                    <div class="d-flex">
+                                        <h3 class="card-title @(product.MaxReactionColor.ToLower())">@product.Description</h3>
+                                            @* <div class="chip-badge-large foodChip@(Model.Fodmap.Color.Name)Solid">abc</div> *@
+                                            <div class="chip-badge-large foodChip@(product.MaxKnownFodColor)Solid"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="top"
+                                                 title="@(product.MaxKnownFodColor == SD.COLOR_BLUE ? "No FODMAP identified yet" : $"Max known FODMAP: {product.MaxKnownFodColor}")">
+                                                <span class="chip-badge-label-large">F</span>
+                                            </div>
+                                        </div>
                                         <h4 class="card-subtitle mb-2 text-muted">@product.BrandName</h4>
-                                        <h4 class="card-subtitle mb-2 text-muted">@product.FoodCategory</h4>
+                                        <h5 class="card-subtitle mb-2 text-muted">@product.FoodCategory</h5>
 
                                         <div>Ingredients:</div>
                                         <div class="d-flex flex-wrap">
@@ -51,11 +59,4 @@ else
             </div>
         </form>
     </div>
-}
-
-@section Scripts {
-    @{
-        <script src="~/js/product.js"></script>
-        <script src="~/js/food.js"></script>
-    }
 }

@@ -7,9 +7,8 @@
 @if (Model.Food.FodmapId > 0)
 {
     <div class="card fodCard col-6 p">
-        <div id="fodColor" class="fodFlag fod@(fm?.Color?.Name)"></div> 
+        <div id="fodColor" class="fodFlag fod@(fm?.Color?.Name)"></div>
         <div class="card-body">
-            @* <p class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom css-16m3jxf-MuiTypography-root"></p> *@
             <div class="caard-title">
                 <h4 id="fodName" class="fodTitle">@fm.Name</h4>
             </div>
@@ -99,7 +98,7 @@
 }
 else
 {
-    <div>IN AN ELSE CLAUSE</div>
+    <div>Select New!</div>
 
     <div class="card fodCard col-6 p">
         <div id="fodColor" class="fodFlag fodBlue"></div>
@@ -133,7 +132,7 @@ else
                 <div class=" fodElements">
                     <div id="elementsContainer">
                         @foreach (var el in new string[] { "Oligos", "Fructose", "Polyols", "Lactose" })
-                        {  
+                        {
                             <div id="fodOligos" class="inactiveReactant" aria-label="contains @el">
                                 @* TODO: UPDATE ARIA *@
                                 <div id="fodOligosLabel">
@@ -156,9 +155,7 @@ else
 @section Scripts {
     @{
         <script>
-
-                fodMapList = @Json.Serialize(Model.FodmapList ?? []);
-        
+            fodMapList = @Json.Serialize(Model.FodmapList);
         </script>
         <script src="~/js/fodmap.js"></script>
         <script src="~/js/product.js"></script>

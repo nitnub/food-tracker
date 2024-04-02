@@ -23,7 +23,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             ReactionVM = new ReactionVM
             {
-                Foods = _unitOfWork.Food.GetAll(includeProperties: "Reactions.Severity,Fodmap.Color"),
+                Foods = _unitOfWork.Food.GetAll(includeProperties: "Reactions.Severity,Fodmap.Color,UserSafeFoods"),
             };
             return View(ReactionVM);
         }

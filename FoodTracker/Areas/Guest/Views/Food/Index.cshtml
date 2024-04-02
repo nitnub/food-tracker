@@ -21,7 +21,7 @@
     }
 
     <div class="card-body p-4 col-7">
-        <div id="foodCard">
+        <div id="foodMainView">
             <partial name="_AddFoodPartial" />
         </div>
     </div>
@@ -33,6 +33,7 @@
             var foodList = @Json.Serialize(Model.FoodList);
             var fodMapList = @Json.Serialize(Model.FodmapList);
         </script>
+        <script src="~/js/addFood.js"></script>
         <script src="~/js/fodmap.js"></script>
         <script src="~/js/food.js"></script>
     }

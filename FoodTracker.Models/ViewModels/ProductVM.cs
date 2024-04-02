@@ -1,4 +1,6 @@
-﻿using FoodTracker.Models.USDA;
+﻿using FoodTracker.Models.FODMAP;
+using FoodTracker.Models.USDA;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +27,11 @@ namespace FoodTracker.Models.ViewModels
         public string QueryErrorMessage { get; set; } = "Error processing query. Please try again later.";
 
         public FoodVM? FoodVM { get; set; }
+        [ValidateNever]
+        public string? MaxReactionColor { get; set; }
+
+        [ValidateNever]
+        public IEnumerable<Fodmap> FodmapList { get; set; }
 
     }
 }

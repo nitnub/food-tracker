@@ -28,7 +28,10 @@
 }
 
 <a value="@(Model.Id)" class="badge food-chip @(severityColor.ToLower()) position-relative">
-    @Model.Name
+    <div class="food-chip-name">
+        @Model.Name
+
+    </div>
 
     @if (Model.Fodmap != null)
     {
@@ -41,3 +44,10 @@
     }
 </a>
 
+
+
+@* @section Scripts {
+    @{
+      
+    }
+} *@

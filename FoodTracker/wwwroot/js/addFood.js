@@ -169,7 +169,14 @@ function deleteFoodAlias(event) {
     }
 }
 
-$(document).on('click', '#submitButtonTest', function () {
+
+
+function submitFoodUpdate() { 
+
+
+
+
+    console.log("Opening submit test...")
     $.ajax({
         type: "POST",
         url: '/Guest/Food/AddFood',
@@ -178,6 +185,7 @@ $(document).on('click', '#submitButtonTest', function () {
             // If in product area
             switch (window.location.pathname) {
                 case '/Guest/Product':
+                    console.log("IN G PROD");
                     $('.food-details-modal').modal('hide');
 
                     //$(`.food-chip:contains("${data.originalName}")`).css('background-color', 'red');  // For testing...
@@ -189,6 +197,7 @@ $(document).on('click', '#submitButtonTest', function () {
                     });
                     break;
                 case '/Guest/Food':
+                    console.log("IN TEST ADDFOOD ")
                     location.reload();
                     break;
                 default:
@@ -196,5 +205,42 @@ $(document).on('click', '#submitButtonTest', function () {
             }
         },
     });
-});
+
+}
+
+
+
+
+
+//$(document).on('click', '#submitButtonTest', function () {
+//    console.log("Opening submit test...")
+//    $.ajax({
+//        type: "POST",
+//        url: '/Guest/Food/AddFood',
+//        data: $("#foodFormTest").serialize(),
+//        success: function (data) {
+//            // If in product area
+//            switch (window.location.pathname) {
+//                case '/Guest/Product':
+//                    console.log("IN G PROD");
+//                    $('.food-details-modal').modal('hide');
+
+//                    //$(`.food-chip:contains("${data.originalName}")`).css('background-color', 'red');  // For testing...
+//                    $('#pView').find('*').filter(function () {
+//                        if ($(this).text() === data.originalName) {
+//                            console.log("FOUND")
+//                            $(this).css('background-color', 'red');
+//                        }
+//                    });
+//                    break;
+//                case '/Guest/Food':
+//                    console.log("IN TEST ADDFOOD ")
+//                    location.reload();
+//                    break;
+//                default:
+//                    break;
+//            }
+//        },
+//    });
+//});
 

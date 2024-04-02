@@ -90,7 +90,7 @@
                     </div>
                     <div class="col-6 col-md-3">
                         @* <button id="submitButton" asp-area="Guest" asp-controller="Food" asp-action="AddFood" class="btn btn-primary food-input-button form-control">@(newFood ? "Add" : "Update")</button> *@
-                        <button id="submitButtonTest" type="button" class="btn btn-primary food-input-button form-control">TEST SUBMIT</button>
+                        <button onclick="submitFoodUpdate()" type="button" class="btn btn-primary food-input-button form-control">UPSERT</button>
                     </div>
 
                     <div class="col-6 col-md-3">
@@ -103,5 +103,5 @@
     </div>
 </form>
 
-<script src="~/js/addFood.js"></script>
+@* <script src="~/js/addFood.js"></script> *@
 

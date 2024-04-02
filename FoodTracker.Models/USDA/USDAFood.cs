@@ -29,7 +29,7 @@ namespace FoodTracker.Models.NewFolder
         //tradeChannels {get; set;}
         public string AllHighlightFields {get; set;}
         public decimal Score {get; set;}
-             
+
         //microbes {get; set;}
         //foodNutrients {get; set;}
         //finalFoodInputFoods {get; set;}
@@ -37,6 +37,7 @@ namespace FoodTracker.Models.NewFolder
         //foodAttributes {get; set;}
         //foodAttributeTypes {get; set;}
         //foodVersionIds { get; set;}
-
+        public string MaxReactionColor { get; set; }
+        public string MaxKnownFodColor { get; set; }
     }
 }

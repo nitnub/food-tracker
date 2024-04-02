@@ -13,7 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Exchange.WebServices.Data;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using NuGet.Packaging.Signing;
 using System.Collections;
+using System.Drawing;
 using System.Drawing.Text;
 using System.Net.Http;
 using System.Security.Cryptography.Xml;
@@ -35,6 +37,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             ProductVM = new();
             _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
             ProductVM.FoodVM = new FoodVM() { FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits") };
+
             return View(ProductVM);
         }
 
@@ -49,6 +52,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             try
             {
+
+                _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
+
+
                 string[] ingredientSkipChars = [",", ".", ""];
                 var productResponse = await _usdaService.Search(userQuery);
 
@@ -60,20 +67,20 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 var knownFoodsDict = new Dictionary<string, Food>();
                 var elementsDict = new Dictionary<int, ArrayList>();
 
-                var currentTrackedFoods = _unitOfWork.Food.GetAll(includeProperties: "Fodmap.Color,Fodmap.Aliases,Fodmap.Category,Fodmap.MaxUseUnits,Reactions.Severity");
-
+                var currentTrackedFoods = _unitOfWork.Food.GetAll(includeProperties: "Fodmap.Color,Fodmap.Aliases,Fodmap.Category,Fodmap.MaxUseUnits,Reactions.Severity,UserSafeFoods");
+                
                 foreach (var trackedFood in currentTrackedFoods)
                     knownFoodsDict[trackedFood.Name.ToLower()] = trackedFood;
 
                 foreach (var food in productResponse.Foods)
                 {
+                    var productMaxReactionColor = "";
                     var elements = new ArrayList();
 
                     string[] ingredientEntries = IngredientDelimiters().Split(food.Ingredients);
                     foreach (string item in ingredientEntries)
                     {
                         if (ingredientSkipChars.Contains(item)) continue;
-                        //if (item.Equals(",") || item.Equals(".") || item.Length == 0) continue;
 
                         if (item.Length == 1)
                         {
@@ -81,47 +88,75 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                             continue;
                         }
 
-                        //var existingFood = new Food();
-                        //if (!knownFoodsDict.TryGetValue(item.Trim().ToLower(), out existingFood))
-                        //    existingFood = new Food() { Name = item.Trim() };
-
-
-
                         var existingFood = new Food();
                         if (!knownFoodsDict.TryGetValue(item.Trim().ToLower(), out existingFood))
-                            existingFood = new Food() { Name = item.Trim() };
+                            existingFood = new Food() { Name = item.Trim(), };
 
-                        var maxSeverity = existingFood?.Reactions?.Select(r => r.Severity.Value).DefaultIfEmpty(-1).Max() ?? -1;
 
-                        var foodModel = new FoodVM();
-
-                        //var color = maxSeverity == 0 ? "green" : maxSeverity <= 5 ? "yellow" : "red";
-                        //var colors = "black";
-                        //Console.WriteLine(maxSeverity);
-                        //var color = maxSeverity switch
+                        //var maxReactionColor = Helper.GetMaxSeverityColorString(existingFood);
+                        //if (maxReactionColor.IsNullOrEmpty())
                         //{
-                        //    -1   => "",
-                        //    0    => "Green",
-                        //    <= 5 => "Yellow",
-                        //    _    => "Red"
-                        //};
-                        
-                        foodModel.Food = existingFood;
-                        foodModel.MaxReaction = (double)maxSeverity;
-                        foodModel.MaxReactionColor = Helper.GetMaxSeverityColorString(existingFood);
+                            
+                        //    //var c = KnownColor.Red.ToString();
+                        //    //var d = KnownColor.Red;
+                        //}
+                        //var c = KnownColor.Red.ToString();
+                        //var d = KnownColor.Red;
 
+                        //var cb = "Red".Equals(c);
+                        //var db = "Red".Equals(d);
+                        var ingredientMaxReactionColor = Helper.GetMaxSeverityColorString(existingFood);
 
-                        //elements.Add(existingFood);
+                        //if (ingredientMaxReactionColor.IsNullOrEmpty() || productMaxReactionColor.Equals(SD.COLOR_RED)) { }
+
+                        //if (ingredientMaxReactionColor.Equals(SD.COLOR_RED))
+                        //{
+                        //    productMaxReactionColor = SD.COLOR_RED;
+                        //}
+
+                        productMaxReactionColor = 
+                                        (productMaxReactionColor == SD.COLOR_RED || ingredientMaxReactionColor == SD.COLOR_RED) 
+                                        ? SD.COLOR_RED 
+                                        : (productMaxReactionColor == SD.COLOR_YELLOW || ingredientMaxReactionColor == SD.COLOR_YELLOW)
+                                        ? SD.COLOR_YELLOW 
+                                        : "";
+
+                        var foodModel = new FoodVM
+                        {
+                            Food = existingFood,
+                            MaxReactionColor = Helper.GetMaxSeverityColorString(existingFood),
+                            //FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits"),
+                        };
+
                         elements.Add(foodModel);
                     }
+
+
+
+
+
+
+
+                    food.MaxKnownFodColor = Helper.GetMaxKnownProductFodColorString(elements);
+
+
+
+
+
+
+                    
+                    food.MaxReactionColor = productMaxReactionColor;
 
                     elementsDict[food.FdcId] = elements;
                 }
 
+                
                 ProductVM = new()
                 {
                     BrandedResult = productResponse,
-                    IngredientsDict = elementsDict
+                    IngredientsDict = elementsDict,
+                    //MaxReactionColor = productMaxReactionColor
+                    FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits")
                 };
 
                 return PartialView("_ProductBrandedPartial", ProductVM);
@@ -135,10 +170,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         }
 
 
-
         [GeneratedRegex(@"([,(){}\[\]])")] // Performance recommendation from VS IDE
         private static partial Regex IngredientDelimiters();
     }
-
-
 }

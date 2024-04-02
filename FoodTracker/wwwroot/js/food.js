@@ -2,18 +2,25 @@
 var foodName;
 
 
+$(".food-chip").on('click', function (e) {
+    var foodId = $(this).attr('value');
+    selectFood(foodId);
+});
+
+
+
 function selectFood(id) {
 
-        $.ajax({
-            url: `/Guest/Food/GetFoodDetailsById/${id}`,
-            type: 'GET',
-            success: function (data) {
-                if (data) {
-                    console.log('DATA PULLED FROM DB!');
-                    $(`#foodCard`).html(data);
-                }
+    $.ajax({
+        url: `/Guest/Food/GetFoodDetailsById/${id}`,
+        type: 'GET',
+        success: function (data) {
+            if (data) {
+                console.log('DATA PULLED FROM DB!');
+                $(`#foodMainView`).html(data);
             }
-        })
+        }
+    })
 }
 
 function removeFood() {
@@ -68,7 +75,7 @@ function clickVegan() {
     if ($('#veganInput').prop('checked')) {
         $('#vegetarianInput').prop('checked', true);
     }
-} 
+}
 
 function clickVegetarian() {
     if (!$('#vegitarianInput').prop('checked')) {
