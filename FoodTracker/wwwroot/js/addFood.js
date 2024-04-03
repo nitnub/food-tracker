@@ -2,8 +2,7 @@
 var foodName;
 
 console.log(`addFood.js for ${window.location.pathname}`);
-//$(document).ready(function () {
-//});
+
 listenForTabs();
 listenForDelete();
 
@@ -69,7 +68,8 @@ function clickVegetarian() {
 
 function listenForTabs() {
     let input = document.getElementById('input-tag');
-    input.addEventListener('keydown', function (e) {
+
+    input && input.addEventListener('keydown', function (e) {
         console.log("button press - alias area")
         // Check if the key pressed is 'Enter'
         if (e.key === 'Enter') {
@@ -85,19 +85,12 @@ function listenForTabs() {
             const tagContent = input.value.trim();
             if (tagContent !== '') {
 
-                // Set the text content of the tag to
-                // the trimmed value
                 tag.innerText = tagContent;
-
-                // Add a delete button to the tag
                 tag.innerHTML += `<svg class="alias-delete xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
                                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
                                   </svg>`;
 
-                // Append the tag to the tags list
                 tags.appendChild(tag);
-
-                // Clear the input element's value
                 input.value = '';
 
                 $('#foodAliasList').html("");
@@ -123,9 +116,9 @@ function listenForTabs() {
 
 function listenForDelete() {
     let tags = document.getElementById('tags');
-    tags.addEventListener('click', function (event) {
 
-        // If the clicked element has the class 'alias-delete'
+    tags && tags.addEventListener('click', function (event) {
+
         if (event.target.classList.contains('alias-delete')) {
 
             const divId = event.target.parentNode.id;
@@ -139,7 +132,6 @@ function listenForDelete() {
                     if (this.id !== divId) {
 
                         const div = document.createElement('div');
-
                         div.innerHTML += `
                             <label hidden for="Food_Aliases_${i}_"></label>
                             <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
@@ -152,52 +144,36 @@ function listenForDelete() {
                         i++;
                     }
                 })
-
-            // Remove the parent element (the tag)
             event.target.parentNode.remove();
         }
     });
 }
 
 function deleteFoodAlias(event) {
-    // If the clicked element has the class 'alias-delete' 
     if (event.target.classList.contains('alias-delete')) {
-
-        // Remove the parent element (the tag) 
         event.target.parentNode.remove();
-        console.log(event.target);
     }
 }
 
 
 
 function submitFoodUpdate() { 
-
-
-
-
-    console.log("Opening submit test...")
     $.ajax({
         type: "POST",
         url: '/Guest/Food/AddFood',
         data: $("#foodFormTest").serialize(),
         success: function (data) {
-            // If in product area
+            // set behavior by work area
             switch (window.location.pathname) {
                 case '/Guest/Product':
-                    console.log("IN G PROD");
                     $('.food-details-modal').modal('hide');
-
-                    //$(`.food-chip:contains("${data.originalName}")`).css('background-color', 'red');  // For testing...
                     $('#pView').find('*').filter(function () {
                         if ($(this).text() === data.originalName) {
-                            console.log("FOUND")
                             $(this).css('background-color', 'red');
                         }
                     });
                     break;
                 case '/Guest/Food':
-                    console.log("IN TEST ADDFOOD ")
                     location.reload();
                     break;
                 default:
@@ -207,40 +183,4 @@ function submitFoodUpdate() {
     });
 
 }
-
-
-
-
-
-//$(document).on('click', '#submitButtonTest', function () {
-//    console.log("Opening submit test...")
-//    $.ajax({
-//        type: "POST",
-//        url: '/Guest/Food/AddFood',
-//        data: $("#foodFormTest").serialize(),
-//        success: function (data) {
-//            // If in product area
-//            switch (window.location.pathname) {
-//                case '/Guest/Product':
-//                    console.log("IN G PROD");
-//                    $('.food-details-modal').modal('hide');
-
-//                    //$(`.food-chip:contains("${data.originalName}")`).css('background-color', 'red');  // For testing...
-//                    $('#pView').find('*').filter(function () {
-//                        if ($(this).text() === data.originalName) {
-//                            console.log("FOUND")
-//                            $(this).css('background-color', 'red');
-//                        }
-//                    });
-//                    break;
-//                case '/Guest/Food':
-//                    console.log("IN TEST ADDFOOD ")
-//                    location.reload();
-//                    break;
-//                default:
-//                    break;
-//            }
-//        },
-//    });
-//});
 

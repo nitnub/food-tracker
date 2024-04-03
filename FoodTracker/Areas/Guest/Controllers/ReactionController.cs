@@ -83,28 +83,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         }
 
         [HttpPost]
-        public IActionResult RemoveReaction([FromBody] Reaction reactionToRemove)
-        {
-            var userId = Helper.GetAppUserId(User);
-            var success = false;
-            Food? food = null;
-
-            if (ModelState.IsValid && userId != null)
-            {
-                reactionToRemove.AppUserId = userId;
-                
-                QueueRemovalOfRelatedReactions(_unitOfWork, reactionToRemove);
-                _unitOfWork.Save();
-
-                food = _unitOfWork.Food.Get(f => f.Id == reactionToRemove.FoodId && (f.AppUserId == userId || f.Global), includeProperties: "Reactions.Severity");
-                success = food != null;
-            }
-
-            return Json(new { success, updatedColor = Helper.GetMaxSeverityColorString(food).ToLower() });
-            //return RedirectToAction("Index");
-        }
-
-        [HttpPost]
         public IActionResult ToggleReaction([FromBody] Reaction r)
         {
             var userId = Helper.GetAppUserId(User);
@@ -129,30 +107,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return Json(new { success, updatedColor = Helper.GetMaxSeverityColorString(food).ToLower() });
         }
 
-
-
-        [HttpPost]
-        public IActionResult AddReaction([FromBody] Reaction newReaction)
-        {
-            var userId = Helper.GetAppUserId(User);
-            var success = false;
-            Food? food = null;
-
-            if (ModelState.IsValid && userId != null)
-            {
-                newReaction.AppUserId = userId;
-
-                QueueRemovalOfRelatedReactions(_unitOfWork, newReaction);
-                _unitOfWork.Reaction.Add(newReaction);
-                _unitOfWork.Save();
-
-                food = _unitOfWork.Food.Get(f => f.Id == newReaction.FoodId && (f.AppUserId == userId || f.Global), includeProperties: "Reactions.Severity");
-                success = food != null;
-            }
-
-            return Json(new { success, updatedColor = Helper.GetMaxSeverityColorString(food).ToLower() });
-        }
-
         [HttpPost]
         public IActionResult UpdateUserSafeFood(int id)
         {
@@ -160,6 +114,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var success = false;
             var message = "Error updating user's safe foods";
             var userId = Helper.GetAppUserId(User);
+
+            string updatedColor;
+            Food food;
 
             if (userId == null)
                 message = "Unable to find user";
@@ -187,42 +144,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 success = true;
                 message = "Safe foods updated";
                 _unitOfWork.Save();
+
             }
 
 
+            food = _unitOfWork.Food.Get(f => f.Id ==  id && (f.AppUserId == userId || f.Global), includeProperties: "Reactions.Severity");
 
-
-
-
-
-            //if (userId == null)
-            //    return Json(new { success, active, message = "Unable to find user" });
-
-
-            //if (id != 0)
-            //{
-            //    var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == userId && f.FoodId == id);
-
-            //    if (existingSafeFood != null)
-            //    {
-            //        _unitOfWork.UserSafeFood.Remove(existingSafeFood);
-            //    }
-            //    else
-            //    {
-            //        var safeFood = new UserSafeFood()
-            //        {
-            //            AppUserId = userId,
-            //            FoodId = id
-            //        };
-            //        _unitOfWork.UserSafeFood.Add(safeFood);
-            //        active = true;
-            //    }
-            //    success = true;
-            //    message = "Safe foods updated";
-            //    _unitOfWork.Save();
-            //}
-
-            return Json(new { success, active, message });
+            updatedColor  = Helper.GetMaxSeverityColorString(food).ToLower();
+            
+            return Json(new { success, active, message, updatedColor });
         }
 
         // returns true if reaction is now empty
@@ -246,25 +176,5 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return success;
         }
 
-
-
-        private static bool QueueRemovalOfRelatedReactions_ORIGINAL(IUnitOfWork unitOfWork, Reaction newReaction)
-        {
-            var success = false;
-            var reactionsToRemove = unitOfWork.Reaction.GetAll(r =>
-                                            r.FoodId == newReaction.FoodId &&
-                                            r.TypeId == newReaction.TypeId &&
-                                            r.AppUserId == newReaction.AppUserId);
-
-            if (reactionsToRemove != null)
-            {
-                success = reactionsToRemove.Any(r => r.Id == newReaction.Id);
-                unitOfWork.Reaction.RemoveRange(reactionsToRemove.ToList());
-
-                //success = reactionsToRemove.Count() > 0;
-            }
-
-            return success;
-        }
     }
 }

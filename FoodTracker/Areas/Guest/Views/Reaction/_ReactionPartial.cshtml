@@ -5,7 +5,7 @@
     var safeFood =  @Model.ActiveFood.UserSafeFoods.Count() == 1; // .Where(sf => sf.FoodId == fid).Count() == 1;
 }
 
-<h4 class=" @(safeFood ? "green" : "")">@Model.ActiveFood.Name</h4>
+<h4 id="reactionFocusHeader" class="@(safeFood ? "green" : "")">@Model.ActiveFood.Name</h4>
 
 <form method="post" class="row" enctype="multipart/form-data">
 

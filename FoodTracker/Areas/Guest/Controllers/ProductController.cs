@@ -1,27 +1,13 @@
-﻿using Azure;
-using FoodTracker.DataAccess.Repository.IRepository;
-using FoodTracker.Models;
+﻿using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models.Food;
-using FoodTracker.Models.NewFolder;
 using FoodTracker.Models.USDA;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
-using FoodTrackerWeb.Services;
 using FoodTrackerWeb.Services.Interfaces;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Exchange.WebServices.Data;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using NuGet.Packaging.Signing;
 using System.Collections;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Net.Http;
-using System.Security.Cryptography.Xml;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
+
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
     [Area("Guest")]
@@ -52,9 +38,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             try
             {
-
                 _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
-
 
                 string[] ingredientSkipChars = [",", ".", ""];
                 var productResponse = await _usdaService.Search(userQuery);
@@ -92,27 +76,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                         if (!knownFoodsDict.TryGetValue(item.Trim().ToLower(), out existingFood))
                             existingFood = new Food() { Name = item.Trim(), };
 
-
-                        //var maxReactionColor = Helper.GetMaxSeverityColorString(existingFood);
-                        //if (maxReactionColor.IsNullOrEmpty())
-                        //{
-                            
-                        //    //var c = KnownColor.Red.ToString();
-                        //    //var d = KnownColor.Red;
-                        //}
-                        //var c = KnownColor.Red.ToString();
-                        //var d = KnownColor.Red;
-
-                        //var cb = "Red".Equals(c);
-                        //var db = "Red".Equals(d);
                         var ingredientMaxReactionColor = Helper.GetMaxSeverityColorString(existingFood);
-
-                        //if (ingredientMaxReactionColor.IsNullOrEmpty() || productMaxReactionColor.Equals(SD.COLOR_RED)) { }
-
-                        //if (ingredientMaxReactionColor.Equals(SD.COLOR_RED))
-                        //{
-                        //    productMaxReactionColor = SD.COLOR_RED;
-                        //}
 
                         productMaxReactionColor = 
                                         (productMaxReactionColor == SD.COLOR_RED || ingredientMaxReactionColor == SD.COLOR_RED) 
@@ -125,37 +89,21 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                         {
                             Food = existingFood,
                             MaxReactionColor = Helper.GetMaxSeverityColorString(existingFood),
-                            //FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits"),
                         };
 
                         elements.Add(foodModel);
                     }
 
-
-
-
-
-
-
                     food.MaxKnownFodColor = Helper.GetMaxKnownProductFodColorString(elements);
-
-
-
-
-
-
-                    
                     food.MaxReactionColor = productMaxReactionColor;
 
                     elementsDict[food.FdcId] = elements;
                 }
 
-                
                 ProductVM = new()
                 {
                     BrandedResult = productResponse,
                     IngredientsDict = elementsDict,
-                    //MaxReactionColor = productMaxReactionColor
                     FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits")
                 };
 
@@ -168,7 +116,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return PartialView("_ProductBrandedPartial", new ProductVM() { QueryError = true });
             }
         }
-
 
         [GeneratedRegex(@"([,(){}\[\]])")] // Performance recommendation from VS IDE
         private static partial Regex IngredientDelimiters();
