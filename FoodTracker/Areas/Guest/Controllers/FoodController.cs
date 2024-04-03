@@ -67,7 +67,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-
                 var existingAliases = _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId && fa.FoodId == food.Id);
                 _unitOfWork.FoodAlias.RemoveRange(existingAliases);
 
@@ -90,12 +89,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 {
                     foreach (var el in food.Aliases)
                     {
-
                         el.Id = 0; // Mark as new with Id of 0
                         el.AppUserId = userId;
                         el.Global = false;     
                         _unitOfWork.FoodAlias.Add(el);
-                        
                     }
                 }
 
@@ -115,7 +112,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             // firt try to find by food name
             var matchedByFood = _unitOfWork.Food.Get(f => f.Name.ToLower() == foodName.ToLower() && (f.AppUserId == userId || f.Global));
             FoodAlias aliasFor;
-            // if can't find by food name, try to find by alias
+
+            _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
+            FoodVM = new FoodVM
+            {
+                FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits,")
+            };
 
 
             if (matchedByFood == null)
@@ -127,14 +129,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                     var newAlias = new FoodAlias() { Alias = foodName, FoodId = 0, AppUserId = userId, Global = false };
 
-                    FoodVM = new FoodVM()
-                    {
-                        Food = new Food() { Name = foodName, Aliases = new List<FoodAlias>() { newAlias } },
-                        FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits"),
-                        
-                    };
+                    FoodVM.Food = new Food() { Name = foodName, Aliases = new List<FoodAlias>() { newAlias } };
 
-                    // if nothing matches, should be empty with id = 0
                     return PartialView("_AddFoodPartial", FoodVM);
                 }
                 else
@@ -143,17 +139,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 }
             }
 
-            _unitOfWork.FodmapAlias.GetAll(); // load aliases
             matchedByFood.Aliases = _unitOfWork.FoodAlias.GetAll(fa => fa.FoodId == matchedByFood.Id && (fa.AppUserId == userId || fa.Global)); // load user's food aliases
-            
-            
-            FoodVM = new FoodVM()
-            {
-                Food = matchedByFood,
-                FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits")
-            };
 
-            // if not, should be empty with id = 0
+            FoodVM.Food = matchedByFood;
 
             return PartialView("_AddFoodPartial", FoodVM);
         }
@@ -163,16 +151,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            // can be either identified or not
-            //_unitOfWork.FoodAlias.GetAll(); // load aliases
 
-            //_unitOfWork.Fodmap.GetAll();
             _unitOfWork.FodmapAlias.GetAll(); // load aliases
             var food = new Food();
             // if identified, prepopulate with info and food id
             if (id != 0)
             {
-                //food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == userId || f.Global == true), includeProperties: "Aliases");
                 food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == userId || f.Global), includeProperties: "Aliases");
                 food.Aliases = _unitOfWork.FoodAlias.GetAll(fa => fa.FoodId == id && (fa.AppUserId == userId || fa.Global)) ; // load user's food aliases
                 if (food.Aliases == null)

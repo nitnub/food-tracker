@@ -42,7 +42,7 @@
                                                 _ = (reactions.ContainsKey(fid) && reactions[fid].TryGetValue(r.Id, out activeSeverity));
 
                                                 <div id="@divId" class="d-flex px-2 pt-1 form-check-parent" onmouseup="testSubmit('@divId')">
-                                                    <div class="form-check ">
+                                                    <div class="form-check">
                                                         <input @(activeSeverity == s.Id ? "checked" : "") class="form-check-input" type="radio" name="radioGroup-@(category)-@(r.Id)" id="radio@(divId)" value="@(divId)">
                                                         <label class="form-check-label" for="radio@(divId)">
                                                             @s.Name

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,9 +16,11 @@ namespace FoodTracker.Utility
 
         public static string GetMaxSeverityColorString(Food? food)
         {
-            if (food == null || food.Reactions == null) return "";
+            if (food == null || food.Reactions == null)
+                return "";
 
-            if (food.UserSafeFoods?.Count() > 0) return SD.COLOR_GREEN;
+            if (food.UserSafeFoods?.Count() > 0)
+                return SD.COLOR_GREEN;
 
             var maxSeverity = food.Reactions?
                                         .Select(r => r.Severity.Value)
@@ -26,7 +29,6 @@ namespace FoodTracker.Utility
 
             return maxSeverity switch
             {
-                //-1 => "",
                 <= 1 => "",
                 <= 5 => SD.COLOR_YELLOW,
                 _ => SD.COLOR_RED
@@ -37,33 +39,47 @@ namespace FoodTracker.Utility
         public static string GetMaxKnownProductFodColorString(ArrayList items)
         {
             var maxFodColor = SD.COLOR_BLUE;
+            Food food;
+            string color;
+
             foreach (var item in items)
             {
-                if (item.GetType() == typeof(FoodVM))
-                {
-                    var food = ((FoodVM)item).Food;
+                if (item.GetType() != typeof(FoodVM))
+                    continue;
 
-                    if (food.Fodmap == null) continue;
+                food = ((FoodVM)item).Food;
 
-                    var color = food.Fodmap.Color.Name;
+                if (food.Fodmap == null)
+                    continue;
 
+                color = food.Fodmap.Color.Name;
 
-                    //maxFodColor =
-                    //                    (productMaxReactionColor == SD.COLOR_RED || ingredientMaxReactionColor == SD.COLOR_RED)
-                    //                    ? SD.COLOR_RED
-                    //                    : (productMaxReactionColor == SD.COLOR_YELLOW || ingredientMaxReactionColor == SD.COLOR_YELLOW)
-                    //                    ? SD.COLOR_YELLOW
-                    //                    : "";
-                    if (color ==  SD.COLOR_RED) 
-                        return SD.COLOR_RED;
-                  
-                    if (color == SD.COLOR_YELLOW) 
-                        maxFodColor = SD.COLOR_YELLOW;
-                    
-                }   
- 
+                if (color == SD.COLOR_RED)
+                    return SD.COLOR_RED;
+
+                if (color == SD.COLOR_YELLOW)
+                    maxFodColor = SD.COLOR_YELLOW;
             }
             return maxFodColor;
+        }
+
+
+
+        public static string? GetAppUserId(ClaimsPrincipal User)
+        {
+            ClaimsIdentity claimsIdentity;
+            Claim? nameIdentifier;
+
+            if (User.Identity == null)
+                return null;
+
+            claimsIdentity = (ClaimsIdentity)User.Identity;
+            nameIdentifier = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (nameIdentifier == null)
+                return null;
+
+            return nameIdentifier.Value;
         }
     }
 }
