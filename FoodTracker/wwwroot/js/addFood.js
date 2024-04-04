@@ -3,8 +3,10 @@ var foodName;
 
 console.log(`addFood.js for ${window.location.pathname}`);
 
-listenForTabs();
-listenForDelete();
+$(document).ready(function () {
+    listenForTabs();
+    listenForDelete();
+})
 
 function removeFood() {
     $.ajax({
@@ -25,7 +27,9 @@ function cancelRemoveFood() {
     $('.delete-food-modal').modal('hide');
 }
 
-function removeFoodConfirmation() {
+function removeFoodConfirmation(id, foodName) {
+    console.log("ID:", id);
+    console.log("NAME:", foodName);
     $('.delete-food-modal').modal('show');
     $('.modal-body').html(`Permanently delete "<b>${foodName}</b>"?`);
     $('.modal-footer').html(`
@@ -48,7 +52,7 @@ function resetAllFields() {
     $('#glutenInput').prop('checked', false);
     $('#fodmapInput').val('');
     $('#submitButton').html('Add');
-    $('.hiddenButton').hide();
+    //$('.hiddenButton').hide();
 
     // Clear FODMAP card
     resetFodmapCard();

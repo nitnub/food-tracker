@@ -1,13 +1,10 @@
 ﻿var foodId;
 var foodName;
 
-
 $(".food-chip").on('click', function (e) {
     var foodId = $(this).attr('value');
     selectFood(foodId);
 });
-
-
 
 function selectFood(id) {
 
@@ -15,22 +12,21 @@ function selectFood(id) {
         url: `/Guest/Food/GetFoodDetailsById/${id}`,
         type: 'GET',
         success: function (data) {
-            if (data) {
-                console.log('DATA PULLED FROM DB!');
                 $(`#foodMainView`).html(data);
-            }
         }
     })
 }
 
-function removeFood() {
+function removeFood(id) {
+
+    console.log("Removing:", id)
     $.ajax({
-        url: `/Guest/Food/Delete/${foodId}`,
+        url: `/Guest/Food/Delete/${id}`,
         type: 'DELETE',
         contentType: 'application/json',
         success: function (data) {
             if (data.success) {
-                $(`#foodChip-${foodId}`).remove();
+                $(`#foodChip-${id}`).remove();
                 $('.delete-food-modal').modal('hide');
                 resetAllFields();
             }
@@ -38,16 +34,19 @@ function removeFood() {
     })
 }
 
-function cancelRemoveFood() {
+function cancelRemoveFood(id) {
+    console.log("Canceling removal of:", id)
     $('.delete-food-modal').modal('hide');
 }
 
-function removeFoodConfirmation() {
+function removeFoodConfirmation(id, foodName) {
+    console.log(id);
+    console.log(foodName);
     $('.delete-food-modal').modal('show');
     $('.modal-body').html(`Permanently delete "<b>${foodName}</b>"?`);
     $('.modal-footer').html(`
-        <a onClick=cancelRemoveFood() class="btn btn-secondary mx-2">Cancel</a>
-        <a onClick=removeFood() class="btn btn-danger mx-2">Delete</a>`);
+        <a onClick=cancelRemoveFood(${id}) class="btn btn-secondary mx-2">Cancel</a>
+        <a onClick=removeFood(${id}) class="btn btn-danger mx-2">Delete</a>`);
 }
 
 function resetAllFields() {
@@ -82,4 +81,3 @@ function clickVegetarian() {
         $('#veganInput').prop('checked', false);
     }
 }
-

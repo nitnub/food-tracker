@@ -170,8 +170,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits")
             };
 
-            // if not, should be empty with id = 0
-
             return PartialView("_AddFoodPartial", FoodVM);
         }
 

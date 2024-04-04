@@ -27,7 +27,7 @@
     var severityColor = Helper.GetMaxSeverityColorString(Model);
 }
 
-<a value="@(Model.Id)" class="badge food-chip @(severityColor.ToLower()) position-relative">
+<a id="foodChip-@(Model.Id)" value="@(Model.Id)" class="badge food-chip @(severityColor.ToLower()) position-relative">
     <div class="food-chip-name">
         @Model.Name
 

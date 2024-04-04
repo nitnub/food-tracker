@@ -5,7 +5,7 @@
     --dk-text: rgb(48, 48, 48);
     --hl-text: rgb(1, 251, 180);
     /* Updated color family */
-    --nav-dark: #221d1b;
+    --nav-dark: #1d1d24;
     --bg-dark: #524442;
     --bg-med: #db95b4;
     --bg-lght: #f9c0b4;
@@ -29,8 +29,6 @@
     --clr-fm-yellow-dk: rgb(156, 156, 13);
     --clr-fm-red-dk: rgb(180, 4, 4);
     --clr-fm-blue-dk: #4696eb;
-
-
     --clr-fd-green: rgba(13, 211, 40, 0.663);
     --clr-fd-yellow: rgba(228, 228, 18, 0.4);
     --clr-fd-red: rgba(180, 4, 4, 0.23);
@@ -80,9 +78,13 @@ body {
     text-decoration: line-through;
 }
 
+.dark {
+    color: var(--nav-dark);
+    fill: var(--nav-dark);
+}
+
 
 /* Food Area */
-
 .food-chip {
     text-decoration: none;
     /*color: green;*/
