@@ -5,7 +5,7 @@
     <input asp-for="FoodList" value="@Model.FoodList" hidden />
     <div class="row">
         <div class="col-12">
-            <div class="border p-3">
+            <div class="border rounded p-3">
                 <div class="d-flex justify-content-between">
 
                     <span id="foodHeader">@(Model.Food.Id == 0 ? "Add Food" : Model.Food.Name)</span>
@@ -87,11 +87,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end pt-2 ">
-                    @*          <div class="col-6 col-md-3">
-                    <a asp-area="Guest" asp-controller="Food" asp-action="Index" class="btn btn-outline-primary border form-control">
-                    Back to List
-                    </a>
-                    </div> *@
+
 
 
                     @if (Model.Food.Id == 0)
