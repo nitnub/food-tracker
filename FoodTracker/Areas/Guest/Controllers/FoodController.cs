@@ -2,6 +2,7 @@
 using FoodTracker.Models.FODMAP;
 using FoodTracker.Models.Food;
 using FoodTracker.Models.ViewModels;
+using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
-            //_unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId); // load user's food aliases
+            _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId || fa.Global); // load user's food aliases
             FoodVM = new()
             {
                 FoodList = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global == true, includeProperties: "UserSafeFoods,Fodmap.Color,Reactions.Severity"),
@@ -107,16 +108,16 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            // can be either identified or not
 
-            // firt try to find by food name
+
+
             var matchedByFood = _unitOfWork.Food.Get(f => f.Name.ToLower() == foodName.ToLower() && (f.AppUserId == userId || f.Global));
             FoodAlias aliasFor;
 
-            _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
+            _unitOfWork.FodmapAlias.GetAll(); // load global FODMAP aliases
             FoodVM = new FoodVM
             {
-                FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits,")
+                FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits")
             };
 
 
@@ -126,9 +127,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                                                             && (a.AppUserId == userId || a.Global)); // Note: Can't use .Equals + StringComparison w/DB call
                 if (aliasFor == null)
                 {
-
                     var newAlias = new FoodAlias() { Alias = foodName, FoodId = 0, AppUserId = userId, Global = false };
-
                     FoodVM.Food = new Food() { Name = foodName, Aliases = new List<FoodAlias>() { newAlias } };
 
                     return PartialView("_AddFoodPartial", FoodVM);
@@ -172,22 +171,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             return PartialView("_AddFoodPartial", FoodVM);
         }
-
-
-        //[HttpGet]
-        //public IActionResult GetFodmapAliases(int? fodId)
-        //{
-        //    bool success = false;
-        //    IEnumerable<FodmapAlias> aliases = [];
-
-        //    if (fodId != null)
-        //    {
-        //        aliases = _unitOfWork.FodmapAlias.GetAll(a => a.FodmapId == fodId);
-        //        success = true;
-        //    }
-
-        //    return Json(new { success, aliases });        
-        //}
 
         [HttpGet]
         public IActionResult GetFodmapList()

@@ -11,6 +11,6 @@ namespace FoodTracker.DataAccess.Repository.IRepository
 {
     public interface IFodmapRepository : IRepository<Fodmap>
     {
-     public void Update(Fodmap obj);
+        public void Update(Fodmap obj);
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FoodTracker.DataAccess.Data;
 using FoodTracker.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FoodTracker.DataAccess.Repository
@@ -68,6 +69,8 @@ namespace FoodTracker.DataAccess.Repository
             }
             return query.ToList();
         }
+
+
 
         public void Remove(T entity)
         {

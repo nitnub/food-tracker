@@ -1,15 +1,13 @@
 ﻿
-$("#searchButton").on('click', function (e) {
-
+$("#searchButton").on('click', function () {
     const val = $("#searchQuery").val().replace(" ", "%20");
     $.ajax({
-        url: `/guest/product/getusdaproducts?userQuery=${val}`,
+        url: `/Guest/Product/GetUSDAProducts?userQuery=${val}`,
         success: function (data) {
             $("#productView").html(data);
 
             $(".food-chip").on('click', function (e) {
-                var foodName = e.target.innerText;
-                console.log("Access")
+                const foodName = $(this).find('.food-chip-name')[0].innerText
                 activateModal(foodName)
             });
         }
@@ -19,19 +17,17 @@ $("#searchButton").on('click', function (e) {
 function activateModal(productName) {
     $('.food-details-modal').modal('show');
     $('.modal-title').html(productName);
-    console.log("Access1")
     selectFoodByName(productName);
 }
 
 function selectFoodByName(foodName) {
-    console.log("Access2", foodName);
     $.ajax({
         url: `/Guest/Food/GetFoodDetailsByName?foodName=${foodName}`,
         type: 'GET',
         success: function (data) {
             if (data) {
                 $(`#foodCard`).html(data);
-                console.log("Sucess...")
+                $.event.trigger('loadAddFood', [{ location: 'product' }]);
             }
         }
     })

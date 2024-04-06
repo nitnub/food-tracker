@@ -17,6 +17,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         public IActionResult Index()
         {
+
+            
             ReactionVM = new ReactionVM
             {
                 Foods = _unitOfWork.Food.GetAll(includeProperties: "Reactions.Severity,Fodmap.Color,UserSafeFoods"),

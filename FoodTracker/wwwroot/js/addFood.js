@@ -1,21 +1,21 @@
-﻿var foodId;
-var foodName;
-
-console.log(`addFood.js for ${window.location.pathname}`);
-
-$(document).ready(function () {
+﻿
+$(window).on('load', function () {
     listenForTabs();
     listenForDelete();
 })
 
-function removeFood() {
+$(document).on("loadAddFood", function (event, data) {
+    listenForTabs();
+    listenForDelete();
+});
+function removeFood(id) {
     $.ajax({
-        url: `/Guest/Food/Delete/${foodId}`,
+        url: `/Guest/Food/Delete/${id}`,
         type: 'DELETE',
         contentType: 'application/json',
         success: function (data) {
             if (data.success) {
-                $(`#foodChip-${foodId}`).remove();
+                $(`#foodChip-${id}`).remove();
                 $('.delete-food-modal').modal('hide');
                 resetAllFields();
             }
@@ -28,13 +28,11 @@ function cancelRemoveFood() {
 }
 
 function removeFoodConfirmation(id, foodName) {
-    console.log("ID:", id);
-    console.log("NAME:", foodName);
     $('.delete-food-modal').modal('show');
     $('.modal-body').html(`Permanently delete "<b>${foodName}</b>"?`);
     $('.modal-footer').html(`
         <a onClick=cancelRemoveFood() class="btn btn-secondary mx-2">Cancel</a>
-        <a onClick=removeFood() class="btn btn-danger mx-2">Delete</a>`);
+        <a onClick=removeFood(${id}) class="btn btn-danger mx-2">Delete</a>`);
 }
 
 function resetAllFields() {
@@ -44,15 +42,14 @@ function resetAllFields() {
 
     // Clear food details
     $('#foodHeader').html(`<div>Add Food</div>`)
-
     $('#foodId').val(0);
     $('#nameInput').val('');
     $('#vegetarianInput').prop('checked', false);
     $('#veganInput').prop('checked', false);
     $('#glutenInput').prop('checked', false);
+    $('#tags').empty();
     $('#fodmapInput').val('');
     $('#submitButton').html('Add');
-    //$('.hiddenButton').hide();
 
     // Clear FODMAP card
     resetFodmapCard();
@@ -72,9 +69,8 @@ function clickVegetarian() {
 
 function listenForTabs() {
     let input = document.getElementById('input-tag');
-
     input && input.addEventListener('keydown', function (e) {
-        console.log("button press - alias area")
+
         // Check if the key pressed is 'Enter'
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -84,7 +80,6 @@ function listenForTabs() {
             const tag = document.createElement('li');
             tag.id = `alias-${foodId}-new${Date.now()}`;
             tag.className = "alias-item-new";
-
 
             const tagContent = input.value.trim();
             if (tagContent !== '') {
@@ -120,11 +115,9 @@ function listenForTabs() {
 
 function listenForDelete() {
     let tags = document.getElementById('tags');
-
     tags && tags.addEventListener('click', function (event) {
 
         if (event.target.classList.contains('alias-delete')) {
-
             const divId = event.target.parentNode.id;
             $('#foodAliasList').html("");
 
@@ -158,8 +151,6 @@ function deleteFoodAlias(event) {
         event.target.parentNode.remove();
     }
 }
-
-
 
 function submitFoodUpdate() { 
     $.ajax({

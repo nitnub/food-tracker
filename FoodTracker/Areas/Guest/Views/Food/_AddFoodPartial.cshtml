@@ -99,7 +99,7 @@
                     else
                     {
                         <div class="col-6 col-md-3 m-1">
-                            <button id="deleteFoodButton" onclick="removeFoodConfirmation(@Model.Food?.Id, @Model.Food?.Name.Replace("'","\'"))" type="button" class="btn btn-danger food-input-button form-control">Delete</button>
+                            <button id="deleteFoodButton" onclick="removeFoodConfirmation(@Model.Food?.Id, '@Model.Food?.Name.Replace("'","\'")')" type="button" class="btn btn-danger food-input-button form-control">Delete</button>
 
                         </div>
                         <div class="col-6 col-md-3 m-1">
@@ -111,4 +111,3 @@
         </div>
     </div>
 </form>
-
