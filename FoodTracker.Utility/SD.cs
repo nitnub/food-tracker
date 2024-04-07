@@ -20,8 +20,6 @@ namespace FoodTracker.Utility
         public const string COLOR_RED = "Red";
         public const string COLOR_BLUE = "Blue";
 
-
-
         // Food Properties
         public const string PROP_USER_SAFE_FOODS = "UserSafeFoods";
         public const string PROP_FODMAP_COLOR = "Fodmap.Color";
@@ -31,45 +29,15 @@ namespace FoodTracker.Utility
         public const string PROP_MAX_USE_UNITS = "MaxUseUnits";
         public const string PROP_ALIASES = "Aliases";
 
-
         // Product Properties
         public const string PROP_FODMAP_ALIASES = "Fodmap.Aliases";
         public const string PROP_FODMAP_CATEGORY = "Fodmap.Category";
         public const string PROP_FODMAP_MAX_USE_UNITS = "Fodmap.MaxUseUnits";
 
-
         // Home Properties
+        // Reaction Properties
         public const string PROP_FODMAP = "Fodmap";
         
-        // Reaction Properties
          
-     
-   
-   
-
-
-
-        //        // Food Properties
-        //"UserSafeFoods,Fodmap.Color,Reactions.Severity"
-        //"Category,Color,MaxUseUnits"
-        // "Category,Color,MaxUseUnits"
-        // "Aliases"
-        //"Category,Color,MaxUseUnits"
-        //"Category,Color,MaxUseUnits"
-        //// Product Properties
-        //"Category,Color,MaxUseUnits"
-        //"Fodmap.Color,Fodmap.Aliases,Fodmap.Category,Fodmap.MaxUseUnits,Reactions.Severity,UserSafeFoods"
-        // "Category,Color,MaxUseUnits"
-
-        //// Home Properties
-        //"Fodmap,Fodmap.Category,Fodmap.Color"
-
-        //// Reaction Properties
-        // "Reactions.Severity,Fodmap.Color,UserSafeFoods"
-        //"Category"
-        //"UserSafeFoods"
-        //"Reactions.Severity"
-        //"Reactions.Severity"
-
     }
 }

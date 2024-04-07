@@ -21,8 +21,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         public IActionResult Index()
         {
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = Helper.GetAppUserId(User);
 
             _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
             _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId || fa.Global); // load user's food aliases
@@ -65,8 +66,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             string originalName = food.Name;
             if (ModelState.IsValid)
             {
-                var claimsIdentity = (ClaimsIdentity)User.Identity;
-                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                //var claimsIdentity = (ClaimsIdentity)User.Identity;
+                //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var userId = Helper.GetAppUserId(User);
 
                 var existingAliases = _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId && fa.FoodId == food.Id);
                 _unitOfWork.FoodAlias.RemoveRange(existingAliases);
@@ -106,9 +108,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpGet]
         public IActionResult GetFoodDetailsByName(string foodName)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            //var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = Helper.GetAppUserId(User);
 
 
             var matchedByFood = _unitOfWork.Food.Get(f => f.Name.ToLower() == foodName.ToLower() && (f.AppUserId == userId || f.Global));
@@ -148,9 +150,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpGet]
         public IActionResult GetFoodDetailsById(int id)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            //var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = Helper.GetAppUserId(User);
             _unitOfWork.FodmapAlias.GetAll(); // load aliases
             var food = new Food();
             // if identified, prepopulate with info and food id
@@ -185,9 +187,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             var success = false;
             var message = $"Unexpected error removing Food Alias {alias}";
-           
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            //var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = Helper.GetAppUserId(User);
 
             if (id == 0)
             {

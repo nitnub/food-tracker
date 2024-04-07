@@ -66,6 +66,7 @@ namespace FoodTracker.DataAccess.DBInitializer
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 throw;
             }
 
@@ -82,7 +83,6 @@ namespace FoodTracker.DataAccess.DBInitializer
                     Email = Env.USER_ADMIN_EMAIL,
                     FirstName = Env.USER_ADMIN_FIRST_NAME,
                     LastName = Env.USER_ADMIN_LAST_NAME
-
                 }, Env.USER_ADMIN_PASSWORD).GetAwaiter().GetResult(); // Must satisfy PW complexity
 
                 AppUser user = _db.AppUsers.FirstOrDefault(u => u.Email == Env.USER_ADMIN_EMAIL);

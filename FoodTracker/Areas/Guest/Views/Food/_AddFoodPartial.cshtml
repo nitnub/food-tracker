@@ -8,7 +8,8 @@
             <div class="border rounded p-3">
                 <div class="d-flex justify-content-between">
 
-                    <span id="foodHeader">@(Model.Food.Id == 0 ? "Add Food" : Model.Food.Name)</span>
+                    @* <span id="foodHeader">@(Model.Food.Id == 0 ? "Add Food" : Model.Food.Name)</span> *@
+                    <h5 id="foodHeader">@(Model.Food.Id == 0 ? "Add Food" : Model.Food.Name)</h5>
 
                     @if (Model.Food.Id != 0)
                     {
@@ -60,9 +61,10 @@
                                     {
                                         @foreach (var alias in Model.Food.Aliases)
                                         {
-                                            <li id="alias-@Model.Food.Id-@alias.Id" class="alias-item">
+                                            <li id="alias-@Model.Food.Id-@alias.Id" class="alias-item bg-success text-white">
                                                 @alias.Alias
-                                                <svg class="alias-delete xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                @* <svg class="alias-delete text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg " viewBox="0 0 16 16"> *@
+                                                    <svg class="alias-delete text-white" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                                     <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                                                 </svg>
                                             </li>
@@ -81,15 +83,11 @@
                         }
                         <div id="fodCardContainer">
                             <partial name="_FodmapSelectorPartial" />
-
                         </div>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-end pt-2 ">
-
-
-
                     @if (Model.Food.Id == 0)
                     {
                         <div class="col-6 col-md-3 m-1">
@@ -100,7 +98,6 @@
                     {
                         <div class="col-6 col-md-3 m-1">
                             <button id="deleteFoodButton" onclick="removeFoodConfirmation(@Model.Food?.Id, '@Model.Food?.Name.Replace("'","\'")')" type="button" class="btn btn-danger food-input-button form-control">Delete</button>
-
                         </div>
                         <div class="col-6 col-md-3 m-1">
                             <button onclick="submitFoodUpdate()" type="button" class="btn btn-primary food-input-button form-control">Update</button>

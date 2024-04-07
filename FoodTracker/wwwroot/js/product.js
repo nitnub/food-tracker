@@ -1,17 +1,7 @@
 ﻿
 $("#searchButton").on('click', function () {
-    const val = $("#searchQuery").val().replace(" ", "%20");
-    $.ajax({
-        url: `/Guest/Product/GetUSDAProducts?userQuery=${val}`,
-        success: function (data) {
-            $("#productView").html(data);
-
-            $(".food-chip").on('click', function (e) {
-                const foodName = $(this).find('.food-chip-name')[0].innerText
-                activateModal(foodName)
-            });
-        }
-    })
+    const query = $("#searchQuery").val();
+    getProducts(query);
 });
 
 function activateModal(productName) {
@@ -29,6 +19,28 @@ function selectFoodByName(foodName) {
                 $(`#foodCard`).html(data);
                 $.event.trigger('loadAddFood', [{ location: 'product' }]);
             }
+        }
+    })
+}
+
+function getProducts(query, page = 1) {
+    query = query.replace(' ', '%20');
+
+    $.ajax({
+        url: `/Guest/Product/GetUSDAProducts?userQuery=${query}&pageNumber=${page}`,
+        success: function (data) {
+            $("#productView").html(data);
+            $(".food-chip").on('click', function (e) {
+                const foodName = $(this).find('.food-chip-name')[0].innerText
+                activateModal(foodName)
+            });
+
+            const query = $('#searchQuery').val();
+            const page = $('#productResultsHeader').attr('page');
+            const pageCount = $('#productResultsHeader').attr('pageCount');
+
+            const paginationDiv = getPaginationDiv(query, page, pageCount);
+            $('.paginationDiv').html(paginationDiv)
         }
     })
 }

@@ -440,7 +440,7 @@ body {
     display: inline-block;
     /*background-color: #f2f2f2;*/
     /*background-color:aquamarine;*/
-    color: #333;
+    /*color: white;*/
     border-radius: 4px;
     padding: 5px 10px;
     margin-right: 5px;
@@ -449,10 +449,12 @@ body {
 
 
 .alias-item {
-    background-color:paleturquoise;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*background-color: #28a745;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
 }
 
 .alias-item-new {
@@ -462,6 +464,8 @@ body {
 .alias-delete {
     /*background-color: black;*/
     /*opacity: 20%;*/
+    /* #268c3d */
+    background-color: black;
 }
 
 .tags-input input[type="text"] {

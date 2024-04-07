@@ -55,5 +55,56 @@ namespace FoodTrackerWeb.Services
                 return new USDABrandedQueryResult() { Success = false };
             }
         }
+
+
+        public async Task<USDABrandedQueryResult> Search(FoodSearchCriteria s)
+        {
+            try
+            {
+                //if (s == null || s.Query == null)
+                //    return new USDABrandedQueryResult() { Success = false, Message = "Invalid search query." };
+
+                //int pageSize = 25;
+                //int pageNumber = 1;
+                //string sortBy = "dataType.keyword";
+                //string sortOrder = "asc";
+
+                var query = new Dictionary<string, string>
+                {
+                    { "query", s.Query },
+                    { "pageSize", $"{s.PageSize}" },
+                    { "pageNumber", $"{s.PageNumber}" },
+                    { "sortBy", s.SortBy },
+                    { "sortOrder", s.SortOrder },
+                    { "api_key", Env.USDA_API_KEY}
+                };
+
+                var builder = new UriBuilder(BasePath)
+                {
+                    Port = -1,
+                    Query = QueryString.Create(query).ToString()
+                };
+
+                var request = new HttpRequestMessage()
+                {
+                    RequestUri = new Uri(builder.ToString()),
+                    Method = HttpMethod.Get,
+                };
+
+                var response = await _client.SendAsync(request);
+
+                if (response.IsSuccessStatusCode == false)
+                    throw new ApplicationException($"Error calling API: {response.ReasonPhrase}");
+
+                return await response.Content.ReadAsAsync<USDABrandedQueryResult>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new USDABrandedQueryResult() { Success = false };
+            }
+        }
+
+
     }
 }

@@ -7,10 +7,14 @@
 }
 else
 {
-    <div class="card-body p-4 col-12">
+    <div class="card-body p-3 col-12">
         <form method="post" class="row" enctype="multipart/form-data">
             <div class="row">
-                @Model.BrandedResult.Foods.Count results...
+                <div id="productResultsHeader" page="@Model.BrandedResult.CurrentPage" pageCount="@Model.BrandedResult.TotalPages">
+                    @Math.Min(Model.BrandedResult.TotalHits, 2500).ToString("N0") results...
+                    <div class="paginationDiv"></div>
+                </div>
+
                 <div class="col-12">
 
                     <div class="d-flex flex-wrap border p-12">
@@ -19,14 +23,25 @@ else
                             {
                                 <div class="card product-card m-1">
                                     <div class="card-body">
-                                    <div class="d-flex">
-                                        <h3 class="card-title @(product.MaxReactionColor.ToLower())">@product.Description</h3>
-                                            @* <div class="chip-badge-large foodChip@(Model.Fodmap.Color.Name)Solid">abc</div> *@
+                                        <div class="d-flex">
+                                            <h3 class="card-title @(product.MaxReactionColor.ToLower())">@product.Description</h3>
                                             <div class="chip-badge-large foodChip@(product.MaxKnownFodColor)Solid"
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
+                                                 data-bs-toggle="tooltip"
+                                                 data-bs-placement="top"
                                                  title="@(product.MaxKnownFodColor == SD.COLOR_BLUE ? "No FODMAP identified yet" : $"Max known FODMAP: {product.MaxKnownFodColor}")">
-                                                <span class="chip-badge-label-large">F</span>
+
+                                                @if (product.MaxKnownFodColor == SD.COLOR_BLUE)
+                                                {
+                                                    <div class="d-flex justify-content-center align-items-center">
+                                                        <svg class="text-white" xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="currentColor" class="bi bi-question-lg" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M4.475 5.458c-.284 0-.514-.237-.47-.517C4.28 3.24 5.576 2 7.825 2c2.25 0 3.767 1.36 3.767 3.215 0 1.344-.665 2.288-1.79 2.973-1.1.659-1.414 1.118-1.414 2.01v.03a.5.5 0 0 1-.5.5h-.77a.5.5 0 0 1-.5-.495l-.003-.2c-.043-1.221.477-2.001 1.645-2.712 1.03-.632 1.397-1.135 1.397-2.028 0-.979-.758-1.698-1.926-1.698-1.009 0-1.71.529-1.938 1.402-.066.254-.278.461-.54.461h-.777ZM7.496 14c.622 0 1.095-.474 1.095-1.09 0-.618-.473-1.092-1.095-1.092-.606 0-1.087.474-1.087 1.091S6.89 14 7.496 14" />
+                                                        </svg>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span class="chip-badge-label-large">F</span>
+                                                }
                                             </div>
                                         </div>
                                         <h4 class="card-subtitle mb-2 text-muted">@product.BrandName</h4>
@@ -56,6 +71,9 @@ else
                         }
                     </div>
                 </div>
+
+
+                <div class="paginationDiv"></div>
             </div>
         </form>
     </div>

@@ -9,13 +9,13 @@ namespace FoodTracker.Models.USDA
 {
     public class FoodSearchCriteria
     {
-        public string Query { get; set; }
-        public string GeneralSearchInput { get; set; }
-        public int PageNumber { get; set; }
-        public string SortBy { get; set; }
-        public string SortOrder { get; set; }
-        public int NumberOfResultsPerPage { get; set; }
-        public int PageSize { get; set; }
-        public string RequireAllWords { get; set; }
+        public string Query { get; set; } = "";
+        public string? GeneralSearchInput { get; set; } = null;
+        public int PageNumber { get; set; } = 1;
+        public string SortBy { get; set; } = "dataType.keyword";
+        public string SortOrder { get; set; } = "ASC";
+        public int NumberOfResultsPerPage { get; set; } = 25;
+        public int PageSize { get; set; } = 25;
+        public string? RequireAllWords { get; set; } = null;
     }
 }

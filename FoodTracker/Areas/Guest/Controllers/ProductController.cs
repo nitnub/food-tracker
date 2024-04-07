@@ -4,6 +4,7 @@ using FoodTracker.Models.USDA;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using FoodTrackerWeb.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Text.RegularExpressions;
@@ -11,6 +12,7 @@ using System.Text.RegularExpressions;
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
     [Area("Guest")]
+    [Authorize]
     public partial class ProductController(IUnitOfWork unitOfWork, IUSDAService usdaService) : Controller
     {
         private IUnitOfWork _unitOfWork = unitOfWork;
@@ -34,14 +36,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return RedirectToAction("Food", "Index", food);
         }
 
-        public async Task<IActionResult> GetUSDAProducts(string userQuery)
+        public async Task<IActionResult> GetUSDAProducts(string userQuery, int pageNumber = 1)
         {
             try
             {
                 _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
 
                 string[] ingredientSkipChars = [",", ".", ""];
-                var productResponse = await _usdaService.Search(userQuery);
+                //var productResponse = await _usdaService.Search(userQuery);
+                var productResponse = await _usdaService.Search(new FoodSearchCriteria() { Query = userQuery, PageNumber = pageNumber });
 
                 if (!productResponse.Success)
                 {
@@ -108,6 +111,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 };
 
                 return PartialView("_ProductBrandedPartial", ProductVM);
+                return Json(new { Page = PartialView("_ProductBrandedPartial", ProductVM), PageCount = productResponse.TotalPages });
 
             }
             catch (Exception ex)

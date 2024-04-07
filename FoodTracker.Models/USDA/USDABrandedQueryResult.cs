@@ -18,5 +18,6 @@ namespace FoodTracker.Models.USDA
         public List<USDAFood> Foods { get; set;}
         public List<Food.Food> CustomFoods { get; set; }
         public FoodSearchCriteria FoodSearchCriteria { get; set; }
+        public string Message { get; set; }
     }
 }
