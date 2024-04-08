@@ -63,11 +63,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 {
                     var productMaxReactionColor = "";
                     var elements = new ArrayList();
-
-                    string[] ingredientEntries = IngredientDelimiters().Split(food.Ingredients);
+                    var ingredientEntries = IngredientDelimiters().Split(food.Ingredients);
+                    
                     foreach (string item in ingredientEntries)
                     {
-                        if (ingredientSkipChars.Contains(item)) continue;
+                        if (ingredientSkipChars.Contains(item)) 
+                            continue;
 
                         if (item.Length == 1)
                         {

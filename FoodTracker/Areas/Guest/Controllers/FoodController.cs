@@ -1,13 +1,9 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
-using FoodTracker.Models.FODMAP;
 using FoodTracker.Models.Food;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Security.Claims;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
@@ -31,14 +27,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: [Prop.CATEGORY, Prop.COLOR, Prop.MAX_USE_UNITS]),
             };
 
-
             return View(FoodVM);
         }
 
         public IActionResult Delete(int? id)
         {
             var isSuccess = false;
-
             if (id == null || id == 0)
             {
                 return Json(new { success = isSuccess });
@@ -55,7 +49,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return Json(new { success = isSuccess });
 
         }
-
 
         [HttpPost]
         public IActionResult AddFood(Food food)
@@ -141,8 +134,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         public IActionResult GetFoodDetailsById(int id)
         {
             var userId = Helper.GetAppUserId(User);
-            _unitOfWork.FodmapAlias.GetAll(); // load aliases
             var food = new Food();
+            
+            _unitOfWork.FodmapAlias.GetAll(); // load aliases
+
             // if identified, prepopulate with info and food id
             if (id != 0)
             {

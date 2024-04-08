@@ -81,5 +81,25 @@ namespace FoodTracker.Utility
 
             return nameIdentifier.Value;
         }
+
+
+
+
+        public static bool IsUserVisibleFood(Food? f, int? id, string? userId)
+        {
+            if (f == null || id == null || userId == null)
+                return false;
+
+            return f.Id == id && (f.AppUserId == userId || f.Global);
+        }
+
+        //public static bool IsUserSafeFood(UserSafeFood? f, int? id, string? userId)
+        public static bool IsSafeFoodForUser(UserSafeFood? f, int? id, string? userId)
+        {
+            if (f == null || id == null || userId == null)
+                return false;
+
+            return f.AppUserId == userId && f.FoodId == id;
+        }
     }
 }

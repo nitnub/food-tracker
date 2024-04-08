@@ -1,10 +1,11 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
-using FoodTracker.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using FoodTracker.Models.Reaction;
-using Microsoft.AspNetCore.Authorization;
-using FoodTracker.Utility;
 using FoodTracker.Models.Food;
+using FoodTracker.Models.Reaction;
+using FoodTracker.Models.ViewModels;
+using FoodTracker.Utility;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
@@ -114,19 +115,24 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var success = false;
             var message = "Error updating user's safe foods";
             var userId = Helper.GetAppUserId(User);
+            var updatedColor = "";
 
-            string updatedColor;
+            //Func<Food, int, string, bool> IsUserVisibleFood = (f, id, userId) => f.Id == id && (f.AppUserId == userId || f.Global);
+            //Func<Food, int, ClaimsPrincipal, bool> IsUserVisibleFood = (f, id, user) => f.Id == id && (f.AppUserId == Helper.GetAppUserId(user) || f.Global);
+            //Func<UserSafeFood, int, string, bool> IsUserSafeFood = (f, id, userId) => f.AppUserId == userId && f.FoodId == id;
+
             Food food;
 
             if (userId == null)
                 message = "Unable to find user";
 
             else if (id == 0)
-                message = "Error updating safe foods list";
+                message = "Unable to find food";
 
             else
             {
-                var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == userId && f.FoodId == id);
+                //var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == userId && f.FoodId == id);
+                var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => Helper.IsSafeFoodForUser(f, id, userId));
 
                 if (existingSafeFood != null)
                     _unitOfWork.UserSafeFood.Remove(existingSafeFood);
@@ -145,8 +151,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 message = "Safe foods updated";
                 _unitOfWork.Save();
             }
-
-            food = _unitOfWork.Food.Get(f => f.Id ==  id && (f.AppUserId == userId || f.Global), includeProperties: Prop.REACTIONS_SEVERITY);
+            
+            //food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == userId || f.Global), includeProperties: Prop.REACTIONS_SEVERITY);
+            food = _unitOfWork.Food.Get(f => Helper.IsUserVisibleFood(f, id, userId), includeProperties: Prop.REACTIONS_SEVERITY);
 
             updatedColor  = Helper.GetMaxSeverityColorString(food).ToLower();
             

@@ -47,5 +47,4 @@ namespace FoodTracker.Models.Food
         public IEnumerable<Reaction.Reaction>? Reactions { get; set; }
         public bool Global { get; set; } = false;
     }
-
 }

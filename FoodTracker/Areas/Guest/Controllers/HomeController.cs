@@ -1,8 +1,6 @@
-using FoodTracker.DataAccess.Data;
 using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models;
 using FoodTracker.Utility;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
