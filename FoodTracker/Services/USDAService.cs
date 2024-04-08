@@ -61,14 +61,6 @@ namespace FoodTrackerWeb.Services
         {
             try
             {
-                //if (s == null || s.Query == null)
-                //    return new USDABrandedQueryResult() { Success = false, Message = "Invalid search query." };
-
-                //int pageSize = 25;
-                //int pageNumber = 1;
-                //string sortBy = "dataType.keyword";
-                //string sortOrder = "asc";
-
                 var query = new Dictionary<string, string>
                 {
                     { "query", s.Query },

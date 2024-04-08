@@ -17,17 +17,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         public IActionResult Index()
         {
-
-            
             ReactionVM = new ReactionVM
             {
-                Foods = _unitOfWork.Food.GetAll(includeProperties: "Reactions.Severity,Fodmap.Color,UserSafeFoods"),
+                Foods = _unitOfWork.Food.GetAll(includeProperties: [Prop.REACTIONS_SEVERITY, Prop.FODMAP_COLOR, Prop.USER_SAFE_FOODS]),
             };
             return View(ReactionVM);
         }
 
         [HttpGet]
-        public IActionResult GetReactions(string activeFoodId)
+        public IActionResult GetReactions(int activeFoodId)
         {
             var userId = Helper.GetAppUserId(User);
             if (userId == null)
@@ -57,7 +55,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             var reactionDict = new Dictionary<string, List<ReactionType>>();
-            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: "Category");
+            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
 
             foreach (var reaction in reactions)
             {
@@ -78,7 +76,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             {
                 Categories = reactionDict,
                 Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                ActiveFood = _unitOfWork.Food.Get(f => f.Id == Int32.Parse(activeFoodId), includeProperties: "UserSafeFoods"),
+                ActiveFood = _unitOfWork.Food.Get(f => f.Id == activeFoodId, includeProperties: Prop.USER_SAFE_FOODS),
                 ExistingReactions = foodTypeSeverityDict
             };
             return PartialView("_ReactionPartial", ReactionVM);
@@ -101,8 +99,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                 food = _unitOfWork.Food.Get(f => f.Id == r.FoodId && 
                             (f.AppUserId == userId || f.Global), 
-                            includeProperties: "Reactions.Severity");
-                
+                            includeProperties: Prop.REACTIONS_SEVERITY);
+
                 success = food != null;
             }
 
@@ -146,11 +144,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 success = true;
                 message = "Safe foods updated";
                 _unitOfWork.Save();
-
             }
 
-
-            food = _unitOfWork.Food.Get(f => f.Id ==  id && (f.AppUserId == userId || f.Global), includeProperties: "Reactions.Severity");
+            food = _unitOfWork.Food.Get(f => f.Id ==  id && (f.AppUserId == userId || f.Global), includeProperties: Prop.REACTIONS_SEVERITY);
 
             updatedColor  = Helper.GetMaxSeverityColorString(food).ToLower();
             
@@ -169,7 +165,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             if (reactionToRemove != null)
             {
                 unitOfWork.Reaction.Remove(reactionToRemove);
-
                 success = reactionToRemove.FoodId == newReaction.FoodId && 
                                             reactionToRemove.TypeId == newReaction.TypeId &&
                                             reactionToRemove.SeverityId == newReaction.SeverityId;
@@ -177,6 +172,5 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             return success;
         }
-
     }
 }

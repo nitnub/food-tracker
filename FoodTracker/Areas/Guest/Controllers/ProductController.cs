@@ -24,7 +24,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             ProductVM = new();
             _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
-            ProductVM.FoodVM = new FoodVM() { FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits") };
+            ProductVM.FoodVM = new FoodVM() { FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: [Prop.CATEGORY, Prop.COLOR, Prop.MAX_USE_UNITS]) };
 
             return View(ProductVM);
         }
@@ -43,7 +43,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
 
                 string[] ingredientSkipChars = [",", ".", ""];
-                //var productResponse = await _usdaService.Search(userQuery);
                 var productResponse = await _usdaService.Search(new FoodSearchCriteria() { Query = userQuery, PageNumber = pageNumber });
 
                 if (!productResponse.Success)
@@ -54,8 +53,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 var knownFoodsDict = new Dictionary<string, Food>();
                 var elementsDict = new Dictionary<int, ArrayList>();
 
-                var currentTrackedFoods = _unitOfWork.Food.GetAll(includeProperties: "Fodmap.Color,Fodmap.Aliases,Fodmap.Category,Fodmap.MaxUseUnits,Reactions.Severity,UserSafeFoods");
-                
+                var currentTrackedFoods = _unitOfWork.Food.GetAll(includeProperties: 
+                        [Prop.FODMAP_COLOR, Prop.FODMAP_ALIASES, Prop.FODMAP_CATEGORY,Prop.FODMAP_MAX_USE_UNITS, Prop.REACTIONS_SEVERITY, Prop.USER_SAFE_FOODS]);
+
                 foreach (var trackedFood in currentTrackedFoods)
                     knownFoodsDict[trackedFood.Name.ToLower()] = trackedFood;
 
@@ -107,12 +107,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 {
                     BrandedResult = productResponse,
                     IngredientsDict = elementsDict,
-                    FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: "Category,Color,MaxUseUnits")
+                    FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: [Prop.CATEGORY, Prop.COLOR, Prop.MAX_USE_UNITS])
                 };
 
                 return PartialView("_ProductBrandedPartial", ProductVM);
-                return Json(new { Page = PartialView("_ProductBrandedPartial", ProductVM), PageCount = productResponse.TotalPages });
-
             }
             catch (Exception ex)
             {

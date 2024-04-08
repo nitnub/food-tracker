@@ -31,7 +31,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             //Console.WriteLine(Env.ASPNETCORE_ENVIRONMENT);
             //Console.WriteLine(_config["AllowedHosts"]);
             //Console.WriteLine(_config["ConnectionStrings:DefaultConnection"]);
-            var food = _unitOfWork.Food.GetAll(includeProperties: "Fodmap,Fodmap.Category,Fodmap.Color"); // Fodmap is not necessary when child items are included. What is best practice?
+            //var food = _unitOfWork.Food.GetAll(includeProperties: "Fodmap,Fodmap.Category,Fodmap.Color"); // Fodmap is not necessary when child items are included. What is best practice?
+            
+            var food = _unitOfWork.Food.GetAll(includeProperties: [Prop.FODMAP_CATEGORY, Prop.FODMAP_COLOR]); // Fodmap is not necessary when child items are included. What is best practice?
 
             //if (Env.SQL_SCRIPT_DIRECTORY != null)
             //{

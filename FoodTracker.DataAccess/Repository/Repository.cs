@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FoodTracker.DataAccess.Data;
 using FoodTracker.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -70,7 +71,22 @@ namespace FoodTracker.DataAccess.Repository
             return query.ToList();
         }
 
-
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, params string[]? includeProperties)
+        {
+            IQueryable<T> query = dbSet;
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+            if (!includeProperties.IsNullOrEmpty())
+            {
+                foreach (var prop in includeProperties)
+                {
+                    query = query.Include(prop);
+                }
+            }
+            return query.ToList();
+        }
 
         public void Remove(T entity)
         {

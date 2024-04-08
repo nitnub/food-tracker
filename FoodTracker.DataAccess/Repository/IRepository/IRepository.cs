@@ -14,6 +14,7 @@ namespace FoodTracker.DataAccess.Repository.IRepository
 
         T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false);
         IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, params string[]? includeProperties);
         void Add(T entity);
 
         void Remove(T entity);
