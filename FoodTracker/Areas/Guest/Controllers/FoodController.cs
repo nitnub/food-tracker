@@ -20,9 +20,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             _unitOfWork.FodmapAlias.GetAll(); // load global FMAP aliases
             _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId || fa.Global); // load user's food aliases
+
             FoodVM = new()
             {
-                FoodList = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global == true, includeProperties: [Prop.USER_SAFE_FOODS, Prop.FODMAP_COLOR, Prop.REACTIONS_SEVERITY]),
+                FoodList = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global, includeProperties: [Prop.USER_SAFE_FOODS, Prop.FODMAP_COLOR, Prop.REACTIONS_SEVERITY]),
                 Food = new Food() { Id = 0, Aliases = [] },
                 FodmapList = _unitOfWork.Fodmap.GetAll(includeProperties: [Prop.CATEGORY, Prop.COLOR, Prop.MAX_USE_UNITS]),
             };
@@ -58,6 +59,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             {
                 var userId = Helper.GetAppUserId(User);
                 var existingAliases = _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == userId && fa.FoodId == food.Id);
+
                 _unitOfWork.FoodAlias.RemoveRange(existingAliases);
 
                 food.AppUserId = userId;
@@ -97,6 +99,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
             var userId = Helper.GetAppUserId(User);
             var matchedByFood = _unitOfWork.Food.Get(f => f.Name.ToLower() == foodName.ToLower() && (f.AppUserId == userId || f.Global));
+
             FoodAlias aliasFor;
 
             _unitOfWork.FodmapAlias.GetAll(); // load global FODMAP aliases
@@ -155,40 +158,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             };
 
             return PartialView("_AddFoodPartial", FoodVM);
-        }
-
-        [HttpGet]
-        public IActionResult GetFodmapList()
-        {
-            _unitOfWork.FodmapAlias.GetAll();
-            return Json(new { list = _unitOfWork.Fodmap.GetAll(includeProperties: [Prop.CATEGORY, Prop.COLOR, Prop.MAX_USE_UNITS]) });
-        }
-
-        [HttpDelete]
-        public IActionResult RemoveFoodAlias(int id, string alias)
-        {
-            var success = false;
-            var message = $"Unexpected error removing Food Alias {alias}";
-            var userId = Helper.GetAppUserId(User);
-
-            if (id == 0)
-            {
-                message = "Invalid Alias";
-            }
-            else
-            {
-                var existingFoodalias = _unitOfWork.FoodAlias.Get(fa => fa.Id == id && fa.AppUserId == userId);
-
-                if (existingFoodalias != null && !existingFoodalias.Global)
-                {
-                    _unitOfWork.FoodAlias.Remove(existingFoodalias);
-                    _unitOfWork.Save();
-                }
-                success = true;
-                message = $"Food Alias {alias} has been removed";
-            }
-
-            return Json(new { success, message });
         }
     }
 }

@@ -8,41 +8,16 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
     [Area("Guest")]
     //[Authorize]
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IConfiguration config) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IConfiguration _config;
-
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IConfiguration config)
-        {
-            _logger = logger;
-            _unitOfWork = unitOfWork;
-            _config = config;
-        }
+        private readonly ILogger<HomeController> _logger = logger;
+        private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IConfiguration _config = config;
 
         public IActionResult Index()
-        {
-            //var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            //Console.WriteLine(new string('*', 40));
-            //Console.WriteLine(env);
-            //Console.WriteLine(Env.ASPNETCORE_ENVIRONMENT);
-            //Console.WriteLine(_config["AllowedHosts"]);
-            //Console.WriteLine(_config["ConnectionStrings:DefaultConnection"]);
-            //var food = _unitOfWork.Food.GetAll(includeProperties: "Fodmap,Fodmap.Category,Fodmap.Color"); // Fodmap is not necessary when child items are included. What is best practice?
-            
-            var food = _unitOfWork.Food.GetAll(includeProperties: [Prop.FODMAP_CATEGORY, Prop.FODMAP_COLOR]); // Fodmap is not necessary when child items are included. What is best practice?
-
-            //if (Env.SQL_SCRIPT_DIRECTORY != null)
-            //{
-
-            //    Console.WriteLine(Env.SQL_SCRIPT_DIRECTORY);
-            //}
-            //else
-            //{
-            //    Console.WriteLine("Is empty!");
-            //}
-
+        {            
+            // Test Load
+            var food = _unitOfWork.Food.GetAll(includeProperties: [Prop.FODMAP_CATEGORY, Prop.FODMAP_COLOR]); 
             return View(food);
         }
 

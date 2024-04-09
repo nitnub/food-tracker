@@ -1,4 +1,5 @@
 ﻿using FoodTracker.Models.FODMAP;
+using FoodTracker.Models.IModel;
 using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
@@ -16,7 +17,7 @@ namespace FoodTracker.Models.Food
 
 
 
-    public class Food
+    public class Food : IOwnable
     {
         [Key]
         public int Id { get; set; }

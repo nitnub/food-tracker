@@ -77,7 +77,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             {
                 Categories = reactionDict,
                 Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                ActiveFood = _unitOfWork.Food.Get(f => f.Id == activeFoodId, includeProperties: Prop.USER_SAFE_FOODS),
+                ActiveFood = _unitOfWork.Food.Get(f => f.Id == activeFoodId && (f.AppUserId == userId || f.Global), includeProperties: Prop.USER_SAFE_FOODS),
                 ExistingReactions = foodTypeSeverityDict
             };
             return PartialView("_ReactionPartial", ReactionVM);
@@ -117,10 +117,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var userId = Helper.GetAppUserId(User);
             var updatedColor = "";
 
-            //Func<Food, int, string, bool> IsUserVisibleFood = (f, id, userId) => f.Id == id && (f.AppUserId == userId || f.Global);
-            //Func<Food, int, ClaimsPrincipal, bool> IsUserVisibleFood = (f, id, user) => f.Id == id && (f.AppUserId == Helper.GetAppUserId(user) || f.Global);
-            //Func<UserSafeFood, int, string, bool> IsUserSafeFood = (f, id, userId) => f.AppUserId == userId && f.FoodId == id;
-
             Food food;
 
             if (userId == null)
@@ -131,8 +127,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             else
             {
-                //var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == userId && f.FoodId == id);
-                var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => Helper.IsSafeFoodForUser(f, id, userId));
+                var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == userId && f.FoodId == id);
 
                 if (existingSafeFood != null)
                     _unitOfWork.UserSafeFood.Remove(existingSafeFood);
@@ -151,11 +146,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 message = "Safe foods updated";
                 _unitOfWork.Save();
             }
-            
-            //food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == userId || f.Global), includeProperties: Prop.REACTIONS_SEVERITY);
-            food = _unitOfWork.Food.Get(f => Helper.IsUserVisibleFood(f, id, userId), includeProperties: Prop.REACTIONS_SEVERITY);
 
-            updatedColor  = Helper.GetMaxSeverityColorString(food).ToLower();
+            food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == userId || f.Global), includeProperties: Prop.REACTIONS_SEVERITY);
+
+            updatedColor = Helper.GetMaxSeverityColorString(food).ToLower();
             
             return Json(new { success, active, message, updatedColor });
         }

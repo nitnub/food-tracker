@@ -1,13 +1,7 @@
 ﻿using FoodTracker.Models.Food;
-using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodTracker.Utility
 {
@@ -34,7 +28,6 @@ namespace FoodTracker.Utility
                 _ => SD.COLOR_RED
             };
         }
-
 
         public static string GetMaxKnownProductFodColorString(ArrayList items)
         {
@@ -63,8 +56,6 @@ namespace FoodTracker.Utility
             return maxFodColor;
         }
 
-
-
         public static string? GetAppUserId(ClaimsPrincipal User)
         {
             ClaimsIdentity claimsIdentity;
@@ -80,26 +71,6 @@ namespace FoodTracker.Utility
                 return null;
 
             return nameIdentifier.Value;
-        }
-
-
-
-
-        public static bool IsUserVisibleFood(Food? f, int? id, string? userId)
-        {
-            if (f == null || id == null || userId == null)
-                return false;
-
-            return f.Id == id && (f.AppUserId == userId || f.Global);
-        }
-
-        //public static bool IsUserSafeFood(UserSafeFood? f, int? id, string? userId)
-        public static bool IsSafeFoodForUser(UserSafeFood? f, int? id, string? userId)
-        {
-            if (f == null || id == null || userId == null)
-                return false;
-
-            return f.AppUserId == userId && f.FoodId == id;
         }
     }
 }
