@@ -14,5 +14,8 @@ namespace FoodTracker.Models.ViewModels
         public string? Line3 { get; set; }
         public string? Line4 { get; set; }
         public string? Line5 { get; set; }
+
+        public string[][]? Days { get; set; }
+        public string[,]? DaysJ { get; set; }
     }
 }

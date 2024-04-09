@@ -2,8 +2,26 @@
 
 
 
-@Model.Line1;
-@Model.Line2;
-@Model.Line3;
-@Model.Line4;
-@Model.Line5;
+@Model.Line1
+<br />
+@Model.Line2
+<br />
+@Model.Line3
+<br />
+@Model.Line4
+<br />
+@Model.Line5
+<br />
+
+
+@for (int i = 0; i < Model.DaysJ.GetLength(0); i++)
+{
+    <div class="d-flex">
+
+        @for (int j = 0; j < Model.DaysJ.GetLength(1); j++)
+        {
+            <div> @Model.DaysJ[i, j]&nbsp;&nbsp;&nbsp;</div>
+
+        }
+    </div>
+}
