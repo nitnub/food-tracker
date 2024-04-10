@@ -15,7 +15,11 @@ namespace FoodTracker.Models.ViewModels
         public string? Line4 { get; set; }
         public string? Line5 { get; set; }
 
-        public string[][]? Days { get; set; }
-        public string[,]? DaysJ { get; set; }
+        public string[][]? Daysb { get; set; }
+        public CalendarDay[,]? DaysJ { get; set; }
+
+        public IEnumerable<CalendarDay> Days { get; set; }
+
+        public FoodVM FoodVM { get; set; }
     }
 }

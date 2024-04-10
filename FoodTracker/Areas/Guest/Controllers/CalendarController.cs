@@ -1,14 +1,21 @@
-﻿using FoodTracker.Models.ViewModels;
+﻿using FoodTracker.DataAccess.Repository.IRepository;
+using FoodTracker.Models;
+using FoodTracker.Models.Meal;
+using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
 
     [Area("Guest")]
-    public class CalendarController : Controller
+    public class CalendarController(IUnitOfWork unitOfwork) : Controller
     {
-        CalendarVM CalendarVM { get; set; }
+        public MealVM MealVM { get; set; }
+        public CalendarVM CalendarVM { get; set; }
+        private readonly List<CalendarDay> _calendarDays = new();
+        private readonly IUnitOfWork _unitOfWork = unitOfwork;
         public IActionResult Index()
         {
             CalendarVM = new();
@@ -35,25 +42,43 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var rowsNeeded = (firstDayOfMonthIndex + daysInMonth) / 7 + 1;
             // rows x 7 days (0-6)
 
-            CalendarVM.Days = new string[rowsNeeded][];
-            var daysj = new string[rowsNeeded,7];
+            CalendarVM.Daysb = new string[rowsNeeded][];
+            //var daysj = new string[rowsNeeded,7];
+            var daysj = new CalendarDay[rowsNeeded,7];
 
             int dayIndex = 0 - firstDayOfMonthIndex;
             for (int row = 0; row < rowsNeeded; row++)
             {
                 for (int col = 0; col < 7; col++)
                 {
+                    CalendarDay newDay = new();
+                    Meal m1 = new() { Id = 1, DateTime = DateTime.Now};
+
+                    MealItem mi1 = new() { Id = 1, MealId = 1, };
+
+
                     if (dayIndex < 0 || dayIndex > daysInMonth - 1)
                     {
-                        daysj[row, col] = $"xxxxxxxxxx";
+                        //daysj[row, col] = $"xxxxxxxxxx";
 
+                        newDay.Day = null;
+
+                        daysj[row, col] = newDay;
                     } 
                     else
                     {
-                        daysj[row, col] = $"r-{row} c-{col} d-{dayIndex + 1}";
+
+                        newDay.Day = dayIndex + 1;
+                        newDay.Color = new Color { Name = "Red" };
+                        
+                        daysj[row, col] = newDay;
+
+
+                        //daysj[row, col] = $"r-{row} c-{col} d-{dayIndex + 1}";
 
                     }
 
+                    _calendarDays.Add(newDay);
                     dayIndex++;
                 }
             }    
@@ -70,6 +95,23 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             CalendarVM.Line5 = $"Rows needed: {rowsNeeded}";
             return View(CalendarVM);
 
+        }
+
+        [HttpGet]
+        public IActionResult UpsertMeal(int id)
+        {
+            Meal meal = new() { DateTime = DateTime.Now};
+            MealVM = new()
+            {
+                Meal = new() { DateTime = DateTime.Now },
+            Units = _unitOfWork.Unit.GetAll()
+            };
+            if (id == 0)
+                return PartialView("_AddMealPartial", MealVM);
+
+            return PartialView("_AddMealPartial", MealVM);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

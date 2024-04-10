@@ -374,7 +374,16 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("MealTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MealTypeId");
 
                     b.ToTable("Meals");
                 });
@@ -408,6 +417,23 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasIndex("VolumeUnitsId");
 
                     b.ToTable("MealItems");
+                });
+
+            modelBuilder.Entity("FoodTracker.Models.Meal.MealType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MealTypes");
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Reaction.Reaction", b =>
@@ -522,14 +548,12 @@ namespace FoodTracker.DataAccess.Migrations
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.HasIndex("FoodId");
 
@@ -1284,6 +1308,17 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Navigation("ParentFood");
                 });
 
+            modelBuilder.Entity("FoodTracker.Models.Meal.Meal", b =>
+                {
+                    b.HasOne("FoodTracker.Models.Meal.MealType", "MealType")
+                        .WithMany()
+                        .HasForeignKey("MealTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MealType");
+                });
+
             modelBuilder.Entity("FoodTracker.Models.Meal.MealItem", b =>
                 {
                     b.HasOne("FoodTracker.Models.Food.Food", "Food")
@@ -1319,7 +1354,7 @@ namespace FoodTracker.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodTracker.Models.Food.Food", "Food")
+                    b.HasOne("FoodTracker.Models.Food.Food", null)
                         .WithMany("Reactions")
                         .HasForeignKey("FoodId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1339,8 +1374,6 @@ namespace FoodTracker.DataAccess.Migrations
 
                     b.Navigation("AppUser");
 
-                    b.Navigation("Food");
-
                     b.Navigation("Severity");
 
                     b.Navigation("Type");
@@ -1359,21 +1392,11 @@ namespace FoodTracker.DataAccess.Migrations
 
             modelBuilder.Entity("FoodTracker.Models.Reaction.UserSafeFood", b =>
                 {
-                    b.HasOne("FoodTracker.Models.Identity.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FoodTracker.Models.Food.Food", "Food")
-                        .WithMany()
+                    b.HasOne("FoodTracker.Models.Food.Food", null)
+                        .WithMany("UserSafeFoods")
                         .HasForeignKey("FoodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Food");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1450,6 +1473,8 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Navigation("ParentFoods");
 
                     b.Navigation("Reactions");
+
+                    b.Navigation("UserSafeFoods");
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Meal.Meal", b =>

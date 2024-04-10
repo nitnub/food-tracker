@@ -30,6 +30,7 @@ namespace FoodTracker.DataAccess.Repository
         public ILocationRepository Location { get; set; }
         public IMealRepository Meal { get; set; }
         public IMealItemRepository MealItem { get; set; }
+        public IMealTypeRepository MealType { get; set; }
         public IReactionCategoryRepository ReactionCategory { get; set; }
         public IReactionRepository Reaction { get; set; }
         public IReactionSeverityRepository ReactionSeverity { get; set; }
@@ -57,6 +58,7 @@ namespace FoodTracker.DataAccess.Repository
             Location = new LocationRepository(_db);
             Meal = new MealRepository(_db);
             MealItem = new MealItemRepository(_db);
+            MealType = new MealTypeRepository(_db);
             ReactionCategory = new ReactionCategoryRepository(_db);
             Reaction = new ReactionRepository(_db);
             ReactionSeverity = new ReactionSeverityRepository(_db);

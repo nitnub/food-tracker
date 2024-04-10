@@ -488,6 +488,67 @@ body {
 }
 
 
+/* Calendar */
+
+.calendar-day-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+}
+
+.calendar-badges {
+
+}
+
+.calendar-badge-icon {
+    color: var(--bg-med);
+}
+
+.calendar-badge {
+    width: 24px;
+    height: 24px;
+}
+.calendar-item,
+.calendar-item-green,
+.calendar-item-yellow,
+.calendar-item-red,
+.calendar-item-blue{
+    /*background-color: purple;*/
+    color: white;
+    font-size: .75em;
+    margin: 2px;
+    padding-left: 6px;
+    border-radius: 4px;
+}
+
+.calendar-item-green {
+    color: var(--clr-fd-green-dk);
+    /*color: white;*/
+    border: solid 1px  var(--clr-fd-green-dk);
+    background-color: var(--clr-fd-green);
+    /*background-color: var(--clr-fd-green-dk);*/
+}
+.calendar-item-yellow {
+    color: var(--clr-fd-yellow-dk);
+    border: solid 1px var(--clr-fd-yellow-dk);
+    background-color: var(--clr-fd-yellow);
+    /*background-color: var(--clr-fd-yellow-dk);*/
+}
+.calendar-item-red {
+    color: var(--clr-fd-red-dk);
+    border: solid 1px var(--clr-fd-red-dk);
+    background-color: var(--clr-fd-red);
+    /*background-color: var(--clr-fd-red-dk);*/
+}
+.calendar-item-blue {
+    color: var(--clr-fd-blue-dk);
+    border: solid 1px var(--clr-fd-blue-dk);
+    background-color: var(--clr-fd-blue);
+    /*background-color: var(--clr-fd-blue-dk);*/
+}
+
 .green {
     color: var(--clr-fd-green-dk);
     /*background-color: var(--clr-fd-green-dk);*/

@@ -17,8 +17,16 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\yoga.svg",
+      "PackagePath": "staticwebassets\\img\\yoga.svg"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\addFood.js",
       "PackagePath": "staticwebassets\\js\\addFood.js"
+    },
+    {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\addMeal.js",
+      "PackagePath": "staticwebassets\\js\\addMeal.js"
     },
     {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\fodmap.js",

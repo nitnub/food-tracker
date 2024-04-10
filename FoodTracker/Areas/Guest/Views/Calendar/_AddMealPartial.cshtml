@@ -1,0 +1,72 @@
+﻿@model MealVM
+
+<form id="foodFormTest" method="post" class="row" enctype="multipart/form-data">
+    @{var aa = Model.Meal;
+    }
+    @* <input id="mealId" asp-for="@Model.Meal.Id" hidden /> *@
+    @* <input asp-for="MealItems" value="@Model.MealItems" hidden /> *@
+    @* <input asp-for="@Model.Meal" value="@Model.Meal.Id" hidden /> *@
+    <input asp-for="@Model.Meal" value="0" hidden />
+    <div class="row">
+        <div class="col-12">
+            <div class="border rounded p-3">
+                <div class="d-flex justify-content-between">
+
+
+
+                </div>
+
+                <div class="form-floating py-2 col-12">
+                    <input id="mealDateTime" asp-for="@Model.Meal.DateTime" class="form-control food-input border-0 shadow" />
+                    <label asp-for="@Model.Meal.DateTime" class="ms-2"></label>
+                    <span asp-validation-for="@Model.Meal.DateTime" class="text-danger"></span>
+                </div>
+
+    
+
+                <h3>Meal Items</h3>
+                <div style="display: flex; justify-content: flex-end;">
+                    <a onclick="addMeal(@Model.Meal.Id)" class="btn btn-success">Add Meal Item</a>
+                </div>
+
+                <div id="mealGroup" name="meals" multiple class="form-group">
+                    @if (Model.Meal.MealItems != null && Model.Meal.MealItems.Count > 0)
+                    {
+                        @for (int i = 0; i < Model.Meal.MealItems.Count; i++)
+                        {
+                            <div class="border form-group rounded-2 my-2 shadow p-2 remove-meal-@Model.Meal.MealItems[i].Id" style="background:white;">
+                                <input asp-for="@Model.Meal.MealItems[i].Id" hidden />
+                                <input asp-for="@Model.Meal.MealItems[i].MealId" hidden />
+
+                                <div class="form-check py-2 col-12">
+                                    <input asp-for="@Model.Meal.MealItems[i].Volume" class="form-check-input border-1" />
+                                    <label asp-for="@Model.Meal.MealItems[i].Volume" class="form-check-label ms-2 text-dark"></label>
+                                    <span asp-validation-for="@Model.Meal.MealItems[i].Volume" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-floating py-2 col-12">
+                                    <select id="fodmapInput" class="form-select food-input" onchange="updateFodmapCard(this)" asp-for="@Model.Meal.MealItems[i].">
+                                        <option value="" selected>--Select Units--</option>
+                                        @foreach (var unit in Model.Units)
+                                        {
+                                            <option value="@unit.Id">@unit.Name</option>
+                                        }
+                                    </select>
+                                </div>
+
+                                @using (Html.BeginForm())
+                                {
+                                    <div style="display: flex; justify-content:end">
+                                        <a class="link-dark" type="button" onclick="removeMealConfirmation(@Model.Meal.MealItems[i].Id)">Remove</a>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
