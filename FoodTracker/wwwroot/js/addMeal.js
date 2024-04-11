@@ -15,6 +15,7 @@ function createFoodOptions(foodJson) {
 }
 
 function addMeal(mealId) {
+   
     const newId = new Date().getTime().toString();
     var mealGroup = document.getElementById('mealGroup')
     var div = document.createElement("div");
@@ -55,16 +56,17 @@ function addMeal(mealId) {
     mealGroup.appendChild(div)
 }
 
-function activateModal(mealId) {
+function activateModal(dayObj) {
     $('.meal-details-modal').modal('show');
-    $('.modal-title').html(mealId);
-
-    getMeal(mealId);
+    $('.modal-title').html(dayObj);
+    console.log(dayObj)
+    getMeal(dayObj);
 }
 
-function getMeal(mealId) {
+function getMeal(dayObj) {
+
     $.ajax({
-        url: `/Guest/Calendar/UpsertMeal?id=${mealId}`,
+        url: `/Guest/Calendar/UpsertMeal?id=${dayObj}`,
         type: 'GET',
         success: function (data) {
             if (data) {

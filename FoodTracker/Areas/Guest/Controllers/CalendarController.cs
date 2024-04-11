@@ -98,7 +98,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     else
                     {
                         // if exists in dict, add to day as dayVM
-                        var dayKey = $"{testYear}-{testMonth}-{dayIndex:D2}";
+                        var dayKey = $"{testYear}-{testMonth:D2}-{dayIndex + 1:D2}";
                         var dayMeals = new List<Meal>();
                         if (mealDict.TryGetValue(dayKey, out dayMeals))
                         {
@@ -110,6 +110,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                         }
                         
+                        newDay.DateTime = new DateTime(testYear, testMonth, dayIndex + 1);
 
                         //CalendarVM.Meals.
                         

@@ -243,6 +243,7 @@
 
                 @(Model.DaysJ[i, j].Day)
                 <button onclick="activateModal(@(Model.DaysJ[i, j].Day))" type="button">Add Meal</button>
+                <button onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])))" type="button">Add Meal2</button>
 
                 @* </div> *@
       @*           <div class="calendar-item">
@@ -266,7 +267,7 @@
                 {
                     @foreach (var meal in Model.DaysJ[i, j].Meals)
                     {
-                        <div class="calendar-item-yellow">
+                        <div class="calendar-item-green">
                             @meal.Name;
                         </div>
                     }
