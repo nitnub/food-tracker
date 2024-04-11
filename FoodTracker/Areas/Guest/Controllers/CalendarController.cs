@@ -4,6 +4,7 @@ using FoodTracker.Models.Meal;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,9 +20,31 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         private readonly IUnitOfWork _unitOfWork = unitOfwork;
         public IActionResult Index()
         {
+
+
+            var mealDict = new Dictionary<string, List<Meal>>(); 
+
+            var meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == Helper.GetAppUserId(User), includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME]);
+
+
+            foreach (var meal in meals)
+            {
+                var tempList = new List<Meal>();
+                var dateKey = meal.DateTime.ToString("yyyy-MM-dd").Substring(0, 10);
+                if (!mealDict.TryGetValue(dateKey, out tempList))
+                {
+                    mealDict[dateKey] = new List<Meal>();
+                    //mealDict.Add(dateKey, tempList);
+                }
+
+                mealDict[dateKey].Add(meal);
+            }
+
+
+
             CalendarVM = new()
             {
-                Meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == Helper.GetAppUserId(User), includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME]).ToList()
+                //Meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == Helper.GetAppUserId(User), includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME]).ToList()
             };
 
 
@@ -37,7 +60,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             // what day / position does the month start on
             // Index of first day of month
 
-            var testMonth = month - 2;
+            var testMonth = month;
             var testYear = year;
             var firstDayOfMonth = new DateTime(testYear, testMonth, 1);
             var firstDayOfMonthIndex = (int)firstDayOfMonth.DayOfWeek;
@@ -74,7 +97,22 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     }
                     else
                     {
+                        // if exists in dict, add to day as dayVM
+                        var dayKey = $"{testYear}-{testMonth}-{dayIndex:D2}";
+                        var dayMeals = new List<Meal>();
+                        if (mealDict.TryGetValue(dayKey, out dayMeals))
+                        {
+                            newDay.Meals = dayMeals;
+                        }
+                        else
+                        {
+                            newDay.Meals = new List<Meal>();
 
+                        }
+                        
+
+                        //CalendarVM.Meals.
+                        
                         newDay.Day = dayIndex + 1;
                         newDay.Color = new Color { Name = "Red" };
 

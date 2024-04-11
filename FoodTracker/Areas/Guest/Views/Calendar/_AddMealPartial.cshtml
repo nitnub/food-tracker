@@ -1,13 +1,6 @@
 ﻿@model MealVM
 
 <form id="foodFormTest" method="post" class="row" enctype="multipart/form-data">
-    @* <form id="foodFormTest" action="Upsert" method="post" class="row" enctype="multipart/form-data"> *@
-    @{
-        var aa = Model.Meal;
-    }
-    @* <input id="mealId" asp-for="@Model.Meal.Id" hidden /> *@
-    @* <input asp-for="MealItems" value="@Model.MealItems" hidden /> *@
-    @* <input asp-for="@Model.Meal" value="@Model.Meal.Id" hidden /> *@
     <input asp-for="@Model.Meal.Id" value="0" hidden />
     <input asp-for="@Model.MealItems" value="" hidden />
     <div class="row">
@@ -86,16 +79,9 @@
 
                 </div>
 
-
-
-
-
-
-
                 <div id="mealGroup" name="meals" multiple class="form-group">
                     @if (false && Model.Meal.MealItems != null && Model.Meal.MealItems.Count > 0)
                     {
-                        @* @for (int i = 0; i < Model.Meal.MealItems.Count; i++) *@
                         @foreach (string key in Model.MealItems.Keys)
                         {
                             <div class="border form-group rounded-2 my-2 shadow p-2 remove-meal-@Model.MealItems[key].Id" style="background:white;">
@@ -127,14 +113,8 @@
                             </div>
                         }
                     }
-                    @* <button class="btn btn-primary" type="submit" formaction="@Url.Action("UpsertMeal", "Calendar")">Submit</button> *@
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
-                @* <button class="btn btn-primary" type="button" onclick="testOne('@Json.Serialize({\"Model\": \"3\"})')">T</button> *@
-                @* <button class="btn btn-primary" type="button" onclick="testOne('@Json.Serialize(Model)')">TEST</button> *@
-                @* <button class="btn btn-primary" type="button" onclick="testOne('@Html.Raw(Json.Serialize(Model))')">TEST2</button> *@
-                <button class="btn btn-primary" type="button" onclick="testOne()">TEST1</button>
-                <button class="btn btn-primary" type="button" onclick="testTwo(@(Model.Meal.Name))">TEST2</button>
             </div>
         </div>
     </div>
@@ -142,6 +122,5 @@
 
 <script>
     var unitJson = @Json.Serialize(Model.Units)
-        var foodJson = @Json.Serialize(Model.Foods)
-
+    var foodJson = @Json.Serialize(Model.Foods)
 </script>
