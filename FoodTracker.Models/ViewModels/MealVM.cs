@@ -1,4 +1,5 @@
 ﻿using FoodTracker.Models.Meal;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,15 @@ namespace FoodTracker.Models.ViewModels
 {
     public class MealVM
     {
-
         public Meal.Meal Meal {  get; set; }
 
+        [ValidateNever]
+        public IEnumerable<MealType> MealTypes { get; set; }
+        [ValidateNever]
+        public IEnumerable<Food.Food> Foods { get; set; }
+        [ValidateNever]
         public IEnumerable<Unit> Units { get; set; }
+        public Dictionary<string, MealItem> MealItems { get; set; }
         //public IEnumerable<MealItem> MealItems { get; set; }
     }
 }

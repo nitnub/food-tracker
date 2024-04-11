@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using FoodTracker.Models.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,10 +14,17 @@ namespace FoodTracker.Models.Meal
     {
         [Key]
         public int Id { get; set; }
+        [ValidateNever]
+        public string AppUserId { get; set; }
+        [ForeignKey(nameof(AppUserId))]
+        [ValidateNever]
+        public AppUser AppUser { get; set; }
+
         public string Name { get; set; }
 
         public int MealTypeId { get; set; }
         [ForeignKey(nameof(MealTypeId))]
+        [ValidateNever]
         public MealType MealType { get; set; }
         public DateTime DateTime { get; set; }
 

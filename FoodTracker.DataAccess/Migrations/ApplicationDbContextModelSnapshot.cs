@@ -371,6 +371,10 @@ namespace FoodTracker.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
@@ -382,6 +386,8 @@ namespace FoodTracker.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("MealTypeId");
 
@@ -949,6 +955,9 @@ namespace FoodTracker.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Units");
@@ -1310,11 +1319,19 @@ namespace FoodTracker.DataAccess.Migrations
 
             modelBuilder.Entity("FoodTracker.Models.Meal.Meal", b =>
                 {
+                    b.HasOne("FoodTracker.Models.Identity.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FoodTracker.Models.Meal.MealType", "MealType")
                         .WithMany()
                         .HasForeignKey("MealTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("MealType");
                 });

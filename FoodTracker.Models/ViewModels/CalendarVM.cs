@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FoodTracker.Models.Meal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,9 @@ namespace FoodTracker.Models.ViewModels
         public string? Line3 { get; set; }
         public string? Line4 { get; set; }
         public string? Line5 { get; set; }
+
+
+        public List<Meal.Meal> Meals { get; set; } 
 
         public string[][]? Daysb { get; set; }
         public CalendarDay[,]? DaysJ { get; set; }

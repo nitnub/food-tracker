@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,11 +15,16 @@ namespace FoodTracker.Models.Meal
         public int Id { get; set; }
         public int MealId { get; set; }
         [ForeignKey(nameof(MealId))]
-        public Meal Meal { get; set; }
+        //[ValidateNever]
+        //public Meal Meal { get; set; }
         public int FoodId { get; set; }
         [ForeignKey(nameof(FoodId))]
+        [ValidateNever]
         public Food.Food Food { get; set; }
         public double Volume {  get; set; }
+        public int VolumeUnitsId { get; set; }
+        [ForeignKey(nameof(VolumeUnitsId))]
+        [ValidateNever]
         public Unit VolumeUnits { get; set; }
     }
 }

@@ -17,19 +17,6 @@
     </div>
 </div>
 
-@* @Model.Line1
-<br />
-@Model.Line2
-<br />
-@Model.Line3
-<br />
-@Model.Line4
-<br />
-@Model.Line5
-<br /> *@
-
-@* <partial name="_AddMealPartial" /> *@
-
 <div class="d-flex">
     @foreach (var day in Enum.GetNames<DayOfWeek>())
     {
@@ -41,7 +28,6 @@
                     @day
 
                 </h5>
-                @*  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> *@
             </div>
         </div>
     }
@@ -50,33 +36,11 @@
 @for (int i = 0; i < Model.DaysJ.GetLength(0); i++)
 {
 
-
     <div class="d-flex">
-
-
-
-
         @for (int j = 0; j < Model.DaysJ.GetLength(1); j++)
         {
-
-
-
-
-            @* <div class="card border-secondary m-1" style="max-width: 10rem;"> *@
             <div class="card border-secondary m-1" style="width: 10rem;">
                 <div class="card-header d-flex justify-content-end">
-
-
-
-
-
-
-
-
-
-
-
-                    @* <div class="calendar-day-icon justify-content-center align-items-center"> *@
                     <div class="d-flex justify-content-center align-items-center calendar-day-icon">
                         @*  <div> *@
                         @Model.DaysJ[i, j].Day
@@ -327,6 +291,7 @@
 
 @section Scripts {
     @{
+
         <script src="~/js/addMeal.js"></script>
     }
 }

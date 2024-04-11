@@ -21,5 +21,10 @@ namespace FoodTracker.Utility
         // Home Properties
         // Reaction Properties
         public const string FODMAP = "Fodmap";
+
+        // Meal Properties
+        public const string MEAL_ITEMS = "MealItems";
+        public const string MEAL_ITEMS_FOOD = "MealItems.Food";
+        public const string MEAL_ITEMS_VOLUME = "MealItems.VolumeUnits";
     }
 }

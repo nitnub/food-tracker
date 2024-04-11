@@ -5,6 +5,7 @@ using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
@@ -18,8 +19,14 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         private readonly IUnitOfWork _unitOfWork = unitOfwork;
         public IActionResult Index()
         {
-            CalendarVM = new();
+            CalendarVM = new()
+            {
+                Meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == Helper.GetAppUserId(User), includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME]).ToList()
+            };
+
+
             DateTime dt = DateTime.Now;
+
             var month = dt.Month;
             var year = dt.Year;
             var day = dt.Day;
@@ -30,8 +37,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             // what day / position does the month start on
             // Index of first day of month
 
-            var testMonth = month -2;
-            var testYear = year;  
+            var testMonth = month - 2;
+            var testYear = year;
             var firstDayOfMonth = new DateTime(testYear, testMonth, 1);
             var firstDayOfMonthIndex = (int)firstDayOfMonth.DayOfWeek;
 
@@ -44,7 +51,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             CalendarVM.Daysb = new string[rowsNeeded][];
             //var daysj = new string[rowsNeeded,7];
-            var daysj = new CalendarDay[rowsNeeded,7];
+            var daysj = new CalendarDay[rowsNeeded, 7];
 
             int dayIndex = 0 - firstDayOfMonthIndex;
             for (int row = 0; row < rowsNeeded; row++)
@@ -52,7 +59,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 for (int col = 0; col < 7; col++)
                 {
                     CalendarDay newDay = new();
-                    Meal m1 = new() { Id = 1, DateTime = DateTime.Now};
+                    Meal m1 = new() { Id = 1, DateTime = DateTime.Now };
 
                     MealItem mi1 = new() { Id = 1, MealId = 1, };
 
@@ -64,13 +71,13 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                         newDay.Day = null;
 
                         daysj[row, col] = newDay;
-                    } 
+                    }
                     else
                     {
 
                         newDay.Day = dayIndex + 1;
                         newDay.Color = new Color { Name = "Red" };
-                        
+
                         daysj[row, col] = newDay;
 
 
@@ -81,15 +88,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     _calendarDays.Add(newDay);
                     dayIndex++;
                 }
-            }    
+            }
             CalendarVM.DaysJ = daysj;
 
-            
+
 
             // what is today
             CalendarVM.Line1 = $"This is {(Month)month} the {day}. It is {(Day)dt.DayOfWeek}.";
             CalendarVM.Line2 = daysInMonth.ToString();
-            CalendarVM.Line3 = $"The total days in {(Month)month -2} = {daysInMonth}";
+            CalendarVM.Line3 = $"The total days in {(Month)month - 2} = {daysInMonth}";
             CalendarVM.Line4 = $"The first day of the month index is {firstDayOfMonthIndex}";
 
             CalendarVM.Line5 = $"Rows needed: {rowsNeeded}";
@@ -97,14 +104,51 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult UpsertMeal(int id)
+
+        [HttpPost]
+        public IActionResult Index(MealVM mealVM)
         {
-            Meal meal = new() { DateTime = DateTime.Now};
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            Meal newMeal = mealVM.Meal;
+            newMeal.AppUserId = Helper.GetAppUserId(User);
+
+            var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == newMeal.AppUserId || f.Global).Select(f => f.Id).ToList();
+
+            newMeal.MealItems = [];
+            foreach (var (key, value) in mealVM.MealItems)
+            {
+                if (!validUserFoods.Contains(value.FoodId))
+                    continue;
+                newMeal.MealItems.Add(value);
+            }
+
+            _unitOfWork.Meal.Add(newMeal);
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index");
+
+        }
+
+
+        [HttpGet]
+        public IActionResult UpsertMeal(MealVM MealVM)
+        {
+            Meal meal = new() { DateTime = DateTime.Now };
+
+            var id = 0;
+            var foodUnsorted = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name);
+            //foodUnsorted.ToList().OrderBy(x => x.Name);
             MealVM = new()
             {
                 Meal = new() { DateTime = DateTime.Now },
-            Units = _unitOfWork.Unit.GetAll()
+                Foods = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name),
+                MealTypes = _unitOfWork.MealType.GetAll(),
+                Units = _unitOfWork.Unit.GetAll(u => u.Type == 1)
             };
             if (id == 0)
                 return PartialView("_AddMealPartial", MealVM);

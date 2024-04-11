@@ -15,5 +15,6 @@ namespace FoodTracker.Models
         public string NamePlural { get; set; }
         public string ShortName { get; set; }
         public string ShortNamePlural { get; set; }
+        public int Type { get; set; }
     }
 }
