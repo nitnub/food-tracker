@@ -164,7 +164,7 @@ namespace FoodTrackerWeb.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     // Default all registered users to AppUser type
-                    await _userManager.AddToRoleAsync(user, SD.Role_AppUser);
+                    await _userManager.AddToRoleAsync(user, SD.ROLE_APP_USER);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

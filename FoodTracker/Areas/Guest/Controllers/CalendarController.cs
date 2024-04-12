@@ -16,7 +16,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
     {
         public MealVM MealVM { get; set; }
         public CalendarVM CalendarVM { get; set; }
-        private readonly List<CalendarDay> _calendarDays = new();
+        //private readonly List<CalendarDay> _calendarDays = new();
+        private readonly List<DayVM> _calendarDays = new();
         private readonly IUnitOfWork _unitOfWork = unitOfwork;
         public IActionResult Index()
         {
@@ -74,14 +75,16 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             CalendarVM.Daysb = new string[rowsNeeded][];
             //var daysj = new string[rowsNeeded,7];
-            var daysj = new CalendarDay[rowsNeeded, 7];
+            //var daysj = new CalendarDay[rowsNeeded, 7];
+            var daysj = new DayVM[rowsNeeded, 7];
 
             int dayIndex = 0 - firstDayOfMonthIndex;
             for (int row = 0; row < rowsNeeded; row++)
             {
                 for (int col = 0; col < 7; col++)
                 {
-                    CalendarDay newDay = new();
+                    //CalendarDay newDay = new();
+                    DayVM newDay = new();
                     Meal m1 = new() { Id = 1, DateTime = DateTime.Now };
 
                     MealItem mi1 = new() { Id = 1, MealId = 1, };
@@ -159,10 +162,14 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == newMeal.AppUserId || f.Global).Select(f => f.Id).ToList();
 
             newMeal.MealItems = [];
+            
             foreach (var (key, value) in mealVM.MealItems)
             {
                 if (!validUserFoods.Contains(value.FoodId))
                     continue;
+
+
+                
                 newMeal.MealItems.Add(value);
             }
 
@@ -178,33 +185,41 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpPost]
         public IActionResult UpsertMeal([FromBody] DayVM dayVM)
         {
-            Meal meal = new() { DateTime = DateTime.Now };
-            DateTime mealTime;
-            if (dayVM.DateTime.Date == DateTime.Now.Date)
+            DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date 
+                                    ? mealTime = DateTime.Now 
+                                    : mealTime = dayVM.DateTime.Date.AddHours(12);
+            Meal? activeMeal = null; 
+            if (dayVM.ActiveMealId != 0)
             {
-                mealTime = DateTime.Now;
+                activeMeal = _unitOfWork.Meal.Get(m => m.AppUserId == Helper.GetAppUserId(User) && m.Id == dayVM.ActiveMealId, includeProperties: Prop.MEAL_ITEMS);
             }
-            else
-            {
-                mealTime = dayVM.DateTime.Date.AddHours(12);
-            }
+            if (activeMeal == null)
+                activeMeal = new Meal() { DateTime = mealTime };
+            //Meal meal = new() { DateTime = DateTime.Now };
+            //DateTime mealTime;
+            //if (dayVM.DateTime.Date == DateTime.Now.Date)
+            //{
+            //    mealTime = DateTime.Now;
+            //}
+            //else
+            //{
+            //    mealTime = dayVM.DateTime.Date.AddHours(12);
+            //}
 
-            var id = 0;
-            var foodUnsorted = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name);
+            //var id = 0;
+            //var foodUnsorted = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name);
 
             MealVM = new()
             {
-                Meal = new() { DateTime = mealTime},
+                Meal = activeMeal,
                 Foods = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name),
                 MealTypes = _unitOfWork.MealType.GetAll(),
                 Units = _unitOfWork.Unit.GetAll(u => u.Type == 1)
             };
-            if (id == 0)
-                return PartialView("_AddMealPartial", MealVM);
+            //if (id == 0)
+            //    return PartialView("_AddMealPartial", MealVM);
 
             return PartialView("_AddMealPartial", MealVM);
-
-            return RedirectToAction(nameof(Index));
         }
     }
 }

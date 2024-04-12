@@ -20,7 +20,8 @@ namespace FoodTracker.Models.ViewModels
         public List<Meal.Meal> Meals { get; set; } 
 
         public string[][]? Daysb { get; set; }
-        public CalendarDay[,]? DaysJ { get; set; }
+        //public CalendarDay[,]? DaysJ { get; set; }
+        public DayVM[,]? DaysJ { get; set; }
 
         public IEnumerable<CalendarDay> Days { get; set; }
 

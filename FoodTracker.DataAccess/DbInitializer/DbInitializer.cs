@@ -35,7 +35,7 @@ namespace FoodTracker.DataAccess.DBInitializer
                     _db.Database.Migrate();
 
                     // Go through all SQL Stage directories and run all queries
-                    if (Env.ASPNETCORE_ENVIRONMENT == SD.Development && Env.SQL_SCRIPT_DIRECTORY != null)
+                    if (Env.ASPNETCORE_ENVIRONMENT == SD.DEVELOPMENT && Env.SQL_SCRIPT_DIRECTORY != null)
                     {
                         //string connectionString = _config["ConnectionStrings:DefaultConnection"];
                         var directories = Directory.GetDirectories(Env.SQL_SCRIPT_DIRECTORY + @"\populate").ToList();
@@ -70,11 +70,11 @@ namespace FoodTracker.DataAccess.DBInitializer
                 throw;
             }
 
-            if (!_roleManager.RoleExistsAsync(SD.Role_AppUser).GetAwaiter().GetResult() && Env.USER_ADMIN_USERNAME != null)
+            if (!_roleManager.RoleExistsAsync(SD.ROLE_APP_USER).GetAwaiter().GetResult() && Env.USER_ADMIN_USERNAME != null)
             {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_AppUser)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Delegate)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.ROLE_APP_USER)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.ROLE_DELEGATE)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.ROLE_ADMIN)).GetAwaiter().GetResult();
 
                 // If the roles are not created, create admin user
                 _userManager.CreateAsync(new AppUser
@@ -86,7 +86,7 @@ namespace FoodTracker.DataAccess.DBInitializer
                 }, Env.USER_ADMIN_PASSWORD).GetAwaiter().GetResult(); // Must satisfy PW complexity
 
                 AppUser user = _db.AppUsers.FirstOrDefault(u => u.Email == Env.USER_ADMIN_EMAIL);
-                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(user, SD.ROLE_ADMIN).GetAwaiter().GetResult();
             }
             return;
         }

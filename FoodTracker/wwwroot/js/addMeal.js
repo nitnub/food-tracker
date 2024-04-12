@@ -56,10 +56,11 @@ function addMeal(mealId) {
     mealGroup.appendChild(div)
 }
 
-function activateModal(dayObj) {
+function activateModal(dayObj, activeMealId = 0) {
     $('.meal-details-modal').modal('show');
     $('.modal-title').html(dayObj);
-    console.log(dayObj)
+
+    dayObj.activeMealId = activeMealId;
     getMeal(dayObj);
 }
 
@@ -69,6 +70,10 @@ function getMeal(dayObj) {
     //if (clickedDate === getTodaysDateFormatted()) {
     //    dayObj.DateTime = new Date();
     //};
+    //console.log(activeMeal)
+    //console.log("activeMealId");
+    //console.log(activeMealId);
+    //dayObj.activeMealId = activeMealId;
     $.ajax({
         url: `/Guest/Calendar/UpsertMeal`,
         type: 'POST',
@@ -102,10 +107,13 @@ function removeMeal(id) {
 }
 
 function removeNewMealItem(id) {
+    console.log("Remove:", id)
     $('.remove-meal-item-new' + id).remove();
 }
 
 function removeMealItemConfirmation(id) {
+    console.log("id");
+    console.log(id);
     const mealItem = mealItems.find(m => m.id === id);
     $('.delete-meal-item-modal').modal('show');
     $('.modal-body').html(`Permanently delete meal item "<b>${mealItem.food.name}</b>"?`);
@@ -140,11 +148,11 @@ function getProducts(query, page = 1) {
     })
 }
 
-function getTodaysDateFormatted() {
-    const today = new Date()
-    const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2 }); // month is 0-indexed, date is not
-    const day = today.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2 });
+//function getTodaysDateFormatted() {
+//    const today = new Date()
+//    const year = today.getFullYear();
+//    const month = (today.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2 }); // month is 0-indexed, date is not
+//    const day = today.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2 });
 
-    return `${year}-${month}-${day}`;
-}
+//    return `${year}-${month}-${day}`;
+//}

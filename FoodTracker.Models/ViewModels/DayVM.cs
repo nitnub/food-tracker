@@ -12,6 +12,7 @@ namespace FoodTracker.Models.ViewModels
         public int Month { get; set; }
         public int Year { get; set; }
         public Color Color { get; set; }
+        public int ActiveMealId { get; set; }
         public DateTime DateTime { get; set; }
         public List<Meal.Meal> Meals { get; set; }
         public List<Reaction.Reaction> Reactions { get; set; }

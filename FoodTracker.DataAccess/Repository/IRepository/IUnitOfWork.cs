@@ -30,6 +30,7 @@ namespace FoodTracker.DataAccess.Repository.IRepository
         IReactionTypeRepository ReactionType { get; }
         IStateRepository State { get; }
         IUnitRepository Unit { get; }
+        IUnitTypeRepository UnitType { get; }
         IUserSafeFoodRepository UserSafeFood { get; }
 
         void Save();
