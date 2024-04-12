@@ -65,9 +65,15 @@ function activateModal(dayObj) {
 
 function getMeal(dayObj) {
 
+    //const clickedDate = dayObj.DateTime.substring(0, 10)
+    //if (clickedDate === getTodaysDateFormatted()) {
+    //    dayObj.DateTime = new Date();
+    //};
     $.ajax({
-        url: `/Guest/Calendar/UpsertMeal?id=${dayObj}`,
-        type: 'GET',
+        url: `/Guest/Calendar/UpsertMeal`,
+        type: 'POST',
+        data: JSON.stringify(dayObj),
+        contentType: 'application/json',
         success: function (data) {
             if (data) {
                 // Populate meal card
@@ -132,4 +138,13 @@ function getProducts(query, page = 1) {
             $('.paginationDiv').html(paginationDiv)
         }
     })
+}
+
+function getTodaysDateFormatted() {
+    const today = new Date()
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2 }); // month is 0-indexed, date is not
+    const day = today.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2 });
+
+    return `${year}-${month}-${day}`;
 }

@@ -1,5 +1,9 @@
 ﻿@model MealVM
 
+@{
+    // var today = $"{Model.}-{}-{}"
+}
+
 <form id="foodFormTest" method="post" class="row" enctype="multipart/form-data">
     <input asp-for="@Model.Meal.Id" value="0" hidden />
     <input asp-for="@Model.MealItems" value="" hidden />
@@ -12,12 +16,17 @@
                 <div class="d-flex">
 
                     <div class="form-floating py-2 col-6">
-                        <input id="mealDateTime" asp-for="@Model.Meal.Name" class="form-control food-input " />
+                        <input id="mealName" asp-for="@Model.Meal.Name" class="form-control food-input"/>
                         <label asp-for="@Model.Meal.Name" class="ms-2"></label>
                         <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
                     </div>
+
                     <div class="form-floating py-2 col-6">
-                        <input id="mealDateTime" asp-for="@Model.Meal.DateTime" class="form-control food-input " />
+
+                            <input id="mealDateTime" asp-for="@Model.Meal.DateTime" class="form-control food-input" />
+          
+                        
+                        
                         <label asp-for="@Model.Meal.DateTime" class="ms-2"></label>
                         <span asp-validation-for="@Model.Meal.DateTime" class="text-danger"></span>
                     </div>

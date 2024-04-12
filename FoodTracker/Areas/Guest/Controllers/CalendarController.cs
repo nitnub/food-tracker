@@ -174,17 +174,27 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult UpsertMeal(MealVM MealVM)
+        //[HttpGet]
+        [HttpPost]
+        public IActionResult UpsertMeal([FromBody] DayVM dayVM)
         {
             Meal meal = new() { DateTime = DateTime.Now };
+            DateTime mealTime;
+            if (dayVM.DateTime.Date == DateTime.Now.Date)
+            {
+                mealTime = DateTime.Now;
+            }
+            else
+            {
+                mealTime = dayVM.DateTime.Date.AddHours(12);
+            }
 
             var id = 0;
             var foodUnsorted = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name);
-            //foodUnsorted.ToList().OrderBy(x => x.Name);
+
             MealVM = new()
             {
-                Meal = new() { DateTime = DateTime.Now },
+                Meal = new() { DateTime = mealTime},
                 Foods = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name),
                 MealTypes = _unitOfWork.MealType.GetAll(),
                 Units = _unitOfWork.Unit.GetAll(u => u.Type == 1)
