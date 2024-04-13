@@ -23,6 +23,7 @@ namespace FoodTracker.DataAccess.Repository.IRepository
         IIngredientMapRepository IngredientMap { get; }
         ILocationRepository Location { get; }
         IMealRepository Meal { get; }
+        IMealItemRepository MealItem { get; }
         IMealTypeRepository MealType { get; }
         IReactionCategoryRepository ReactionCategory { get; }
         IReactionRepository Reaction { get; }

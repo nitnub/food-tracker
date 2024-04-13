@@ -54,10 +54,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var month = dt.Month;
             var year = dt.Year;
             var day = dt.Day;
-            var hour = dt.Hour;
-            var minute = dt.Minute;
-            var second = dt.Second;
-            var millisecond = dt.Millisecond;
+            //var hour = dt.Hour;
+            //var minute = dt.Minute;
+            //var second = dt.Second;
+            //var millisecond = dt.Millisecond;
             // what day / position does the month start on
             // Index of first day of month
 
@@ -156,58 +156,62 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return RedirectToAction("Index");
             }
 
-            Meal newMeal = mealVM.Meal;
-            newMeal.AppUserId = Helper.GetAppUserId(User);
+            var updatedMeal = mealVM.Meal;
+            var appUserId = Helper.GetAppUserId(User);
 
-            var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == newMeal.AppUserId || f.Global).Select(f => f.Id).ToList();
+            // verify mealId is for user
+            var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: Prop.MEAL_ITEMS);
 
-            newMeal.MealItems = [];
-            
-            foreach (var (key, value) in mealVM.MealItems)
+            // get and then delete all mealItems with that meal id
+            if (verifiedMeal != null && verifiedMeal.MealItems.Count > 0) 
             {
-                if (!validUserFoods.Contains(value.FoodId))
-                    continue;
-
-
-                
-                newMeal.MealItems.Add(value);
+                _unitOfWork.MealItem.RemoveRange(verifiedMeal.MealItems.ToList());
             }
 
-            _unitOfWork.Meal.Add(newMeal);
+            var verifiedMealItemsList = new List<MealItem>();
+            var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == appUserId || f.Global).Select(f => f.Id).ToList();
+
+            foreach (var (key, mealItem) in mealVM.MealItems)
+            {
+                if (validUserFoods.Contains(mealItem.FoodId))
+                {
+                    verifiedMealItemsList.Add(mealItem);
+                }
+            }
+
+            updatedMeal.MealItems = verifiedMealItemsList;
+            updatedMeal.AppUserId = appUserId;
+
+            if (updatedMeal.Id == 0)
+            {
+                _unitOfWork.Meal.Add(updatedMeal);
+            }
+            else
+            {
+                _unitOfWork.Meal.Update(updatedMeal);
+            }
+
             _unitOfWork.Save();
 
             return RedirectToAction("Index");
 
         }
 
-
-        //[HttpGet]
         [HttpPost]
         public IActionResult UpsertMeal([FromBody] DayVM dayVM)
         {
+                      
             DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date 
                                     ? mealTime = DateTime.Now 
                                     : mealTime = dayVM.DateTime.Date.AddHours(12);
+           
             Meal? activeMeal = null; 
             if (dayVM.ActiveMealId != 0)
             {
                 activeMeal = _unitOfWork.Meal.Get(m => m.AppUserId == Helper.GetAppUserId(User) && m.Id == dayVM.ActiveMealId, includeProperties: Prop.MEAL_ITEMS);
             }
-            if (activeMeal == null)
-                activeMeal = new Meal() { DateTime = mealTime };
-            //Meal meal = new() { DateTime = DateTime.Now };
-            //DateTime mealTime;
-            //if (dayVM.DateTime.Date == DateTime.Now.Date)
-            //{
-            //    mealTime = DateTime.Now;
-            //}
-            //else
-            //{
-            //    mealTime = dayVM.DateTime.Date.AddHours(12);
-            //}
 
-            //var id = 0;
-            //var foodUnsorted = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name);
+            activeMeal ??= new Meal() { DateTime = mealTime };
 
             MealVM = new()
             {
@@ -216,10 +220,23 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 MealTypes = _unitOfWork.MealType.GetAll(),
                 Units = _unitOfWork.Unit.GetAll(u => u.Type == 1)
             };
-            //if (id == 0)
-            //    return PartialView("_AddMealPartial", MealVM);
 
             return PartialView("_AddMealPartial", MealVM);
+        }
+
+
+        [HttpDelete]
+        public IActionResult RemoveMeal(int id)
+        {
+            var mealToDelete = _unitOfWork.Meal.Get(m => m.Id == id && m.AppUserId == Helper.GetAppUserId(User));
+
+            if (mealToDelete != null)
+            {
+                _unitOfWork.Meal.Remove(mealToDelete);
+                _unitOfWork.Save();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

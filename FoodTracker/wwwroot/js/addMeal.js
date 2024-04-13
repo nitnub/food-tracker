@@ -15,7 +15,7 @@ function createFoodOptions(foodJson) {
 }
 
 function addMeal(mealId) {
-   
+
     const newId = new Date().getTime().toString();
     var mealGroup = document.getElementById('mealGroup')
     var div = document.createElement("div");
@@ -66,14 +66,6 @@ function activateModal(dayObj, activeMealId = 0) {
 
 function getMeal(dayObj) {
 
-    //const clickedDate = dayObj.DateTime.substring(0, 10)
-    //if (clickedDate === getTodaysDateFormatted()) {
-    //    dayObj.DateTime = new Date();
-    //};
-    //console.log(activeMeal)
-    //console.log("activeMealId");
-    //console.log(activeMealId);
-    //dayObj.activeMealId = activeMealId;
     $.ajax({
         url: `/Guest/Calendar/UpsertMeal`,
         type: 'POST',
@@ -94,26 +86,35 @@ function getMeal(dayObj) {
 
 function removeMeal(id) {
     $.ajax({
-        url: `/Guest/Calendar/DeleteMeal/${id}`,
+        url: `/Guest/Calendar/RemoveMeal/${id}`,
         type: 'DELETE',
         contentType: 'application/json',
-        success: function (data) {
-            if (data.success) {
-                $('.remove-meal-' + id).remove();
-                $('.delete-meal-modal').modal('hide');
-            }
+        success: function () {
+            $(`#meal${id}`).remove();
+            $('#meal-delete-modal').modal('hide');
         }
     })
 }
 
+function cancelRemoveMeal() {
+    $('#meal-delete-modal').modal('hide');
+    $('#meal-modal').modal('show');
+}
+
+function removeMealConfirmation(id, mealName) {
+    $('#meal-modal').modal('hide');
+    $('#meal-delete-modal-body').html(`Permanently delete "<b>${mealName}</b>"?`);
+    $('#meal-delete-modal-footer').html(`
+        <a onClick=cancelRemoveMeal() class="btn btn-secondary mx-2">Cancel</a>
+        <a onClick=removeMeal(${id}) class="btn btn-danger mx-2">Delete</a>`);
+    $('#meal-delete-modal').modal('show');
+}
+
 function removeNewMealItem(id) {
-    console.log("Remove:", id)
     $('.remove-meal-item-new' + id).remove();
 }
 
 function removeMealItemConfirmation(id) {
-    console.log("id");
-    console.log(id);
     const mealItem = mealItems.find(m => m.id === id);
     $('.delete-meal-item-modal').modal('show');
     $('.modal-body').html(`Permanently delete meal item "<b>${mealItem.food.name}</b>"?`);
@@ -147,12 +148,3 @@ function getProducts(query, page = 1) {
         }
     })
 }
-
-//function getTodaysDateFormatted() {
-//    const today = new Date()
-//    const year = today.getFullYear();
-//    const month = (today.getMonth() + 1).toLocaleString('en-US', { minimumIntegerDigits: 2 }); // month is 0-indexed, date is not
-//    const day = today.getDate().toLocaleString('en-US', { minimumIntegerDigits: 2 });
-
-//    return `${year}-${month}-${day}`;
-//}

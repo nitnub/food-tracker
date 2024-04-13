@@ -1,21 +1,34 @@
 ﻿@model CalendarVM
 
 <!-- Meal Details Modal (Calendar) -->
-<div class="modal meal-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+<div id="meal-modal"  class="modal meal-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Meal Details</h5>
             </div>
-            <div id="modal-body" class="modal-body">
+            <div id="meal-modal-body" class="modal-body">
                 <div id="mealCard"></div>
-                @*  <partial name="_AddFoodPartial" /> *@
-
             </div>
             <div class="modal-footer"></div>
         </div>
     </div>
 </div>
+
+
+<!-- Delete Confirmation Modal (Meal) -->
+<div id="meal-delete-modal" class="modal delete-meal-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+            </div>
+            <div id="meal-delete-modal-body" class="modal-body"></div>
+            <div id="meal-delete-modal-footer" class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
 
 <div class="d-flex">
     @foreach (var day in Enum.GetNames<DayOfWeek>())
@@ -24,15 +37,13 @@
             @* <div class="card-header">@Model.DaysJ[i, j]</div> *@
             <div class="card-body text-secondary">
                 <h5 class="card-title">
-
                     @day
-
                 </h5>
             </div>
         </div>
     }
-
 </div>
+
 @for (int i = 0; i < Model.DaysJ.GetLength(0); i++)
 {
 
@@ -268,7 +279,7 @@
                     @foreach (var meal in Model.DaysJ[i, j].Meals)
                     {
 
-                        <div class="calendar-item-green" onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])), @meal.Id)">
+                        <div id="meal@(meal.Id)" class="calendar-item-green" onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])), @meal.Id)">
                             @meal.Name;
                         </div>
                     }

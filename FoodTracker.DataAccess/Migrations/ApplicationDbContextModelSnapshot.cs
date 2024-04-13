@@ -963,6 +963,23 @@ namespace FoodTracker.DataAccess.Migrations
                     b.ToTable("Units");
                 });
 
+            modelBuilder.Entity("FoodTracker.Models.UnitType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UnitTypes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1344,7 +1361,7 @@ namespace FoodTracker.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodTracker.Models.Meal.Meal", "Meal")
+                    b.HasOne("FoodTracker.Models.Meal.Meal", null)
                         .WithMany("MealItems")
                         .HasForeignKey("MealId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1357,8 +1374,6 @@ namespace FoodTracker.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Food");
-
-                    b.Navigation("Meal");
 
                     b.Navigation("VolumeUnits");
                 });
