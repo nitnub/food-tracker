@@ -79,10 +79,48 @@ function getMeal(dayObj) {
                 // Populate new meal item dropdowns
                 unitOptions = createUnitOptions(unitJson);
                 foodOptions = createFoodOptions(foodJson);
+
+                monitorMealReactions();
             }
         }
     })
 }
+
+
+
+
+function monitorMealReactions() {
+    $("#mealReaction").parents("div").find("li").on('change', function () {
+        const value = $(this).attr("value");
+        const checked = $(`#reactionCheck-${value}`)[0].checked
+
+        checked ? addMealReaction(value) : removeMealReaction(value);
+        //if (checked) {
+        //    addMealReaction(value);
+
+        //} else {
+        //    removeMealReaction(value)
+        //}
+
+    })
+}
+
+
+function addMealReaction(reactionId) {
+
+    var mealReactionResults = document.getElementById('mealReactionResults')
+    var div = document.createElement("div");
+
+    div.setAttribute("id", "remove-meal-reaction-" + reactionId);
+    div.innerHTML = `<input id="Reactions_${reactionId}" name="Reactions[${reactionId}]" value="true">`
+
+    mealReactionResults.appendChild(div)
+}
+
+function removeMealReaction(reactionId) {
+    $('#remove-meal-reaction-' + reactionId).remove();
+}
+
 
 function removeMeal(id) {
     $.ajax({
@@ -148,3 +186,4 @@ function getProducts(query, page = 1) {
         }
     })
 }
+

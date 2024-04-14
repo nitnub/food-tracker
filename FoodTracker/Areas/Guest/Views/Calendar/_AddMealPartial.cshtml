@@ -30,15 +30,79 @@
                 </div>
 
                 <div class="d-flex">
+
+
                     <div class="form-floating py-2 col-6">
                         <select id="mealTypeInput" class="form-select food-input" asp-for="@Model.Meal.MealTypeId">
                             <option value="" selected>--Select Meal Type--</option>
                             @foreach (var mt in Model.MealTypes)
                             {
-                                <option value="@mt.Id">@mt.Name</option>
+                                <option  value="@mt.Id">@mt.Name</option>
                             }
                         </select>
                     </div>
+
+
+
+                    <div id="mealReactionResults" hidden></div>
+                    <div class="btn-group">
+                        <input 
+                            id="mealReaction"
+                               asp-for="@Model.Reactions"
+                            hidden />
+                        <button class="btn btn-success dropdown-toggle"
+                                type="button"
+                                id="multiSelectDropdown"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                data-bs-auto-close="outside">
+                          
+                            Select
+                        </button>
+                        <ul class="dropdown-menu"
+                            aria-labelledby="multiSelectDropdown"
+                            asp-for="@Model.Meal.MealTypeId">
+
+
+                            <li><h6 class="dropdown-header">Stomach</h6></li>
+                            <li value="1">
+                                <label class="check-drop-option">
+                                    <input id="reactionCheck-1" type="checkbox">
+                                    Breakfast
+                                </label>
+                            </li>
+                            <li value ="2">
+                                <label class="check-drop-option">
+                                    <input id="reactionCheck-2" type="checkbox">
+                                    Lunch
+                                </label>
+                            </li>
+                            <li value="3">
+                                <label class="check-drop-option">
+                                    <input id="reactionCheck-3" type="checkbox">
+                                    Dinner
+                                </label>
+                            </li>
+
+                            <li><h6 class="dropdown-header">Skin</h6></li>
+                            <li value="4">
+                                <label class="check-drop-option">
+                                    <input id="reactionCheck-4" type="checkbox">
+                                    Snack
+                                </label>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+
+
+
+
+
+
+
 
 
                 </div>

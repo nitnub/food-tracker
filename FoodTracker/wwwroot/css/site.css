@@ -85,6 +85,17 @@ body {
 }
 
 
+
+
+.check-drop-option{
+    /*background-color: red;*/
+    padding-left: 26px;
+
+}
+
+
+
+
 /* Food Area */
 .food-chip {
     text-decoration: none;
@@ -490,6 +501,37 @@ body {
 
 /* Calendar */
 
+.day-card {
+    /*min-height: 220px;
+    max-height: 220px;
+*/
+    
+}
+
+.calendar-reaction-container {
+    /*background-color: green;*/
+    /*max-height: 26px;*/
+    /*min-height: 26px;*/
+    min-height: 32px;
+    max-height: 32px;
+    /*height: auto;*/
+    height: fit-content;
+}
+
+.calendar-meal-container {
+    /*background-color: purple;*/
+    /*height: 100vh;*/
+    min-height: 120px;
+    max-height: 100vh;
+}
+
+
+.day-card-footer {
+    max-height: 42px;
+    min-height: 42px;
+    /*background-color: red;*/
+}
+
 .calendar-day-icon {
     width: 32px;
     height: 32px;
@@ -509,6 +551,9 @@ body {
 .calendar-badge {
     width: 24px;
     height: 24px;
+    /*padding-top: 3px;*/
+    margin-left: 3px;
+    margin-right: 3px;
 }
 .calendar-item,
 .calendar-item-green,

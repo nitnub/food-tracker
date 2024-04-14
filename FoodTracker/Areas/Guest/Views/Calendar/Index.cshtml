@@ -1,7 +1,7 @@
 ﻿@model CalendarVM
 
 <!-- Meal Details Modal (Calendar) -->
-<div id="meal-modal"  class="modal meal-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
+<div id="meal-modal" class="modal meal-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -30,6 +30,7 @@
 </div>
 
 
+
 <div class="d-flex">
     @foreach (var day in Enum.GetNames<DayOfWeek>())
     {
@@ -50,7 +51,7 @@
     <div class="d-flex">
         @for (int j = 0; j < Model.DaysJ.GetLength(1); j++)
         {
-            <div class="card border-secondary m-1" style="width: 10rem;">
+            <div class="card day-card border-secondary   m-1 " style="width: 10rem;">
                 <div class="card-header d-flex justify-content-end">
                     <div class="d-flex justify-content-center align-items-center calendar-day-icon">
                         @Model.DaysJ[i, j].Day
@@ -149,9 +150,9 @@
                     </div>
                 }
 
+  
 
-
-                <div class=" d-flex flex-wrap calendar-reaction-container">
+                <div class=" d-flex flex-wrap calendar-reaction-container h-100">
 
                     @if (true)
                     {
@@ -249,44 +250,53 @@
 
 
                 </div>
+                <div class="calendar-meal-container h-100"
+                    onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])))" type="button">
 
 
 
-                @(Model.DaysJ[i, j].Day)
-                <button onclick="activateModal(@(Model.DaysJ[i, j].Day))" type="button">Add Meal</button>
-                <button onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])))" type="button">Add Meal2</button>
 
-                @* </div> *@
-      @*           <div class="calendar-item">
-                    Dinner Item
-                </div>
-                <div class="calendar-item-green">
-                    Dinner Item
-                </div>
-                <div class="calendar-item-yellow">
-                    Dinner Item
-                </div>
-                <div class="calendar-item-red">
-                    Dinner Item
-                </div>
-                <div class="calendar-item-blue">
-                    Dinner Item
-                </div>
- *@
 
-                @if (Model.DaysJ[i, j].Meals != null)
-                {
-                    @foreach (var meal in Model.DaysJ[i, j].Meals)
+
+
+                    @* @(Model.DaysJ[i, j].Day) *@
+                    @* <button onclick="activateModal(@(Model.DaysJ[i, j].Day))" type="button">Add Meal</button> *@
+                    @* <button onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])))" type="button">Add Meal2</button> *@
+
+                    @* </div> *@
+                    @*           <div class="calendar-item">
+            Dinner Item
+            </div>
+            <div class="calendar-item-green">
+            Dinner Item
+            </div>
+            <div class="calendar-item-yellow">
+            Dinner Item
+            </div>
+            <div class="calendar-item-red">
+            Dinner Item
+            </div>
+            <div class="calendar-item-blue">
+            Dinner Item
+            </div>
+            *@
+
+                    @if (Model.DaysJ[i, j].Meals != null)
                     {
+                        @foreach (var meal in Model.DaysJ[i, j].Meals)
+                        {
 
-                        <div id="meal@(meal.Id)" class="calendar-item-green" onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])), @meal.Id)">
-                            @meal.Name;
-                        </div>
+                            <div id="meal@(meal.Id)" class="calendar-item-green" onclick="activateModal(@(JsonSerializer.Serialize(Model.DaysJ[i, j])), @meal.Id)">
+                                @meal.Name;
+                            </div>
+                        }
+
                     }
-                    
-                }
+                </div>
 
-                <div class="card-footer bg-transparent border-success">
+
+                @* <div class="card-footer day-card-footer bg-transparent border-success"> *@
+                <div class="card-footer day-card-footer  border-success">
 
                     <div class="d-flex calendar-badges flex-wrap justify-content-center">
                         <div class="calendar-badge">

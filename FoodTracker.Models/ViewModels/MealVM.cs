@@ -20,5 +20,7 @@ namespace FoodTracker.Models.ViewModels
         public IEnumerable<Unit> Units { get; set; }
         public Dictionary<string, MealItem> MealItems { get; set; }
         //public IEnumerable<MealItem> MealItems { get; set; }
+        //public List<int> Reactions { get; set; }
+        public Dictionary<int, bool> Reactions { get; set; }
     }
 }

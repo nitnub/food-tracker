@@ -146,7 +146,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         }
 
-
         [HttpPost]
         public IActionResult Index(MealVM mealVM)
         {
@@ -223,7 +222,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             return PartialView("_AddMealPartial", MealVM);
         }
-
 
         [HttpDelete]
         public IActionResult RemoveMeal(int id)
