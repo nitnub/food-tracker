@@ -42,16 +42,19 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             foreach (var reaction in existingReactions)
             {
-                var foodId = reaction.FoodId;
+                
+                var foodId = (int)reaction.FoodId;
+                var reactionTypeId = (int)reaction.TypeId;
+                var reactionSeverityId = (int)reaction.SeverityId;
 
                 if (foodTypeSeverityDict.TryGetValue(foodId, out reactionTypeSeverityDict))
                 {
-                    reactionTypeSeverityDict[reaction.TypeId] = reaction.SeverityId;
+                    reactionTypeSeverityDict[reactionTypeId] = reactionSeverityId;
                 }
                 else
                 {
                     foodTypeSeverityDict[foodId] = [];
-                    foodTypeSeverityDict[foodId][reaction.TypeId] = reaction.SeverityId;
+                    foodTypeSeverityDict[foodId][reactionTypeId] = reactionSeverityId;
                 }
             }
 

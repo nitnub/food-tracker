@@ -35,6 +35,7 @@ namespace FoodTracker.DataAccess.Data
         public DbSet<Reaction> Reactions { get; set; }
         public DbSet<ReactionSeverity> ReactionSeverities { get; set; }
         public DbSet<ReactionType> ReactionTypes { get; set; }
+        public DbSet<ReactionSourceType> ReactionSourceTypes { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UnitType> UnitTypes { get; set; }

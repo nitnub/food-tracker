@@ -1,4 +1,5 @@
-﻿using FoodTracker.Models.Identity;
+﻿using FoodTracker.Models.Activity;
+using FoodTracker.Models.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,16 @@ namespace FoodTracker.Models.Reaction
 
 
         [ForeignKey(nameof(Food))]
-        public int FoodId { get; set; }
+        [ValidateNever]
+        public int? FoodId { get; set; }
 
+        
+        //public int SourceId { get; set; }
 
+        [ValidateNever]
+        public int SourceTypeId { get; set; }
+        [ValidateNever]
+        public ReactionSourceType SourceType {  get; set; }
 
         //public int FoodId { get; set; }
         //[ForeignKey(nameof(FoodId))]
@@ -35,19 +43,31 @@ namespace FoodTracker.Models.Reaction
 
 
 
+        [ForeignKey(nameof(Meal))]
+        [ValidateNever]
+        public int? MealId { get; set; }
 
+        
+        
+        [ForeignKey(nameof(Activity))]
+        [ValidateNever]
+        public int? ActivityId { get; set; }
 
-        public int TypeId { get; set; }
+        
+        
+        public int? TypeId { get; set; }
         [ForeignKey(nameof(TypeId))]
         [ValidateNever]
         public ReactionType Type { get; set; }
-        public int SeverityId { get; set; } 
+        
+        
+        public int? SeverityId { get; set; } 
         [ForeignKey(nameof(SeverityId))]
         [ValidateNever]
-        public ReactionSeverity Severity { get; set; }
+        public ReactionSeverity? Severity { get; set; }
         [DefaultValue(true)]
-        public bool Active { get; set; }
-        public DateTime? IdentifiedOn { get; set; }
+        public bool Active { get; set; } = true;
+        public DateTime? IdentifiedOn { get; set; } = DateTime.Now;
         public DateTime? SubsidedOn { get; set;}
     }
 }

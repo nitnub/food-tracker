@@ -306,3 +306,5 @@ C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\FoodT
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\FoodTrackerWeb.genruntimeconfig.cache
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTrackerWeb.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\ref\FoodTrackerWeb.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb

@@ -453,23 +453,32 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ActivityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("AppUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("FoodId")
+                    b.Property<int?>("FoodId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("IdentifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("SeverityId")
+                    b.Property<int?>("MealId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SeverityId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SourceTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("SubsidedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TypeId")
+                    b.Property<int?>("TypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -478,7 +487,11 @@ namespace FoodTracker.DataAccess.Migrations
 
                     b.HasIndex("FoodId");
 
+                    b.HasIndex("MealId");
+
                     b.HasIndex("SeverityId");
+
+                    b.HasIndex("SourceTypeId");
 
                     b.HasIndex("TypeId");
 
@@ -520,6 +533,23 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ReactionSeverities");
+                });
+
+            modelBuilder.Entity("FoodTracker.Models.Reaction.ReactionSourceType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ReactionSourceTypes");
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Reaction.ReactionType", b =>
@@ -1388,25 +1418,31 @@ namespace FoodTracker.DataAccess.Migrations
 
                     b.HasOne("FoodTracker.Models.Food.Food", null)
                         .WithMany("Reactions")
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FoodId");
+
+                    b.HasOne("FoodTracker.Models.Meal.Meal", null)
+                        .WithMany("Reactions")
+                        .HasForeignKey("MealId");
 
                     b.HasOne("FoodTracker.Models.Reaction.ReactionSeverity", "Severity")
                         .WithMany()
-                        .HasForeignKey("SeverityId")
+                        .HasForeignKey("SeverityId");
+
+                    b.HasOne("FoodTracker.Models.Reaction.ReactionSourceType", "SourceType")
+                        .WithMany()
+                        .HasForeignKey("SourceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FoodTracker.Models.Reaction.ReactionType", "Type")
                         .WithMany()
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TypeId");
 
                     b.Navigation("AppUser");
 
                     b.Navigation("Severity");
+
+                    b.Navigation("SourceType");
 
                     b.Navigation("Type");
                 });
@@ -1512,6 +1548,8 @@ namespace FoodTracker.DataAccess.Migrations
             modelBuilder.Entity("FoodTracker.Models.Meal.Meal", b =>
                 {
                     b.Navigation("MealItems");
+
+                    b.Navigation("Reactions");
                 });
 #pragma warning restore 612, 618
         }

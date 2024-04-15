@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace FoodTracker.DataAccess.Repository.IRepository
 {
-    public interface IReactionTypeRepository : IRepository<ReactionType>
+    public interface IReactionSourceTypeRepository : IRepository<ReactionSourceType>
     {
-     public void Update(ReactionType obj);
+     public void Update(ReactionSourceType obj);
     }
 }

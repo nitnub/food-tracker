@@ -23,7 +23,9 @@ namespace FoodTracker.Models.ViewModels
         public Dictionary<string, MealItem> MealItems { get; set; }
         //public IEnumerable<MealItem> MealItems { get; set; }
         //public List<int> Reactions { get; set; }
+        [ValidateNever]
         public Dictionary<string, List<ReactionType>> Categories { get; set; }
+        [ValidateNever]
         public Dictionary<int, bool> Reactions { get; set; }
     }
 }

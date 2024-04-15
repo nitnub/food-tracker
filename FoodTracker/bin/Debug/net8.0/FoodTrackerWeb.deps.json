@@ -2319,6 +2319,14 @@
           "FoodTracker.DataAccess.dll": {}
         }
       },
+      "FoodTracker.DataAccess.Interfaces/1.0.0": {
+        "dependencies": {
+          "FoodTracker.Models": "1.0.0"
+        },
+        "runtime": {
+          "FoodTracker.DataAccess.Interfaces.dll": {}
+        }
+      },
       "FoodTracker.Models/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Identity.UI": "8.0.3"
@@ -2329,6 +2337,7 @@
       },
       "FoodTracker.Utility/1.0.0": {
         "dependencies": {
+          "FoodTracker.DataAccess.Interfaces": "1.0.0",
           "FoodTracker.Models": "1.0.0",
           "Microsoft.AspNetCore.Identity.UI": "8.0.3"
         },
@@ -3668,6 +3677,11 @@
       "hashPath": "system.windows.extensions.7.0.0.nupkg.sha512"
     },
     "FoodTracker.DataAccess/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "FoodTracker.DataAccess.Interfaces/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

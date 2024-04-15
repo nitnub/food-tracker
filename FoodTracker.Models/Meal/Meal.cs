@@ -1,4 +1,5 @@
 ﻿using FoodTracker.Models.Identity;
+using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
@@ -30,5 +31,7 @@ namespace FoodTracker.Models.Meal
 
         [ValidateNever]
         public List<MealItem> MealItems { get; set; }
+        [ValidateNever]
+        public List<Reaction.Reaction>? Reactions { get; set; }
     }
 }

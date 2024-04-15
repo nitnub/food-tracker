@@ -1,6 +1,7 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models;
 using FoodTracker.Models.Meal;
+using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc;
@@ -156,14 +157,19 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
 
+
+
+
+
             var updatedMeal = mealVM.Meal;
             var appUserId = Helper.GetAppUserId(User);
 
             // verify mealId is for user
             var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: Prop.MEAL_ITEMS);
 
-            // Add meal reaction types
-            mealVM.Categories = Helper.GetReactionDict(_unitOfWork);
+            
+
+    
 
             // get and then delete all mealItems with that meal id
             if (verifiedMeal != null && verifiedMeal.MealItems.Count > 0) 
@@ -182,8 +188,28 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 }
             }
 
-            updatedMeal.MealItems = verifiedMealItemsList;
+            // get and then delete all mealReactions with that meal id
+            if (verifiedMeal != null && verifiedMeal.Reactions.Count > 0)
+            {
+                _unitOfWork.Reaction.RemoveRange(verifiedMeal.Reactions.ToList());
+            }
+
+            var verifiedMealReactionsList = new List<Reaction>();
+                     
+            foreach(var (reactionId, _) in mealVM.Reactions)
+            {
+                verifiedMealReactionsList.Add(
+                    new Reaction
+                    {
+                        AppUserId = appUserId,
+                        SourceTypeId = 2,
+                        TypeId = reactionId
+                    });
+            }
+            
             updatedMeal.AppUserId = appUserId;
+            updatedMeal.MealItems = verifiedMealItemsList;
+            updatedMeal.Reactions = verifiedMealReactionsList;
 
             if (updatedMeal.Id == 0)
             {
@@ -197,7 +223,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             _unitOfWork.Save();
 
             return RedirectToAction("Index");
-
         }
 
         [HttpPost]
@@ -208,7 +233,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                                     ? mealTime = DateTime.Now 
                                     : mealTime = dayVM.DateTime.Date.AddHours(12);
            
-            Meal? activeMeal = null; 
+            Meal? activeMeal = null;
+
+
+            // Add meal reaction types
+            //mealVM.Categories = Helper.GetReactionDict(_unitOfWork);
+
             if (dayVM.ActiveMealId != 0)
             {
                 activeMeal = _unitOfWork.Meal.Get(m => m.AppUserId == Helper.GetAppUserId(User) && m.Id == dayVM.ActiveMealId, includeProperties: Prop.MEAL_ITEMS);
@@ -218,6 +248,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             MealVM = new()
             {
+                Categories = Helper.GetReactionDict(_unitOfWork),
                 Meal = activeMeal,
                 Foods = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name),
                 MealTypes = _unitOfWork.MealType.GetAll(),
