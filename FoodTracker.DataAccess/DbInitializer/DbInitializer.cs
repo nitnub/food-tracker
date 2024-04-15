@@ -2,12 +2,10 @@
 using FoodTracker.DataAccess.Data;
 using FoodTracker.Models.Identity;
 using FoodTracker.Utility;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Text.RegularExpressions;
 
 namespace FoodTracker.DataAccess.DBInitializer
 {

@@ -25,6 +25,7 @@ namespace FoodTracker.Utility
         // Meal Properties
         public const string MEAL_ITEMS = "MealItems";
         public const string MEAL_ITEMS_FOOD = "MealItems.Food";
+        public const string MEAL_ITEMS_FOOD_FODMAP_COLOR = "MealItems.Food.Fodmap.Color";
         public const string MEAL_ITEMS_VOLUME = "MealItems.VolumeUnits";
     }
 }

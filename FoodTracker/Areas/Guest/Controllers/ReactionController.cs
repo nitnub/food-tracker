@@ -55,23 +55,25 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 }
             }
 
-            var reactionDict = new Dictionary<string, List<ReactionType>>();
-            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+            var reactionDict = Helper.GetReactionDict(_unitOfWork);
 
-            foreach (var reaction in reactions)
-            {
-                var category = reaction.Category.Name;
+           //var reactionDict = new Dictionary<string, List<ReactionType>>();
+           // var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
 
-                if (reactionDict.TryGetValue(category, out categories))
-                {
-                    categories.Add(reaction);
-                }
-                else
-                {
-                    reactionDict[category] = [];
-                    reactionDict[category].Add(reaction);
-                }
-            }
+            // foreach (var reaction in reactions)
+            // {
+            //     var category = reaction.Category.Name;
+
+            //     if (reactionDict.TryGetValue(category, out categories))
+            //     {
+            //         categories.Add(reaction);
+            //     }
+            //     else
+            //     {
+            //         reactionDict[category] = [];
+            //         reactionDict[category].Add(reaction);
+            //     }
+            // }
 
             ReactionVM = new ReactionVM
             {

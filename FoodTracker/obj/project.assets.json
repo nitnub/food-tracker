@@ -3331,6 +3331,19 @@
           "bin/placeholder/FoodTracker.DataAccess.dll": {}
         }
       },
+      "FoodTracker.DataAccess.Interfaces/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "FoodTracker.Models": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/FoodTracker.DataAccess.Interfaces.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/FoodTracker.DataAccess.Interfaces.dll": {}
+        }
+      },
       "FoodTracker.Models/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
@@ -3348,6 +3361,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "FoodTracker.DataAccess.Interfaces": "1.0.0",
           "FoodTracker.Models": "1.0.0",
           "Microsoft.AspNetCore.Identity.UI": "8.0.3"
         },
@@ -9173,6 +9187,11 @@
       "type": "project",
       "path": "../FoodTracker.DataAccess/FoodTracker.DataAccess.csproj",
       "msbuildProject": "../FoodTracker.DataAccess/FoodTracker.DataAccess.csproj"
+    },
+    "FoodTracker.DataAccess.Interfaces/1.0.0": {
+      "type": "project",
+      "path": "../FoodTracker.DataAccess.Interfaces/FoodTracker.DataAccess.Interfaces.csproj",
+      "msbuildProject": "../FoodTracker.DataAccess.Interfaces/FoodTracker.DataAccess.Interfaces.csproj"
     },
     "FoodTracker.Models/1.0.0": {
       "type": "project",

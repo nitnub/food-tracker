@@ -1,4 +1,7 @@
-﻿using FoodTracker.Models.Food;
+﻿using FoodTracker.DataAccess.Repository.IRepository;
+using FoodTracker.Models.Food;
+using FoodTracker.Models.Meal;
+using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
 using System.Collections;
 using System.Security.Claims;
@@ -7,6 +10,51 @@ namespace FoodTracker.Utility
 {
     public class Helper
     {
+
+
+        public string GetMaxMealSeverityColorString(Meal? meal)
+        {
+            if (meal == null || meal.MealItems == null)
+                return "";
+
+            var foodColors = new List<string>();
+
+            foreach (var mealItem in meal.MealItems)
+            {
+                var foodColor = GetMaxSeverityColorString(mealItem.Food);
+
+                //if (foodCol)
+                //foodColors.Add()
+            }
+            return "";
+         }
+
+
+
+        public static Dictionary<string, List<ReactionType>> GetReactionDict(IUnitOfWork unitOfWork)
+        {
+            var reactions = unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+            
+            var reactionDict = new Dictionary<string, List<ReactionType>>();
+            var categories = new List<ReactionType>();
+
+            foreach (var reaction in reactions)
+            {
+                var category = reaction.Category.Name;
+
+                if (reactionDict.TryGetValue(category, out categories))
+                {
+                    categories.Add(reaction);
+                }
+                else
+                {
+                    reactionDict[category] = [];
+                    reactionDict[category].Add(reaction);
+                }
+            }
+
+            return reactionDict;
+        }
 
         public static string GetMaxSeverityColorString(Food? food)
         {

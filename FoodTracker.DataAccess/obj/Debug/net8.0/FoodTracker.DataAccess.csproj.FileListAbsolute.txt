@@ -37,3 +37,5 @@ C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess\obj\Debug\n
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess\obj\Debug\net8.0\FoodTracker.DataAccess.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess\obj\Debug\net8.0\FoodTracker.DataAccess.genruntimeconfig.cache
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess\obj\Debug\net8.0\ref\FoodTracker.DataAccess.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb

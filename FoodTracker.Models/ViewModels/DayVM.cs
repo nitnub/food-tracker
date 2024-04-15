@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace FoodTracker.Models.ViewModels
         public int? Day { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
+        [ValidateNever]
         public Color Color { get; set; }
         public int ActiveMealId { get; set; }
         public DateTime DateTime { get; set; }

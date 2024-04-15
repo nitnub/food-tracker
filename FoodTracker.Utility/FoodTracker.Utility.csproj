@@ -11,9 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FoodTracker.DataAccess.Interfaces\FoodTracker.DataAccess.Interfaces.csproj" />
     <ProjectReference Include="..\FoodTracker.Models\FoodTracker.Models.csproj" />
   </ItemGroup>
 
+
+
+	
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

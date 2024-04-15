@@ -1,0 +1,16 @@
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.deps.json
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\bin\Debug\net8.0\FoodTracker.Models.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\bin\Debug\net8.0\FoodTracker.Models.pdb
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.csproj.AssemblyReference.cache
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.AssemblyInfoInputs.cache
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.AssemblyInfo.cs
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.csproj.CoreCompileInputs.cache
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.sourcelink.json
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.csproj.CopyComplete
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\refint\FoodTracker.DataAccess.Interfaces.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.DataAccess.Interfaces\obj\Debug\net8.0\ref\FoodTracker.DataAccess.Interfaces.dll

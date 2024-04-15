@@ -92,6 +92,80 @@
                                 </label>
                             </li>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            @foreach (var category in Model.Categories.Keys)
+                            {
+                            
+                            <li><h6 class="dropdown-header">@category</h6></li>
+
+                                @foreach (ReactionType r in Model.Categories[category])
+                                {
+                                  
+                                    @* <li value="@(r.Id)"> *@
+                              @*       <li value="@r.Id">
+                                        <label class="check-drop-option">
+                                            <input id="reactionCheck-@{r.Id}" type="checkbox">
+                                            @r.Name
+                                        </label>
+                                    </li>
+ *@
+
+
+
+
+
+                                    <li value="3">
+                                        <label class="check-drop-option">
+                                            <input id="reactionCheck-3" type="checkbox">
+                                            Dinner
+                                        </label>
+                                    </li>
+
+                                }
+                         
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         </ul>
                     </div>
 

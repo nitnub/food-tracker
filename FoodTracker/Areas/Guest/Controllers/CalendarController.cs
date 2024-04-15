@@ -25,7 +25,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             var mealDict = new Dictionary<string, List<Meal>>(); 
 
-            var meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == Helper.GetAppUserId(User), includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME]);
+            var meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == Helper.GetAppUserId(User), includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME, Prop.MEAL_ITEMS_FOOD_FODMAP_COLOR]);
 
 
             foreach (var meal in meals)
@@ -155,11 +155,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return RedirectToAction("Index");
             }
 
+
             var updatedMeal = mealVM.Meal;
             var appUserId = Helper.GetAppUserId(User);
 
             // verify mealId is for user
             var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: Prop.MEAL_ITEMS);
+
+            // Add meal reaction types
+            mealVM.Categories = Helper.GetReactionDict(_unitOfWork);
 
             // get and then delete all mealItems with that meal id
             if (verifiedMeal != null && verifiedMeal.MealItems.Count > 0) 
