@@ -33,10 +33,11 @@ namespace FoodTracker.Utility
 
 
 
-        public static Dictionary<int, Dictionary<int, int>> GetFoodTypeSeverityDict(IUnitOfWork unitOfWork, string userId )
+        //public static Dictionary<int, Dictionary<int, int>> GetFoodTypeSeverityDict(IUnitOfWork unitOfWork, string userId )
+        public static Dictionary<int, Dictionary<int, int>> GetFoodTypeSeverityDict(IEnumerable<Reaction> existingReactions)
         {
 
-            var existingReactions = unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
+            //var existingReactions = unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
             var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
 
             foreach (var reaction in existingReactions)
@@ -64,9 +65,10 @@ namespace FoodTracker.Utility
             return foodTypeSeverityDict;
         }
 
-        public static Dictionary<string, List<ReactionType>> GetReactionDict(IUnitOfWork unitOfWork)
+        //public static Dictionary<string, List<ReactionType>> GetReactionDict(IUnitOfWork unitOfWork)
+        public static Dictionary<string, List<ReactionType>> GetReactionDict(IEnumerable<ReactionType> reactions)
         {
-            var reactions = unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+            //var reactions = unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
             
             var reactionDict = new Dictionary<string, List<ReactionType>>();
             var categories = new List<ReactionType>();

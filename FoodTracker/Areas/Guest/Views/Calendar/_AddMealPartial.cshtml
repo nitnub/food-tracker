@@ -52,58 +52,16 @@
                             hidden />
                         <button class="btn btn-success dropdown-toggle"
                                 type="button"
-                                id="multiSelectDropdown"
+                                id="reactionDropdownSelect"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                                 data-bs-auto-close="outside">
                           
                             Select
                         </button>
-                        <ul class="dropdown-menu"
-                            aria-labelledby="multiSelectDropdown"
+                        <ul id="reactionDropdown" class="dropdown-menu"
+                            aria-labelledby="reactionDropdownSelect"
                             asp-for="@Model.Meal.MealTypeId">
-
-@* 
-                            <li><h6 class="dropdown-header">Stomach</h6></li>
-                            <li value="1">
-                                <label class="check-drop-option">
-                                    <input id="reactionCheck-1" type="checkbox">
-                                    Breakfast
-                                </label>
-                            </li>
-                            <li value ="2">
-                                <label class="check-drop-option">
-                                    <input id="reactionCheck-2" type="checkbox">
-                                    Lunch
-                                </label>
-                            </li>
-                            <li value="3">
-                                <label class="check-drop-option">
-                                    <input id="reactionCheck-3" type="checkbox">
-                                    Dinner
-                                </label>
-                            </li>
-
-                            <li><h6 class="dropdown-header">Skin</h6></li>
-                            <li value="4">
-                                <label class="check-drop-option">
-                                    <input id="reactionCheck-4" type="checkbox">
-                                    Snack
-                                </label>
-                            </li> *@
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                             @foreach (var category in Model.Categories.Keys)
@@ -113,73 +71,16 @@
 
                                 @foreach (var r in Model.Categories[category].ToList())
                                 {
-                                  
-                                    @* <li value="@(r.Id)"> *@
                                     <li value="@r.Id">
                                         <label class="check-drop-option">
-                                            @* <input id="reactionCheck-@{r.Id}" type="checkbox"> *@
                                             <input id="reactionCheck-@r.Id" type="checkbox">
                                             @r.Name
                                         </label>
                                     </li>
-
-
-
-
-
-
-                           @*          <li value="3">
-                                        <label class="check-drop-option">
-                                            <input id="reactionCheck-3" type="checkbox">
-                                            @r.Id
-                                        </label>
-                                    </li> *@
-
                                 }
-                         
                             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         </ul>
                     </div>
-
-
-
-
-
-
-
-
-
-
-
                 </div>
 
                 <h3>Meal Items</h3>
@@ -371,5 +272,6 @@
 
 <script>
     var unitJson = @Json.Serialize(Model.Units)
-        var foodJson = @Json.Serialize(Model.Foods)
+    var foodJson = @Json.Serialize(Model.Foods)
+    var activeMealReactionsTest = @Json.Serialize(Model.Meal?.Reactions)
 </script>

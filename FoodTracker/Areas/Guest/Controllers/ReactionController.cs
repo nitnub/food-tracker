@@ -35,51 +35,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return PartialView("_ReactionPartial", ReactionVM);
             }
 
-            //var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
-            //var reactionTypeSeverityDict = new Dictionary<int, int>();
-            //var categories = new List<ReactionType>();
+            var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
+            var foodTypeSeverityDict = Helper.GetFoodTypeSeverityDict(existingReactions);
 
-            //var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
-
-            //foreach (var reaction in existingReactions)
-            //{
-
-            //    var foodId = (int)reaction.FoodId;
-            //    var reactionTypeId = (int)reaction.TypeId;
-            //    var reactionSeverityId = (int)reaction.SeverityId;
-
-            //    if (foodTypeSeverityDict.TryGetValue(foodId, out reactionTypeSeverityDict))
-            //    {
-            //        reactionTypeSeverityDict[reactionTypeId] = reactionSeverityId;
-            //    }
-            //    else
-            //    {
-            //        foodTypeSeverityDict[foodId] = [];
-            //        foodTypeSeverityDict[foodId][reactionTypeId] = reactionSeverityId;
-            //    }
-            //}
-
-
-            var foodTypeSeverityDict = Helper.GetFoodTypeSeverityDict(_unitOfWork, userId);
-            var reactionDict = Helper.GetReactionDict(_unitOfWork);
-
-           //var reactionDict = new Dictionary<string, List<ReactionType>>();
-           // var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
-
-            // foreach (var reaction in reactions)
-            // {
-            //     var category = reaction.Category.Name;
-
-            //     if (reactionDict.TryGetValue(category, out categories))
-            //     {
-            //         categories.Add(reaction);
-            //     }
-            //     else
-            //     {
-            //         reactionDict[category] = [];
-            //         reactionDict[category].Add(reaction);
-            //     }
-            // }
+            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+            var reactionDict = Helper.GetReactionDict(reactions);
+            
 
             ReactionVM = new ReactionVM
             {
@@ -99,8 +60,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             Food? food = null;
 
             r.SourceTypeId = ReactionSource.Food;
-            //r.SourceType.Name = ReactionSource.Food;
-            //r.SourceType = new ReactionSourceType { Name = ReactionSource.Food };
 
             if (ModelState.IsValid && userId != null)
             {

@@ -156,20 +156,11 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return RedirectToAction("Index");
             }
 
-
-
-
-
-
             var updatedMeal = mealVM.Meal;
             var appUserId = Helper.GetAppUserId(User);
 
             // verify mealId is for user
             var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: Prop.MEAL_ITEMS);
-
-            
-
-    
 
             // get and then delete all mealItems with that meal id
             if (verifiedMeal != null && verifiedMeal.MealItems.Count > 0) 
@@ -235,22 +226,21 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
            
             Meal? activeMeal = null;
 
-
-            // Add meal reaction types
-            //mealVM.Categories = Helper.GetReactionDict(_unitOfWork);
+            var userId = Helper.GetAppUserId(User);
 
             if (dayVM.ActiveMealId != 0)
-            {
-                activeMeal = _unitOfWork.Meal.Get(m => m.AppUserId == Helper.GetAppUserId(User) && m.Id == dayVM.ActiveMealId, includeProperties: Prop.MEAL_ITEMS);
-            }
+                activeMeal = _unitOfWork.Meal.Get(m => m.AppUserId == userId && m.Id == dayVM.ActiveMealId, includeProperties: Prop.MEAL_ITEMS);
 
             activeMeal ??= new Meal() { DateTime = mealTime };
 
+            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+
             MealVM = new()
             {
-                Categories = Helper.GetReactionDict(_unitOfWork),
+                //Categories = Helper.GetReactionDict(_unitOfWork),
+                Categories = Helper.GetReactionDict(reactions),
                 Meal = activeMeal,
-                Foods = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.Global).OrderBy(x => x.Name),
+                Foods = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global).OrderBy(x => x.Name),
                 MealTypes = _unitOfWork.MealType.GetAll(),
                 Units = _unitOfWork.Unit.GetAll(u => u.Type == 1)
             };

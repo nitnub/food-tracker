@@ -1,6 +1,8 @@
 ﻿
+const REACTION_LABEL_DEFAULT = 'Select';
 let unitOptions;
 let foodOptions
+
 
 function createUnitOptions(unitJson) {
     let output = "";
@@ -80,31 +82,69 @@ function getMeal(dayObj) {
                 unitOptions = createUnitOptions(unitJson);
                 foodOptions = createFoodOptions(foodJson);
 
+                clearActiveMealReactions();
                 monitorMealReactions();
             }
         }
     })
 }
 
-
-
+const activeMealReactions = [];
+let currentLabel;
 
 function monitorMealReactions() {
     $("#mealReaction").parents("div").find("li").on('change', function () {
         const value = $(this).attr("value");
         const checked = $(`#reactionCheck-${value}`)[0].checked
+        const label = this.innerText.trim();
 
-        checked ? addMealReaction(value) : removeMealReaction(value);
-        //if (checked) {
-        //    addMealReaction(value);
+        if (checked) {
+            activeMealReactions.push(label);
+            addMealReaction(value);
+        } else {
+            const index = activeMealReactions.indexOf(label);
+            activeMealReactions.splice(index, 1);
+            removeMealReaction(value);
+        }
 
-        //} else {
-        //    removeMealReaction(value)
-        //}
+        let subArray;
+        let finalIndex = 4;
 
+        for (let i = 0; i < activeMealReactions.length; i++) {
+            subArray = activeMealReactions.slice(0, i);
+
+            if (getFormattedArrayLength(subArray) > 25 || i == 4) {
+                finalIndex = i;
+                break;
+            }
+        }
+
+        if (activeMealReactions.length == 0) {
+            currentLabel = REACTION_LABEL_DEFAULT;
+        } else if (finalIndex <= 4) {
+            currentLabel = activeMealReactions.slice(0, finalIndex).join(', ');
+        } else if (activeMealReactions.length < 4) {
+            currentLabel = activeMealReactions.join(', ');
+        } else {
+            currentLabel = activeMealReactions.slice(0, 4).join(', ');
+        }
+
+        if ((activeMealReactions.length - finalIndex) > 0) {
+            currentLabel += ` (+${activeMealReactions.length - finalIndex} more)`;
+        }
+
+        $('#reactionDropdownSelect')[0].innerHTML = currentLabel;
     })
 }
 
+function clearActiveMealReactions() {
+    activeMealReactions.length = 0;
+    currentLabel = REACTION_LABEL_DEFAULT;
+}
+
+function getFormattedArrayLength(arr) {
+    return arr.join(', ').length;
+}
 
 function addMealReaction(reactionId) {
 

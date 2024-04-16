@@ -594,6 +594,12 @@ body {
     /*background-color: var(--clr-fd-blue-dk);*/
 }
 
+#reactionDropdown {
+    max-height: 200px;
+    width: 250px;
+    overflow-y: scroll;
+}
+
 .green {
     color: var(--clr-fd-green-dk);
     /*background-color: var(--clr-fd-green-dk);*/
