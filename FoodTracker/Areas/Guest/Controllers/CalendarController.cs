@@ -160,7 +160,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var appUserId = Helper.GetAppUserId(User);
 
             // verify mealId is for user
-            var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: Prop.MEAL_ITEMS);
+            //var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
+            var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
+
 
             // get and then delete all mealItems with that meal id
             if (verifiedMeal != null && verifiedMeal.MealItems.Count > 0) 
@@ -228,8 +230,20 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             var userId = Helper.GetAppUserId(User);
 
+            var priorReactions = new Dictionary<int, bool>();
             if (dayVM.ActiveMealId != 0)
-                activeMeal = _unitOfWork.Meal.Get(m => m.AppUserId == userId && m.Id == dayVM.ActiveMealId, includeProperties: Prop.MEAL_ITEMS);
+            {
+                activeMeal = _unitOfWork.Meal.Get(m => m.AppUserId == userId && m.Id == dayVM.ActiveMealId, includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
+
+                foreach (var reaction in activeMeal.Reactions)
+                {
+                    priorReactions[reaction.Type.Id] = true;
+                    reaction.AppUserId = null;
+                }
+                activeMeal.Reactions = null;
+            }
+
+
 
             activeMeal ??= new Meal() { DateTime = mealTime };
 
@@ -238,6 +252,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             MealVM = new()
             {
                 //Categories = Helper.GetReactionDict(_unitOfWork),
+                Reactions = priorReactions,
                 Categories = Helper.GetReactionDict(reactions),
                 Meal = activeMeal,
                 Foods = _unitOfWork.Food.GetAll(f => f.AppUserId == userId || f.Global).OrderBy(x => x.Name),

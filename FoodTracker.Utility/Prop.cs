@@ -8,6 +8,7 @@ namespace FoodTracker.Utility
         public const string USER_SAFE_FOODS = "UserSafeFoods";
         public const string FODMAP_COLOR = "Fodmap.Color";
         public const string REACTIONS_SEVERITY = "Reactions.Severity";
+        public const string REACTIONS_TYPE = "Reactions.Type";
         public const string CATEGORY = "Category";
         public const string COLOR = "Color";
         public const string MAX_USE_UNITS = "MaxUseUnits";

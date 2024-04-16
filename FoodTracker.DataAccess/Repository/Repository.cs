@@ -46,6 +46,24 @@ namespace FoodTracker.DataAccess.Repository
             return query.FirstOrDefault();
 
         }
+        public T Get(Expression<Func<T, bool>> filter, params string[] includeProperties)
+        {
+            IQueryable<T> query;
+
+                query = dbSet.AsNoTracking();
+      
+
+            query = query.Where(filter);
+            if (!includeProperties.IsNullOrEmpty())
+            {
+                foreach (var prop in includeProperties)
+                {
+                    query = query.Include(prop);
+                }
+            }
+            return query.FirstOrDefault();
+
+        }
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
