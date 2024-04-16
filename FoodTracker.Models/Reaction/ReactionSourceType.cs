@@ -10,7 +10,9 @@ namespace FoodTracker.Models.Reaction
     public class ReactionSourceType
     {
         [Key]
-        public int Id { get; set; }
+        public ReactionSource Id { get; set; }
         public string Name { get; set; }
+        //public int Id { get; set; }
+        //public ReactionSource Name { get; set; }
     }
 }

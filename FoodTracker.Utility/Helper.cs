@@ -31,6 +31,39 @@ namespace FoodTracker.Utility
 
 
 
+
+
+        public static Dictionary<int, Dictionary<int, int>> GetFoodTypeSeverityDict(IUnitOfWork unitOfWork, string userId )
+        {
+
+            var existingReactions = unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
+            var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
+
+            foreach (var reaction in existingReactions)
+            {
+
+                if (reaction.FoodId == null) continue;
+
+                var foodId = (int)reaction.FoodId;
+                var reactionTypeId = (int)reaction.TypeId;
+                var reactionSeverityId = (int)reaction.SeverityId;
+
+
+                var reactionTypeSeverityDict = new Dictionary<int, int>();
+                if (foodTypeSeverityDict.TryGetValue(foodId, out reactionTypeSeverityDict))
+                {
+                    reactionTypeSeverityDict[reactionTypeId] = reactionSeverityId;
+                }
+                else
+                {
+                    foodTypeSeverityDict[foodId] = [];
+                    foodTypeSeverityDict[foodId][reactionTypeId] = reactionSeverityId;
+                }
+            }
+
+            return foodTypeSeverityDict;
+        }
+
         public static Dictionary<string, List<ReactionType>> GetReactionDict(IUnitOfWork unitOfWork)
         {
             var reactions = unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);

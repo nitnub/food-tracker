@@ -5,6 +5,7 @@ C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodT
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTrackerWeb.exe
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTrackerWeb.deps.json
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTrackerWeb.runtimeconfig.json
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTrackerWeb.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\Humanizer.dll
@@ -274,10 +275,12 @@ C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\runti
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\runtimes\win\lib\net7.0\System.Windows.Extensions.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.Models.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.Utility.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.Utility.pdb
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.Models.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\FoodTrackerWeb.csproj.AssemblyReference.cache
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\FoodTrackerWeb.GeneratedMSBuildEditorConfig.editorconfig
@@ -304,7 +307,4 @@ C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\FoodT
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\refint\FoodTrackerWeb.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\FoodTrackerWeb.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\FoodTrackerWeb.genruntimeconfig.cache
-C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTrackerWeb.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\obj\Debug\net8.0\ref\FoodTrackerWeb.dll
-C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
-C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb

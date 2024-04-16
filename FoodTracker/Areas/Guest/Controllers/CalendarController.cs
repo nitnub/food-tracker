@@ -202,7 +202,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     new Reaction
                     {
                         AppUserId = appUserId,
-                        SourceTypeId = 2,
+                        SourceTypeId = ReactionSource.Meal,
                         TypeId = reactionId
                     });
             }

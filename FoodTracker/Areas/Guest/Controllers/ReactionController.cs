@@ -1,4 +1,5 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
+using FoodTracker.Models;
 using FoodTracker.Models.Food;
 using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
@@ -34,30 +35,32 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return PartialView("_ReactionPartial", ReactionVM);
             }
 
-            var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
-            var reactionTypeSeverityDict = new Dictionary<int, int>();
-            var categories = new List<ReactionType>();
-            
-            var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
+            //var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
+            //var reactionTypeSeverityDict = new Dictionary<int, int>();
+            //var categories = new List<ReactionType>();
 
-            foreach (var reaction in existingReactions)
-            {
-                
-                var foodId = (int)reaction.FoodId;
-                var reactionTypeId = (int)reaction.TypeId;
-                var reactionSeverityId = (int)reaction.SeverityId;
+            //var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
 
-                if (foodTypeSeverityDict.TryGetValue(foodId, out reactionTypeSeverityDict))
-                {
-                    reactionTypeSeverityDict[reactionTypeId] = reactionSeverityId;
-                }
-                else
-                {
-                    foodTypeSeverityDict[foodId] = [];
-                    foodTypeSeverityDict[foodId][reactionTypeId] = reactionSeverityId;
-                }
-            }
+            //foreach (var reaction in existingReactions)
+            //{
 
+            //    var foodId = (int)reaction.FoodId;
+            //    var reactionTypeId = (int)reaction.TypeId;
+            //    var reactionSeverityId = (int)reaction.SeverityId;
+
+            //    if (foodTypeSeverityDict.TryGetValue(foodId, out reactionTypeSeverityDict))
+            //    {
+            //        reactionTypeSeverityDict[reactionTypeId] = reactionSeverityId;
+            //    }
+            //    else
+            //    {
+            //        foodTypeSeverityDict[foodId] = [];
+            //        foodTypeSeverityDict[foodId][reactionTypeId] = reactionSeverityId;
+            //    }
+            //}
+
+
+            var foodTypeSeverityDict = Helper.GetFoodTypeSeverityDict(_unitOfWork, userId);
             var reactionDict = Helper.GetReactionDict(_unitOfWork);
 
            //var reactionDict = new Dictionary<string, List<ReactionType>>();
@@ -94,6 +97,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var userId = Helper.GetAppUserId(User);
             var success = false;
             Food? food = null;
+
+            r.SourceTypeId = ReactionSource.Food;
+            //r.SourceType.Name = ReactionSource.Food;
+            //r.SourceType = new ReactionSourceType { Name = ReactionSource.Food };
 
             if (ModelState.IsValid && userId != null)
             {

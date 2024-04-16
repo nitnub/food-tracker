@@ -28,11 +28,12 @@ namespace FoodTracker.Models.Reaction
         [ValidateNever]
         public int? FoodId { get; set; }
 
-        
-        //public int SourceId { get; set; }
 
+        //public int SourceId { get; set; }
         [ValidateNever]
-        public int SourceTypeId { get; set; }
+        //public int SourceTypeId { get; set; }
+        public ReactionSource SourceTypeId { get; set; }
+        [ForeignKey(nameof(SourceTypeId))]
         [ValidateNever]
         public ReactionSourceType SourceType {  get; set; }
 

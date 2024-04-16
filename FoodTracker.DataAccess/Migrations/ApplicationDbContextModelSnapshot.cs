@@ -538,10 +538,7 @@ namespace FoodTracker.DataAccess.Migrations
             modelBuilder.Entity("FoodTracker.Models.Reaction.ReactionSourceType", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -550,6 +547,23 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ReactionSourceTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Food"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Meal"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Activity"
+                        });
                 });
 
             modelBuilder.Entity("FoodTracker.Models.Reaction.ReactionType", b =>

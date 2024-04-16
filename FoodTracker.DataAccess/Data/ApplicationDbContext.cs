@@ -9,6 +9,7 @@ using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace FoodTracker.DataAccess.Data
 {
@@ -45,6 +46,13 @@ namespace FoodTracker.DataAccess.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Entity<ReactionSourceType>().HasData(
+                new ReactionSourceType { Id = ReactionSource.Food, Name = ReactionSource.Food.ToString()},
+                new ReactionSourceType { Id = ReactionSource.Meal, Name = ReactionSource.Meal.ToString()},
+                new ReactionSourceType { Id = ReactionSource.Activity, Name = ReactionSource.Activity.ToString()});
+
                        
             modelBuilder.Entity<State>().HasData(
                 new State { Id = 1, Name = "Alabama", Abbreviation = "AL" },

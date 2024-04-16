@@ -15,7 +15,9 @@ C:\Users\Nick\Classes\projects\cs\FoodTracker\FoodTracker.Utility\obj\Debug\net8
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.Utility.deps.json
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.Utility.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.Utility.pdb
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.Models.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.Models.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\obj\Debug\net8.0\FoodTracker.Utility.csproj.AssemblyReference.cache
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\obj\Debug\net8.0\FoodTracker.Utility.Properties.Resources.resources
@@ -30,5 +32,3 @@ C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\obj\Debug\net8
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\obj\Debug\net8.0\refint\FoodTracker.Utility.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\obj\Debug\net8.0\FoodTracker.Utility.pdb
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\obj\Debug\net8.0\ref\FoodTracker.Utility.dll
-C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.dll
-C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker.Utility\bin\Debug\net8.0\FoodTracker.DataAccess.Interfaces.pdb
