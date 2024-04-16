@@ -89,7 +89,7 @@
                 {
                     <input asp-for="@Model.MealItems["new"].MealId" value="0" hidden />
                     <div style="display: flex; justify-content: flex-end;">
-                        <a onclick="addMeal(@Model.Meal.Id)" class="btn btn-success">Add Meal Item</a>
+                        <a onclick="addMealItem(@Model.Meal.Id)" class="btn btn-success">Add Meal Item</a>
                     </div>
 
 
@@ -132,7 +132,7 @@
                 {
                     <input asp-for="@Model.MealItems["new"].MealId" value="@Model.Meal.MealItems[0].MealId" hidden />
                     <div style="display: flex; justify-content: flex-end;">
-                        <a onclick="addMeal(@Model.Meal.MealItems[0].Id)" class="btn btn-success">Add Meal Item</a>
+                        <a onclick="addMealItem(@Model.Meal.MealItems[0].Id)" class="btn btn-success">Add Meal Item</a>
                     </div>
 
 

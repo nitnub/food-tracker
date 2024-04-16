@@ -16,11 +16,11 @@ function createFoodOptions(foodJson) {
     return output;
 }
 
-function addMeal(mealId) {
+function addMealItem(mealId) {
 
     const newId = new Date().getTime().toString();
-    var mealGroup = document.getElementById('mealGroup')
-    var div = document.createElement("div");
+    const mealGroup = document.getElementById('mealGroup')
+    const div = document.createElement("div");
 
     div.setAttribute("class", "border form-group rounded-2 my-2 shadow bg-white p-2 remove-meal-item-new" + newId);
 
@@ -132,8 +132,8 @@ function updateReactionSelectButton(ctx) {
     for (let i = 0; i < activeMealReactions.length; i++) {
         subArray = activeMealReactions.slice(0, i);
 
-        if (getFormattedArrayLength(subArray) > 25 || i == 4) {
-            finalIndex = i;
+        if (getFormattedArrayLength(subArray) > 25 || i == 3) {
+            finalIndex = i - 1;
             break;
         }
     }
@@ -166,8 +166,8 @@ function getFormattedArrayLength(arr) {
 
 function addMealReaction(reactionId) {
 
-    var mealReactionResults = document.getElementById('mealReactionResults')
-    var div = document.createElement("div");
+    const mealReactionResults = document.getElementById('mealReactionResults')
+    const div = document.createElement("div");
 
     div.setAttribute("id", "remove-meal-reaction-" + reactionId);
     div.innerHTML = `<input id="Reactions_${reactionId}" name="Reactions[${reactionId}]" value="true">`
