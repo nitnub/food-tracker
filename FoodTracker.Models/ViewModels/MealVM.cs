@@ -13,7 +13,7 @@ namespace FoodTracker.Models.ViewModels
     {
         public Meal.Meal Meal {  get; set; }
         [ValidateNever]
-        public Color Color { get; set; }
+        public IEnumerable<Color> ColorOptions { get; set; }
         [ValidateNever]
         public IEnumerable<MealType> MealTypes { get; set; }
         [ValidateNever]

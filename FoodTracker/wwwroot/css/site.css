@@ -600,6 +600,18 @@ body {
     overflow-y: scroll;
 }
 
+.input-group-left {
+
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.input-group-right {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+
 .green {
     color: var(--clr-fd-green-dk);
     /*background-color: var(--clr-fd-green-dk);*/

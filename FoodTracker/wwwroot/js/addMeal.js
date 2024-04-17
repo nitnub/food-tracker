@@ -27,26 +27,30 @@ function addMealItem(mealId) {
     div.innerHTML = `
         <div class="d-flex">
             <div class="form-floating py-2 col-6">
-                <select class="form-select food-input meal-item-food-input" data-val="true" data-val-required="The FoodId field is required." id="MealItems_${newId}__FoodId" name="MealItems[${newId}].FoodId">
-                    <option value="" selected="">--Select Food--</option>
+                <select class="form-select food-input" data-val="true" data-val-required="The FoodId field is required." id="MealItems_${newId}__FoodId" name="MealItems[${newId}].FoodId" placeholder="Meal Item">
+                    
+                     <option value="" selected disabled></option>
                         ${foodOptions}
                 </select>
+                <label class="ms-2">Meal Item</label>
             </div>
 
             <div class="d-flex">
 
-                <div class="form-floating py-2 col-6">
-                    <input class="form-control food-input " type="text" data-val="true" data-val-number="The field Volume must be a number." data-val-required="The Volume field is required." id="MealItems_${newId}__Volume" name="MealItems[${newId}].Volume" value="">
+                <div class="form-floating p-2 col-6">
+                    <input class="form-control food-input " type="text" data-val="true" data-val-number="The field Volume must be a number." data-val-required="The Volume field is required." id="MealItems_${newId}__Volume" name="MealItems[${newId}].Volume" value="" placeholder="Volume" >
                     <label class="ms-2" for="MealItems_${newId}__Volume">Volume</label>
                     <span class="text-danger field-validation-valid" data-valmsg-for="MealItems[${newId}].Volume" data-valmsg-replace="true"></span>
                 </div>
 
 
                 <div class="form-floating py-2 col-6">
-                    <select class="form-select food-input meal-item-units" data-val="true" data-val-required="The VolumeUnitsId field is required." id="MealItems_${newId}__VolumeUnitsId" name="MealItems[${newId}].VolumeUnitsId">
-                        <option value="" selected="">--Units--</option>
+                    <select class="form-select food-input meal-item-units" data-val="true" data-val-required="The VolumeUnitsId field is required." id="MealItems_${newId}__VolumeUnitsId" name="MealItems[${newId}].VolumeUnitsId" placeholder="Units">
+                        
+                         <option value="" selected></option>
                             ${unitOptions}
                     </select>
+                    <label class="ms-2">Units</label>
                 </div>
             </div>
 
@@ -106,7 +110,11 @@ let activeMealReactions = [];
 let currentLabel;
 
 function monitorMealReactions() {
-    $("#mealReaction").parents("div").find("li").on('change', function () {
+    
+    //$("#mealReaction").parents("div").find("li").on('change', function () {
+    
+    $("#mealReactionResults").parents("div").find("li").on('change', function () {
+        
         updateReactionSelectButton(this);
     })
 }
@@ -116,6 +124,8 @@ function updateReactionSelectButton(ctx) {
     const value = $(ctx).attr("value");
     const checked = $(`#reactionCheck-${value}`)[0].checked
     const label = ctx.innerText.trim();
+
+    
 
     if (checked) {
         activeMealReactions.push(label);
@@ -151,8 +161,11 @@ function updateReactionSelectButton(ctx) {
     if ((activeMealReactions.length - finalIndex) > 0) {
         currentLabel += ` (+${activeMealReactions.length - finalIndex} more)`;
     }
-
-    $('#reactionDropdownSelect')[0].innerHTML = currentLabel;
+    
+    $('#reactionDropdownSelect').val(currentLabel);
+    //$('#reactionDropdownSelect')[0].innerText = currentLabel;
+    //$('#reactionDropdownSelect')[0].innerHTML = currentLabel;
+    //$('#mealReactionResults')[0].innerHTML = currentLabel;
 }
 
 function clearActiveMealReactions() {
@@ -166,13 +179,17 @@ function getFormattedArrayLength(arr) {
 
 function addMealReaction(reactionId) {
 
+    //const mealReactionResults = document.getElementById('mealReactionResults')
     const mealReactionResults = document.getElementById('mealReactionResults')
+    console.log(mealReactionResults);
     const div = document.createElement("div");
 
     div.setAttribute("id", "remove-meal-reaction-" + reactionId);
     div.innerHTML = `<input id="Reactions_${reactionId}" name="Reactions[${reactionId}]" value="true">`
 
     mealReactionResults.appendChild(div)
+
+    console.log(mealReactionResults);
 }
 
 function removeMealReaction(reactionId) {

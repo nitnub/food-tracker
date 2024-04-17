@@ -375,6 +375,9 @@ namespace FoodTracker.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("ColorId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
@@ -388,6 +391,8 @@ namespace FoodTracker.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("ColorId");
 
                     b.HasIndex("MealTypeId");
 
@@ -1386,6 +1391,12 @@ namespace FoodTracker.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FoodTracker.Models.Color", "Color")
+                        .WithMany()
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FoodTracker.Models.Meal.MealType", "MealType")
                         .WithMany()
                         .HasForeignKey("MealTypeId")
@@ -1393,6 +1404,8 @@ namespace FoodTracker.DataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("AppUser");
+
+                    b.Navigation("Color");
 
                     b.Navigation("MealType");
                 });

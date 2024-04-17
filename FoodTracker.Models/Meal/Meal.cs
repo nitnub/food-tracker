@@ -27,6 +27,13 @@ namespace FoodTracker.Models.Meal
         [ForeignKey(nameof(MealTypeId))]
         [ValidateNever]
         public MealType MealType { get; set; }
+
+
+        public int ColorId { get; set; }
+        [ForeignKey(nameof(ColorId))]
+        [ValidateNever]
+        public Color Color { get; set; }
+
         public DateTime DateTime { get; set; }
 
         [ValidateNever]
