@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qxIIYBjBReGYlt5nTetJK9XjRH2Wvu9yhynpfiLG1ds=",
+  "Hash": "Ml8PXb2IlQgXKp2QzMn7dBShT2ST9ZzVFXKsnKlSt58=",
   "Source": "FoodTrackerWeb",
   "BasePath": "_content/FoodTrackerWeb",
   "Mode": "Default",
@@ -1345,6 +1345,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\addMeal.js"
+    },
+    {
+      "Identity": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\calendar.js",
+      "SourceId": "FoodTrackerWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\",
+      "BasePath": "_content/FoodTrackerWeb",
+      "RelativePath": "js/calendar.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\calendar.js"
     },
     {
       "Identity": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\fodmap.js",

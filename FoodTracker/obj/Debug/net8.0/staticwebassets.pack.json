@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\js\\addMeal.js"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\calendar.js",
+      "PackagePath": "staticwebassets\\js\\calendar.js"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\fodmap.js",
       "PackagePath": "staticwebassets\\js\\fodmap.js"
     },

@@ -501,11 +501,15 @@ body {
 
 /* Calendar */
 
+
+.calendar-nav {
+    width: 100px;
+    height: 100px;
+}
 .day-card {
     /*min-height: 220px;
     max-height: 220px;
 */
-    
 }
 
 .calendar-reaction-container {

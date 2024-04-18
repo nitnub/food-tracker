@@ -9,22 +9,13 @@ namespace FoodTracker.Models.ViewModels
 {
     public class CalendarVM
     {
-
-        public string? Line1 { get; set; }
-        public string? Line2 { get; set; }
-        public string? Line3 { get; set; }
-        public string? Line4 { get; set; }
-        public string? Line5 { get; set; }
-
-
-        public List<Meal.Meal> Meals { get; set; } 
-
-        public string[][]? Daysb { get; set; }
-        //public CalendarDay[,]? DaysJ { get; set; }
-        public DayVM[,]? DaysJ { get; set; }
-
+        public List<Meal.Meal> Meals { get; set; }
+        public DayVM[,]? DayVMs { get; set; }
         public IEnumerable<CalendarDay> Days { get; set; }
-
         public FoodVM FoodVM { get; set; }
+        public DateTime ViewDate { get; set; }
+        public int ViewMonth {  get; set; }
+        public int ViewYear { get; set; }
+        public int ViewDay { get; set; }
     }
 }
