@@ -23,7 +23,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                             includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME, Prop.MEAL_ITEMS_FOOD_FODMAP_COLOR]);
 
             var mealDict = meals.GroupBy(m => m.DateTime.ToString("yyyy-MM-dd"))
-                            .ToDictionary(m => m.Key, m => m.ToList());
+                                .ToDictionary(m => m.Key, m => m.ToList());
 
             DateTime dt = vm.ViewDate.Year > 1 ? vm.ViewDate : DateTime.Now;
 
@@ -39,121 +39,35 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return View(CalendarVM);
         }
 
+        #region API 
         [HttpPost]
         public IActionResult PriorYear(CalendarVM vm)
         {
-            try
-            {
                 return RediretToUpdatedCalendar(vm.ViewYear - 1, vm.ViewMonth);
-
-                //var newDate = new DateTime(vm.ViewYear - 1, vm.ViewMonth, 1);
-
-                //CalendarVM = new()
-                //{
-                //    ViewDate = newDate
-                //};
-
-                //return RedirectToAction("Index", CalendarVM);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToAction("Index");
-            }
         }
 
         [HttpPost]
         public IActionResult NextYear(CalendarVM vm)
         {
-            try
-            {
-
                 return RediretToUpdatedCalendar(vm.ViewYear + 1, vm.ViewMonth);
-
-
-
-                //var newDate = new DateTime(vm.ViewYear + 1, vm.ViewMonth, 1);
-
-                //CalendarVM = new()
-                //{
-                //    ViewDate = newDate
-                //};
-
-                //return RedirectToAction("Index", CalendarVM);
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToAction("Index");
-            }
-
         }
 
         [HttpPost]
         public IActionResult PriorMonth(CalendarVM vm)
         {
-            try
-            {
                 return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth - 1);
-                //var newDate = new DateTime(vm.ViewYear, vm.ViewMonth - 1, 1);
-
-                //CalendarVM = new()
-                //{
-                //    ViewDate = newDate
-                //};
-
-                //return RedirectToAction("Index", CalendarVM);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToAction("Index");
-            }
         }
 
         [HttpPost]
         public IActionResult NextMonth(CalendarVM vm)
         {
-            try
-            {
                 return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth + 1);
-                //var newDate = new DateTime(vm.ViewYear, vm.ViewMonth + 1, 1);
-
-                //CalendarVM = new()
-                //{
-                //    ViewDate = newDate
-                //};
-
-                //return RedirectToAction("Index", CalendarVM);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToAction("Index");
-            }
         }
 
         [HttpPost]
         public IActionResult JumpToDate(CalendarVM vm)
         {
-            try
-            {
-                return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth);
-                //var newDate = new DateTime(vm.ViewYear, vm.ViewMonth, 1);
-
-                //CalendarVM = new()
-                //{
-                //    ViewDate = newDate
-                //};
-
-                //return RedirectToAction("Index", CalendarVM);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return RedirectToAction("Index");
-            }
+            return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth);
         }
 
         [HttpPost]
@@ -171,23 +85,26 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             // verify mealId is for user
             var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
 
-
             // get and then delete all mealItems with that meal id
             if (verifiedMeal != null && verifiedMeal.MealItems.Count > 0)
             {
                 _unitOfWork.MealItem.RemoveRange(verifiedMeal.MealItems.ToList());
             }
 
-            var verifiedMealItemsList = new List<MealItem>();
             var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == appUserId || f.Global).Select(f => f.Id).ToList();
 
-            foreach (var (key, mealItem) in mealVM.MealItems)
-            {
-                if (validUserFoods.Contains(mealItem.FoodId))
-                {
-                    verifiedMealItemsList.Add(mealItem);
-                }
-            }
+            //var verifiedMealItemsList = new List<MealItem>();
+            //foreach (var (key, mealItem) in mealVM.MealItems)
+            //{
+            //    if (validUserFoods.Contains(mealItem.FoodId))
+            //    {
+            //        verifiedMealItemsList.Add(mealItem);
+            //    }
+            //}
+
+            var verifiedMealItemsList = mealVM.MealItems.Values
+                                            .Where(mi => validUserFoods.Contains(mi.FoodId))
+                                            .ToList();
 
             // get and then delete all mealReactions with that meal id
             if (verifiedMeal != null && verifiedMeal.Reactions.Count > 0)
@@ -251,8 +168,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 activeMeal.Reactions = null;
             }
 
-
-
             activeMeal ??= new Meal() { DateTime = mealTime };
 
             var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
@@ -286,8 +201,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
         private static DayVM[,] GetPopulatedCalendarDays(Dictionary<string, List<Meal>> mealDict, DateTime dt)
         {
             var firstDayOfMonth = new DateTime(dt.Year, dt.Month, 1);
@@ -320,6 +233,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                         if (mealDict.TryGetValue(dayKey, out List<Meal>? dayMeals))
                         {
+                    
+
                             newDay.Meals = dayMeals;
                         }
                         else
@@ -339,19 +254,27 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             return dayVMs;
-
         }
+
+        #endregion
 
         private RedirectToActionResult RediretToUpdatedCalendar(int year, int month = 1, int day = 1)
         {
-            var newDate = new DateTime(year, month, day);
-
-            var calendarVM = new CalendarVM()
+            try
             {
-                ViewDate = newDate
-            };
+                var newDate = new DateTime(year, month, day);
+                var calendarVM = new CalendarVM
+                {
+                    ViewDate = newDate
+                };
 
-            return RedirectToAction(nameof(Index), calendarVM);
+                return RedirectToAction(nameof(Index), calendarVM);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index");
+            }
         }
     }
 }
