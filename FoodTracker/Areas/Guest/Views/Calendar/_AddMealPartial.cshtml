@@ -28,6 +28,7 @@
                             }
                         </select>
                         <label class="ms-2">Meal Type</label>
+                        <span asp-validation-for="@Model.Meal.MealTypeId" class="text-danger"></span>
                     </div>
                     <div id="mealReactionResults" asp-for="@Model.Reactions" hidden></div>
                     <div class="d-flex px-2">
@@ -56,6 +57,7 @@
                                 }
                             </ul>
                             <label id="mealReactionLabel" asp-for="@Model.Reactions" class="ms-2"></label>
+                            
                         </div>
                         <div class="form-floating py-2 col-4">
                             <select class="form-select food-input input-group-right" asp-for="@Model.Meal.ColorId">
@@ -80,7 +82,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="form-floating py-2 col-6">
-                            <select class="form-select food-input" asp-for="@Model.MealItems["new"].FoodId">
+                            <select class="form-select food-input mi-food" asp-for="@Model.MealItems["new"].FoodId">
                                 <option value="" selected disabled></option>
                                 @foreach (var f in Model.Foods)
                                 {
@@ -88,6 +90,7 @@
                                 }
                             </select>
                             <label class="ms-2">Meal Item</label>
+                            <span asp-validation-for="@Model.MealItems["new"].FoodId" class="text-danger"></span>
                         </div>
 
                         <div class="d-flex">
@@ -105,6 +108,7 @@
                                     }
                                 </select>
                                 <label class="ms-2">Units</label>
+                                <span asp-validation-for="@Model.MealItems["new"].VolumeUnitsId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -119,7 +123,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="form-floating py-2 col-6">
-                            <select class="form-select food-input" asp-for="@Model.MealItems["new"].FoodId">
+                            <select class="form-select food-input mi-food" asp-for="@Model.MealItems["new"].FoodId">
                                 <option value="" selected disabled></option>
                                 @foreach (var f in Model.Foods)
                                 {
@@ -134,6 +138,7 @@
                                 }
                             </select>
                             <label class="ms-2">Meal Item</label>
+                            <span asp-validation-for="@Model.MealItems["new"].FoodId" class="text-danger"></span>
                         </div>
 
                         <div class="d-flex">
@@ -158,6 +163,7 @@
                                     }
                                 </select>
                                 <label class="ms-2">Units</label>
+                                <span asp-validation-for="@Model.MealItems["new"].VolumeUnitsId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -170,7 +176,7 @@
                                 <input asp-for="@Model.MealItems[i.ToString()].MealId" value="@Model.Meal.MealItems[i].MealId" hidden />
                                 <div class="d-flex">
                                     <div class="form-floating py-2 col-6">
-                                        <select class="form-select food-input" asp-for="@Model.MealItems[i.ToString()].FoodId">
+                                        <select class="form-select food-input mi-food" asp-for="@Model.MealItems[i.ToString()].FoodId">
                                             <option value="" selected disabled></option>
                                             @foreach (var f in Model.Foods)
                                             {
@@ -185,6 +191,7 @@
                                             }
                                         </select>
                                         <label class="ms-2">Meal Item</label>
+                                        <span asp-validation-for="@Model.MealItems[i.ToString()].FoodId" class="text-danger"></span>
                                     </div>
                                     <div class="d-flex">
                                         <div class="form-floating p-2 col-6">
@@ -209,6 +216,7 @@
                                                 }
                                             </select>
                                             <label class="ms-2">Units</label>
+                                            <span asp-validation-for="@Model.MealItems[i.ToString()].VolumeUnitsId" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -243,8 +251,8 @@
             </div>
         </div>
     </div>
+<partial name="_ValidationScriptsPartial" />
 </form>
-
 <script>
     var unitJson = @Json.Serialize(Model.Units)
     var foodJson = @Json.Serialize(Model.Foods)

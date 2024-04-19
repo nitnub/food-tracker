@@ -1,7 +1,8 @@
 ﻿
 const REACTION_LABEL_DEFAULT = 'Select';
 let unitOptions;
-let foodOptions
+let foodOptions;
+let takenFoods = [];
 
 
 function createUnitOptions(unitJson) {
@@ -12,46 +13,90 @@ function createUnitOptions(unitJson) {
 
 function createFoodOptions(foodJson) {
     let output = "";
-    foodJson.forEach(f => output += `<option value="${f.id}">${f.name}</option>`);
+    const fsa = $('.mi-food');
+ 
+    if (fsa.length > 0) {
+        fsa.each(function (i) { takenFoods.push(this.value); });
+    }
+
+    foodJson.forEach(f => {
+        if (takenFoods.indexOf(f.id.toString()) < 0) {
+            output += `<option value="${f.id}">${f.name}</option>`
+        } else {
+            output += `<option value="${f.id}" hidden disabled>${f.name}</option>`
+        }
+    });
     return output;
 }
 
 function addMealItem(mealId) {
 
+    foodOptions = createFoodOptions(foodJson);
+
+
     const newId = new Date().getTime().toString();
+    
     const mealGroup = document.getElementById('mealGroup')
     const div = document.createElement("div");
 
     div.setAttribute("class", "border form-group rounded-2 my-2 shadow bg-white p-2 remove-meal-item-new" + newId);
 
     div.innerHTML = `
-        <div class="d-flex">
+        <div class="d-flex" >
             <div class="form-floating py-2 col-6">
-                <select class="form-select food-input" data-val="true" data-val-required="The FoodId field is required." id="MealItems_${newId}__FoodId" name="MealItems[${newId}].FoodId" placeholder="Meal Item">
-                    
+                <select id="nmiFood_${newId}" class="form-select food-input mi-food" data-val="true" data-val-required="The FoodId field is required." id="MealItems_${newId}__FoodId" name="MealItems[${newId}].FoodId" placeholder="Meal Item">
+                   <!-- 
                      <option value="" selected disabled></option>
-                        ${foodOptions}
+                     -->
+                     ${foodOptions}
                 </select>
                 <label class="ms-2">Meal Item</label>
+                  <!--
+                  <span class="text-danger field-validation-valid" data-valmsg-for="MealItems[${newId}].Volume" data-valmsg-replace="true"></span>
+                -->
+                
+
+                  <!--
+                <span id="nmiFoodValidation_${newId}" class="text-danger field-validation-error" data-valmsg-for="MealItems[${newId}].FoodId" data-valmsg-replace="true">
+                    <span id="MealItems_${newId}__FoodId-error" class="">The FoodId field is required.</span>
+                </span>
+                -->
             </div>
 
             <div class="d-flex">
 
                 <div class="form-floating p-2 col-6">
-                    <input class="form-control food-input " type="text" data-val="true" data-val-number="The field Volume must be a number." data-val-required="The Volume field is required." id="MealItems_${newId}__Volume" name="MealItems[${newId}].Volume" value="" placeholder="Volume" >
+                    <input id="nmiVolume_${newId}" type="number" required min="1" value="1" class="form-control food-input" type="text" data-val="true" data-val-number="The field Volume must be a number." data-val-required="The Volume field is required." id="MealItems_${newId}__Volume" name="MealItems[${newId}].Volume" value="" placeholder="Volume" >
                     <label class="ms-2" for="MealItems_${newId}__Volume">Volume</label>
-                    <span class="text-danger field-validation-valid" data-valmsg-for="MealItems[${newId}].Volume" data-valmsg-replace="true"></span>
+                  <span class="text-danger field-validation-valid" data-valmsg-for="MealItems[${newId}].Volume" data-valmsg-replace="true"></span>
+
+
+           
+           
                 </div>
 
 
                 <div class="form-floating py-2 col-6">
-                    <select class="form-select food-input meal-item-units" data-val="true" data-val-required="The VolumeUnitsId field is required." id="MealItems_${newId}__VolumeUnitsId" name="MealItems[${newId}].VolumeUnitsId" placeholder="Units">
-                        
+                    <select id="nmiUnits_${newId}" class="form-select food-input meal-item-units" data-val="true" data-val-required="The Volume field is required." id="MealItems_${newId}__VolumeUnitsId" name="MealItems[${newId}].VolumeUnitsId" placeholder="Units">
+                        <!--
+
                          <option value="" selected></option>
-                            ${unitOptions}
+                         -->
+                         ${unitOptions}
                     </select>
                     <label class="ms-2">Units</label>
+                <!--
+                    <span class="text-danger field-validation-error" data-valmsg-for="MealItems[${newId}].VolumeUnitsId" data-valmsg-replace="true">
+                        <span id="nmiUnitsValidation_${newId}" class="">The VolumeUnitsId field is required.</span>
+                    </span>
+                    -->
+
                 </div>
+
+
+
+
+
             </div>
 
         </div> 
@@ -60,7 +105,96 @@ function addMealItem(mealId) {
         </div>`
 
     mealGroup.appendChild(div)
+
+    $(`#nmiUnits_${newId}`).on('change', function () {
+        //$("#myElement1").val("Some Value");
+        $(`#nmiUnits_${newId}`).valid();
+    });    
+
+
+    let previous_value;
+    let current_value;
+    $(`#nmiFood_${newId}`).on('click', function (e) {
+        previous_value = $(this)[0].value;
+
+    }).on('change', function () {
+        current_value = $(this).val()
+        makeMealItemFoodVisible(previous_value);
+
+        // hide new selection
+        const tar = $('.mi-food').find($(`option[value='${current_value}']`));
+        tar.each(function () {
+            this.hidden = true;
+            this.disabled = true;
+        })
+    });   
+
+
+    //listenForNewItemValidation(newId);
 }
+
+
+
+function listenForNewItemValidation(newId) {
+    // On create, disable ADD button
+
+        $(`#nmiFoodValidation_${newId}`).attr('hidden', true);
+    $(`#nmiFood_${newId}`).on('change', function (e) {
+ 
+        const {value} = e.target;
+        // if value is empty, display error
+    
+        if (value.length > 0) {
+            $(`#nmiFoodValidation_${newId}`).attr('hidden', true);
+        } else {
+            $(`#nmiFoodValidation_${newId}`).attr('hidden', false);
+        }
+
+        // if value is NOT empty, hide error
+
+        //updateReactionSelectButton(this);
+
+        id = "nmiFood_${newId}" 
+ 
+    })
+
+    $(`#nmiVolumeValidation_${newId}`).attr('hidden', true);
+    $(`#nmiVolume_${newId}`).on('input', function () {
+        // if not a number, say must be number
+
+        let message;
+        if (this.value.length == 0) {
+            $(`#nmiVolumeValidation_${newId}`)[0].innerText = "The Volume field is required.";
+            $(`#nmiVolumeValidation_${newId}`).attr('hidden', false);
+        } else if (this.value.length == this.value.trim().length && !isNaN(this.value)) {
+            $(`#nmiVolumeValidation_${newId}`).attr('hidden', true);
+        } else {
+            $(`#nmiVolumeValidation_${newId}`)[0].innerText = "Volume must be number.";
+            $(`#nmiVolumeValidation_${newId}`).attr('hidden', false);
+        }
+
+    })
+
+    $(`#nmiUnitsValidation_${newId}`).attr('hidden', true);
+    $(`#nmiUnits_${newId}`).on('change', function () {
+
+        
+        const { value } = e.target;
+        // if value is empty, display error
+
+        if (value.length > 0) {
+            $(`#nmiUnitsValidation_${newId}`).attr('hidden', true);
+        } else {
+            $(`#nmiUnitsValidation_${newId}`).attr('hidden', false);
+        }
+        //updateReactionSelectButton(this);
+    })
+
+    // Need to check on remove of element
+    // if all values empty, disable ADD button
+    // if all values NOT empty, ADD button
+}
+
 
 function activateModal(dayObj, activeMealId = 0) {
     $('.meal-details-modal').modal('show');
@@ -83,6 +217,7 @@ function getMeal(dayObj) {
                 $(`#mealCard`).html(data);
 
                 // Populate new meal item dropdowns
+                takenFoods.length = 0;
                 unitOptions = createUnitOptions(unitJson);
                 foodOptions = createFoodOptions(foodJson);
 
@@ -223,9 +358,30 @@ function removeMealConfirmation(id, mealName) {
     $('#meal-delete-modal').modal('show');
 }
 
-function removeNewMealItem(id) {
-    $('.remove-meal-item-new' + id).remove();
+function removeNewMealItem(mealId) {
+
+    // get food item falue
+    const div = $('.remove-meal-item-new' + mealId);
+    const value = div.find('select').first()[0].value;
+
+    // remove the food from the "taken" list
+    takenFoods = takenFoods.filter(f => f != value.toString());
+
+    // make visible in all other dropdowns
+    makeMealItemFoodVisible(value);
+
+    // remove meal item row
+    $('.remove-meal-item-new' + mealId).remove();
 }
+
+function makeMealItemFoodVisible(value) {
+    const tar = $('#mealGroup').find($(`option[value='${value}'][hidden]`));
+    tar.each(function () {
+        this.hidden = false;
+        this.disabled = false;
+    })
+}
+
 
 function removeMealItemConfirmation(id) {
     const mealItem = mealItems.find(m => m.id === id);

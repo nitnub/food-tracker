@@ -5,6 +5,8 @@ using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {

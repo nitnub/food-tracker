@@ -3,6 +3,7 @@ using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace FoodTracker.Models.ViewModels
 {
     public class MealVM
     {
+        [Required]
         public Meal.Meal Meal {  get; set; }
         [ValidateNever]
         public IEnumerable<Color> ColorOptions { get; set; }

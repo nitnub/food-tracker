@@ -14,9 +14,10 @@ namespace FoodTracker.Models.Meal
         [Key]
         public int Id { get; set; }
         public int MealId { get; set; }
-        [ForeignKey(nameof(MealId))]
+        //[ForeignKey(nameof(MealId))] // Removed at test
         //[ValidateNever]
         //public Meal Meal { get; set; }
+        [Required]
         public int FoodId { get; set; }
         [ForeignKey(nameof(FoodId))]
         [ValidateNever]
@@ -24,7 +25,7 @@ namespace FoodTracker.Models.Meal
         public double Volume {  get; set; }
         public int VolumeUnitsId { get; set; }
         [ForeignKey(nameof(VolumeUnitsId))]
-        [ValidateNever]
+        [Required]
         public Unit VolumeUnits { get; set; }
     }
 }

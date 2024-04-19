@@ -1,13 +1,8 @@
 ﻿using FoodTracker.Models.Identity;
-using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodTracker.Models.Meal
 {
@@ -21,22 +16,25 @@ namespace FoodTracker.Models.Meal
         [ValidateNever]
         public AppUser AppUser { get; set; }
 
+        [StringLength(60, MinimumLength = 1)]
+        [Required]
         public string Name { get; set; }
-
+        [Required]
         public int MealTypeId { get; set; }
         [ForeignKey(nameof(MealTypeId))]
         [ValidateNever]
         public MealType MealType { get; set; }
 
-
-        public int ColorId { get; set; }
+        [ValidateNever]
+        public int? ColorId { get; set; }
         [ForeignKey(nameof(ColorId))]
         [ValidateNever]
         public Color Color { get; set; }
-
+        [Required]
+        [DisplayName("Time of Meal")]
         public DateTime DateTime { get; set; }
 
-        [ValidateNever]
+        [Required, MinLength(1, ErrorMessage = "Meals must contain at least one item")]
         public List<MealItem> MealItems { get; set; }
         [ValidateNever]
         public List<Reaction.Reaction>? Reactions { get; set; }
