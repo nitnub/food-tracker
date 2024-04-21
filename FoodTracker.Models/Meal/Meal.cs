@@ -34,8 +34,8 @@ namespace FoodTracker.Models.Meal
         [DisplayName("Time of Meal")]
         public DateTime DateTime { get; set; }
 
-        [Required, MinLength(1, ErrorMessage = "Meals must contain at least one item")]
-        public List<MealItem> MealItems { get; set; }
+        //[Required, MinLength(1, ErrorMessage = "Meals must contain at least one item")]
+        public List<MealItem> MealItems { get; set; } = new List<MealItem>();
         [ValidateNever]
         public List<Reaction.Reaction>? Reactions { get; set; }
     }

@@ -13,7 +13,9 @@ namespace FoodTracker.Models
         //Activity
 
         Food = 1,
-        Meal = 2,
-        Activity = 3
+        Meal,
+        Activity,
+        Day,
+        Unknown
     }
 }

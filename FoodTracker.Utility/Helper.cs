@@ -65,6 +65,38 @@ namespace FoodTracker.Utility
             return foodTypeSeverityDict;
         }
 
+
+        public static Dictionary<DateTime, Dictionary<int, int>> GetDayTypeSeverityDict(IEnumerable<Reaction> existingReactions)
+        {
+
+            //var existingReactions = unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
+            var dayTypeSeverityDict = new Dictionary<DateTime, Dictionary<int, int>>();
+
+            foreach (var reaction in existingReactions)
+            {
+
+                if (reaction.IdentifiedOn == null) continue;
+
+                var day = reaction.IdentifiedOn.Value.Date;
+                var reactionTypeId = (int)reaction.TypeId;
+                var reactionSeverityId = (int)reaction.SeverityId;
+
+
+                var reactionTypeSeverityDict = new Dictionary<int, int>();
+                if (dayTypeSeverityDict.TryGetValue(day, out reactionTypeSeverityDict))
+                {
+                    reactionTypeSeverityDict[reactionTypeId] = reactionSeverityId;
+                }
+                else
+                {
+                    dayTypeSeverityDict[day] = [];
+                    dayTypeSeverityDict[day][reactionTypeId] = reactionSeverityId;
+                }
+            }
+
+            return dayTypeSeverityDict;
+        }
+
         //public static Dictionary<string, List<ReactionType>> GetReactionDict(IUnitOfWork unitOfWork)
         public static Dictionary<string, List<ReactionType>> GetReactionDict(IEnumerable<ReactionType> reactions)
         {

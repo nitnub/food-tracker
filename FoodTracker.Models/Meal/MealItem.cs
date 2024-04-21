@@ -22,10 +22,12 @@ namespace FoodTracker.Models.Meal
         [ForeignKey(nameof(FoodId))]
         [ValidateNever]
         public Food.Food Food { get; set; }
+        [Range(1, Int32.MaxValue)]
         public double Volume {  get; set; }
         public int VolumeUnitsId { get; set; }
         [ForeignKey(nameof(VolumeUnitsId))]
-        [Required]
+        //[Required]
+        [ValidateNever]
         public Unit VolumeUnits { get; set; }
     }
 }

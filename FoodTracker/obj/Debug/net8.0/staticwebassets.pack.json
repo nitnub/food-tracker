@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\js\\calendar.js"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\dayReaction.js",
+      "PackagePath": "staticwebassets\\js\\dayReaction.js"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\fodmap.js",
       "PackagePath": "staticwebassets\\js\\fodmap.js"
     },

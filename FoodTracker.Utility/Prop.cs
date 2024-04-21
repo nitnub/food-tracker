@@ -22,6 +22,8 @@ namespace FoodTracker.Utility
         // Home Properties
         // Reaction Properties
         public const string FODMAP = "Fodmap";
+        public const string SEVERITY = "Severity";
+        public const string TYPE_CATEGORY_ICON = "Type.Category.Icon";
 
         // Meal Properties
         public const string MEAL_ITEMS = "MealItems";

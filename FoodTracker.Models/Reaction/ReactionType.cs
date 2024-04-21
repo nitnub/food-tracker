@@ -18,6 +18,6 @@ namespace FoodTracker.Models.Reaction
 
         [ForeignKey(nameof(CategoryId))]
         [ValidateNever]
-        public ReactionCategory Category { get; set; }
+        public ReactionCategory? Category { get; set; }
     }
 }

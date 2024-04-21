@@ -1,10 +1,13 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models;
+using FoodTracker.Models.Food;
 using FoodTracker.Models.Meal;
 using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Exchange.WebServices.Data;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +19,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
     {
         public MealVM MealVM { get; set; }
         public CalendarVM CalendarVM { get; set; }
+        public DayReactionVM DayReactionVM { get; set; }
         private readonly IUnitOfWork _unitOfWork = unitOfwork;
         public IActionResult Index(CalendarVM vm)
         {
@@ -23,11 +27,53 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var userId = Helper.GetAppUserId(User);
             var meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == userId,
                             includeProperties: [Prop.MEAL_ITEMS_FOOD, Prop.MEAL_ITEMS_VOLUME, Prop.MEAL_ITEMS_FOOD_FODMAP_COLOR]);
+            var dayReactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == userId && r.SourceTypeId == ReactionSource.Day,
+                            includeProperties: [Prop.SEVERITY, Prop.TYPE_CATEGORY_ICON]);
 
             var mealDict = meals.GroupBy(m => m.DateTime.ToString("yyyy-MM-dd"))
                                 .ToDictionary(m => m.Key, m => m.ToList());
 
+            var reactionDict = dayReactions.GroupBy(r => r.IdentifiedOn.Value.ToString("yyyy-MM-dd"))
+                                .ToDictionary(r => r.Key, r => r.ToList());
+
             DateTime dt = vm.ViewDate.Year > 1 ? vm.ViewDate : DateTime.Now;
+
+
+
+
+
+            #region Reaction Controller Test
+
+            var dateTime = DateTime.Now;
+
+            //get all reactions for this day
+            var appUserId = Helper.GetAppUserId(User);
+
+
+            var todaysReactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == appUserId && r.SourceTypeId == ReactionSource.Day && r.IdentifiedOn == dateTime);
+
+            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+            var reactionDictForVm = Helper.GetReactionDict(reactions);
+            var dayTypeSeverityDict = Helper.GetDayTypeSeverityDict(todaysReactions);
+            // get all reaction types and severities
+            // populate t&S dictionaries
+
+            DayReactionVM = new()
+            {
+                DateTime = DateTime.Now,
+                Categories = reactionDictForVm,
+                Severities = _unitOfWork.ReactionSeverity.GetAll(),
+                ExistingReactions = Helper.GetDayTypeSeverityDict(todaysReactions)
+            };
+
+
+
+
+
+            #endregion
+
+
+
 
             CalendarVM = new()
             {
@@ -35,8 +81,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 ViewMonth = dt.Month,
                 ViewDay = dt.Day,
                 ViewDate = dt,
-                DayVMs = GetPopulatedCalendarDays(mealDict, dt)
-            };
+                DayVMs = GetPopulatedCalendarDays(mealDict, reactionDict, dt),
+                DayReactionVM = DayReactionVM
+            }; 
 
             return View(CalendarVM);
         }
@@ -45,25 +92,25 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpPost]
         public IActionResult PriorYear(CalendarVM vm)
         {
-                return RediretToUpdatedCalendar(vm.ViewYear - 1, vm.ViewMonth);
+            return RediretToUpdatedCalendar(vm.ViewYear - 1, vm.ViewMonth);
         }
 
         [HttpPost]
         public IActionResult NextYear(CalendarVM vm)
         {
-                return RediretToUpdatedCalendar(vm.ViewYear + 1, vm.ViewMonth);
+            return RediretToUpdatedCalendar(vm.ViewYear + 1, vm.ViewMonth);
         }
 
         [HttpPost]
         public IActionResult PriorMonth(CalendarVM vm)
         {
-                return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth - 1);
+            return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth - 1);
         }
 
         [HttpPost]
         public IActionResult NextMonth(CalendarVM vm)
         {
-                return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth + 1);
+            return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth + 1);
         }
 
         [HttpPost]
@@ -93,16 +140,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 _unitOfWork.MealItem.RemoveRange(verifiedMeal.MealItems.ToList());
             }
 
-            var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == appUserId || f.Global).Select(f => f.Id).ToList();
-
-            //var verifiedMealItemsList = new List<MealItem>();
-            //foreach (var (key, mealItem) in mealVM.MealItems)
-            //{
-            //    if (validUserFoods.Contains(mealItem.FoodId))
-            //    {
-            //        verifiedMealItemsList.Add(mealItem);
-            //    }
-            //}
+            var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == appUserId || f.Global)
+                                                 .Select(f => f.Id).ToList();
 
             var verifiedMealItemsList = mealVM.MealItems.Values
                                             .Where(mi => validUserFoods.Contains(mi.FoodId))
@@ -170,14 +209,13 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 activeMeal.Reactions = null;
             }
 
-            activeMeal ??= new Meal() { DateTime = mealTime };
-
+            activeMeal ??= new Meal() { DateTime = mealTime, MealItems = [new MealItem()] };
+ 
             var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
 
             MealVM = new()
             {
                 ColorOptions = _unitOfWork.Color.GetAll(),
-                //Categories = Helper.GetReactionDict(_unitOfWork),
                 Reactions = priorReactions,
                 Categories = Helper.GetReactionDict(reactions),
                 Meal = activeMeal,
@@ -202,8 +240,69 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+    
+        [HttpGet]
+        public IActionResult GetDayReactions(DateTime dateTime)
+        {
 
-        private static DayVM[,] GetPopulatedCalendarDays(Dictionary<string, List<Meal>> mealDict, DateTime dt)
+
+            //var dateTime = DateTime.Now;
+            //get all reactions for this day
+            var appUserId = Helper.GetAppUserId(User);
+
+
+            var todaysReactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == appUserId && r.SourceTypeId == ReactionSource.Day && r.IdentifiedOn == dateTime);
+
+            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+            var reactionDict = Helper.GetReactionDict(reactions);
+            var dayTypeSeverityDict = Helper.GetDayTypeSeverityDict(todaysReactions);
+            // get all reaction types and severities
+            // populate t&S dictionaries
+
+            DayReactionVM = new()
+            {
+                DateTime = dateTime,
+                Categories = reactionDict,
+                Severities = _unitOfWork.ReactionSeverity.GetAll(),
+                ExistingReactions = Helper.GetDayTypeSeverityDict(todaysReactions)
+            };
+
+            return PartialView("_AddDayReactionPartial", DayReactionVM);
+        }
+
+
+        [HttpPost]
+        public IActionResult ToggleDayReaction([FromBody] Reaction r)
+        {
+            var userId = Helper.GetAppUserId(User);
+            var success = false;
+            Food? food = null;
+
+            r.SourceTypeId = ReactionSource.Day;
+            //r.SourceTypeId = ReactionSourceType;
+
+            if (ModelState.IsValid && userId != null)
+            {
+                r.AppUserId = userId;
+
+                if (!QueueRemovalOfRelatedDayReactions(_unitOfWork, r))
+                    _unitOfWork.Reaction.Add(r);
+                _unitOfWork.Save();
+
+                //food = _unitOfWork.Food.Get(f => f.Id == r.FoodId &&
+                //            (f.AppUserId == userId || f.Global),
+                //            includeProperties: Prop.REACTIONS_SEVERITY);
+
+                //success = food != null;
+                success = true;
+            }
+
+            //return Json(new { success, updatedColor = Helper.GetMaxSeverityColorString(food).ToLower() });
+            return Json(new { success, updatedColor = "Red" });
+        }
+        #endregion
+
+        private static DayVM[,] GetPopulatedCalendarDays(Dictionary<string, List<Meal>> mealDict, Dictionary<string, List<Reaction>> reactionDict, DateTime dt)
         {
             var firstDayOfMonth = new DateTime(dt.Year, dt.Month, 1);
             var firstDayOfMonthIndex = (int)firstDayOfMonth.DayOfWeek;
@@ -235,8 +334,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                         if (mealDict.TryGetValue(dayKey, out List<Meal>? dayMeals))
                         {
-                    
-
                             newDay.Meals = dayMeals;
                         }
                         else
@@ -244,13 +341,20 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                             newDay.Meals = [];
                         }
 
+                        if (reactionDict.TryGetValue(dayKey, out List<Reaction>? dayReactions))
+                        {
+                            newDay.Reactions = dayReactions;
+                        }
+                        else
+                        {
+                            newDay.Reactions = [];
+                        }
+
                         newDay.DateTime = today;
                         newDay.Day = dayIndex + 1;
                         newDay.Color = new Color { Name = "Red" };
-
                     }
                     dayVMs[row, col] = newDay;
-
                     dayIndex++;
                 }
             }
@@ -258,7 +362,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return dayVMs;
         }
 
-        #endregion
+ 
 
         private RedirectToActionResult RediretToUpdatedCalendar(int year, int month = 1, int day = 1)
         {
@@ -277,6 +381,27 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 Console.WriteLine(ex.Message);
                 return RedirectToAction("Index");
             }
+        }
+
+        private static bool QueueRemovalOfRelatedDayReactions(IUnitOfWork unitOfWork, Reaction newReaction)
+        {
+            var success = false;
+            var reactionToRemove = unitOfWork.Reaction.Get(r =>
+                                            r.SourceTypeId == ReactionSource.Day &&
+                                            r.IdentifiedOn.Value.Date == newReaction.IdentifiedOn.Value.Date &&
+                                            r.TypeId == newReaction.TypeId &&
+                                            r.AppUserId == newReaction.AppUserId);
+
+            if (reactionToRemove != null)
+            {
+                unitOfWork.Reaction.Remove(reactionToRemove);
+                success = reactionToRemove.SourceTypeId == ReactionSource.Day &&
+                                            reactionToRemove.IdentifiedOn.Value.Date == newReaction.IdentifiedOn.Value.Date &&
+                                            reactionToRemove.TypeId == newReaction.TypeId &&
+                                            reactionToRemove.SeverityId == newReaction.SeverityId;
+            }
+
+            return success;
         }
     }
 }

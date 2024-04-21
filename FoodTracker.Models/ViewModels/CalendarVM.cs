@@ -17,5 +17,7 @@ namespace FoodTracker.Models.ViewModels
         public int ViewMonth {  get; set; }
         public int ViewYear { get; set; }
         public int ViewDay { get; set; }
+
+        public DayReactionVM DayReactionVM { get; set; }
     }
 }

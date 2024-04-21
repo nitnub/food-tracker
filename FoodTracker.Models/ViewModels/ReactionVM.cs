@@ -10,7 +10,6 @@ namespace FoodTracker.Models.ViewModels
     public class ReactionVM
     {
         public IEnumerable<Food.Food> Foods { get; set; }
-        //public IEnumerable<Reaction.Reaction> ExistingReactions { get; set; 
         public Dictionary<int, Dictionary<int, int>> ExistingReactions { get; set; }
         public Dictionary<string, List<ReactionType>> Categories { get; set; }
 

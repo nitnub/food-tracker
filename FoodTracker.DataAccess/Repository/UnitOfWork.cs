@@ -1,11 +1,5 @@
 ﻿using FoodTracker.DataAccess.Data;
 using FoodTracker.DataAccess.Repository.IRepository;
-using FoodTracker.Models.Activity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodTracker.DataAccess.Repository
 {
@@ -26,6 +20,7 @@ namespace FoodTracker.DataAccess.Repository
         public IFodmapRepository Fodmap { get; set; }
         public IFoodAliasRepository FoodAlias { get; set; }
         public IFoodRepository Food { get; set; }
+        public IIconRepository Icon { get; set; }
         public IIngredientMapRepository IngredientMap { get; set; }
         public ILocationRepository Location { get; set; }
         public IMealRepository Meal { get; set; }
@@ -57,6 +52,7 @@ namespace FoodTracker.DataAccess.Repository
             Food = new FoodRepository(_db);
             FoodAlias = new FoodAliasRepository(_db);
             IngredientMap = new IngredientMapRepository(_db);
+            Icon = new IconRepository(_db);
             Location = new LocationRepository(_db);
             Meal = new MealRepository(_db);
             MealItem = new MealItemRepository(_db);

@@ -552,6 +552,9 @@ body {
     max-height: 100vh;
 }
 
+#reactionDropdownSelect {
+    cursor: default;
+}
 
 .day-card-footer {
     max-height: 42px;
@@ -638,6 +641,11 @@ body {
     border-bottom-left-radius: 0px;
 }
 
+/* Day Reaction */
+
+.calendar-modal {
+    height: 500px;
+}
 
 .green {
     color: var(--clr-fd-green-dk);

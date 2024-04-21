@@ -36,7 +36,35 @@
     </div>
 </div>
 
+<!-- TEST Modal (Day Reactions) -->
+@* <div id="reaction-test-modal" class="modal show delete-meal-modal fade" role="dialog" tabindex="-1" aria-hidden="false"> *@
+<div id="reaction-test-modal" class="modal show meal-details-modal fade " role="dialog" tabindex="-1" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content calendar-modal">
+            @* <div class="modal-header"> *@
+                @* <h5 class="modal-title"></h5> *@
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+                    </li>
+                </ul>
+            @* </div> *@
+            <div id="calendarDetailView" class="modal-body">
+                <partial name="_AddDayReactionPartial" model="Model.DayReactionVM" />
+            </div>
+            <div id="meal-delete-modal-footer" class="modal-footer"></div>
+        </div>
+    </div>
+</div>
 
+
+@* <partial name="_AddDayReactionPartial" model="food" /> *@
 
 
 <form method="post" >
@@ -67,7 +95,6 @@
                 <svg transform="scale(-1 1)" xmlns="http://www.w3.org/2000/svg"fill="currentColor" class="bi bi-forward calendar-nav-icon-disabled" data-toggle="tooltip" data-placement="top" title="Previous Month" viewBox="0 0 16 16">
                   <path d="M9.502 5.513a.144.144 0 0 0-.202.134V6.65a.5.5 0 0 1-.5.5H2.5v2.9h6.3a.5.5 0 0 1 .5.5v1.003c0 .108.11.176.202.134l3.984-2.933.042-.028a.147.147 0 0 0 0-.252l-.042-.028zM8.3 5.647a1.144 1.144 0 0 1 1.767-.96l3.994 2.94a1.147 1.147 0 0 1 0 1.946l-3.994 2.94a1.144 1.144 0 0 1-1.767-.96v-.503H2a.5.5 0 0 1-.5-.5v-3.9a.5.5 0 0 1 .5-.5h6.3z"/>
                 </svg>
-
             </button> 
         }
         else
@@ -273,7 +300,17 @@
 
                 <div class=" d-flex flex-wrap calendar-reaction-container h-100">
 
-                    @if (true)
+                     @if (Model.DayVMs[i, j].Reactions != null)
+                    {
+                        @foreach (var reaction in Model.DayVMs[i, j].Reactions)
+                        {
+                            @* <div>@reaction.TypeId,</div> *@
+                      <div>@reaction.</div>
+                        }
+                    }
+
+
+                    @if (false)
                     {
 
                         @* Stomach Icon *@
@@ -403,7 +440,11 @@
 
 @section Scripts {
     @{
+        <script>
+            var dayId = @("1/1/0001")
+         </script>
         <script src="~/js/calendar.js"></script>
         <script src="~/js/addMeal.js"></script>
+        <script src="~/js/dayReaction.js"></script>
     }
 }
