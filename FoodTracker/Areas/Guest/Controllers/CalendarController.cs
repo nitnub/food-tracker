@@ -1,26 +1,25 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models;
-using FoodTracker.Models.Food;
+using FoodTracker.Models.Day;
 using FoodTracker.Models.Meal;
 using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Exchange.WebServices.Data;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
 
     [Area("Guest")]
+    [Authorize]
     public class CalendarController(IUnitOfWork unitOfwork) : Controller
     {
         public MealVM MealVM { get; set; }
         public CalendarVM CalendarVM { get; set; }
         public DayReactionVM DayReactionVM { get; set; }
         private readonly IUnitOfWork _unitOfWork = unitOfwork;
+       
         public IActionResult Index(CalendarVM vm)
         {
 
@@ -38,41 +37,13 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             DateTime dt = vm.ViewDate.Year > 1 ? vm.ViewDate : DateTime.Now;
 
+            var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction).ToDictionary(r => r.Name, r => r);
 
-
-
-
-            #region Reaction Controller Test
-
-            var dateTime = DateTime.Now;
-
-            //get all reactions for this day
-            var appUserId = Helper.GetAppUserId(User);
-
-
-            var todaysReactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == appUserId && r.SourceTypeId == ReactionSource.Day && r.IdentifiedOn == dateTime);
-
-            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
-            var reactionDictForVm = Helper.GetReactionDict(reactions);
-            var dayTypeSeverityDict = Helper.GetDayTypeSeverityDict(todaysReactions);
-            // get all reaction types and severities
-            // populate t&S dictionaries
-
-            DayReactionVM = new()
-            {
-                DateTime = DateTime.Now,
-                Categories = reactionDictForVm,
-                Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                ExistingReactions = Helper.GetDayTypeSeverityDict(todaysReactions)
-            };
-
-
-
-
-
-            #endregion
-
-
+            var userSafeDays = _unitOfWork.UserSafeDay.GetAll(d => d.AppUserId == userId &&
+                                                                d.Date.Year == dt.Year &&
+                                                                d.Date.Month == dt.Month); 
+            
+            var usdDict = userSafeDays.GroupBy(d => d.Date.ToString("yyyy-MM-dd")).ToDictionary(d => d.Key, d => true); 
 
 
             CalendarVM = new()
@@ -81,8 +52,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 ViewMonth = dt.Month,
                 ViewDay = dt.Day,
                 ViewDate = dt,
-                DayVMs = GetPopulatedCalendarDays(mealDict, reactionDict, dt),
-                DayReactionVM = DayReactionVM
+                DayVMs = GetPopulatedCalendarDays(mealDict, reactionDict, iconDict, usdDict, dt),
+                ReactionIcons = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction).ToDictionary(r => r.Name, r => r),
             }; 
 
             return View(CalendarVM);
@@ -132,7 +103,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var appUserId = Helper.GetAppUserId(User);
 
             // verify mealId is for user
-            var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
+            var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == updatedMeal.Id && m.AppUserId == appUserId, 
+                                                    includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
 
             // get and then delete all mealItems with that meal id
             if (verifiedMeal != null && verifiedMeal.MealItems.Count > 0)
@@ -141,11 +113,11 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == appUserId || f.Global)
-                                                 .Select(f => f.Id).ToList();
+                                                    .Select(f => f.Id).ToList();
 
             var verifiedMealItemsList = mealVM.MealItems.Values
-                                            .Where(mi => validUserFoods.Contains(mi.FoodId))
-                                            .ToList();
+                                                    .Where(mi => validUserFoods.Contains(mi.FoodId))
+                                                    .ToList();
 
             // get and then delete all mealReactions with that meal id
             if (verifiedMeal != null && verifiedMeal.Reactions.Count > 0)
@@ -241,30 +213,28 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return RedirectToAction(nameof(Index));
         }
     
+
+ 
+
         [HttpGet]
         public IActionResult GetDayReactions(DateTime dateTime)
         {
-
-
-            //var dateTime = DateTime.Now;
-            //get all reactions for this day
             var appUserId = Helper.GetAppUserId(User);
+            var todaysReactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == appUserId && 
+                                                        r.SourceTypeId == ReactionSource.Day && 
+                                                        r.IdentifiedOn == dateTime);
 
-
-            var todaysReactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == appUserId && r.SourceTypeId == ReactionSource.Day && r.IdentifiedOn == dateTime);
-
-            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
-            var reactionDict = Helper.GetReactionDict(reactions);
-            var dayTypeSeverityDict = Helper.GetDayTypeSeverityDict(todaysReactions);
-            // get all reaction types and severities
-            // populate t&S dictionaries
+            var reactionTypes = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
+            var userSafe = _unitOfWork.UserSafeDay.Get(d => d.AppUserId == appUserId &&
+                                                            d.Date == DateOnly.FromDateTime(dateTime)) != null;
 
             DayReactionVM = new()
             {
                 DateTime = dateTime,
-                Categories = reactionDict,
                 Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                ExistingReactions = Helper.GetDayTypeSeverityDict(todaysReactions)
+                Categories = Helper.GetReactionDict(reactionTypes),
+                ExistingReactions = Helper.GetDayTypeSeverityDict(todaysReactions),
+                UserSafe = userSafe
             };
 
             return PartialView("_AddDayReactionPartial", DayReactionVM);
@@ -272,38 +242,113 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
 
         [HttpPost]
-        public IActionResult ToggleDayReaction([FromBody] Reaction r)
+        public IActionResult ToggleDayReaction([FromBody] Reaction reaction)
         {
             var userId = Helper.GetAppUserId(User);
             var success = false;
-            Food? food = null;
+            var dayColor = "";
 
-            r.SourceTypeId = ReactionSource.Day;
-            //r.SourceTypeId = ReactionSourceType;
+            reaction.SourceTypeId = ReactionSource.Day;
 
             if (ModelState.IsValid && userId != null)
             {
-                r.AppUserId = userId;
+                reaction.AppUserId = userId;
 
-                if (!QueueRemovalOfRelatedDayReactions(_unitOfWork, r))
-                    _unitOfWork.Reaction.Add(r);
+                if (!QueueRemovalOfRelatedDayReactions(_unitOfWork, reaction))
+                    _unitOfWork.Reaction.Add(reaction);
+                
                 _unitOfWork.Save();
 
-                //food = _unitOfWork.Food.Get(f => f.Id == r.FoodId &&
-                //            (f.AppUserId == userId || f.Global),
-                //            includeProperties: Prop.REACTIONS_SEVERITY);
-
-                //success = food != null;
                 success = true;
             }
 
-            //return Json(new { success, updatedColor = Helper.GetMaxSeverityColorString(food).ToLower() });
-            return Json(new { success, updatedColor = "Red" });
+            var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == userId &&
+                                                        r.SourceTypeId == ReactionSource.Day &&
+                                                        r.IdentifiedOn.Value.Date == reaction.IdentifiedOn.Value.Date,
+                                                        includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY]);
+
+            var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction).ToDictionary(r => r.Name, r => r);
+            var activeIcons = GetActiveIcons(reactions, iconDict);
+
+            dayColor = Helper.GetDayColor(reactions, activeIcons);
+
+            return Json(new { success, activeIcons, dayColor });
         }
+
+        [HttpPost]
+        public IActionResult UpdateUserSafeDay(DateOnly date)
+        {
+            var active = false;
+            var success = false;
+            var message = "Error updating user's safe days";
+            var userId = Helper.GetAppUserId(User);
+            var updatedColor = "";
+            var reactionIcons = new List<ReactionIcon>();
+
+            if (userId == null)
+                message = "Unable to find user";
+
+            else if (date == DateOnly.MinValue)
+                message = "Unable to find date";
+
+            else
+            {
+                var existingSafeDay = _unitOfWork.UserSafeDay.Get(d => d.AppUserId == userId && d.Date == date);
+
+                if (existingSafeDay != null)
+                {
+                    _unitOfWork.UserSafeDay.Remove(existingSafeDay);
+
+                    var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == userId && 
+                                                            r.SourceTypeId == ReactionSource.Day && 
+                                                            DateOnly.FromDateTime(r.IdentifiedOn.Value.Date) == date,
+                                                            includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY]);
+
+                    var iconDict =  _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction).ToDictionary(r => r.Name, r => r);
+                    reactionIcons = GetActiveIcons(reactions, iconDict);
+                    
+                    var drVM = new DayReactionVM() { Reactions = reactions };
+                    updatedColor = Helper.GetMaxSeverityColorString(drVM).ToLower();
+                }
+                else
+                {
+                    var safeDay = new UserSafeDay()
+                    {
+                        AppUserId = userId,
+                        Date = date,
+                    };
+                    _unitOfWork.UserSafeDay.Add(safeDay);
+                    active = true;
+
+                    updatedColor = SD.COLOR_GREEN;
+
+                     var icon = _unitOfWork.Icon.Get(i => i.Name == SD.REACTION_LABEL_NONE);
+
+                    ReactionIcon noReactions = new() 
+                    {
+                        Name = icon.Name, 
+                        HTML = icon.HTML, 
+                        Color = SD.COLOR_GREEN.ToLower() 
+                    };
+
+                    reactionIcons.Add(new() { Name = icon.Name, HTML = icon.HTML, Color = SD.COLOR_GREEN.ToLower() });
+                }
+                success = true;
+                message = "Safe days updated";
+                _unitOfWork.Save();
+
+            }
+
+            return Json(new { success, active, message, updatedColor, reactionIcons });
+        }
+
         #endregion
 
-        private static DayVM[,] GetPopulatedCalendarDays(Dictionary<string, List<Meal>> mealDict, Dictionary<string, List<Reaction>> reactionDict, DateTime dt)
+    
+        private static DayVM[,] GetPopulatedCalendarDays(Dictionary<string, List<Meal>> mealDict, Dictionary<string, List<Reaction>> reactionDict, Dictionary<string, Icon> iconDict, Dictionary<string, bool> userSafeDays, DateTime dt)
         {
+
+
             var firstDayOfMonth = new DateTime(dt.Year, dt.Month, 1);
             var firstDayOfMonthIndex = (int)firstDayOfMonth.DayOfWeek;
 
@@ -343,16 +388,43 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                         if (reactionDict.TryGetValue(dayKey, out List<Reaction>? dayReactions))
                         {
-                            newDay.Reactions = dayReactions;
+                            newDay.ReactionIcons = GetActiveIcons(dayReactions, iconDict);
                         }
                         else
                         {
-                            newDay.Reactions = [];
+                            newDay.ReactionIcons = [];
+                        }
+
+                        if (userSafeDays.ContainsKey(dayKey))
+                        {
+                            var noReactions = new ReactionIcon()
+                            {
+                                Name = SD.REACTION_LABEL_NONE,
+                                Color = SD.COLOR_GREEN,
+                                HTML = iconDict[SD.REACTION_LABEL_NONE].HTML
+                            };
+
+
+                            newDay.ReactionIcons.Add(noReactions);
+                            newDay.UserSafeDay = true;
                         }
 
                         newDay.DateTime = today;
                         newDay.Day = dayIndex + 1;
-                        newDay.Color = new Color { Name = "Red" };
+
+                        if (newDay.UserSafeDay)
+                        {
+                            newDay.Color = SD.COLOR_GREEN.ToLower();
+                        }
+                        else if (newDay.Reactions.Count > 0)
+                        {
+                            newDay.Color = Helper.GetColorStringFromSeverity(newDay.Reactions.Select(r => r.Severity.Value).Max()).ToLower();
+
+                        }
+                        else
+                        {
+                            newDay.Color = "blue";
+                        }
                     }
                     dayVMs[row, col] = newDay;
                     dayIndex++;
@@ -363,6 +435,36 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         }
 
  
+
+        private static List<ReactionIcon> GetActiveIcons(IEnumerable<Reaction>? dayReactions, Dictionary<string, Icon> iconDict)
+        {
+
+            var reactionIconDict = dayReactions.GroupBy(r => r.Type.Category.Name)
+                                        .ToDictionary(m => m.Key, m =>
+                                            new ReactionIcon()
+                                            {
+                                                Color = Helper.GetColorStringFromSeverity(m.ToList().Max(r => r.Severity.Value)).ToLower(),
+                                                HTML = iconDict[m.Key].HTML,
+                                                Name = iconDict[m.Key].Name
+                                            });
+
+            var activeIcons = reactionIconDict.Select(r => r.Value)
+                                        .OrderBy(r => r.Name)
+                                        .ToList();
+
+            if (activeIcons.Count == 0) 
+            {
+                var noReactions = new ReactionIcon()
+                {
+                    Name = "Neutral",
+                    Color = SD.COLOR_GRAY,
+                    HTML = iconDict[SD.REACTION_LABEL_NONE].HTML
+                };
+
+                return [noReactions];
+            }
+            return activeIcons;
+        }
 
         private RedirectToActionResult RediretToUpdatedCalendar(int year, int month = 1, int day = 1)
         {

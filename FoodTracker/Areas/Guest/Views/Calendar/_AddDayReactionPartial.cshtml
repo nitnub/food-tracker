@@ -2,11 +2,17 @@
 
 @{
     var dayId = Model.DateTime.Date;
+    var format = "yyyy-MM-dd";
 }
 
 <div class="col-12">
 
     <h5>@dayId.ToShortDateString() Reactions</h5>
+
+    <div class="form-check py-2 col-12">
+        <input id="userSafeDayInput" class="form-check-input border-0 shadow" type="checkbox" onclick="updateUserSafeDay('@Model.DateTime.Date.ToString(format)')" @(Model.UserSafe ? "checked" : "") />
+        <label class="form-check-label ms-2">No issues today!</label>
+    </div>
     <div class="d-flex align-items-start">
         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
@@ -18,15 +24,12 @@
             }
         </div>
 
-
         <div class="tab-content" id="v-pills-tabContent">
-
-
             @for (int i = 0; i < Model.Categories.Keys.Count; i++)
             {
                 var category = Model.Categories.Keys.ToList()[i];
 
-                <div class="tab-pane fade @(i == 0 ?  "show active" : "")" id="v-pills-@i" role="tabpanel" aria-labelledby="v-pills-@i-tab">
+                <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="v-pills-@i" role="tabpanel" aria-labelledby="v-pills-@i-tab">
                     <div>
                         @foreach (var r in Model.Categories[category])
                         {
@@ -38,9 +41,7 @@
 
                                     @foreach (var s in Model.Severities)
                                     {
-                                        // var fid = Model.ActiveFood.Id;
-                                        @* var dayId = Model.DateTime.Date; *@
-                                        var divId = $"{dayId.ToString("yyyy-MM-dd")}_{r.Id}_{s.Id}";
+                                        var divId = $"{dayId.ToString(format)}_{r.Id}_{s.Id}";
                                         var reactions = Model.ExistingReactions;
                                         int activeSeverity = 0;
 
@@ -63,9 +64,4 @@
             }
         </div>
     </div>
-
 </div>
-@section Scripts {
-    @{
-    }
-}

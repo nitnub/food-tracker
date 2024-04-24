@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using FoodTracker.Models.Reaction;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,15 @@ namespace FoodTracker.Models.ViewModels
         public int Month { get; set; }
         public int Year { get; set; }
         [ValidateNever]
-        public Color Color { get; set; }
+        public string Color { get; set; }
         public int ActiveMealId { get; set; }
         public DateTime DateTime { get; set; }
         public List<Meal.Meal> Meals { get; set; }
         public List<Reaction.Reaction> Reactions { get; set; }
+
         public List<Activity.Activity> Activities { get; set; }
+
+        public List<ReactionIcon> ReactionIcons { get; set; }
+        public bool UserSafeDay { get; set; }
     }
 }

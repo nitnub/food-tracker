@@ -18,9 +18,11 @@ namespace FoodTracker.Utility
         public const string COLOR_YELLOW = "Yellow";
         public const string COLOR_RED = "Red";
         public const string COLOR_BLUE = "Blue";
-
+        public const string COLOR_GRAY = "Gray";
 
         public const int UNIT_VOLUME = 1;
         public const int UNIT_TIME = 2;
+
+        public const string REACTION_LABEL_NONE = "Feeling Good!";
     }
 }

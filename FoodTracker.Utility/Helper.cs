@@ -1,4 +1,5 @@
-﻿using FoodTracker.DataAccess.Repository.IRepository;
+﻿using FoodTracker.DataAccess.Interfaces;
+using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models.Food;
 using FoodTracker.Models.Meal;
 using FoodTracker.Models.Reaction;
@@ -10,34 +11,8 @@ namespace FoodTracker.Utility
 {
     public class Helper
     {
-
-
-        public string GetMaxMealSeverityColorString(Meal? meal)
-        {
-            if (meal == null || meal.MealItems == null)
-                return "";
-
-            var foodColors = new List<string>();
-
-            foreach (var mealItem in meal.MealItems)
-            {
-                var foodColor = GetMaxSeverityColorString(mealItem.Food);
-
-                //if (foodCol)
-                //foodColors.Add()
-            }
-            return "";
-         }
-
-
-
-
-
-        //public static Dictionary<int, Dictionary<int, int>> GetFoodTypeSeverityDict(IUnitOfWork unitOfWork, string userId )
         public static Dictionary<int, Dictionary<int, int>> GetFoodTypeSeverityDict(IEnumerable<Reaction> existingReactions)
         {
-
-            //var existingReactions = unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
             var foodTypeSeverityDict = new Dictionary<int, Dictionary<int, int>>();
 
             foreach (var reaction in existingReactions)
@@ -68,8 +43,6 @@ namespace FoodTracker.Utility
 
         public static Dictionary<DateTime, Dictionary<int, int>> GetDayTypeSeverityDict(IEnumerable<Reaction> existingReactions)
         {
-
-            //var existingReactions = unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
             var dayTypeSeverityDict = new Dictionary<DateTime, Dictionary<int, int>>();
 
             foreach (var reaction in existingReactions)
@@ -97,11 +70,8 @@ namespace FoodTracker.Utility
             return dayTypeSeverityDict;
         }
 
-        //public static Dictionary<string, List<ReactionType>> GetReactionDict(IUnitOfWork unitOfWork)
         public static Dictionary<string, List<ReactionType>> GetReactionDict(IEnumerable<ReactionType> reactions)
         {
-            //var reactions = unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
-            
             var reactionDict = new Dictionary<string, List<ReactionType>>();
             var categories = new List<ReactionType>();
 
@@ -131,12 +101,34 @@ namespace FoodTracker.Utility
             if (food.UserSafeFoods?.Count() > 0)
                 return SD.COLOR_GREEN;
 
-            var maxSeverity = food.Reactions?
+            return GetReactiveColorString(food);
+        }
+
+        public static string GetMaxSeverityColorString(DayReactionVM? day)
+        {
+            if (day == null || day.Reactions == null)
+                return "";
+
+            if (day.UserSafe)
+                return SD.COLOR_GREEN;
+
+            return GetReactiveColorString(day);
+        }
+
+
+        public static string GetReactiveColorString(IReactable reactant)
+        {
+            var maxSeverity = reactant.Reactions?
                                         .Select(r => r.Severity.Value)
                                         .DefaultIfEmpty(-1)
                                         .Max() ?? -1;
 
-            return maxSeverity switch
+            return GetColorStringFromSeverity(maxSeverity);
+        }
+
+        public static string GetColorStringFromSeverity(double severity)
+        {
+            return severity switch
             {
                 <= 1 => "",
                 <= 5 => SD.COLOR_YELLOW,
@@ -169,6 +161,25 @@ namespace FoodTracker.Utility
                     maxFodColor = SD.COLOR_YELLOW;
             }
             return maxFodColor;
+        }
+
+        public static string GetDayColor(IEnumerable<Reaction> reactions, List<ReactionIcon> activeIcons)
+        {
+            string dayColor = "";
+            if (activeIcons.Count == 0 || activeIcons.Find(i => i.Color == SD.COLOR_GRAY) != null)
+            {
+                dayColor = SD.COLOR_GRAY;
+            }
+            else if (activeIcons.Find(i => i.Name == SD.REACTION_LABEL_NONE) != null)
+            {
+                dayColor = SD.COLOR_GREEN;
+            }
+            else
+            {
+                dayColor = Helper.GetColorStringFromSeverity(reactions.Max(r => r.Severity.Value));
+            }
+
+            return dayColor;
         }
 
         public static string? GetAppUserId(ClaimsPrincipal User)

@@ -6,7 +6,6 @@ using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {

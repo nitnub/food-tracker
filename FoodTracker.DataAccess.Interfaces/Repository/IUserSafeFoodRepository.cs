@@ -1,4 +1,5 @@
 ﻿using FoodTracker.Models.Activity;
+using FoodTracker.Models.Day;
 using FoodTracker.Models.Event;
 using FoodTracker.Models.FODMAP;
 using FoodTracker.Models.Food;

@@ -21,6 +21,7 @@ namespace FoodTracker.DataAccess.Repository
         public IFoodAliasRepository FoodAlias { get; set; }
         public IFoodRepository Food { get; set; }
         public IIconRepository Icon { get; set; }
+        public IIconGroupTypeRepository IconGroupType { get; set; }
         public IIngredientMapRepository IngredientMap { get; set; }
         public ILocationRepository Location { get; set; }
         public IMealRepository Meal { get; set; }
@@ -34,6 +35,7 @@ namespace FoodTracker.DataAccess.Repository
         public IStateRepository State { get; set; }
         public IUnitRepository Unit { get; set; }
         public IUnitTypeRepository UnitType { get; set; }
+        public IUserSafeDayRepository UserSafeDay { get; set; }
         public IUserSafeFoodRepository UserSafeFood { get; set; }
 
         public UnitOfWork(ApplicationDbContext db) 
@@ -51,8 +53,9 @@ namespace FoodTracker.DataAccess.Repository
             Fodmap = new FodmapRepository(_db);
             Food = new FoodRepository(_db);
             FoodAlias = new FoodAliasRepository(_db);
-            IngredientMap = new IngredientMapRepository(_db);
             Icon = new IconRepository(_db);
+            IconGroupType = new IconGroupTypeRepository(_db);
+            IngredientMap = new IngredientMapRepository(_db);
             Location = new LocationRepository(_db);
             Meal = new MealRepository(_db);
             MealItem = new MealItemRepository(_db);
@@ -65,6 +68,7 @@ namespace FoodTracker.DataAccess.Repository
             State = new StateRepository(_db);
             Unit = new UnitRepository(_db);
             UnitType = new UnitTypeRepository(_db);
+            UserSafeDay = new UserSafeDayRepository(_db);
             UserSafeFood = new UserSafeFoodRepository(_db);
         }
 

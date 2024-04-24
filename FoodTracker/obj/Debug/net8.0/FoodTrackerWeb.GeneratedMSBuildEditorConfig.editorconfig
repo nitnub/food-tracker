@@ -34,12 +34,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcR3Vlc3RcVmlld3NcQ2FsZW5kYXJcX0FkZERheVJlYWN0aW9uUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Nick/Classes/_portfolio/food-tracker/FoodTracker/Areas/Guest/Views/Calendar/_AddMealPartial - Copy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = QXJlYXNcR3Vlc3RcVmlld3NcQ2FsZW5kYXJcX0FkZE1lYWxQYXJ0aWFsIC0gQ29weS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Nick/Classes/_portfolio/food-tracker/FoodTracker/Areas/Guest/Views/Calendar/_AddMealPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcR3Vlc3RcVmlld3NcQ2FsZW5kYXJcX0FkZE1lYWxQYXJ0aWFsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nick/Classes/_portfolio/food-tracker/FoodTracker/Areas/Guest/Views/Calendar/_CalendarNavPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcR3Vlc3RcVmlld3NcQ2FsZW5kYXJcX0NhbGVuZGFyTmF2UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Nick/Classes/_portfolio/food-tracker/FoodTracker/Areas/Guest/Views/Food/Index.cshtml]

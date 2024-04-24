@@ -171,7 +171,6 @@ body {
     color: white;
 }
 
-
 .chip-badge,
 .chip-badge-large {
     display: flex;
@@ -536,7 +535,7 @@ body {
 }
 
 .calendar-reaction-container {
-    /*background-color: green;*/
+    background-color: aliceblue;
     /*max-height: 26px;*/
     /*min-height: 26px;*/
     min-height: 32px;
@@ -566,7 +565,8 @@ body {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background-color: red;
+    /*background-color: red;*/
+    background-color: var(--clr-fm-blue-dk);
     color: white;
 }
 
@@ -649,16 +649,49 @@ body {
 
 .green {
     color: var(--clr-fd-green-dk);
+    stroke: var(--clr-fd-green-dk);
     /*background-color: var(--clr-fd-green-dk);*/
+    /*border-color: var(--clr-fd-green-dk);*/
+}
+
+.bg-green {
+    /*color: var(--clr-fd-green-dk);*/
+    background-color: var(--clr-fd-green-dk);
     /*border-color: var(--clr-fd-green-dk);*/
 }
 
 .yellow {
     color: var(--clr-fd-yellow-dk);
+    stroke: var(--clr-fd-yellow-dk);
+    /*border-color: var(--clr-fd-yellow-dk);*/
+}
+
+.bg-yellow {
+    /*color: var(--clr-fd-yellow-dk);*/
+    background-color: var(--clr-fd-yellow-dk);
     /*border-color: var(--clr-fd-yellow-dk);*/
 }
 
 .red {
     color: var(--clr-fd-red-dk);
+    stroke: var(--clr-fd-red-dk);
+    /*border-color: var(--clr-fd-red-dk);*/
+}
+
+.bg-red {
+    /*color: var(--clr-fd-red-dk);*/
+    background-color: var(--clr-fd-red-dk);
+    /*border-color: var(--clr-fd-red-dk);*/
+}
+
+.gray {
+    color: var(--blugray);
+    stroke: var(--blugray);
+    /*border-color: var(--clr-fd-red-dk);*/
+}
+
+.bg-gray {
+    /*color: var(--clr-fd-red-dk);*/
+    background-color: var(--blugray);
     /*border-color: var(--clr-fd-red-dk);*/
 }

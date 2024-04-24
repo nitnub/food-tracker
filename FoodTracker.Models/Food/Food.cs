@@ -1,4 +1,6 @@
-﻿using FoodTracker.Models.FODMAP;
+﻿using FoodTracker.DataAccess.Interfaces;
+using FoodTracker.Models.Day;
+using FoodTracker.Models.FODMAP;
 using FoodTracker.Models.IModel;
 using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
@@ -17,7 +19,7 @@ namespace FoodTracker.Models.Food
 
 
 
-    public class Food : IOwnable
+    public class Food : IOwnable, IReactable
     {
         [Key]
         public int Id { get; set; }
@@ -46,6 +48,7 @@ namespace FoodTracker.Models.Food
         public IEnumerable<FoodAlias>? Aliases { get; set; }
         public IEnumerable<UserSafeFood>? UserSafeFoods { get; set; }
         public IEnumerable<Reaction.Reaction>? Reactions { get; set; }
+
         public bool Global { get; set; } = false;
     }
 }

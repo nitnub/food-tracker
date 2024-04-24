@@ -36,7 +36,7 @@ function toggleReaaction(foodId, typeId, severityId, active) {
         contentType: 'application/json',
         dataType: 'json',
         success: function (r) {
-            r.success && updateFoodReactionColor(foodId, r.updatedColor);
+            r.success && updateDayReactionColor(foodId, r.updatedColor);
         }
     })
 }
@@ -62,12 +62,12 @@ function updateUserSafeFood(id) {
                 return;
 
             if (r.active) {
-                updateFoodReactionColor(id, 'green');
+                updateDayReactionColor(id, 'green');
 
                 $('#userSafeFoodInput').prop('checked', true);
                 $('#reactionPicker').hide();
             } else {
-                updateFoodReactionColor(id, r.updatedColor);
+                updateDayReactionColor(id, r.updatedColor);
 
                 $('#userSafeFoodInput').prop('checked', false);
                 $('#reactionPicker').show()
@@ -76,7 +76,7 @@ function updateUserSafeFood(id) {
     })
 }
 
-function updateFoodReactionColor(foodId, color) {
+function updateDayReactionColor(foodId, color) {
     updateFoodChipColor(foodId, color)
     updateReactionFocusHeaderColor(color);
 }

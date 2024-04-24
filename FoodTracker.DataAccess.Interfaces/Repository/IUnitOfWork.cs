@@ -20,6 +20,8 @@ namespace FoodTracker.DataAccess.Repository.IRepository
         IFodmapRepository Fodmap { get; }
         IFoodRepository Food { get; }
         IFoodAliasRepository FoodAlias { get; }
+        IIconRepository Icon { get; }
+        IIconGroupTypeRepository IconGroupType { get; }
         IIngredientMapRepository IngredientMap { get; }
         ILocationRepository Location { get; }
         IMealRepository Meal { get; }
@@ -33,6 +35,7 @@ namespace FoodTracker.DataAccess.Repository.IRepository
         IStateRepository State { get; }
         IUnitRepository Unit { get; }
         IUnitTypeRepository UnitType { get; }
+        IUserSafeDayRepository UserSafeDay { get; }
         IUserSafeFoodRepository UserSafeFood { get; }
 
         void Save();
