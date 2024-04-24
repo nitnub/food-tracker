@@ -2,7 +2,7 @@
 
 @{
     var fid = Model.ActiveFood.Id;
-    var safeFood = @Model.ActiveFood.UserSafeFoods.Count() == 1; // .Where(sf => sf.FoodId == fid).Count() == 1;
+    var safeFood = @Model.ActiveFood.UserSafeFoods.Count() == 1;
 }
 
 <h4 id="reactionFocusHeader" class="@(safeFood ? "green" : "")">@Model.ActiveFood.Name</h4>
@@ -33,7 +33,6 @@
 
                                         @foreach (var s in Model.Severities)
                                         {
-                                            // var fid = Model.ActiveFood.Id;
                                             var divId = $"{fid}-{r.Id}-{s.Id}";
                                             var reactions = Model.ExistingReactions;
                                             int activeSeverity = 0;

@@ -85,9 +85,10 @@ function listenForTabs() {
             if (tagContent !== '') {
 
                 tag.innerText = tagContent;
-                tag.innerHTML += `<svg class="alias-delete xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                                  </svg>`;
+                tag.innerHTML += `
+                    <svg class="alias-delete xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                    </svg>`;
 
                 tags.appendChild(tag);
                 input.value = '';
@@ -95,15 +96,16 @@ function listenForTabs() {
                 $('#foodAliasList').html("");
                 $('#tags').children().each(
                     function (i) {
-                        const div = document.createElement('div');
 
-                        div.innerHTML += `
-                            <label hidden for="Food_Aliases_${i}_"></label>
-                            <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
-                            <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].Id">
-                            <input hidden value="${this.innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${i}__Alias" name="Food.Aliases[${i}].Alias">
-                            <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${i}__FoodId" name="Food.Aliases[${i}].FoodId">
-                            <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].FoodId">`
+                        const div = getAliasDiv(i, foodId, this.innerText);
+                        //const div = document.createElement('div');
+                        //div.innerHTML += `
+                        //    <label hidden for="Food_Aliases_${i}_"></label>
+                        //    <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
+                        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].Id">
+                        //    <input hidden value="${this.innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${i}__Alias" name="Food.Aliases[${i}].Alias">
+                        //    <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${i}__FoodId" name="Food.Aliases[${i}].FoodId">
+                        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].FoodId">`
 
                         document.getElementById('foodAliasList').appendChild(div);
                     }
@@ -127,15 +129,15 @@ function listenForDelete() {
                 function (e) {
                     // if tag DOES NOT match the clicked item, keep it
                     if (this.id !== divId) {
-
-                        const div = document.createElement('div');
-                        div.innerHTML += `
-                            <label hidden for="Food_Aliases_${i}_"></label>
-                            <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
-                            <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].Id">
-                            <input hidden value="${this.innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${i}__Alias" name="Food.Aliases[${i}].Alias">
-                            <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${i}__FoodId" name="Food.Aliases[${i}].FoodId">
-                            <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].FoodId">`
+                        const div = getAliasDiv(i, foodId, this.innerText);
+                        //const div = document.createElement('div');
+                        //div.innerHTML += `
+                        //    <label hidden for="Food_Aliases_${i}_"></label>
+                        //    <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
+                        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].Id">
+                        //    <input hidden value="${this.innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${i}__Alias" name="Food.Aliases[${i}].Alias">
+                        //    <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${i}__FoodId" name="Food.Aliases[${i}].FoodId">
+                        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].FoodId">`
 
                         document.getElementById('foodAliasList').appendChild(div)
                         i++;
@@ -179,3 +181,16 @@ function submitFoodUpdate() {
 
 }
 
+function getAliasDiv(index, foodId, innerText) {
+
+    const div = document.createElement('div');
+    div.innerHTML += `
+        <label hidden for="Food_Aliases_${index}_"></label>
+        <input hidden value="${index}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${index}__Id" name="Food.Aliases[${index}].Id">
+        <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${index}].Id">
+        <input hidden value="${innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${index}__Alias" name="Food.Aliases[${index}].Alias">
+        <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${index}__FoodId" name="Food.Aliases[${index}].FoodId">
+        <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${index}].FoodId">`
+
+    return div;
+}

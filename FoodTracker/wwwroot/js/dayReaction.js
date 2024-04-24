@@ -38,8 +38,8 @@ function toggleReaaction(reactantId, typeId, severityId, active) {
         contentType: 'application/json',
         dataType: 'json',
         success: function (r) {
-            if (!r.success) return;
-
+            if (!r.success || r.isUserSafeDay) return;
+            console.log(r);
             updateDayReactionBar(reactantId, r.activeIcons, r.dayColor.toLowerCase());
             updateDayReactionColor(reactantId, r.dayColor.toLowerCase());
         }

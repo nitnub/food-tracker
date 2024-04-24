@@ -3,11 +3,9 @@
 
 
 function updateYear(year) {
-    console.log("Update year:", year);
     updateCalendar(year, new Date().getMonth() + 1);
 }
 function updateMonth(month) {
-    console.log("Update Month:", year);
     updateCalendar(new Date().getFullYear(), month);
 }
 

@@ -8,15 +8,12 @@
 
     @foreach (var food in Model.Foods)
     {
- 
-
          <partial name="../Food/_FoodChipPartial.cshtml" model="food" />
-
     }
    
     <br />
     <br />
-    <div>
+@*     <div>
         <a value="(food.Id)" class="badge food-chipT1 foodChipTOne">Test One</a>
 
         <a value="(food.Id)" class="badge food-chipT2 foodChipTTwo position-relative">
@@ -44,8 +41,8 @@
         </a>
 
 
-    </div>
-    <div>
+    </div> *@
+@*     <div>
         <a value="(food.Id)" class="badge food-chipT1 food-chip foodChipTOne">Test Onea</a>
         <a value="(food.Id)" class="badge food-chipT2 position-relative ">
             Test Two
@@ -66,7 +63,7 @@
                 <span class="visually-hidden">New alerts</span>
             </span>
         </a>
-    </div>
+    </div> *@
 
 
 
@@ -82,6 +79,5 @@
 @section Scripts {
     @{
         <script src="~/js/reaction.js"></script>
-        // <script src="~/js/foodChip.js"></script>
     }
 }

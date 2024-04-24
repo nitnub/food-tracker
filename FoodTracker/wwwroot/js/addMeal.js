@@ -294,7 +294,6 @@ function makeMealItemFoodVisible(value) {
     })
 }
 
-
 function removeMealItemConfirmation(id) {
     const mealItem = mealItems.find(m => m.id === id);
     $('.delete-meal-item-modal').modal('show');
