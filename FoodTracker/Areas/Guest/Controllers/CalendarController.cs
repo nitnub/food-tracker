@@ -256,28 +256,27 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 _unitOfWork.Save();
 
                 success = true;
+        
+                var userSafeDay = _unitOfWork.UserSafeDay.Get(d => d.AppUserId == userId && 
+                                                            d.Date == DateOnly.FromDateTime((DateTime)reaction.IdentifiedOn));
+
+                if (userSafeDay != null)
+                {
+                    isUserSafeDay = true;
+                }
+                else
+                {
+                    var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == userId &&
+                                                                r.SourceTypeId == ReactionSource.Day &&
+                                                                r.IdentifiedOn.Value.Date == reaction.IdentifiedOn.Value.Date,
+                                                                includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY]);
+
+                    var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction).ToDictionary(r => r.Name, r => r);
+                    activeIcons = GetActiveIcons(reactions, iconDict);
+
+                    dayColor = Helper.GetDayColor(reactions, activeIcons);
+                }
             }
-            // If safe, send generic 
-            var userSafeDay = _unitOfWork.UserSafeDay.Get(d => d.AppUserId == userId && 
-                                                        d.Date == DateOnly.FromDateTime((DateTime)reaction.IdentifiedOn));
-
-            if (userSafeDay != null)
-            {
-                isUserSafeDay = true;
-            }
-            else
-            {
-                var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == userId &&
-                                                            r.SourceTypeId == ReactionSource.Day &&
-                                                            r.IdentifiedOn.Value.Date == reaction.IdentifiedOn.Value.Date,
-                                                            includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY]);
-
-                var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction).ToDictionary(r => r.Name, r => r);
-                activeIcons = GetActiveIcons(reactions, iconDict);
-
-                dayColor = Helper.GetDayColor(reactions, activeIcons);
-            }
-
             return Json(new { success, isUserSafeDay, activeIcons, dayColor });
         }
 
@@ -358,10 +357,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var firstDayOfMonth = new DateTime(dt.Year, dt.Month, 1);
             var firstDayOfMonthIndex = (int)firstDayOfMonth.DayOfWeek;
 
-            // how long is month
             var daysInMonth = DateTime.DaysInMonth(dt.Year, dt.Month);
-
-            // how many weeks to show
             var weeksInMonth = (firstDayOfMonthIndex + daysInMonth) / 7 + 1;
 
             var dayVMs = new DayVM[weeksInMonth, 7];
@@ -505,10 +501,11 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             if (reactionToRemove != null)
             {
                 unitOfWork.Reaction.Remove(reactionToRemove);
-                success = reactionToRemove.SourceTypeId == ReactionSource.Day &&
-                                            reactionToRemove.IdentifiedOn.Value.Date == newReaction.IdentifiedOn.Value.Date &&
-                                            reactionToRemove.TypeId == newReaction.TypeId &&
-                                            reactionToRemove.SeverityId == newReaction.SeverityId;
+                //success = reactionToRemove.SourceTypeId == ReactionSource.Day &&
+                //                            reactionToRemove.IdentifiedOn.Value.Date == newReaction.IdentifiedOn.Value.Date &&
+                //                            reactionToRemove.TypeId == newReaction.TypeId &&
+                //                            reactionToRemove.SeverityId == newReaction.SeverityId;
+                success = true;
             }
 
             return success;

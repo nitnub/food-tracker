@@ -2,19 +2,21 @@
 
 @{
     var dayId = Model.DateTime.Date;
-    var format = "yyyy-MM-dd";
+    var format = SD.DATE_FORMAT;
+    var hideOnSafeDay = Model.UserSafe ? "d-none" : "";
+
 }
 
 <div class="col-12">
 
     <h5>@dayId.ToShortDateString() Reactions</h5>
 
-    <div class="form-check py-2 col-12">
+    <div class="d-flex align-items-end form-check py-2 col-12">
         <input id="userSafeDayInput" class="form-check-input border-0 shadow" type="checkbox" onclick="updateUserSafeDay('@Model.DateTime.Date.ToString(format)')" @(Model.UserSafe ? "checked" : "") />
         <label class="form-check-label ms-2">No issues today!</label>
     </div>
-    <div class="d-flex align-items-start">
-        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <div id="dayReactionPicker" class="d-flex align-items-start">
+        <div class="nav flex-column nav-pills me-3 @(hideOnSafeDay)" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
             @for (int i = 0; i < Model.Categories.Keys.Count; i++)
             {
@@ -24,7 +26,8 @@
             }
         </div>
 
-        <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-content @(hideOnSafeDay)">
+
             @for (int i = 0; i < Model.Categories.Keys.Count; i++)
             {
                 var category = Model.Categories.Keys.ToList()[i];

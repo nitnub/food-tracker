@@ -39,7 +39,7 @@ function toggleReaaction(reactantId, typeId, severityId, active) {
         dataType: 'json',
         success: function (r) {
             if (!r.success || r.isUserSafeDay) return;
-            console.log(r);
+
             updateDayReactionBar(reactantId, r.activeIcons, r.dayColor.toLowerCase());
             updateDayReactionColor(reactantId, r.dayColor.toLowerCase());
         }
@@ -58,12 +58,14 @@ function updateUserSafeDay(date) {
 
             if (r.active) {
                 updateDayReactionColor(date, 'green');
+
                 $('#userSafeDayInput').prop('checked', true);
+                $('#dayReactionPicker').children().hide(); 
             } else {
                 updateDayReactionColor(date, r.updatedColor);
 
                 $('#userSafeDayInput').prop('checked', false);
-                $('#reactionPicker').show()
+                $('#dayReactionPicker').children().removeClass("d-none").show(); 
             }
            updateDayReactionBar(date, r.reactionIcons, r.updatedColor);
         }
