@@ -12,10 +12,10 @@ namespace FoodTracker.Models
         //Meal,
         //Activity
 
-        Food = 1,
-        Meal,
-        Activity,
+        Activity = 1,
         Day,
+        Food,
+        Meal,
         Unknown
     }
 }

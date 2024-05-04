@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FoodTracker.DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+76701f029acc948d7698766935a3b6fbc47c0a02")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90c92fd88fe39beac1f21bb84ed9b49279f21e51")]
 [assembly: System.Reflection.AssemblyProductAttribute("FoodTracker.DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FoodTracker.DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using FoodTrackerWeb.Services.Interfaces;
 using FoodTrackerWeb.Services;
+using FoodTracker.Service;
+using FoodTracker.Service.IService;
+using Microsoft.Exchange.WebServices.Data;
+using System.Security.Claims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,10 +43,19 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+
+
+
+
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IServiceManager, ServiceManager>(); //.AddIdentity<IdentityUser, IdentityRole>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
+
+//builder.Services.AddTransient(s => s.GetService<HttpContext>().User);
+builder.Services.AddTransient<ClaimsPrincipal>(s =>
+    s.GetService<IHttpContextAccessor>().HttpContext.User);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

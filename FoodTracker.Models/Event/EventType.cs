@@ -10,7 +10,7 @@ namespace FoodTracker.Models.Event
     public class EventType
     {
         [Key]
-        public int Id { get; set; }
+        public EventGroup Id { get; set; }
         public string Name { get; set; }
     }
 }

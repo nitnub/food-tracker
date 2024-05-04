@@ -24,6 +24,8 @@ namespace FoodTracker.Models.Food
         [Key]
         public int Id { get; set; }
         public string? AppUserId { get; set; }
+        [StringLength(60, MinimumLength = 1)]
+        [Required]
         public string Name { get; set; }
         public int? FodmapId { get; set; }
 

@@ -9,6 +9,7 @@
       "FoodTrackerWeb/1.0.0": {
         "dependencies": {
           "FoodTracker.DataAccess": "1.0.0",
+          "FoodTracker.Service": "1.0.0",
           "FoodTracker.Utility": "1.0.0",
           "Microsoft.AspNet.WebApi.Client": "6.0.0",
           "Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter": "8.0.3",
@@ -2335,6 +2336,14 @@
           "FoodTracker.Models.dll": {}
         }
       },
+      "FoodTracker.Service/1.0.0": {
+        "dependencies": {
+          "FoodTracker.DataAccess": "1.0.0"
+        },
+        "runtime": {
+          "FoodTracker.Service.dll": {}
+        }
+      },
       "FoodTracker.Utility/1.0.0": {
         "dependencies": {
           "FoodTracker.DataAccess.Interfaces": "1.0.0",
@@ -3687,6 +3696,11 @@
       "sha512": ""
     },
     "FoodTracker.Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "FoodTracker.Service/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

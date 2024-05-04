@@ -1,17 +1,13 @@
 ﻿using FoodTracker.Models.FODMAP;
-using FoodTracker.Models.Food;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace FoodTracker.Models.ViewModels
 {
     public class FoodVM
     {
+        [Required]
         public Food.Food Food { get; set; }
         [ValidateNever]
         public IEnumerable<Food.Food> FoodList { get; set; }
@@ -25,7 +21,5 @@ namespace FoodTracker.Models.ViewModels
 
         public double MaxReaction { get; set; } = -1;
         public string MaxReactionColor { get; set; }
-
-        //public int FoodID { get; set; }
     }
 }

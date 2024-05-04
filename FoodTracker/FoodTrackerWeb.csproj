@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodTracker.DataAccess\FoodTracker.DataAccess.csproj" />
+    <ProjectReference Include="..\FoodTracker.Service\FoodTracker.Service.csproj" />
     <ProjectReference Include="..\FoodTracker.Utility\FoodTracker.Utility.csproj" />
   </ItemGroup>
 

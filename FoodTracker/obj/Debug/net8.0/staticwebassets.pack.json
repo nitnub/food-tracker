@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\img\\yoga.svg"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\activity.js",
+      "PackagePath": "staticwebassets\\js\\activity.js"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\addFood.js",
       "PackagePath": "staticwebassets\\js\\addFood.js"
     },

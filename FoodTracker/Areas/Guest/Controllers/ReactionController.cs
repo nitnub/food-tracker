@@ -3,6 +3,7 @@ using FoodTracker.Models;
 using FoodTracker.Models.Food;
 using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
+using FoodTracker.Service.IService;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,71 +12,50 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
     [Area("Guest")]
     [Authorize]
-    public class ReactionController(IUnitOfWork unitOfWork) : Controller
+    public class ReactionController(IUnitOfWork unitOfWork, IServiceManager serviceManager) : Controller
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
+        private readonly IReactionService _reactionService = serviceManager.Reaction;
+        private readonly IFoodService _foodService = serviceManager.Food;
         public ReactionVM ReactionVM { get; set; }
+
 
         public IActionResult Index()
         {
             ReactionVM = new ReactionVM
             {
-                Foods = _unitOfWork.Food.GetAll(includeProperties: [Prop.REACTIONS_SEVERITY, Prop.FODMAP_COLOR, Prop.USER_SAFE_FOODS]),
+                Foods = _foodService.GetAll(),
             };
+
             return View(ReactionVM);
         }
 
         [HttpGet]
         public IActionResult GetReactions(int activeFoodId)
         {
-            var userId = Helper.GetAppUserId(User);
-            if (userId == null)
-            {
-                return PartialView("_ReactionPartial", ReactionVM);
-            }
-
-            var existingReactions = _unitOfWork.Reaction.GetAll(u => u.AppUserId == userId);
-            var foodTypeSeverityDict = Helper.GetFoodTypeSeverityDict(existingReactions);
-
-            var reactions = _unitOfWork.ReactionType.GetAll(includeProperties: Prop.CATEGORY);
-            var reactionDict = Helper.GetReactionDict(reactions);
-            
-
             ReactionVM = new ReactionVM
             {
-                Categories = reactionDict,
-                Severities = _unitOfWork.ReactionSeverity.GetAll(),
-                ActiveFood = _unitOfWork.Food.Get(f => f.Id == activeFoodId && (f.AppUserId == userId || f.Global), includeProperties: Prop.USER_SAFE_FOODS),
-                ExistingReactions = foodTypeSeverityDict
+                Categories = _reactionService.GetReactionCategoryDict(),
+                Severities = _reactionService.GetAllSeverities(),
+                ActiveFood = _foodService.Get(activeFoodId),
+                ExistingReactions = _reactionService.GetExistingReactionSeveritiesDict()
             };
+
             return PartialView("_ReactionPartial", ReactionVM);
         }
 
         [HttpPost]
-        public IActionResult ToggleReaction([FromBody] Reaction r)
+        public IActionResult ToggleReaction([FromBody] Reaction reaction)
         {
-            var userId = Helper.GetAppUserId(User);
-            var success = false;
-            Food? food = null;
+            var updatedColor = "";
 
-            r.SourceTypeId = ReactionSource.Food;
-
-            if (ModelState.IsValid && userId != null)
+            if (ModelState.IsValid)
             {
-                r.AppUserId = userId;
-
-                if (!QueueRemovalOfRelatedReactions(_unitOfWork, r))
-                    _unitOfWork.Reaction.Add(r);
-                _unitOfWork.Save();
-
-                food = _unitOfWork.Food.Get(f => f.Id == r.FoodId && 
-                            (f.AppUserId == userId || f.Global), 
-                            includeProperties: Prop.REACTIONS_SEVERITY);
-
-                success = food != null;
+                updatedColor = _reactionService.ToggleReaction(reaction);
             }
 
-            return Json(new { success, updatedColor = Helper.GetMaxSeverityColorString(food).ToLower() });
+            return Json(new { updatedColor });
+
         }
 
         [HttpPost]
@@ -97,51 +77,13 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             else
             {
-                var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == userId && f.FoodId == id);
-
-                if (existingSafeFood != null)
-                    _unitOfWork.UserSafeFood.Remove(existingSafeFood);
-
-                else
-                {
-                    var safeFood = new UserSafeFood()
-                    {
-                        AppUserId = userId,
-                        FoodId = id
-                    };
-                    _unitOfWork.UserSafeFood.Add(safeFood);
-                    active = true;
-                }
-                success = true;
-                message = "Safe foods updated";
-                _unitOfWork.Save();
+                active = _reactionService.ToggleUserSafeFood(id);
+                updatedColor = _reactionService.GetMaxSeverityColorString(id);
             }
 
-            food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == userId || f.Global), includeProperties: Prop.REACTIONS_SEVERITY);
-
-            updatedColor = Helper.GetMaxSeverityColorString(food).ToLower();
-            
             return Json(new { success, active, message, updatedColor });
         }
 
-        // returns true if reaction is now empty
-        private static bool QueueRemovalOfRelatedReactions(IUnitOfWork unitOfWork, Reaction newReaction) 
-        {
-            var success = false;
-            var reactionToRemove = unitOfWork.Reaction.Get(r => 
-                                            r.FoodId == newReaction.FoodId && 
-                                            r.TypeId == newReaction.TypeId && 
-                                            r.AppUserId == newReaction.AppUserId);
 
-            if (reactionToRemove != null)
-            {
-                unitOfWork.Reaction.Remove(reactionToRemove);
-                success = reactionToRemove.FoodId == newReaction.FoodId && 
-                                            reactionToRemove.TypeId == newReaction.TypeId &&
-                                            reactionToRemove.SeverityId == newReaction.SeverityId;
-            }
-
-            return success;
-        }
     }
 }

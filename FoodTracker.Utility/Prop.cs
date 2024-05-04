@@ -1,4 +1,5 @@
 ﻿using FoodTracker.Models.Food;
+using System.Data;
 
 namespace FoodTracker.Utility
 {
@@ -30,5 +31,12 @@ namespace FoodTracker.Utility
         public const string MEAL_ITEMS_FOOD = "MealItems.Food";
         public const string MEAL_ITEMS_FOOD_FODMAP_COLOR = "MealItems.Food.Fodmap.Color";
         public const string MEAL_ITEMS_VOLUME = "MealItems.VolumeUnits";
+
+        // Activity Properties
+        public const string ACTIVITY_DURATION_UNITS = "DurationUnits";
+        public const string ACTIVITY_INTENSITY = "Intensity";
+        public const string ACTIVITY_TYPE = "ActivityType";
+        public const string ACTIVITY_LOCATION = "Location";
+        public const string ACTIVITY_ICON = "ActivityType.Icon";
     }
 }

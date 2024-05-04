@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,11 @@ namespace FoodTracker.Models
         public string NamePlural { get; set; }
         public string ShortName { get; set; }
         public string ShortNamePlural { get; set; }
-        public int Type { get; set; }
+
+        public int UnitTypeId { get; set; }
+
+        [ForeignKey(nameof(UnitTypeId))]
+        [ValidateNever]
+        public UnitType UnitType { get; set; }
     }
 }

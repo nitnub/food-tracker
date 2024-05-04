@@ -7,6 +7,7 @@ $(window).on('load', function () {
 $(document).on("loadAddFood", function (event, data) {
     listenForTabs();
     listenForDelete();
+    addExistingAliasToForm();
 });
 function removeFood(id) {
     $.ajax({
@@ -94,25 +95,49 @@ function listenForTabs() {
                 input.value = '';
 
                 $('#foodAliasList').html("");
-                $('#tags').children().each(
-                    function (i) {
 
-                        const div = getAliasDiv(i, foodId, this.innerText);
-                        //const div = document.createElement('div');
-                        //div.innerHTML += `
-                        //    <label hidden for="Food_Aliases_${i}_"></label>
-                        //    <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
-                        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].Id">
-                        //    <input hidden value="${this.innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${i}__Alias" name="Food.Aliases[${i}].Alias">
-                        //    <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${i}__FoodId" name="Food.Aliases[${i}].FoodId">
-                        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].FoodId">`
+                addExistingAliasToForm(foodId);
 
-                        document.getElementById('foodAliasList').appendChild(div);
-                    }
-                )
+                //$('#tags').children().each(
+                //    function (i) {
+
+                //        const div = createAliasDiv(i, foodId, this.innerText);
+                //        //const div = document.createElement('div');
+                //        //div.innerHTML += `
+                //        //    <label hidden for="Food_Aliases_${i}_"></label>
+                //        //    <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
+                //        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].Id">
+                //        //    <input hidden value="${this.innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${i}__Alias" name="Food.Aliases[${i}].Alias">
+                //        //    <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${i}__FoodId" name="Food.Aliases[${i}].FoodId">
+                //        //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].FoodId">`
+
+                //        document.getElementById('foodAliasList').appendChild(div);
+                //    }
+                //)
             }
         }
     });
+}
+
+
+
+function addExistingAliasToForm(foodId = 0) {
+    $('#tags').children().each(
+        function (i) {
+
+            const div = createAliasDiv(i, foodId, this.innerText);
+            //const div = document.createElement('div');
+            //div.innerHTML += `
+            //    <label hidden for="Food_Aliases_${i}_"></label>
+            //    <input hidden value="${i}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${i}__Id" name="Food.Aliases[${i}].Id">
+            //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].Id">
+            //    <input hidden value="${this.innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${i}__Alias" name="Food.Aliases[${i}].Alias">
+            //    <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${i}__FoodId" name="Food.Aliases[${i}].FoodId">
+            //    <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${i}].FoodId">`
+
+            document.getElementById('foodAliasList').appendChild(div);
+        }
+    )
 }
 
 function listenForDelete() {
@@ -129,7 +154,7 @@ function listenForDelete() {
                 function (e) {
                     // if tag DOES NOT match the clicked item, keep it
                     if (this.id !== divId) {
-                        const div = getAliasDiv(i, foodId, this.innerText);
+                        const div = createAliasDiv(i, foodId, this.innerText);
                         //const div = document.createElement('div');
                         //div.innerHTML += `
                         //    <label hidden for="Food_Aliases_${i}_"></label>
@@ -154,7 +179,9 @@ function deleteFoodAlias(event) {
     }
 }
 
-function submitFoodUpdate() { 
+function submitFoodUpdate() {
+    console.log("TEST");
+    console.log($("#foodFormTest").serialize());
     $.ajax({
         type: "POST",
         url: '/Guest/Food/AddFood',
@@ -181,12 +208,12 @@ function submitFoodUpdate() {
 
 }
 
-function getAliasDiv(index, foodId, innerText) {
+function createAliasDiv(index, foodId, innerText) {
 
     const div = document.createElement('div');
     div.innerHTML += `
         <label hidden for="Food_Aliases_${index}_"></label>
-        <input hidden value="${index}" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${index}__Id" name="Food.Aliases[${index}].Id">
+        <input hidden value="0" type="number" data-val="true" data-val-required="The Id field is required." id="Food_Aliases_${index}__Id" name="Food.Aliases[${index}].Id">
         <input hidden name="__Invariant" type="hidden" value="Food.Aliases[${index}].Id">
         <input hidden value="${innerText}" type="text" data-val="true" data-val-required="The Alias field is required." id="Food_Aliases_${index}__Alias" name="Food.Aliases[${index}].Alias">
         <input hidden value="${foodId}" type="number" data-val="true" data-val-required="The FoodId field is required." id="Food_Aliases_${index}__FoodId" name="Food.Aliases[${index}].FoodId">
@@ -194,3 +221,4 @@ function getAliasDiv(index, foodId, innerText) {
 
     return div;
 }
+

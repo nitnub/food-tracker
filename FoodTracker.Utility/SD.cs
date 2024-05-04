@@ -24,6 +24,8 @@ namespace FoodTracker.Utility
         public const int UNIT_TIME = 2;
 
         public const string REACTION_LABEL_NONE = "Feeling Good!";
+        public const string REACTION_LABEL_UNKNOWN = "Neutral";
+        public const string NEUTRAL = "Neutral";
 
         public const string DATE_FORMAT = "yyyy-MM-dd";
     }

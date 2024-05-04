@@ -1,6 +1,7 @@
 ﻿using FoodTracker.DataAccess.Data;
 using FoodTracker.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 
@@ -23,27 +24,57 @@ namespace FoodTracker.DataAccess.Repository
             dbSet.Add(entity);
         }
 
+        //public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
+        //{
+        //    IQueryable<T> query;
+        //    if (tracked)
+        //    {
+        //        query = dbSet;
+        //    }
+        //    else
+        //    {
+        //        query = dbSet.AsNoTracking();
+        //    }
+
+        //    query = query.Where(filter);
+        //    if (!string.IsNullOrEmpty(includeProperties))
+        //    {
+        //        foreach (var prop in includeProperties.Split(",", StringSplitOptions.RemoveEmptyEntries))
+        //        {
+        //            query = query.Include(prop).;
+        //        }
+        //    }
+        //    return query.FirstOrDefault();
+
+        //}
         public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query;
-            if (tracked)
-            {
-                query = dbSet;
-            }
-            else
-            {
-                query = dbSet.AsNoTracking();
-            }
+            //IQueryable<T> query;
+            //if (tracked)
+            //{
+            //    query = dbSet;
+            //}
+            //else
+            //{
+            //    query = dbSet.AsNoTracking();
+            //}
 
-            query = query.Where(filter);
-            if (!string.IsNullOrEmpty(includeProperties))
+            //query = query.Where(filter);
+            //if (!string.IsNullOrEmpty(includeProperties))
+            //{
+            //    foreach (var prop in includeProperties.Split(",", StringSplitOptions.RemoveEmptyEntries))
+            //    {
+            //        query = query.Include(prop).;
+            //    }
+            //}
+            //return query.FirstOrDefault();
+            
+            if (includeProperties != null)
             {
-                foreach (var prop in includeProperties.Split(",", StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(prop);
-                }
+                return Get(filter, [includeProperties]);
             }
-            return query.FirstOrDefault();
+            return Get(filter, []);
+            //return Get(filter, [includeProperties]);
 
         }
         public T Get(Expression<Func<T, bool>> filter, params string[] includeProperties)
@@ -65,24 +96,47 @@ namespace FoodTracker.DataAccess.Repository
 
         }
 
+        //public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        //{
+        //    IQueryable<T> query = dbSet;
+        //    if (filter != null)
+        //    {
+        //        query = query.Where(filter);
+        //    }
+        //    if (!string.IsNullOrEmpty(includeProperties))
+        //    {
+        //        foreach (var prop in includeProperties.Split(",", StringSplitOptions.RemoveEmptyEntries))
+        //        {
+        //            query = query.Include(prop);
+        //        }
+        //    }
+        //    return query.ToList();
+        //}
+
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
-            IQueryable<T> query = dbSet;
-            if (filter != null)
+            //IQueryable<T> query = dbSet;
+            //if (filter != null)
+            //{
+            //    query = query.Where(filter);
+            //}
+            //if (!string.IsNullOrEmpty(includeProperties))
+            //{
+            //    foreach (var prop in includeProperties.Split(",", StringSplitOptions.RemoveEmptyEntries))
+            //    {
+            //        query = query.Include(prop);
+            //    }
+            //}
+            //return query.ToList();
+            if (includeProperties != null)
             {
-                query = query.Where(filter);
+                return GetAll(filter, [includeProperties]);
             }
-            if (!string.IsNullOrEmpty(includeProperties))
-            {
-                foreach (var prop in includeProperties.Split(",", StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(prop);
-                }
-            }
-            return query.ToList();
+            var a = new string[0];
+            return GetAll(filter, Array.Empty<string>());
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, params string[]? includeProperties)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, params string[] includeProperties)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)

@@ -1,4 +1,37 @@
 ﻿
+// const url = url: `/Guest/Activity/GetDayActivities?dateTime=${dateTime}`
+function openCalendarModal(url, sectionName) {
+    console.log("1", dateTime);
+    $.ajax({
+        url,
+        success: function (data) {
+            console.log("Activity Success");
+            $('#updateModalBody').html(data);
+
+            updateSelectedTab(sectionName);
+
+            $('#activityUpdateContainer').hide();
+            $('#updateModal').modal('show');
+        }
+    })
+    console.log("2");
+}
+
+
+function updateSelectedTab(sectionName) {
+    $('#updateTabList').children().each(function (p) {
+        const button = $(this).find('button')[0];
+
+        if (button.innerText == sectionName) {
+            $(button).addClass('active');
+            $(button).prop('aria-selected', true);
+        } else {
+            $(button).removeClass('active');
+            $(button).prop('aria-selected', false);
+        }
+    });
+}
+
 
 
 

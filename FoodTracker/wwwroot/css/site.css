@@ -4,6 +4,7 @@
     --lt-brown: rgb(235, 234, 234);
     --dk-text: rgb(48, 48, 48);
     --hl-text: rgb(1, 251, 180);
+    --clr-disabled: #c8cbce;
     /* Updated color family */
     --nav-dark: #1d1d24;
     --bg-dark: #524442;
@@ -25,7 +26,6 @@
     --clr-fm-yellow: rgba(228, 228, 18, 0.4);
     --clr-fm-red: rgba(180, 4, 4, 0.23);
     --clr-fm-blue: rgba(99, 129, 216, 0.382);
-    
     --clr-fm-green-dk: rgb(17, 117, 30);
     --clr-fm-yellow-dk: rgb(156, 156, 13);
     --clr-fm-red-dk: rgb(180, 4, 4);
@@ -570,15 +570,23 @@ body {
     color: white;
 }
 
-.calendar-badges {
-
+.calendar-badge-container {
+    fill: red;
+    color:red;
+    border-color: red;
 }
 
 .calendar-badge-icon {
     color: var(--bg-med);
+    color: aqua;
 }
 
 .calendar-badge {
+    /*background-color: red;*/
+    /*color: red;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 24px;
     height: 24px;
     /*padding-top: 3px;*/
@@ -589,9 +597,10 @@ body {
 .calendar-item-green,
 .calendar-item-yellow,
 .calendar-item-red,
-.calendar-item-blue{
+.calendar-item-blue {
     /*background-color: purple;*/
     color: white;
+    color: black;
     font-size: .75em;
     margin: 2px;
     padding-left: 6px;
@@ -600,6 +609,7 @@ body {
 
 .calendar-item-green {
     color: var(--clr-fd-green-dk);
+
     /*color: white;*/
     border: solid 1px  var(--clr-fd-green-dk);
     background-color: var(--clr-fd-green);
@@ -630,8 +640,13 @@ body {
     overflow-y: scroll;
 }
 
-.input-group-left {
+.icon-weightlifting {
+    /*color: red;*/
+    /*stroke: red;*/
+    /*fill: blue;*/
+}
 
+.input-group-left {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
@@ -647,9 +662,19 @@ body {
     height: 500px;
 }
 
+#activityGroup {
+    /*background-color: red;*/
+    /*max-height: 100% ;*/
+}
+
+#activityUpdateContainer {
+    /*background-color: purple;*/
+    max-height: 340px;
+}
+
 .green {
     color: var(--clr-fd-green-dk);
-    stroke: var(--clr-fd-green-dk);
+    /*stroke: var(--clr-fd-green-dk);*/
     /*background-color: var(--clr-fd-green-dk);*/
     /*border-color: var(--clr-fd-green-dk);*/
 }
@@ -662,7 +687,7 @@ body {
 
 .yellow {
     color: var(--clr-fd-yellow-dk);
-    stroke: var(--clr-fd-yellow-dk);
+    /*stroke: var(--clr-fd-yellow-dk);*/
     /*border-color: var(--clr-fd-yellow-dk);*/
 }
 
@@ -674,7 +699,7 @@ body {
 
 .red {
     color: var(--clr-fd-red-dk);
-    stroke: var(--clr-fd-red-dk);
+    /*stroke: var(--clr-fd-red-dk);*/
     /*border-color: var(--clr-fd-red-dk);*/
 }
 
@@ -686,7 +711,7 @@ body {
 
 .gray {
     color: var(--blugray);
-    stroke: var(--blugray);
+    /*stroke: var(--blugray);*/
     /*border-color: var(--clr-fd-red-dk);*/
 }
 

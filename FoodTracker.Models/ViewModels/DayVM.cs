@@ -21,6 +21,7 @@ namespace FoodTracker.Models.ViewModels
         public List<Reaction.Reaction> Reactions { get; set; }
 
         public List<Activity.Activity> Activities { get; set; }
+        public List<Icon> ActivityIcons { get; set; }
 
         public List<ReactionIcon> ReactionIcons { get; set; }
         public bool UserSafeDay { get; set; }

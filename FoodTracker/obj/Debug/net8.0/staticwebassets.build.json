@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IOAGFJ5AKWL26cAaIodzmgxFI3B1bggjmaN0vylvKMQ=",
+  "Hash": "T3K8saXeLO/UKclmpN7AVAcPziBQLns/tiKgise4Jzg=",
   "Source": "FoodTrackerWeb",
   "BasePath": "_content/FoodTrackerWeb",
   "Mode": "Default",
@@ -1307,6 +1307,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\yoga.svg"
+    },
+    {
+      "Identity": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\activity.js",
+      "SourceId": "FoodTrackerWeb",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\",
+      "BasePath": "_content/FoodTrackerWeb",
+      "RelativePath": "js/activity.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\activity.js"
     },
     {
       "Identity": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\addFood.js",

@@ -56,8 +56,8 @@
                             <label id="mealReactionLabel" asp-for="@Model.Reactions" class="ms-2"></label>
                         </div>
                         <div class="form-floating py-2 col-4">
-                            <select class="form-select food-input input-group-right" asp-for="@Model.Meal.ColorId">
-                                <option value="" selected></option>
+                            <select class="form-select food-input input-group-right" asp-for="@Model.Meal.ColorId" default="None">
+                                @* <option value="" selected></option> *@
                                 @foreach (var c in Model.ColorOptions)
                                 {
                                     <option value="@c.Id">@c.Name</option>
@@ -74,7 +74,7 @@
                 </div>
                    <div id="mealGroup" name="meals" multiple class="form-group">
 
-                        @for (int i = 0; i < Model.Meal.MealItems.Count; i++) // Starts at 1; first item is addressed above in non-removable input (var mealItem in Model.Meal.MealItems)
+                        @for (int i = 0; i < Model.Meal.MealItems.Count; i++) 
                         {
                             <div class="border form-group rounded-2 my-2 shadow bg-white p-2 remove-meal-item-new@(Model.Meal.MealItems[i].Id)">
                                 <input asp-for="@Model.MealItems[i.ToString()].Id" value="@Model.Meal.MealItems[i].Id" hidden />

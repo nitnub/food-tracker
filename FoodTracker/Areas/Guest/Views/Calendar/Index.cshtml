@@ -6,6 +6,9 @@
 
     var MIN_DISPLAY_MONTH = 1;
     var MAX_DISPLAY_MONTH = 12;
+
+    var MAX_DISPLAY_ACTIVITIES = 4;
+    var MAX_DISPLAY_REACTIONS = 5;
     var format = "yyyy-MM-dd";
 }
 <!-- Meal Details Modal (Calendar) -->
@@ -18,7 +21,7 @@
             <div id="meal-modal-body" class="modal-body">
                 <div id="mealCard"></div>
             </div>
-            <div class="modal-footer"></div>
+            @* <div class="modal-footer"></div> *@
         </div>
     </div>
 </div>
@@ -38,23 +41,22 @@
 </div>
 
 <!-- TEST Modal (Day Reactions) -->
-<div id="reaction-test-modal" class="modal show meal-details-modal fade " role="dialog" tabindex="-1" aria-hidden="true">
+<div id="updateModal" class="modal show meal-details-modal fade " role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content calendar-modal">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <ul class="nav nav-tabs" id="updateTabList" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Overall Feeling</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Meal</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Activities</button>
                 </li>
             </ul>
-            <div id="calendarDetailView" class="modal-body">
+            <div id="updateModalBody" class="modal-body">
             </div>
-            <div id="meal-delete-modal-footer" class="modal-footer"></div>
         </div>
     </div>
 </div>
@@ -74,6 +76,17 @@
     }
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
 @for (int i = 0; i < Model.DayVMs.GetLength(0); i++)
 {
     <div class="d-flex">
@@ -89,12 +102,14 @@
                 </div>
 
                 <div id="reactionContainer@(dayId)" class=" d-flex flex-wrap justify-content-center calendar-reaction-container h-100" onclick="dayReactionUpdate('@dayId')">
-
-                    @if (Model.DayVMs[i, j].ReactionIcons == null)
+                    @{
+                        var reactions = Model.DayVMs[i, j].ReactionIcons;
+                    }
+                 @*    @if (reactions == null)
                     {
 
-                    }
-                    else if (Model.DayVMs[i, j].UserSafeDay)
+                    } *@
+@*                     else if (Model.DayVMs[i, j].UserSafeDay)
                     {
                         <div class="calendar-badge text-success">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-emoji-laughing" viewBox="0 0 16 16">
@@ -102,29 +117,38 @@
                                 <path d="M12.331 9.5a1 1 0 0 1 0 1A5 5 0 0 1 8 13a5 5 0 0 1-4.33-2.5A1 1 0 0 1 4.535 9h6.93a1 1 0 0 1 .866.5M7 6.5c0 .828-.448 0-1 0s-1 .828-1 0S5.448 5 6 5s1 .672 1 1.5m4 0c0 .828-.448 0-1 0s-1 .828-1 0S9.448 5 10 5s1 .672 1 1.5" />
                             </svg>
                         </div>
-                    }
-                    else if (Model.DayVMs[i, j].ReactionIcons.Count > 0)
-                    {
-                        @foreach (var reaction in Model.DayVMs[i, j].ReactionIcons)
+                    } *@
+@*                     else if (reactions.Count > 0)
+                    { *@
+                        @if (reactions.Count <= MAX_DISPLAY_REACTIONS)
                         {
-                            <div class="calendar-badge @reaction.Color" data-toggle="tooltip" data-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
+                            @foreach (var reaction in reactions)
+                            {
+                                <div class="calendar-badge @reaction.Color" data-toggle="tooltip" data-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
+                            }
                         }
-                    }
-                    else
+
+                        else
+                        {
+                            @for (int k = 0; k < reactions.Count && k < MAX_DISPLAY_REACTIONS - 1; k++)
+                            {
+                                var reaction = reactions[k];
+                                <div class="calendar-badge @reaction.Color" data-toggle="tooltip" data-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
+                            }
+                            <div>
+                                <div>+@(reactions.Count - MAX_DISPLAY_REACTIONS + 1)</div>
+                            </div>
+                        }
+                    @* } *@
+      @*               else
                     {
                         <div class="calendar-badge text-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-emoji-laughing" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-emoji-smile" viewBox="0 0 16 16">
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                                <path d="M12.331 9.5a1 1 0 0 1 0 1A5 5 0 0 1 8 13a5 5 0 0 1-4.33-2.5A1 1 0 0 1 4.535 9h6.93a1 1 0 0 1 .866.5M7 6.5c0 .828-.448 0-1 0s-1 .828-1 0S5.448 5 6 5s1 .672 1 1.5m4 0c0 .828-.448 0-1 0s-1 .828-1 0S9.448 5 10 5s1 .672 1 1.5" />
+                                <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.5 3.5 0 0 0 8 11.5a3.5 3.5 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683M7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5m4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5" />
                             </svg>
                         </div>
-
-                        <div class="calendar-badge text-secondary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-emoji-laughing-fill" viewBox="0 0 16 16">
-                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M7 6.5c0 .501-.164.396-.415.235C6.42 6.629 6.218 6.5 6 6.5s-.42.13-.585.235C5.164 6.896 5 7 5 6.5 5 5.672 5.448 5 6 5s1 .672 1 1.5m5.331 3a1 1 0 0 1 0 1A5 5 0 0 1 8 13a5 5 0 0 1-4.33-2.5A1 1 0 0 1 4.535 9h6.93a1 1 0 0 1 .866.5m-1.746-2.765C10.42 6.629 10.218 6.5 10 6.5s-.42.13-.585.235C9.164 6.896 9 7 9 6.5c0-.828.448-1.5 1-1.5s1 .672 1 1.5c0 .501-.164.396-.415.235" />
-                            </svg>
-                        </div>
-                    }
+                    } *@
 
                 </div>
                 <div class="calendar-meal-container h-100"
@@ -134,21 +158,45 @@
                     {
                         @foreach (var meal in Model.DayVMs[i, j].Meals)
                         {
-                            <div>@(meal.Color.Name.ToString().ToLower())</div>
-                            <div id="meal@(meal.Id)" class="calendar-item-@(meal.Color.Name.ToString().ToLower())" onclick="activateModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])), @meal.Id)">
+                            <div id="meal@(meal.Id)" class="calendar-item-@(meal.Color.Name.ToString().ToLower()) my-1" onclick="activateModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])), @meal.Id)">
                                 @meal.Name
                             </div>
                         }
                     }
                 </div>
-                <div class="card-footer day-card-footer  border-success">
+
+                <div class="card-footer day-card-footer  border-success" onclick="openDayActivityUpdate('@Model.DayVMs[i, j].DateTime')">
                     <div class="d-flex calendar-badges flex-wrap justify-content-center">
-                        <div class="calendar-badge">
-                            <?xml version="1.0" encoding="utf-8" ?>
-                            <svg fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 128 128">
-                                <path class="calendar-badge-icon" d="M122.88,39.15c-2.84,32.48-23.77,52.06-58.93,57.81C65.11,56.71,91.95,45.24,122.88,39.15L122.88,39.15z M37.86,44.69C40.17,26.15,43.28,12.14,61.72,0c13.2,10.44,20.17,16.71,23.43,44.9c-9.72,2.33-18.39,12.82-23.54,28.85 C56.64,57.98,48.64,48.47,37.86,44.69L37.86,44.69z M91.73,42.62l-3.55-16.66c5.99-5.14,16.4-7.94,26.64-10.63 c0.24,6.13-0.68,12.87-1.34,19.51C105.53,36.17,98.36,38.87,91.73,42.62L91.73,42.62z M31.41,42.62l3.55-16.66 c-5.99-5.14-16.4-7.94-26.64-10.63c-0.24,6.13,0.68,12.87,1.34,19.51C17.61,36.17,24.79,38.87,31.41,42.62L31.41,42.62z M0,39.15 c2.84,32.48,23.77,52.06,58.93,57.81C57.77,56.71,30.93,45.24,0,39.15L0,39.15z" />
-                            </svg>
-                        </div>
+                        @{
+                            var icons = Model.DayVMs[i, j].ActivityIcons
+                                                                .GroupBy(icon => icon.Id)
+                                                                .Select(iGrp => iGrp.First())
+                                                                .ToList();
+                        }
+
+                        @if (icons.Count <= MAX_DISPLAY_ACTIVITIES)
+                        {
+                            @foreach (var icon in icons)
+                            {
+                                <div class="calendar-badge" data-toggle="tooltip" data-placement="top" title="@icon.Name">
+                                    @Html.Raw(icon.HTML)
+                                </div>
+                            }
+                        }
+
+                        else
+                        {
+                            @for (int k = 0; k < icons.Count && k < MAX_DISPLAY_ACTIVITIES - 1; k++)
+                            {
+                                var icon = icons[k];
+                                <div class="calendar-badge" data-toggle="tooltip" data-placement="top" title="@icon.Name">
+                                    @Html.Raw(icon.HTML)
+                                </div>
+                            }
+                            <div>
+                                <div>+@(Model.DayVMs[i, j].ActivityIcons.Count - MAX_DISPLAY_ACTIVITIES + 1)</div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -164,5 +212,6 @@
         <script src="~/js/calendar.js"></script>
         <script src="~/js/addMeal.js"></script>
         <script src="~/js/dayReaction.js"></script>
+        <script src="~/js/activity.js"></script>
     }
 }

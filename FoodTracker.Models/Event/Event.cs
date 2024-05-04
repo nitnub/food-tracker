@@ -9,22 +9,19 @@ using System.Threading.Tasks;
 
 namespace FoodTracker.Models.Event
 {
-    // Ex: Meal / Activity
     public class Event
     {
         [Key]
         public int Id { get; set; }
-        public int EventTypeId { get; set; }
+        [ForeignKey("AppUser")]
+        public string AppUserId { get; set; }
+        public EventGroup EventTypeId { get; set; }
 
         [ForeignKey(nameof(EventTypeId))]
         [ValidateNever]
         public EventType EventType { get; set; }
 
         public DateTime Time { get; set; }
-
-        // TODO: app user property
-        //[ForeignKey(nameof(AppUser))]
-        //public string AppUser {  get; set; }
 
     }
 }

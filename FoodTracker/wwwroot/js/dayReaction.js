@@ -4,8 +4,8 @@ function dayReactionUpdate(dateTime) {
     $.ajax({
         url: `/Guest/Calendar/GetDayReactions?dateTime=${dateTime}`,
         success: function (data) {
-            $('#calendarDetailView').html(data);
-            $('#reaction-test-modal').modal('show');
+            $('#updateModalBody').html(data);
+            $('#updateModal').modal('show');
         }
     })
 }

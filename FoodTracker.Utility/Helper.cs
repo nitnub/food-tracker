@@ -101,7 +101,7 @@ namespace FoodTracker.Utility
             if (food.UserSafeFoods?.Count() > 0)
                 return SD.COLOR_GREEN;
 
-            return GetReactiveColorString(food);
+            return GetReactiveColorString(food.Reactions);
         }
 
         public static string GetMaxSeverityColorString(DayReactionVM? day)
@@ -112,14 +112,28 @@ namespace FoodTracker.Utility
             if (day.UserSafe)
                 return SD.COLOR_GREEN;
 
-            return GetReactiveColorString(day);
+            return GetReactiveColorString(day.Reactions);
         }
 
 
-        public static string GetReactiveColorString(IReactable reactant)
+        public static string GetMaxSeverityColorString(List<Reaction>? reactions, bool userSafeDay = false)
         {
-            var maxSeverity = reactant.Reactions?
-                                        .Select(r => r.Severity.Value)
+            if (userSafeDay)
+                return SD.COLOR_GREEN;
+
+            if (reactions == null || reactions.Count == 0)
+                return "";
+
+            //var maxSeverity = reactions.Select(r => r.Severity.Value)
+            //                            .DefaultIfEmpty(-1)
+            //                            .Max();
+
+            return GetReactiveColorString(reactions);
+        }
+
+        public static string GetReactiveColorString(IEnumerable<Reaction> reactions)
+        {
+            var maxSeverity = reactions?.Select(r => r.Severity.Value)
                                         .DefaultIfEmpty(-1)
                                         .Max() ?? -1;
 

@@ -36,7 +36,7 @@ function toggleReaaction(foodId, typeId, severityId, active) {
         contentType: 'application/json',
         dataType: 'json',
         success: function (r) {
-            r.success && updateDayReactionColor(foodId, r.updatedColor);
+            updateDayReactionColor(foodId, r.updatedColor);
         }
     })
 }
@@ -58,9 +58,6 @@ function updateUserSafeFood(id) {
         url: `/Guest/Reaction/UpdateUserSafeFood?id=${id}`,
         type: 'POST',
         success: function (r) {
-            if (!r.success)
-                return;
-
             if (r.active) {
                 updateDayReactionColor(id, 'green');
 
