@@ -1,79 +1,68 @@
 ﻿
 function openDayActivityUpdate(dateTime) {
-    console.log("1", dateTime);
+    dayId = dateTime;
+    console.log('DayID:', dayId);
+    const dayConverted = Date.parse(dayId);
+
+    const dc2 = Date.toString(dayConverted)
+    console.log(dayConverted);
+    console.log(dc2);
     $.ajax({
         url: `/Guest/Activity/GetDayActivities?dateTime=${dateTime}`,
         success: function (data) {
-            console.log("Activity Success");
             $('#updateModalBody').html(data);
 
             updateSelectedTab('Activities'); 
   
-            //$('#activityUpdateContainer').hide();
             $('#updateModal').modal('show');
         }
     })
-    console.log("2");
 }
 
 
-function updateSelectedTab(sectionName) {
-    $('#updateTabList').children().each(function (p) {
-        const button = $(this).find('button')[0];
 
-        if (button.innerText == sectionName) {
-            $(button).addClass('active');
-            $(button).prop('aria-selected', true);
-        } else {
-            $(button).removeClass('active');
-            $(button).prop('aria-selected', false);
-        }
-    });
-}
 
 
 function dayActivityUpsert(dateTime) {
-    console.log("1", dateTime);
+
     $.ajax({
         url: `/Guest/Activity/UpsertDayActivities?dateTime=${dateTime}`,
         success: function (data) {
-            console.log("Activity Success");
             $('#updateModalBody').html(data);
             $('#updateModal').modal('show');
         }
     })
-    console.log("2");
 }
-function dayActivityUpsert() {
-    console.log($("#activityForm").serialize());
-    $.ajax({
-        type: "POST",
-        url: '/Guest/Activity/UpsertDayActivities',
-        data: $("#activityForm").serialize(),
-        success: function (data) {
+//function dayActivityUpsert() {
+//    console.log($("#activityForm").serialize());
+//    $.ajax({
+//        type: "POST",
+//        url: '/Guest/Activity/UpsertDayActivities',
+//        data: $("#activityForm").serialize(),
+//        success: function (data) {
 
-            console.log("SUCCESS");
-            console.log(data);
-            //// set behavior by work area
-            //switch (window.location.pathname) {
-            //    case '/Guest/Product':
-            //        $('.food-details-modal').modal('hide');
-            //        $('#pView').find('*').filter(function () {
-            //            if ($(this).text() === data.originalName) {
-            //                $(this).css('background-color', 'red');
-            //            }
-            //        });
-            //        break;
-            //    case '/Guest/Food':
-            //        location.reload();
-            //        break;
-            //    default:
-            //        break;
-            //}
-        },
-    });
+//            console.log("SUCCESS");
+//            console.log(data);
+//            //// set behavior by work area
+//            //switch (window.location.pathname) {
+//            //    case '/Guest/Product':
+//            //        $('.food-details-modal').modal('hide');
+//            //        $('#pView').find('*').filter(function () {
+//            //            if ($(this).text() === data.originalName) {
+//            //                $(this).css('background-color', 'red');
+//            //            }
+//            //        });
+//            //        break;
+//            //    case '/Guest/Food':
+//            //        location.reload();
+//            //        break;
+//            //    default:
+//            //        break;
+//            //}
+//        },
+//    });
 
-}
+//}
 
 function getActivityTypes(activitiesList) {
     const nameComparator = (a, b) => a.name.localeCompare(b.name);
@@ -261,12 +250,12 @@ function removeActivity(id) {
 //                updateDayReactionColor(date, 'green');
 
 //                $('#userSafeDayInput').prop('checked', true);
-//                $('#dayReactionPicker').children().hide(); 
+//                $('#dayReactionPicker').children().hide();
 //            } else {
 //                updateDayReactionColor(date, r.updatedColor);
 
 //                $('#userSafeDayInput').prop('checked', false);
-//                $('#dayReactionPicker').children().removeClass("d-none").show(); 
+//                $('#dayReactionPicker').children().removeClass("d-none").show();
 //            }
 //           updateDayReactionBar(date, r.reactionIcons, r.updatedColor);
 //        }
@@ -304,8 +293,8 @@ function removeActivity(id) {
 //        updatedReactions += `
 //            <div
 //                class="calendar-badge ${icon.color}"
-//                data-toggle="tooltip" 
-//                data-placement="top" 
+//                data-toggle="tooltip"
+//                data-placement="top"
 //                title="${icon.name}"
 //                >
 //                ${icon.html}
@@ -315,3 +304,9 @@ function removeActivity(id) {
 //    $(`#reactionContainer${date}`)[0].innerHTML = updatedReactions;
 //    updateDayReactionColor(date, dayColor.toLowerCase());
 //}
+
+// Activate modal tab functionality
+$('#activities-tab').on('click', function () {
+    openDayActivityUpdate(dayId);
+})
+

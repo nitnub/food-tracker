@@ -11,6 +11,7 @@ namespace FoodTracker.Service.IService
         bool Remove(int? id);
         bool Upsert(Meal meal, List<MealItem> mealItems, List<int> reactionIds);
         List<Meal> GetMealsByDate(DateTime datetime);
+        Dictionary<int, List<Meal>> GetMealsByMonth(DateTime datetime);
         Meal GetMealDetails(int id);
         Dictionary<int, bool> GetMealReactionDict(Meal activeMeal);
         Meal CreateBlankMeal(DateTime mealTime);

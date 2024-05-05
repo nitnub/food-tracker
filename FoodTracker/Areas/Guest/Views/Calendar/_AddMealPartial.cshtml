@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-               
+
                 <div class="d-flex">
                     <div class="form-floating py-2 col-4">
                         <select id="mealTypeInput" class="form-select food-input" asp-for="@Model.Meal.MealTypeId" placeholder="Meal Type">
@@ -41,7 +41,6 @@
                                 @foreach (var category in Model.Categories.Keys)
                                 {
                                     <li><h6 class="dropdown-header">@category</h6></li>
-
                                     @foreach (var r in Model.Categories[category].ToList())
                                     {
                                         <li value="@r.Id">
@@ -57,7 +56,6 @@
                         </div>
                         <div class="form-floating py-2 col-4">
                             <select class="form-select food-input input-group-right" asp-for="@Model.Meal.ColorId" default="None">
-                                @* <option value="" selected></option> *@
                                 @foreach (var c in Model.ColorOptions)
                                 {
                                     <option value="@c.Id">@c.Name</option>
@@ -70,11 +68,13 @@
 
                 <h3>Meal Items</h3>
                 <div style="display: flex; justify-content: flex-end;">
-                    <a onclick="addMealItem(@Model.Meal.MealItems[0].Id)" class="btn btn-success">Add Meal Item</a>
+                    <a onclick="addMealItem()" class="btn btn-success">Add Meal Item</a>
                 </div>
-                   <div id="mealGroup" name="meals" multiple class="form-group">
+                <div id="mealGroup" name="meals" multiple class="form-group">
+                    @if (Model.Meal.MealItems.Any())
+                    {
 
-                        @for (int i = 0; i < Model.Meal.MealItems.Count; i++) 
+                        @for (int i = 0; i < Model.Meal.MealItems.Count; i++)
                         {
                             <div class="border form-group rounded-2 my-2 shadow bg-white p-2 remove-meal-item-new@(Model.Meal.MealItems[i].Id)">
                                 <input asp-for="@Model.MealItems[i.ToString()].Id" value="@Model.Meal.MealItems[i].Id" hidden />
@@ -133,9 +133,8 @@
                                 }
                             </div>
                         }
-                    </div>
-                
-
+                    }
+                </div>
                 <div class="d-flex justify-content-end pt-2 ">
                     @if (Model.Meal.Id == 0)
                     {
@@ -156,12 +155,12 @@
             </div>
         </div>
     </div>
-<partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
 </form>
 
 <script>
     var unitJson = @Json.Serialize(Model.Units)
-    var foodJson = @Json.Serialize(Model.Foods)
-    var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
-    var mealItemCount = @(Model.Meal.MealItems.Count)
+        var foodJson = @Json.Serialize(Model.Foods)
+        var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
+        var mealItemCount = @(Model.Meal.MealItems.Count)
 </script>

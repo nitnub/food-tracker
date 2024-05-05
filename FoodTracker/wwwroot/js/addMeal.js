@@ -11,6 +11,45 @@ function createUnitOptions(unitJson) {
     return output;
 }
 
+//function createFoodOptions(foodJson) {
+//    let output = "";
+//    const fsa = $('.mi-food');
+
+//    if (fsa.length > 0) {
+//        fsa.each(function (i) { takenFoods.push(this.value); });
+//    }
+
+//    foodJson.forEach(f => {
+
+//        //console.log(f);
+//        if (takenFoods.indexOf(f.value.toString()) < 0) {
+//            output += `<option value="${f.value}">${f.text}</option>`
+//        } else {
+//            output += `<option value="${f.value}" hidden disabled>${f.text}</option>`
+//        }
+//    });
+//    return output;
+
+
+
+//    const miSelects = document.getElementsByClassName('mi-food')
+//    const results = []
+//    let option;
+
+//    foodJson.forEach(f => {
+//        option = document.createElement("option");
+//        option.value = f.value;
+//        option.innerText = f.text.trim();
+
+//        if (takenFoods.indexOf(f.value.toString()) >= 0) {
+//            option.setAttribute('hidden', true);
+//            option.setAttribute('disabled', true);
+//        }
+
+//        results.push(option);
+//    });
+//}
+
 function createFoodOptions(foodJson) {
     let output = "";
     const fsa = $('.mi-food');
@@ -20,6 +59,8 @@ function createFoodOptions(foodJson) {
     }
 
     foodJson.forEach(f => {
+
+        console.log(f);
         if (takenFoods.indexOf(f.id.toString()) < 0) {
             output += `<option value="${f.id}">${f.name}</option>`
         } else {
@@ -48,7 +89,7 @@ function createFoodOptions(foodJson) {
     });
 }
 
-function addMealItem(mealId) {
+function addMealItem() {
     foodOptions = createFoodOptions(foodJson);
 
     const newId = new Date().getTime().toString();
@@ -113,11 +154,16 @@ function addDynamicFoodSelect(newId) {
 
 }
 
+$('.calendar-meal').each(function (e) {
+    this.addEventListener('click',  e => e.stopPropagation())
+})
 
-function activateModal(dayObj, activeMealId = 0) {
+
+function activateMealModal(dayObj, activeMealId = 0) {
     $('.meal-details-modal').modal('show');
     $('.modal-title').html(dayObj);
-
+    console.log("MealID:", activeMealId);
+    
     dayObj.activeMealId = activeMealId;
     getMeal(dayObj);
 }
@@ -258,10 +304,13 @@ function removeMeal(id) {
 
 function cancelRemoveMeal() {
     $('#meal-delete-modal').modal('hide');
+    
+    //$('#updateModal').modal('show');
     $('#meal-modal').modal('show');
 }
 
 function removeMealConfirmation(id, mealName) {
+    //$('#updateModal').modal('hide');
     $('#meal-modal').modal('hide');
     $('#meal-delete-modal-body').html(`Permanently delete "<b>${mealName}</b>"?`);
     $('#meal-delete-modal-footer').html(`
@@ -316,7 +365,7 @@ function getProducts(query, page = 1) {
             $("#productView").html(data);
             $(".food-chip").on('click', function (e) {
                 const foodName = $(this).find('.food-chip-name')[0].innerText
-                activateModal(foodName)
+                activateMealModal(foodName)
             });
 
             const query = $('#searchQuery').val();

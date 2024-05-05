@@ -9,6 +9,7 @@
       "FoodTrackerWeb/1.0.0": {
         "dependencies": {
           "FoodTracker.DataAccess": "1.0.0",
+          "FoodTracker.Models": "1.0.0",
           "FoodTracker.Service": "1.0.0",
           "FoodTracker.Utility": "1.0.0",
           "Microsoft.AspNet.WebApi.Client": "6.0.0",

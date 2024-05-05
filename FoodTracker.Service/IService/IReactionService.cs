@@ -12,6 +12,7 @@ namespace FoodTracker.Service.IService
         IEnumerable<ReactionSeverity> GetAllSeverities();
         Dictionary<string, List<ReactionType>> GetReactionCategoryDict();
         Dictionary<string, List<Reaction>> GetDayReactionDict(string dateFormat = SD.DATE_FORMAT);
+        Dictionary<int, List<Reaction>> GetAllDayReactionsForTheMonth(DateTime dateTime);
         Dictionary<int, Dictionary<int, int>> GetExistingReactionSeveritiesDict();
 
         Dictionary<DateTime, Dictionary<int, int>> GetDayTypeSeverityDict(DateTime dateTime);

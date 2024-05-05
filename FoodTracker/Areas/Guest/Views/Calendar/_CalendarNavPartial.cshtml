@@ -9,9 +9,12 @@
 }
 
 <form method="post">
-    <div>View Date: @Model.ViewDate.Date</div>
-    <div class="d-flex col-4">
+    <div class="d-flex align-items-center">
+        <button asp-area="Guest" asp-controller="Calendar" asp-action="Index" class="btn btn-primary">Go To @(Model.DateShortString)</button>
+    </div>
+    <div class="d-flex justify-content-between date-nav-row-two">
 
+        <div>
 
         @if (Model.ViewDate.Year <= MIN_DISPLAY_YEAR)
         {
@@ -46,40 +49,44 @@
                 </svg>
             </button>
         }
+        </div>
 
+        <div class="d-flex">
 
-        <select id="mealTypeInput" class="form-select col-2" asp-for="@Model.ViewMonth" placeholder="Month">
+            <select id="mealTypeInput" class="form-select" asp-for="@Model.ViewMonth" placeholder="Month">
 
-            @foreach (var (m, i) in new DateTimeFormatInfo().MonthNames.Select((v, i) => (v, i + 1)))
-            {
-                if (i == (Model.ViewMonth))
+                @foreach (var (m, i) in new DateTimeFormatInfo().MonthNames.Select((v, i) => (v, i + 1)))
                 {
-                    <option value="@(i)" selected>@m</option>
+                    if (i == (Model.ViewMonth))
+                    {
+                        <option value="@(i)" selected>@m</option>
+                    }
+                    else
+                    {
+                        <option value="@(i)">@m</option>
+                    }
                 }
-                else
-                {
-                    <option value="@(i)">@m</option>
-                }
-            }
-        </select>
+            </select>
 
-        <select id="mealTypeInput" class="form-select col-2" asp-for="@Model.ViewYear" placeholder="Year">
-            <option value="" selected disabled></option>
+            <select id="mealTypeInput" class="form-select" asp-for="@Model.ViewYear" placeholder="Year">
+                <option value="" selected disabled></option>
 
-            @foreach (var y in Enumerable.Range(MIN_DISPLAY_YEAR, MAX_DISPLAY_YEAR - MIN_DISPLAY_YEAR + 1))
-            {
-                if (y == Model.ViewYear)
+                @foreach (var y in Enumerable.Range(MIN_DISPLAY_YEAR, MAX_DISPLAY_YEAR - MIN_DISPLAY_YEAR + 1))
                 {
-                    <option value="@y" selected>@y</option>
+                    if (y == Model.ViewYear)
+                    {
+                        <option value="@y" selected>@y</option>
+                    }
+                    else
+                    {
+                        <option value="@y">@y</option>
+                    }
                 }
-                else
-                {
-                    <option value="@y">@y</option>
-                }
-            }
-        </select>
-        <button asp-area="Guest" asp-controller="Calendar" asp-action="JumpToDate" class="btn btn-primary">Jump To Date</button>
-        <button asp-area="Guest" asp-controller="Calendar" asp-action="Index" class="btn btn-primary">Today</button>
+            </select>
+        <button asp-area="Guest" asp-controller="Calendar" asp-action="JumpToDate" class="btn btn-primary">Go</button>
+        </div>
+      
+        <div>
 
         @if (Model.ViewDate.Month >= MAX_DISPLAY_MONTH)
         {
@@ -113,5 +120,6 @@
                 </svg>
             </button>
         }
+        </div>
     </div>
 </form>

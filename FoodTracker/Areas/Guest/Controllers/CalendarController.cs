@@ -1,5 +1,6 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
 using FoodTracker.Models;
+using FoodTracker.Models.Food;
 using FoodTracker.Models.Meal;
 using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
@@ -7,7 +8,6 @@ using FoodTracker.Service.IService;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
@@ -38,6 +38,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 ViewDate = dt,
                 DayVMs = GetPopulatedCalendarDays(dt),
                 ReactionIcons = _utilityService.GetReactionIconDict(),
+                DateShortString = $"{(Month)(DateTime.Now.Date.Month - 1)}, {DateTime.Now.Date.Year}"
             };
 
             return View(CalendarVM);
@@ -100,8 +101,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {
 
             DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date
-                                    ? mealTime = DateTime.Now
-                                    : mealTime = dayVM.DateTime.Date.AddHours(12);
+                                    ? DateTime.Now
+                                    : dayVM.DateTime.Date.AddHours(12);
 
             Meal? activeMeal = null;
 
@@ -126,9 +127,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 Units = _utilityService.GetAllVolumeUnits()
             };
 
+            var c = new List<Food>();
+            //c.AsSe
             return PartialView("_AddMealPartial", MealVM);
+        
         }
-
+    
         [HttpDelete]
         public IActionResult RemoveMeal(int id)
         {
@@ -223,7 +227,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             var activityDict = _activityService.GetMonthActivitiesDict(dt);
             var reactionIcons = _reactionService.GetActiveIcons(dt.Year, dt.Month);
+            var mealIcons = _mealService.GetMealsByMonth(dt);
 
+            var dayReactions = _reactionService.GetAllDayReactionsForTheMonth(dt);
+            var dayColors = _calendarService.GetDayColorByMonth(dt, dayReactions);
             for (int row = 0; row < weeksInMonth; row++)
             {
                 for (int col = 0; col < 7; col++)
@@ -246,19 +253,26 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     {
                         var today = new DateTime(dt.Year, dt.Month, dayIndex + 1);
 
-                        newDay.Meals = _mealService.GetMealsByDate(today);
-                        newDay.Reactions = _reactionService.GetAllDayReactions(today);
+                        //newDay.Meals = _mealService.GetMealsByDate(today);
+                        newDay.Meals = mealIcons[today.Day];
+                        //newDay.Reactions = _reactionService.GetAllDayReactions(today);
+                        newDay.Reactions = dayReactions[today.Day];
                         newDay.ReactionIcons = reactionIcons[today.Day];
 
 
                         newDay.DateTime = today;
                         newDay.Day = dayIndex + 1;
-                        newDay.Color = _calendarService.GetDayColor(today);
+                        newDay.Color = dayColors[today.Day];
+                        //newDay.Color = _calendarService.GetDayColor(today);
                         
                         List<Icon> dayActivities = [];
                         if (activityDict.TryGetValue(today.Day, out dayActivities))
                         {
                             newDay.ActivityIcons = dayActivities;
+
+                            var icons = dayActivities.GroupBy(icon => icon.Id)
+                                                        .Select(iGrp => iGrp.First())
+                                                        .ToList();
                         }
                         else
                         {

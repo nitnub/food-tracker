@@ -108,8 +108,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             foreach (var vm in activityGroupVM.Activities.Values)
             {
+                var activityDateTime = new DateTime(
+                                                activityGroupVM.DateTime.Year, 
+                                                activityGroupVM.DateTime.Month, 
+                                                activityGroupVM.DateTime.Day, 
+                                                vm.Activity.DateTime.Hour, 
+                                                vm.Activity.DateTime.Minute, 
+                                                0);
                 vm.Activity.AppUserId = userId;
-                vm.Activity.DateTime = activityGroupVM.DateTime;
+                vm.Activity.DateTime = activityDateTime;
                 vm.Activity.Duration = new TimeSpan(vm.Hours, vm.Minutes, 0);
                 _unitOfWork.Activity.Add(vm.Activity);
             }

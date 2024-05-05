@@ -665,6 +665,13 @@ body {
 #activityGroup {
     /*background-color: red;*/
     /*max-height: 100% ;*/
+
+}
+
+.activity-icons {
+    /*background-color: red;*/
+    fill: red;
+    color: red;
 }
 
 #activityUpdateContainer {

@@ -2,6 +2,7 @@
 using FoodTracker.Models.Meal;
 using FoodTracker.Service.IService;
 using FoodTracker.Utility;
+using System.Reflection.Metadata.Ecma335;
 
 namespace FoodTracker.Service
 {
@@ -66,12 +67,40 @@ namespace FoodTracker.Service
                                                 .ToList();
         }
 
+        public Dictionary<int, List<Meal>> GetMealsByMonth(DateTime dateTime)
+        {
+            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+
+            var meals = _unitOfWork.Meal.GetAll(m => m.AppUserId == UserId &&
+                                                m.DateTime.Date.Year == dateTime.Date.Year &&
+                                                m.DateTime.Date.Month == dateTime.Date.Month,
+                                                includeProperties: [
+                                                    Prop.COLOR,
+                                                    Prop.MEAL_ITEMS_FOOD,
+                                                    Prop.MEAL_ITEMS_VOLUME,
+                                                    Prop.MEAL_ITEMS_FOOD_FODMAP_COLOR])
+                                                .GroupBy(m => m.DateTime.Date.Day)
+                                                .ToDictionary(m => m.Key, m => m.ToList());
+
+            for (int i = 1; i <= daysInMonth; i++)
+            {
+                if (!meals.ContainsKey(i))
+                {
+                    meals[i] = [];
+                }
+            }
+            return meals;
+        }
+
         public bool Upsert(Meal meal, List<MealItem> mealItems, List<int> reactionIds)
         {
             var success = false;
 
             try
             {
+
+  
+
                 meal.AppUserId = UserId;
                 meal.MealItems = GetValidatedMealItemsList(mealItems);
                 meal.Reactions = _reactionService.CreateMealReactionsList(reactionIds);
@@ -82,6 +111,15 @@ namespace FoodTracker.Service
                 }
                 else
                 {
+                    var verifiedMeal = _unitOfWork.Meal.Get(m => m.AppUserId == UserId && m.Id == meal.Id);
+
+                    if (verifiedMeal == null)
+                        return success;
+
+                    var mealItemsToRemove = _unitOfWork.MealItem.GetAll(mi => mi.MealId == verifiedMeal.Id).ToList();
+                    _unitOfWork.MealItem.RemoveRange(mealItemsToRemove);
+
+
                     _unitOfWork.Meal.Update(meal);
                 }
 

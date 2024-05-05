@@ -40,6 +40,7 @@ namespace FoodTracker.Service
         public Dictionary<int, List<Icon>> GetMonthActivitiesDict(DateTime date) 
         {
             var activities = _unitOfWork.Activity.GetAll(a => a.AppUserId == UserId &&
+                                                    a.DateTime.Year == date.Year &&
                                                     a.DateTime.Month == date.Month,
                                                     includeProperties: [Prop.ACTIVITY_ICON])
                                                     .GroupBy(a => a.DateTime.Day)

@@ -5,13 +5,9 @@ using FoodTracker.Models.Food;
 using FoodTracker.Models.Reaction;
 using FoodTracker.Service.IService;
 using FoodTracker.Utility;
-using System.Drawing;
-using System.Runtime.ExceptionServices;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FoodTracker.Service
 {
-    //public record ToggleStatus(bool Active, string UpdatedColor);
     internal class ReactionService(string userId, IUnitOfWork unitOfWork) : IReactionService
     {
         private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -31,6 +27,29 @@ namespace FoodTracker.Service
                                                 r.IdentifiedOn == dateTime,
                                                 includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY])
                                                 .ToList();
+        }
+
+        public Dictionary<int, List<Reaction>> GetAllDayReactionsForTheMonth(DateTime dateTime)
+        {
+
+            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+
+            var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == UserId &&
+                                                r.SourceTypeId == ReactionSource.Day &&
+                                                r.IdentifiedOn.Value.Year == dateTime.Year &&
+                                                r.IdentifiedOn.Value.Month == dateTime.Month,
+                                                includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY])
+                                                .GroupBy(r => r.IdentifiedOn.Value.Day)
+                                                .ToDictionary(r => r.Key, r => r.ToList());
+
+            for (int i = 1; i <= daysInMonth; i++)
+            {
+                if (!reactions.ContainsKey(i))
+                {
+                    reactions[i] = [];
+                }
+            }
+            return reactions;
         }
 
         public IEnumerable<ReactionSeverity> GetAllSeverities()
@@ -167,7 +186,6 @@ namespace FoodTracker.Service
         public bool ToggleUserSafeDay(DateTime date)
         {
             var active = false;
-            //var existingSafeFood = _unitOfWork.UserSafeFood.Get(f => f.AppUserId == UserId && f.FoodId == id);
             var existingSafeDay = _unitOfWork.UserSafeDay.Get(d => d.AppUserId == userId && d.Date == DateOnly.FromDateTime(date));
 
             if (existingSafeDay != null)
@@ -362,30 +380,13 @@ namespace FoodTracker.Service
         public ReactionIcon GetUserSafeDayIcon()
         {
             return GetDayIcon(SD.REACTION_LABEL_NONE, SD.COLOR_GREEN);
-            //var icon = _unitOfWork.Icon.Get(i => i.Name == SD.REACTION_LABEL_NONE);
-
-            //ReactionIcon safeDayIcon = new()
-            //{
-            //    Name = icon.Name,
-            //    HTML = icon.HTML,
-            //    Color = SD.COLOR_GREEN.ToLower()
-            //};
-
-            //return safeDayIcon;
         }
 
  
 
         public ReactionIcon GetNeutralDayIcon()
         {
-
             return GetDayIcon(SD.REACTION_LABEL_UNKNOWN, SD.COLOR_GRAY); 
-            //new ReactionIcon()
-            //{
-            //    Name = SD.NEUTRAL,
-            //    Color = SD.COLOR_GRAY.ToLower(),
-            //    HTML = iconDict[SD.REACTION_LABEL_UNKNOWN].HTML
-            //};
         }
 
 
@@ -401,15 +402,7 @@ namespace FoodTracker.Service
             };
 
         }
-        //private ReactionIcon CreateReactionIcon(List<Reaction> reaction, Dictionary<string, Icon> iconDict)
-        //{
-        //    return new ReactionIcon()
-        //    {
-        //        Color = Helper.GetColorStringFromSeverity(reaction.Max(r => r.Severity.Value)).ToLower(),
-        //        HTML = iconDict[reaction.Key].HTML,
-        //        Name = iconDict[reaction.Key].Name
-        //    };
-        //}
+
         private ReactionIcon CreateReactionIcon(IGrouping<string, Reaction> reaction, Dictionary<string, Icon> iconDict)
         {
             return new ReactionIcon()
@@ -439,7 +432,5 @@ namespace FoodTracker.Service
 
             return dayColor;
         }
-
-
     }
 }

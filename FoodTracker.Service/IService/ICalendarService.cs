@@ -17,5 +17,7 @@ namespace FoodTracker.Service.IService
                             DateTime dt);
 
         string GetDayColor(DateTime day);
+        public Dictionary<int, string> GetDayColorByMonth(DateTime date, Dictionary<int, List<Reaction>> reactions);
+
     }
 }

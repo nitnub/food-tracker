@@ -9225,6 +9225,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "FoodTracker.DataAccess >= 1.0.0",
+      "FoodTracker.Models >= 1.0.0",
       "FoodTracker.Service >= 1.0.0",
       "FoodTracker.Utility >= 1.0.0",
       "Microsoft.AspNet.WebApi.Client >= 6.0.0",
@@ -9279,6 +9280,9 @@
           "projectReferences": {
             "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj": {
               "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj"
+            },
+            "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
+              "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj"
             },
             "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Service\\FoodTracker.Service.csproj": {
               "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Service\\FoodTracker.Service.csproj"

@@ -17,6 +17,7 @@ namespace FoodTracker.Models.ViewModels
         public int ViewMonth {  get; set; }
         public int ViewYear { get; set; }
         public int ViewDay { get; set; }
+        public string DateShortString { get; set; }
 
         public DayReactionVM DayReactionVM { get; set; }
         public Dictionary<string, Icon> ReactionIcons { get; set; }

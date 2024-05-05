@@ -1,10 +1,12 @@
 ﻿
 function dayReactionUpdate(dateTime) {
-
+    dayId = dateTime;
     $.ajax({
         url: `/Guest/Calendar/GetDayReactions?dateTime=${dateTime}`,
         success: function (data) {
             $('#updateModalBody').html(data);
+
+            updateSelectedTab('Overall Feeling')
             $('#updateModal').modal('show');
         }
     })
@@ -114,3 +116,8 @@ function updateDayReactionBar(date, activeIcons, dayColor) {
     $(`#reactionContainer${date}`)[0].innerHTML = updatedReactions;
     updateDayReactionColor(date, dayColor.toLowerCase());
 }
+
+// Activate modal tab functionality
+$('#overall-tab').on('click', function () {
+    dayReactionUpdate(dayId);
+});
