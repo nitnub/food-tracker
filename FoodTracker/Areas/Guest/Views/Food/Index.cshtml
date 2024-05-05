@@ -14,16 +14,25 @@
 </div>
 
 <div>
-    Search Bar [       ]
+    
+
+    <div class="form-floating py-2 col-4">
+        <input id="foodSearchInput" class="form-control food-input border-0 shadow" type="text" />
+        <label class="ms-2">Filter Foods</label>
+        <span class="text-danger"></span>
+    </div>
+
+    <div id="foodChipContainer">
+
     @foreach (var food in Model.FoodList)
     {
         <partial name="_FoodChipPartial" model="food" />
     }
+    </div>
 
     <div class="card-body p-4 col-7">
         <div id="foodMainView">
-            <partial name="_AddFoodPartial" />
-                       
+            <partial name="_AddFoodPartial" />  
         </div>
     </div>
 </div>

@@ -89,7 +89,7 @@
                         </div>
                     </div>
 
-                    <div id="reactionContainer@(dayId)" class=" d-flex flex-wrap justify-content-center calendar-reaction-container h-100" onclick="dayReactionUpdate('@dayId')">
+                    <div id="reactionContainer@(dayId)" class="d-flex flex-wrap justify-content-center calendar-reaction-container pt-2 h-100" onclick="dayReactionUpdate('@dayId')">
                         @{
                             var reactions = Model.DayVMs[i, j].ReactionIcons;
                         }
@@ -141,7 +141,7 @@
                             {
                                 @foreach (var icon in icons)
                                 {
-                                    <div class="calendar-badge" data-toggle="tooltip" data-placement="top" title="@icon.Name">
+                                    <div class="calendar-badge text-success" data-toggle="tooltip" data-placement="top" title="@icon.Name">
                                         @Html.Raw(icon.HTML)
                                     </div>
                                 }
