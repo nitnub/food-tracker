@@ -95,26 +95,14 @@ body {
     fill: var(--nav-dark);
 }
 
-
-
-
-.check-drop-option{
-    /*background-color: red;*/
+.check-drop-option {
     padding-left: 26px;
-
 }
-
-
 
 
 /* Food Area */
 .food-chip {
     text-decoration: none;
-    /*color: green;*/
-    /*color: #2f2a2a;*/
-    /*background-color: green;*/
-    /*background-color: white;*/
-    /*border: solid 1px green;*/
     color: var(--clr-disabled);
     border: solid 1px var(--clr-fd-blue-dk);
     transition: 0.3s;
@@ -206,7 +194,6 @@ body {
 
 .chip-badge-label,
 .chip-badge-label-large {
-    color: white;
     align-content: center;
 }
 
@@ -218,9 +205,13 @@ body {
     font-size: 1.5em;
 }
 
+#cancelButton {
+ /*   color: red;
+    fill: purple;
+    background-color: red;*/
+}
 
 /* FODMAP */
-
 .fodSelectContainer,
 .fodCard {
     width: 275px;
@@ -256,18 +247,9 @@ body {
 }
 
 .fodSafeContainer {
-    /*background-color: red;*/
-    /*    display: flex;
-     flex-direction: column;
-     align-content: space-between;*/
 }
 
 .fodCheckUnknown {
-    /*background-color: orange;*/
-    /*  display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;*/
 }
 
 .fodSafeCheckContainer {
@@ -275,7 +257,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /*background-color: blue;*/
     height: 90px;
 }
 
@@ -286,13 +267,8 @@ body {
     fill: rgb(92, 92, 92);
 }
 
-/*.fodTitle {
-    font-size: 13px;
-}*/
-
 .fodAliasLabel {
     font-size: 0.95em;
-    /* font-weight:600; */
     color: rgb(92, 92, 92);
 }
 
@@ -303,7 +279,6 @@ body {
 }
 
 .fodColorCircle {
-    /* position: absolute; */
     border-radius: 50%;
     width: 30px;
     height: 30px;
@@ -313,8 +288,6 @@ body {
 .inactiveReactant {
     display: flex;
     align-items: center;
-    /*    height: 24px;
-    width: 24px;*/
 }
 
 .activeReactant {
@@ -324,50 +297,37 @@ body {
 
 .notPresent,
 .inactiveReactant {
-    /* color: rgb(103, 103, 103); */
     color: rgb(159, 159, 174);
     fill: rgb(159, 159, 174);
 }
 
 .fodElements {
-    /*background-color: purple;*/
-    /*width: fit-content;*/
 }
 
 .fodMaxIntakeContainer {
     border-radius: 50%;
-    /* background-color: blueviolet; */
     display: flex;
     flex-direction: column;
-    /* width: 175px; */
     height: 100%;
     justify-content: center;
     align-items: center;
-    /* background-color: red; */
-    /* margin-right: 12px; */
-    /* font-size: 3em; */
+
 }
 
 .fodMaxIntake {
     font-size: 3em;
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*justify-content: flex-end;*/
     margin-bottom: -10px;
-    /* background-color: blue; */
     height: 90px;
 }
 
 
 /* Product Area */
-
 .product-card {
     width: 400px;
 }
 
 .product-ingredient-divider {
     font-weight: bold;
-    /*font-size: 2em;*/
 }
 
 
@@ -412,22 +372,16 @@ body {
 }
 
 .foodChipGreenSolid {
-    color: var(--clr-fm-green-dk);
-    border-color: var(--clr-fm-green-dk);
-    background-color: var(--clr-fm-green-dk);
+    background-color: var(--clr-fd-green-dk);
 }
 
 .foodChipYellowSolid {
-    color: var(--clr-fm-yellow-dk);
-    border-color: var(--clr-fm-yellow-dk);
-    background-color: var(--clr-fm-yellow-dk);
+    background-color: var(--clr-fd-yellow-dk);
 }
 
 
 .foodChipRedSolid {
-    color: var(--clr-fm-red-dk);
-    border-color: var(--clr-fm-red-dk);
-    background-color: var(--clr-fm-red-dk);
+    background-color: var(--clr-fd-red-dk);
 }
 
 .foodChipBlueSolid {
@@ -441,19 +395,10 @@ body {
     visibility: hidden;
 }
 
-
 .tags-input {
-/*    display: inline-block;
-    position: relative;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 5px;
-    box-shadow: 2px 2px 5px #00000033;*/
-    /*width: 50%;*/
-    /*min-width: 250px;*/
-    /*max-width: auto*/
-    /*width: 300px;*/
-    overflow:auto;
+    min-width: 300px;
+    max-width: 300px;
+    overflow: auto;
 }
 
 .tags-input ul {
@@ -464,9 +409,6 @@ body {
 
 .tags-input li {
     display: inline-block;
-    /*background-color: #f2f2f2;*/
-    /*background-color:aquamarine;*/
-    /*color: white;*/
     border-radius: 4px;
     padding: 5px 10px;
     margin-right: 5px;
@@ -478,9 +420,6 @@ body {
 }
 
 .alias-delete {
-    /*background-color: black;*/
-    /*opacity: 20%;*/
-    /* #268c3d */
     background-color: black;
 }
 
@@ -516,49 +455,35 @@ body {
 .calendar-nav-icon-disabled {
     width: 100px;
     height: 50px;
-    /*color: var(--nav-dark);*/
-    fill: #9cbae1 ;
+    fill: #9cbae1;
 }
 
 .calendar-nav-icon-disabled {
-    /*color: grey;*/
-    /*background-color: lightgray;*/
     fill: #393b3d;
 }
 
 .day-card {
-    /*min-height: 220px;
-    max-height: 220px;
-*/
+    /*max-height: 220px;*/
 }
 
 .active-calendar-day {
-    /*background-color: red;*/
-    /*border: solid 2px var(--clr-fm-blue-dk);*/
-    /*box-shadow: 10px 10px 10px 10px lightblue;*/
-    /*box-shadow: 10px 10px lightblue;*/
-    border-color: mediumpurple !important;
-    box-shadow: 0 0 0 5px #ccc;
-    box-shadow: 0 0 0 3px mediumpurple;
+    /*border-color: mediumpurple !important;*/
+    /*box-shadow: 0 0 0 5px #ccc;*/
+    /*box-shadow: 0 0 0 3px mediumpurple;*/
+    box-shadow: 0 0 0 1px #99e5c276;
 }
 
 .calendar-reaction-container {
-    /*background-color: aliceblue;*/
-    /*max-height: 26px;*/
-    /*min-height: 26px;*/
-
     min-height: 32px;
     max-height: 32px;
     padding-top: 6px;
-    /*height: auto;*/
     height: fit-content;
 }
 
 .calendar-meal-container {
-    /*background-color: purple;*/
-    /*height: 100vh;*/
     min-height: 120px;
-    max-height: 100vh;
+    padding-top: 4px;
+    padding-bottom: 24px;
 }
 
 #reactionDropdownSelect {
@@ -568,21 +493,20 @@ body {
 .day-card-footer {
     max-height: 42px;
     min-height: 42px;
-    /*background-color: red;*/
 }
 
 .calendar-day-icon {
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    /*background-color: red;*/
     background-color: var(--clr-fm-blue-dk);
+    background-color: var(--clr-fm-blue);
     color: white;
 }
 
 .calendar-badge-container {
     fill: red;
-    color:red;
+    color: red;
     border-color: red;
 }
 
@@ -592,23 +516,20 @@ body {
 }
 
 .calendar-badge {
-    /*background-color: red;*/
-    /*color: red;*/
     display: flex;
     justify-content: center;
     align-items: center;
     width: 24px;
     height: 24px;
-    /*padding-top: 3px;*/
     margin-left: 3px;
     margin-right: 3px;
 }
+
 .calendar-item,
 .calendar-item-green,
 .calendar-item-yellow,
 .calendar-item-red,
 .calendar-item-blue {
-    /*background-color: purple;*/
     color: white;
     color: black;
     font-size: .75em;
@@ -619,29 +540,26 @@ body {
 
 .calendar-item-green {
     color: var(--clr-fd-green-dk);
-
-    /*color: white;*/
-    border: solid 1px  var(--clr-fd-green-dk);
+    border: solid 1px var(--clr-fd-green-dk);
     background-color: var(--clr-fd-green);
-    /*background-color: var(--clr-fd-green-dk);*/
 }
+
 .calendar-item-yellow {
     color: var(--clr-fd-yellow-dk);
     border: solid 1px var(--clr-fd-yellow-dk);
     background-color: var(--clr-fd-yellow);
-    /*background-color: var(--clr-fd-yellow-dk);*/
 }
+
 .calendar-item-red {
     color: var(--clr-fd-red-dk);
     border: solid 1px var(--clr-fd-red-dk);
     background-color: var(--clr-fd-red);
-    /*background-color: var(--clr-fd-red-dk);*/
 }
+
 .calendar-item-blue {
     color: var(--clr-fd-blue-dk);
     border: solid 1px var(--clr-fd-blue-dk);
     background-color: var(--clr-fd-blue);
-    /*background-color: var(--clr-fd-blue-dk);*/
 }
 
 #reactionDropdown {
@@ -651,9 +569,6 @@ body {
 }
 
 .icon-weightlifting {
-    /*color: red;*/
-    /*stroke: red;*/
-    /*fill: blue;*/
 }
 
 .input-group-left {
@@ -661,7 +576,7 @@ body {
     border-bottom-right-radius: 0px;
 }
 
-.input-group-right {
+.input-group-right {a
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }
@@ -673,67 +588,75 @@ body {
 }
 
 #activityGroup {
-    /*background-color: red;*/
-    /*max-height: 100% ;*/
-
 }
 
 .activity-icons {
-    /*background-color: red;*/
     fill: var(--clr-activity-icon);
     color: var(--clr-activity-icon);
 }
 
 #activityUpdateContainer {
-    /*background-color: purple;*/
     max-height: 340px;
 }
 
 .green {
     color: var(--clr-fd-green-dk);
-    /*stroke: var(--clr-fd-green-dk);*/
-    /*background-color: var(--clr-fd-green-dk);*/
-    /*border-color: var(--clr-fd-green-dk);*/
 }
 
 .bg-green {
-    /*color: var(--clr-fd-green-dk);*/
+    /*#99e5c2*/
     background-color: var(--clr-fd-green-dk);
-    /*border-color: var(--clr-fd-green-dk);*/
 }
 
 .yellow {
     color: var(--clr-fd-yellow-dk);
-    /*stroke: var(--clr-fd-yellow-dk);*/
-    /*border-color: var(--clr-fd-yellow-dk);*/
 }
 
 .bg-yellow {
-    /*color: var(--clr-fd-yellow-dk);*/
     background-color: var(--clr-fd-yellow-dk);
-    /*border-color: var(--clr-fd-yellow-dk);*/
 }
 
 .red {
     color: var(--clr-fd-red-dk);
-    /*stroke: var(--clr-fd-red-dk);*/
-    /*border-color: var(--clr-fd-red-dk);*/
 }
 
 .bg-red {
-    /*color: var(--clr-fd-red-dk);*/
     background-color: var(--clr-fd-red-dk);
-    /*border-color: var(--clr-fd-red-dk);*/
 }
 
 .gray {
     color: var(--blugray);
-    /*stroke: var(--blugray);*/
-    /*border-color: var(--clr-fd-red-dk);*/
 }
 
 .bg-gray {
-    /*color: var(--clr-fd-red-dk);*/
     background-color: var(--blugray);
-    /*border-color: var(--clr-fd-red-dk);*/
+}
+
+
+
+
+
+
+
+
+
+
+
+.active-calendar-day-test {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    --neon: #9461fd;
+    --neon-glow: #4003e6;
+    z-index: -1;
+    border: 5px solid var(--neon);
+    box-shadow: 0 0 50px var(--neon-glow), inset 0 0 50px var(--neon-glow);
+}
+
+@supports (background: color(display-p3 1 1 1)) {
+    @media (dynamic-range: high) {
+        .active-calendar-day-test {
+            --neon-glow: color(display-p3 0 0 1);
+        }
+    }
 }

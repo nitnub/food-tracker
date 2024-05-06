@@ -11,27 +11,36 @@
                     @if (Model.Food.Id != 0)
                     {
                         <a id="cancelButton" type="button" onclick="resetAllFields()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" class="bi bi-x dark" viewBox="0 0 16 16">
+                            <svg width="32" height="32" class="bi bi-x text-light" viewBox="0 0 16 16">
                                 <path class="dark"d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                             </svg>
                         </a>
                     }
-
                 </div>
                 <div class="form-floating py-2 col-12">
-                    <input id="nameInput" class="form-control food-input border-0 shadow" type="text" asp-for="@Model.Food.Name" value="@Model.Food.Name" />
-                    <label asp-for="@Model.Food.Name" class="ms-2"></label>
+                    <input id="nameInput" class="form-control food-input border-0 shadow" asp-for="@Model.Food.Name" value="@Model.Food.Name" placeholder="Meal Name" />
+                    <label asp-for="@Model.Food.Name" class="ms-2" for="nameInput"></label>
                     <span asp-validation-for="@Model.Food.Name" class="text-danger"></span>
                 </div>
-                <div class="d-flex justify-content-between">
 
+
+             @*    <div class="form-floating py-2 col-6">
+                    <input id="mealName" asp-for="@Model.Meal.Name" class="form-control" value="@Model.Meal.Name" placeholder="Meal Name" />
+                    <label asp-for="@Model.Meal.Name" for="mealName"></label>
+                    <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
+                </div> *@
+
+
+
+
+
+                <div class="d-flex justify-content-between">
                     <div>
 
                         <div>
                             <div class="form-check py-2 col-12">
                                 <input id="vegetarianInput" class="food-input" onclick="clickVegetarian()" asp-for="Food.Vegetarian" class="form-check-input border-0 shadow" />
                                 <label asp-for="Food.Vegetarian" class="form-check-label ms-2"></label>
-
                             </div>
 
                             <div class="form-check py-2 col-12">
@@ -47,13 +56,8 @@
 
                         <div>
                             <div id="foodAliasList"></div>
-
-                            ID:
-                            @Model.Food.Id
-
                             <div class="tags-input form-control">
                                 <ul id="tags">
-
                                     @if (Model.Food.Aliases != null)
                                     {
                                         @foreach (var alias in Model.Food.Aliases)
@@ -87,7 +91,8 @@
                     @if (Model.Food.Id == 0)
                     {
                         <div class="col-6 col-md-3 m-1">
-                            <button onclick="submitFoodUpdate()" type="button" class="btn btn-success food-input-button form-control">Add</button>
+                            @* <button onclick="submitFoodUpdate()" type="button" class="btn btn-success food-input-button form-control">Add</button> *@
+                            <button asp-area="Guest" asp-controller="Food" asp-action="AddFood" class="btn btn-success food-input-button form-control">Add</button>
                         </div>
                     }
                     else
@@ -96,7 +101,8 @@
                             <button id="deleteFoodButton" onclick="removeFoodConfirmation(@Model.Food?.Id, '@Model.Food?.Name.Replace("'","\'")')" type="button" class="btn btn-danger food-input-button form-control">Delete</button>
                         </div>
                         <div class="col-6 col-md-3 m-1">
-                            <button onclick="submitFoodUpdate()" type="button" class="btn btn-primary food-input-button form-control">Update</button>
+                            @* <button onclick="submitFoodUpdate()" type="button" class="btn btn-primary food-input-button form-control">Update</button> *@
+                            <button asp-area="Guest" asp-controller="Food" asp-action="AddFood" class="btn btn-primary food-input-button form-control">Update</button>
                         </div>
                     }
                 </div>

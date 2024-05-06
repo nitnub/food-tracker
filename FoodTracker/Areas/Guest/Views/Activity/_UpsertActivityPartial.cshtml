@@ -15,7 +15,7 @@
             <input asp-for="@Model.DateTime" value="@Model.DateTime.ToString("s")" hidden />
             @foreach (var key in Model.Activities.Keys)
             {
-                <div class="border form-group rounded-2 my-2 shadow bg-white p-2 activity-@key">
+                <div class="border form-group rounded-2 my-2 shadow p-2 activity-@key">
                     <input asp-for="@Model.Activities[key].Activity.Id" value="0" hidden />
                     <div class="d-flex col-6">
 

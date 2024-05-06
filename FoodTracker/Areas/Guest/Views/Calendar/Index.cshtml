@@ -82,7 +82,7 @@
             {
                 var dayId = Model.DayVMs[i, j].DateTime.Date.ToString(format);
                 <div class="card day-card border-secondary m-1 col-6 @(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? "active-calendar-day"  : ""  ) " style="width: 10rem;">
-
+                    <div class="@(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? "active-calendar-day-test"  : ""  ) "></div>
                     <div class="card-header d-flex justify-content-end">
                         <div id="day_@dayId" class="d-flex justify-content-center align-items-center calendar-day-icon bg-@(Model.DayVMs[i, j].Color)">
                             @Model.DayVMs[i, j].Day
@@ -114,14 +114,17 @@
                         }
 
                     </div>
-                    <div class="calendar-meal-container h-100" value="@(JsonSerializer.Serialize(Model.DayVMs[i, j]))"
-                         onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])))" type="button">
+                    <div class="calendar-meal-container h-100" 
+                         onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])))" 
+                         type="button">
 
                         @if (Model.DayVMs[i, j].Meals != null)
                         {
                             @foreach (var meal in Model.DayVMs[i, j].Meals)
                             {
-                                <div id="meal@(meal.Id)" class="calendar-item-@(meal.Color.Name.ToString().ToLower()) calendar-meal my-1" onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])), @meal.Id)" value="(@(JsonSerializer.Serialize(Model.DayVMs[i, j])), @meal.Id)">
+                                <div id="meal@(meal.Id)" 
+                                    class="calendar-item-@(meal.Color.Name.ToString().ToLower()) calendar-meal my-1" 
+                                    onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])), @meal.Id)">
                                     @meal.Name
                                 </div>
                             }

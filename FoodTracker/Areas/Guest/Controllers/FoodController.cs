@@ -45,7 +45,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 _foodService.Upsert(food);
             }
 
-            return Json(new { originalName = food.Name });
+            return RedirectToAction(nameof(Index));
+            //return Json(new { originalName = food.Name });
         }
 
         [HttpGet]

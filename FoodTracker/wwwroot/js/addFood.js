@@ -37,23 +37,27 @@ function removeFoodConfirmation(id, foodName) {
 }
 
 function resetAllFields() {
-    // Show and activate all fields
-    $('.food-input').prop('disabled', false);
-    $('.food-input-button').prop('visible', true);
 
-    // Clear food details
-    $('#foodHeader').html(`<div>Add Food</div>`)
-    $('#foodId').val(0);
-    $('#nameInput').val('');
-    $('#vegetarianInput').prop('checked', false);
-    $('#veganInput').prop('checked', false);
-    $('#glutenInput').prop('checked', false);
-    $('#tags').empty();
-    $('#fodmapInput').val('');
-    $('#submitButton').html('Add');
+    location.reload();
 
-    // Clear FODMAP card
-    resetFodmapCard();
+
+    //// Show and activate all fields
+    //$('.food-input').prop('disabled', false);
+    //$('.food-input-button').prop('visible', true);
+
+    //// Clear food details
+    //$('#foodHeader').html(`<div>Add Food</div>`)
+    //$('#foodId').val(0);
+    //$('#nameInput').val('');
+    //$('#vegetarianInput').prop('checked', false);
+    //$('#veganInput').prop('checked', false);
+    //$('#glutenInput').prop('checked', false);
+    //$('#tags').empty();
+    //$('#fodmapInput').val('');
+    //$('#submitButton').html('Add');
+
+    //// Clear FODMAP card
+    //resetFodmapCard();
 }
 
 function clickVegan() {

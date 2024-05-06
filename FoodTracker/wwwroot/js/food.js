@@ -16,7 +16,7 @@ function selectFood(id) {
     })
 }
 
-// 
+// Filter Food Chips
 $('#foodSearchInput').on('keyup', function (e) {
     const phrase = $(this).val().toLowerCase().trim();
     $('#foodChipContainer').children().each(function (i) {

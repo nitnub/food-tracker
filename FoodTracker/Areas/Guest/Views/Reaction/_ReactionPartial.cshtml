@@ -18,33 +18,48 @@
         <div class="row">
             <div class="col-12">
                 <div class="border p-12">
-                    @foreach (var category in Model.Categories.Keys)
-                    {
-                        <h4>@category</h4>
+                    <div id="dayReactionPicker" class="d-flex align-items-start">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
-                        <div>
-                            @foreach (var r in Model.Categories[category])
+                            @for (int i = 0; i < Model.Categories.Keys.Count; i++)
                             {
-                                <div class="px-3 py-2">
+                                var category = Model.Categories.Keys.ToList()[i];
+                                <button class="nav-link @(i == 0 ? "active" : "") " id="v-pills-@i-tab" data-bs-toggle="pill" data-bs-target="#v-pills-@i" type="button" role="tab" aria-controls="v-pills-@i" aria-selected="true">@category</button>
+
+                            }
+                        </div>
+                        <div class="tab-content">
+
+                            @for (int i = 0; i < Model.Categories.Keys.Count; i++)
+                            {
+                                var category = Model.Categories.Keys.ToList()[i];
+                                <div class="tab-pane fade @(i == 0 ? "show active" : "")" id="v-pills-@i" role="tabpanel" aria-labelledby="v-pills-@i-tab">
                                     <div>
-                                        <h5>@r.Name</h5>
-                                    </div>
-                                    <div class="d-flex">
-
-                                        @foreach (var s in Model.Severities)
+                                        @foreach (var r in Model.Categories[category])
                                         {
-                                            var divId = $"{fid}-{r.Id}-{s.Id}";
-                                            var reactions = Model.ExistingReactions;
-                                            int activeSeverity = 0;
+                                            <div class="px-3 py-2">
+                                                <div>
+                                                    <h5>@r.Name</h5>
+                                                </div>
+                                                <div class="d-flex">
 
-                                            _ = (reactions.ContainsKey(fid) && reactions[fid].TryGetValue(r.Id, out activeSeverity));
+                                                    @foreach (var s in Model.Severities)
+                                                    {
+                                                        var divId = $"{fid}-{r.Id}-{s.Id}";
+                                                        var reactions = Model.ExistingReactions;
+                                                        int activeSeverity = 0;
 
-                                            <div id="@divId" class="d-flex px-2 pt-1 form-check-parent" onmouseup="testSubmit('@divId')">
-                                                <div class="form-check">
-                                                    <input @(activeSeverity == s.Id ? "checked" : "") class="form-check-input" type="radio" name="radioGroup-@(category)-@(r.Id)" id="radio@(divId)" value="@(divId)">
-                                                    <label class="form-check-label" for="radio@(divId)">
-                                                        @s.Name
-                                                    </label>
+                                                        _ = (reactions.ContainsKey(fid) && reactions[fid].TryGetValue(r.Id, out activeSeverity));
+
+                                                        <div id="@divId" class="d-flex px-2 pt-1 form-check-parent" onmouseup="testSubmit('@divId')">
+                                                            <div class="form-check">
+                                                                <input @(activeSeverity == s.Id ? "checked" : "") class="form-check-input" type="radio" name="radioGroup-@(category)-@(r.Id)" id="radio@(divId)" value="@(divId)">
+                                                                <label class="form-check-label" for="radio@(divId)">
+                                                                    @s.Name
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    }
                                                 </div>
                                             </div>
                                         }
@@ -52,8 +67,7 @@
                                 </div>
                             }
                         </div>
-                    }
-
+                    </div>
                 </div>
             </div>
         </div>

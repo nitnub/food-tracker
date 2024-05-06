@@ -96,7 +96,7 @@ function addMealItem() {
     const mealGroup = document.getElementById('mealGroup')
     const div = document.createElement("div");
 
-    div.setAttribute("class", "border form-group rounded-2 my-2 shadow bg-white p-2 remove-meal-item-new" + newId);
+    div.setAttribute("class", "border form-group rounded-2 my-2 shadow p-2 remove-meal-item-new" + newId);
 
     div.innerHTML = `
         <div class="d-flex" >

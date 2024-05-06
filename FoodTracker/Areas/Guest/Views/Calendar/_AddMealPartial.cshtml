@@ -76,7 +76,7 @@
 
                         @for (int i = 0; i < Model.Meal.MealItems.Count; i++)
                         {
-                            <div class="border form-group rounded-2 my-2 shadow bg-white p-2 remove-meal-item-new@(Model.Meal.MealItems[i].Id)">
+                            <div class="border form-group rounded-2 my-2 shadow p-2 remove-meal-item-new@(Model.Meal.MealItems[i].Id)">
                                 <input asp-for="@Model.MealItems[i.ToString()].Id" value="@Model.Meal.MealItems[i].Id" hidden />
                                 <input asp-for="@Model.MealItems[i.ToString()].MealId" value="@Model.Meal.MealItems[i].MealId" hidden />
                                 <div class="d-flex">

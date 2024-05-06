@@ -33,36 +33,6 @@ function dayActivityUpsert(dateTime) {
         }
     })
 }
-//function dayActivityUpsert() {
-//    console.log($("#activityForm").serialize());
-//    $.ajax({
-//        type: "POST",
-//        url: '/Guest/Activity/UpsertDayActivities',
-//        data: $("#activityForm").serialize(),
-//        success: function (data) {
-
-//            console.log("SUCCESS");
-//            console.log(data);
-//            //// set behavior by work area
-//            //switch (window.location.pathname) {
-//            //    case '/Guest/Product':
-//            //        $('.food-details-modal').modal('hide');
-//            //        $('#pView').find('*').filter(function () {
-//            //            if ($(this).text() === data.originalName) {
-//            //                $(this).css('background-color', 'red');
-//            //            }
-//            //        });
-//            //        break;
-//            //    case '/Guest/Food':
-//            //        location.reload();
-//            //        break;
-//            //    default:
-//            //        break;
-//            //}
-//        },
-//    });
-
-//}
 
 function getActivityTypes(activitiesList) {
     const nameComparator = (a, b) => a.name.localeCompare(b.name);
@@ -114,7 +84,7 @@ function addActivityItem() {
 
 
     //div.prop('id', 'my-id'+actId);
-    div.setAttribute("class", "border form-group rounded-2 my-2 shadow bg-white p-2 activity-" + actId);
+    div.setAttribute("class", "border form-group rounded-2 my-2 shadow p-2 activity-" + actId);
 
     
 /*    <div id="activity-item-${actId}" class="border form-group rounded-2 my-2 shadow bg-white p-2">*/
@@ -139,7 +109,7 @@ function addActivityItem() {
                 <span class="text-danger field-validation-valid" data-valmsg-for="Activities[${actId}].Activity.Duration.Hours" data-valmsg-replace="true"></span>
             </div>
 
-            <div class="form-floating py-2 mx-1 col-4">
+            <div class="form-floating py-2 mx-1 col-5">
                 <input type="time" value="12:00" class="form-control" data-val="true" data-val-required="The Start Time field is required." id="Activities_${actId}__Activity_DateTime" name="Activities[${actId}].Activity.DateTime"><input name="__Invariant" type="hidden" value="Activities[${actId}].Activity.DateTime">
                 <label class="ms-2">Start Time</label>
                 <span class="text-danger field-validation-valid" data-valmsg-for="Activities[${actId}].Activity.DateTime" data-valmsg-replace="true"></span>

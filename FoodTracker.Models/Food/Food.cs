@@ -1,18 +1,11 @@
 ﻿using FoodTracker.DataAccess.Interfaces;
-using FoodTracker.Models.Day;
 using FoodTracker.Models.FODMAP;
 using FoodTracker.Models.IModel;
 using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodTracker.Models.Food
 {

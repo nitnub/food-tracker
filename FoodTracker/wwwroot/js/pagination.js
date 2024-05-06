@@ -79,7 +79,7 @@ function option(query, page) {
 }
 
 function ellipsis() {
-    return `<li class="page-item disabled"><a class="page-link">...</a></li>`
+    return `<li class="page-item"><a class="page-link">...</a></li>`
 }
 
 function prev(query, page) {
