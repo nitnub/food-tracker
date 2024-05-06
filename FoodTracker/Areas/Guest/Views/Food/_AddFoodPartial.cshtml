@@ -91,7 +91,6 @@
                     @if (Model.Food.Id == 0)
                     {
                         <div class="col-6 col-md-3 m-1">
-                            @* <button onclick="submitFoodUpdate()" type="button" class="btn btn-success food-input-button form-control">Add</button> *@
                             <button asp-area="Guest" asp-controller="Food" asp-action="AddFood" class="btn btn-success food-input-button form-control">Add</button>
                         </div>
                     }
@@ -101,7 +100,6 @@
                             <button id="deleteFoodButton" onclick="removeFoodConfirmation(@Model.Food?.Id, '@Model.Food?.Name.Replace("'","\'")')" type="button" class="btn btn-danger food-input-button form-control">Delete</button>
                         </div>
                         <div class="col-6 col-md-3 m-1">
-                            @* <button onclick="submitFoodUpdate()" type="button" class="btn btn-primary food-input-button form-control">Update</button> *@
                             <button asp-area="Guest" asp-controller="Food" asp-action="AddFood" class="btn btn-primary food-input-button form-control">Update</button>
                         </div>
                     }

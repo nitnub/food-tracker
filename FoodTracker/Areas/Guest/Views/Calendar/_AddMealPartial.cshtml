@@ -82,7 +82,6 @@
                                 <div class="d-flex">
                                     <div class="form-floating py-2 col-6">
                                         <select id="nmiFood_@(i)" class="form-select food-input mi-food" asp-for="@Model.MealItems[i.ToString()].FoodId">
-                                            @* <option value="" selected disabled></option> *@
                                             @foreach (var f in Model.Foods)
                                             {
                                                 if (Model.Meal.MealItems[i].FoodId == f.Id)
@@ -106,7 +105,6 @@
                                         </div>
                                         <div class="form-floating py-2 col-6">
                                             <select class="form-select food-input meal-item-units" asp-for="@Model.MealItems[i.ToString()].VolumeUnitsId">
-                                                @* <option value="" selected></option> *@
                                                 @foreach (var unit in Model.Units)
                                                 {
 
