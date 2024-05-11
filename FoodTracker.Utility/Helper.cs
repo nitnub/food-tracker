@@ -184,7 +184,7 @@ namespace FoodTracker.Utility
             {
                 dayColor = SD.COLOR_GRAY;
             }
-            else if (activeIcons.Find(i => i.Name == SD.REACTION_LABEL_NONE) != null)
+            else if (activeIcons.Find(i => i.Name == SD.REACTION_DAY_LABEL_NONE) != null)
             {
                 dayColor = SD.COLOR_GREEN;
             }

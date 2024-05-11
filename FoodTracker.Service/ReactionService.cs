@@ -282,7 +282,8 @@ namespace FoodTracker.Service
             var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == UserId &&
                                             r.SourceTypeId == ReactionSource.Day &&
                                             r.IdentifiedOn.Value.Date.Year == year && 
-                                            r.IdentifiedOn.Value.Date.Month == month,
+                                            r.IdentifiedOn.Value.Date.Month == month &&
+                                            r.Severity.Name != SD.REACTION_LABEL_NONE,
                                             includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY])
                                             .GroupBy(r => r.IdentifiedOn.Value.Day)
                                             .ToDictionary(r => r.Key, r => r);
@@ -351,7 +352,8 @@ namespace FoodTracker.Service
 
             var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == UserId &&
                                         r.SourceTypeId == ReactionSource.Day &&
-                                        r.IdentifiedOn.Value.Date == date.Date,
+                                        r.IdentifiedOn.Value.Date == date.Date &&
+                                        r.Severity.Name != SD.REACTION_LABEL_NONE,
                                         includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY]);
 
             var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction)
@@ -379,7 +381,7 @@ namespace FoodTracker.Service
         }
         public ReactionIcon GetUserSafeDayIcon()
         {
-            return GetDayIcon(SD.REACTION_LABEL_NONE, SD.COLOR_GREEN);
+            return GetDayIcon(SD.REACTION_DAY_LABEL_NONE, SD.COLOR_GREEN);
         }
 
  

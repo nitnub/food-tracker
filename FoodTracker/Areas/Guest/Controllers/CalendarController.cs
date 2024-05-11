@@ -222,46 +222,38 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         private DayVM[,] GetPopulatedCalendarDays(DateTime dt)
         {
-            var firstDayOfMonth = new DateTime(dt.Year, dt.Month, 1);
-            var firstDayOfMonthIndex = (int)firstDayOfMonth.DayOfWeek;
+            var dh = new DateHelper(dt);
 
-            var daysInMonth = DateTime.DaysInMonth(dt.Year, dt.Month);
-            var weeksInMonth = (firstDayOfMonthIndex + daysInMonth) / 7 + 1;
+            var dayVMs = new DayVM[dh.WeeksInMonth, 7];
+            int dayIndex = dh.DayIndex;
 
-            var dayVMs = new DayVM[weeksInMonth, 7];
-            int dayIndex = 0 - firstDayOfMonthIndex;
-
+            var mealIcons = _mealService.GetMealsByMonth(dt);
             var activityDict = _activityService.GetMonthActivitiesDict(dt);
             var reactionIcons = _reactionService.GetActiveIcons(dt.Year, dt.Month);
-            var mealIcons = _mealService.GetMealsByMonth(dt);
 
             var dayReactions = _reactionService.GetAllDayReactionsForTheMonth(dt);
             var dayColors = _calendarService.GetDayColorByMonth(dt, dayReactions);
-            for (int row = 0; row < weeksInMonth; row++)
+
+            for (int row = 0; row < dh.WeeksInMonth; row++)
             {
                 for (int col = 0; col < 7; col++)
                 {
-                    DayVM newDay; // = new();
+                    DayVM newDay;
 
                     // If day falls outside of current month...
-                    if (dayIndex < 0 || dayIndex > daysInMonth - 1)
-                    {
+                    if (dayIndex < 0 || dayIndex > dh.DaysInMonth - 1)
+                        {
                         newDay = new()
                         {
                             Day = null,
                             ReactionIcons = [],
                             ActivityIcons = []
                         };
-                        //newDay.Day = null;
-                        //newDay.ReactionIcons = [];
-                        //newDay.ActivityIcons = [];
-
-
                     }
                     // else if day is in current month...
                     else
                     {
-                        var today = new DateTime(dt.Year, dt.Month, dayIndex + 1);
+                        var today = dh.GetTodayFromDayIndex(dayIndex);
 
                         newDay = new()
                         {
@@ -272,16 +264,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                             Day = dayIndex + 1,
                             Color = dayColors[today.Day]
                         };
-
-                        //newDay.Meals = mealIcons[today.Day];
-                        //newDay.Reactions = dayReactions[today.Day];
-                        //newDay.ReactionIcons = reactionIcons[today.Day];
-
-
-                        //newDay.DateTime = today;
-                        //newDay.Day = dayIndex + 1;
-                        //newDay.Color = dayColors[today.Day];
-
 
                         List<Icon> dayActivities = [];
                         if (activityDict.TryGetValue(today.Day, out dayActivities))

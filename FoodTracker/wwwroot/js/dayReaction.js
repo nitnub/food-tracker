@@ -41,7 +41,7 @@ function toggleReaaction(reactantId, typeId, severityId, active) {
         dataType: 'json',
         success: function (r) {
             if (!r.success || r.isUserSafeDay) return;
-
+        
             updateDayReactionBar(reactantId, r.activeIcons, r.dayColor.toLowerCase());
             updateDayReactionColor(reactantId, r.dayColor.toLowerCase());
         }
