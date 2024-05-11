@@ -1,4 +1,6 @@
 :root {
+    --clr-primary-dark: #486581 !important;
+    --clr-primary-dark-hover: #2e4760 !important;
     --lt-blue: rgb(212, 231, 248);
     --blugray: rgb(168, 183, 196);
     --lt-brown: rgb(235, 234, 234);
@@ -451,12 +453,36 @@ body {
     all: unset;
 }
 
+
+/*.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {*/
+.btn-primary-dark {
+    background-color: var(--clr-primary-dark);
+}
+
+    .btn-primary-dark:hover {
+        /*background-color: #2e4760 !important;*/
+        background-color: var(--clr-primary-dark-hover);
+    }
+
+    .btn-primary-dark:visited {
+        background-color: rgba(180, 4, 4, 0.23) !important;
+    }
+
+
+
 .calendar-nav-icon,
 .calendar-nav-icon-disabled {
     width: 100px;
     height: 50px;
     fill: #9cbae1;
+    fill: var(--clr-primary-dark);
 }
+
+    .calendar-nav-icon:hover {
+        fill: var(--clr-primary-dark-hover);
+    }
+
+
 
 .calendar-nav-icon-disabled {
     fill: #393b3d;
@@ -633,12 +659,19 @@ body {
 }
 
 
+/*.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {*/
+.btn-primary-dark {
+    background-color: var(--clr-primary-dark);
+}
 
+.btn-primary-dark:hover {
+    /*background-color: #2e4760 !important;*/
+    background-color: var(--clr-primary-dark-hover);
+}
 
-
-
-
-
+.btn-primary-dark:visited {
+    background-color: rgba(180, 4, 4, 0.23) !important;
+}
 
 
 
