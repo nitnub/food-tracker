@@ -17,17 +17,11 @@ function updateReaction(s) {
     const theDiv = $(`#radio${s}`);
 
     $(theDiv).on('click', (e) => e.preventDefault());
-    const checked = theDiv.is(':checked');
 
-    toggleReaaction(reactantId, typeId, severityId);
-    theDiv.prop('checked', !checked);
+    toggleReaaction(reactantId, typeId, severityId, theDiv);
 }
 
-function toggleReaaction(reactantId, typeId, severityId, active) {
-    let updatedReactions = "";
-    let icon;
-    let color;
-
+function toggleReaaction(reactantId, typeId, severityId, theDiv) {
     $.ajax({
         url: '/Guest/Calendar/ToggleDayReaction',
         type: 'POST',
@@ -41,15 +35,17 @@ function toggleReaaction(reactantId, typeId, severityId, active) {
         dataType: 'json',
         success: function (r) {
             if (!r.success || r.isUserSafeDay) return;
-        
+
             updateDayReactionBar(reactantId, r.activeIcons, r.dayColor.toLowerCase());
             updateDayReactionColor(reactantId, r.dayColor.toLowerCase());
+
+            const checked = theDiv.is(':checked');
+            theDiv.prop('checked', !checked);
         }
     })
 }
 
 function updateUserSafeDay(date) {
-    let updatedReactions = "";
 
     $.ajax({
         url: `/Guest/Calendar/UpdateUserSafeDay?date=${date}`,
@@ -100,18 +96,31 @@ function updateDateBubbleColor(date, color) {
 
 function updateDayReactionBar(date, activeIcons, dayColor) {
 
-    let updatedReactions = "";
+    let updatedReactions = '';
+    let additionalCount = '';
+
+    if (activeIcons.length > MAX_DISPLAY_REACTIONS) {
+        additionalCount = `
+            <div>
+                <div>+${activeIcons.length - MAX_DISPLAY_REACTIONS + 1}</div>
+            </div>
+        `
+        activeIcons.length = MAX_DISPLAY_REACTIONS - 1;
+    }
+
     activeIcons.forEach(icon => {
         updatedReactions += `
-            <div
-                class="calendar-badge ${icon.color}"
-                data-toggle="tooltip" 
-                data-placement="top" 
-                title="${icon.name}"
-                >
-                ${icon.html}
-            </div>`
+                <div
+                    class="calendar-badge ${icon.color}"
+                    data-toggle="tooltip" 
+                    data-placement="top" 
+                    title="${icon.name}"
+                    >
+                    ${icon.html}
+                </div>`
     })
+
+    updatedReactions += additionalCount;
 
     $(`#reactionContainer${date}`)[0].innerHTML = updatedReactions;
     updateDayReactionColor(date, dayColor.toLowerCase());

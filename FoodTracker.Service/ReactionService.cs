@@ -112,6 +112,7 @@ namespace FoodTracker.Service
             return GetMaxSeverityColorString(food);
         }
 
+
         public bool ToggleDayReaction(Reaction reaction)
         {
 
@@ -120,14 +121,37 @@ namespace FoodTracker.Service
 
             reaction.AppUserId = UserId;
             reaction.SourceTypeId = ReactionSource.Day;
-            
-            if (!QueueRemovalOfRelatedDayReactions(_unitOfWork, reaction))
+
+
+
+            var success = false;
+            var reactionToRemove = _unitOfWork.Reaction.Get(r =>
+                                            r.SourceTypeId == ReactionSource.Day &&
+                                            r.IdentifiedOn.Value.Date == reaction.IdentifiedOn.Value.Date &&
+                                            r.TypeId == reaction.TypeId &&
+                                            r.AppUserId == reaction.AppUserId);
+
+            if (reactionToRemove == null)
+            {
                 _unitOfWork.Reaction.Add(reaction);
+            }
+
+            else
+            {
+                _unitOfWork.Reaction.Remove(reactionToRemove);
+
+                if (reaction.TypeId != reactionToRemove.TypeId ||
+                    reaction.SeverityId != reactionToRemove.SeverityId)
+                {
+                    _unitOfWork.Reaction.Add(reaction);
+                }
+            }
 
             _unitOfWork.Save();
 
             return true;
         }
+
         private static bool QueueRemovalOfRelatedDayReactions(IUnitOfWork unitOfWork, Reaction newReaction)
         {
             var success = false;
@@ -137,12 +161,39 @@ namespace FoodTracker.Service
                                             r.TypeId == newReaction.TypeId &&
                                             r.AppUserId == newReaction.AppUserId);
 
+            ////if (reactionToRemove != null)
+            ////{
+            ////    unitOfWork.Reaction.Remove(reactionToRemove);
+
+            ////    success = true;
+            ////}
+
+            //if (reactionToRemove != null && 
+            //    newReaction.TypeId == reactionToRemove.TypeId && 
+            //    newReaction.SeverityId == reactionToRemove.SeverityId)
+            //{
+            //    unitOfWork.Reaction.Remove(reactionToRemove);
+
+            //    success = true;
+            //}
+
             if (reactionToRemove != null)
             {
-                unitOfWork.Reaction.Remove(reactionToRemove);
+                if (newReaction.TypeId == reactionToRemove.TypeId &&
+                    newReaction.SeverityId == reactionToRemove.SeverityId)
+                {
+                    unitOfWork.Reaction.Remove(reactionToRemove);
 
-                success = true;
-            }
+                    success = true;
+                }
+                else
+                {
+                    unitOfWork.Reaction.Remove(reactionToRemove);
+
+                    success = true;
+                    //_unitOfWork.Reaction.Add(newReaction);
+                }
+            } 
 
             return success;
         }
