@@ -1,15 +1,10 @@
 ﻿@model CalendarVM
 
 @{
-    var MIN_DISPLAY_YEAR = 2021;
-    var MAX_DISPLAY_YEAR = DateTime.Now.Year + 1;
-
-    var MIN_DISPLAY_MONTH = 1;
-    var MAX_DISPLAY_MONTH = 12;
-
     var MAX_DISPLAY_ACTIVITIES = 4;
     var MAX_DISPLAY_REACTIONS = 5;
-    var format = "yyyy-MM-dd";
+    var ACTIVE_DAY_CLASS = "active-calendar-day";
+    var ACTIVE_DAY_BACKDROP_CLASS = "active-calendar-backdrop";
 }
 <!-- Meal Details Modal (Calendar) -->
 <div id="meal-modal" class="modal meal-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
@@ -79,9 +74,9 @@
         <div class="d-flex">
             @for (int j = 0; j < Model.DayVMs.GetLength(1); j++)
             {
-                var dayId = Model.DayVMs[i, j].DateTime.Date.ToString(format);
-                <div class="card day-card border-secondary m-1 col-6 @(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? "active-calendar-day"  : ""  ) " style="width: 10rem;">
-                    <div class="@(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? "active-calendar-day-test"  : ""  ) "></div>
+                var dayId = Model.DayVMs[i, j].DateTime.Date.ToString(SD.DATE_FORMAT);
+                <div class="card day-card border-secondary m-1 col-6 @(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_CLASS : ""  ) " style="width: 10rem;">
+                    <div class="@(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_BACKDROP_CLASS : ""  )"></div>
                     <div class="card-header d-flex justify-content-end">
                         <div id="day_@dayId" class="d-flex justify-content-center align-items-center calendar-day-icon bg-@(Model.DayVMs[i, j].Color)">
                             @Model.DayVMs[i, j].Day

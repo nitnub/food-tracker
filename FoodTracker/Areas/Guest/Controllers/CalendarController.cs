@@ -227,57 +227,44 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var dayVMs = new DayVM[dh.WeeksInMonth, 7];
             int dayIndex = dh.DayIndex;
 
-            var mealIcons = _mealService.GetMealsByMonth(dt);
-            var activityDict = _activityService.GetMonthActivitiesDict(dt);
-            var reactionIcons = _reactionService.GetActiveIcons(dt.Year, dt.Month);
+            var mealIcons = _mealService.GetMealsForSurroundingMonths(dt);
+            var activityDict = _activityService.GetMonthActivitiesForSurroundingMonths(dt);
+            var reactionIcons = _reactionService.GetActiveIconsForSurroundingMonths(dt);
 
-            var dayReactions = _reactionService.GetAllDayReactionsForTheMonth(dt);
-            var dayColors = _calendarService.GetDayColorByMonth(dt, dayReactions);
+            var dayReactions = _reactionService.GetAllDayReactionsForSurroundingMonths(dt);
+            var dayColors = _calendarService.GetDayColorsForSurroundingMonths(dt, dayReactions);
 
             for (int row = 0; row < dh.WeeksInMonth; row++)
             {
                 for (int col = 0; col < 7; col++)
                 {
                     DayVM newDay;
+                    var today = dh.GetTodayFromDayIndex(dayIndex);
 
-                    // If day falls outside of current month...
-                    if (dayIndex < 0 || dayIndex > dh.DaysInMonth - 1)
-                        {
-                        newDay = new()
-                        {
-                            Day = null,
-                            ReactionIcons = [],
-                            ActivityIcons = []
-                        };
+                    if (dayIndex < 0 || dayIndex >= dh.DaysInMonth)
+                    {
+                        // If day falls outside of current month...
                     }
-                    // else if day is in current month...
+
+                    newDay = new()
+                    {
+                        Meals = mealIcons[dayIndex],
+                        Reactions = dayReactions[dayIndex],
+                        ReactionIcons = reactionIcons[dayIndex],
+                        DateTime = today,
+                        Day = dh.GetDayLabel(dayIndex),
+                        Color = dayColors[dayIndex]
+                    };
+
+                    List<Icon> dayActivities = [];
+
+                    if (activityDict.TryGetValue(dayIndex, out dayActivities))
+                    {
+                        newDay.ActivityIcons = dayActivities;
+                    }
                     else
                     {
-                        var today = dh.GetTodayFromDayIndex(dayIndex);
-
-                        newDay = new()
-                        {
-                            Meals = mealIcons[today.Day],
-                            Reactions = dayReactions[today.Day],
-                            ReactionIcons = reactionIcons[today.Day],
-                            DateTime = today,
-                            Day = dayIndex + 1,
-                            Color = dayColors[today.Day]
-                        };
-
-                        List<Icon> dayActivities = [];
-                        if (activityDict.TryGetValue(today.Day, out dayActivities))
-                        {
-                            newDay.ActivityIcons = dayActivities;
-
-                            var icons = dayActivities.GroupBy(icon => icon.Id)
-                                                        .Select(iGrp => iGrp.First())
-                                                        .ToList();
-                        }
-                        else
-                        {
-                            newDay.ActivityIcons = [];
-                        }
+                        newDay.ActivityIcons = [];
                     }
                     dayVMs[row, col] = newDay;
                     dayIndex++;

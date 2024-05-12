@@ -29,6 +29,34 @@ namespace FoodTracker.Service
                                                 .ToList();
         }
 
+        public Dictionary<int, List<Reaction>> GetAllDayReactionsForSurroundingMonths(DateTime dateTime)
+        {
+            var dh = new DateHelper(dateTime);
+
+            var padLast = dh.GetLastMonthPad();
+            var padNext = dh.GetNextMonthPad();
+           
+            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+
+            var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == UserId &&
+                                                r.SourceTypeId == ReactionSource.Day &&
+                                                r.IdentifiedOn >= padLast &&
+                                                r.IdentifiedOn <= padNext,
+                                                includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY])
+                                                .GroupBy(r => r.IdentifiedOn.Value.DayOfYear - dh.FirstDayOfMonth.DayOfYear)
+                                                .ToDictionary(r => r.Key, r => r.ToList());
+
+            for (int i = - 7; i <= daysInMonth + 7; i++)
+            {
+                if (!reactions.ContainsKey(i))
+                {
+                    reactions[i] = [];
+                }
+            }
+            return reactions;
+        }
+
+
         public Dictionary<int, List<Reaction>> GetAllDayReactionsForTheMonth(DateTime dateTime)
         {
 
@@ -79,11 +107,26 @@ namespace FoodTracker.Service
             return Helper.GetFoodTypeSeverityDict(GetAll());
         }
 
-
         public Dictionary<DateTime, Dictionary<int, int>> GetDayTypeSeverityDict(DateTime dateTime)
         {
             var existingReactions = GetAllDayReactions(dateTime);
             return Helper.GetDayTypeSeverityDict(existingReactions);
+        }
+
+        public Dictionary<string, bool> GetUserSafeDaysForSurroundingMonths(DateTime dateTime, string dateFormat = SD.DATE_FORMAT)
+        {
+
+            var dh = new DateHelper(dateTime);
+
+            var padLast = dh.GetLastMonthPad();
+            var padNext = dh.GetNextMonthPad();
+
+            var userSafeDays = _unitOfWork.UserSafeDay.GetAll(d => d.AppUserId == UserId &&
+                                                d.Date.DayOfYear >= padLast.DayOfYear &&
+                                                d.Date.DayOfYear <= padNext.DayOfYear);
+
+            return userSafeDays.GroupBy(d => d.Date.ToString(dateFormat))
+                                                .ToDictionary(d => d.Key, d => true);
         }
 
         public Dictionary<string, bool> GetUserSafeDaysDict(DateTime dt, string dateFormat = SD.DATE_FORMAT)
@@ -95,6 +138,7 @@ namespace FoodTracker.Service
             return userSafeDays.GroupBy(d => d.Date.ToString(dateFormat))
                                                 .ToDictionary(d => d.Key, d => true);
         }
+
         public string ToggleReaction(Reaction reaction)
         {
             reaction.SourceTypeId = ReactionSource.Food;
@@ -161,22 +205,6 @@ namespace FoodTracker.Service
                                             r.TypeId == newReaction.TypeId &&
                                             r.AppUserId == newReaction.AppUserId);
 
-            ////if (reactionToRemove != null)
-            ////{
-            ////    unitOfWork.Reaction.Remove(reactionToRemove);
-
-            ////    success = true;
-            ////}
-
-            //if (reactionToRemove != null && 
-            //    newReaction.TypeId == reactionToRemove.TypeId && 
-            //    newReaction.SeverityId == reactionToRemove.SeverityId)
-            //{
-            //    unitOfWork.Reaction.Remove(reactionToRemove);
-
-            //    success = true;
-            //}
-
             if (reactionToRemove != null)
             {
                 if (newReaction.TypeId == reactionToRemove.TypeId &&
@@ -191,7 +219,6 @@ namespace FoodTracker.Service
                     unitOfWork.Reaction.Remove(reactionToRemove);
 
                     success = true;
-                    //_unitOfWork.Reaction.Add(newReaction);
                 }
             } 
 
@@ -266,7 +293,6 @@ namespace FoodTracker.Service
             return userSafe;
         }
 
-        // returns true if reaction is now empty
         private static bool QueueRemovalOfRelatedReactions(IUnitOfWork unitOfWork, Reaction newReaction)
         {
             var success = false;
@@ -322,8 +348,73 @@ namespace FoodTracker.Service
 
             return mealReactions;
         }
+        public Dictionary<int, List<ReactionIcon>> GetActiveIconsForSurroundingMonths(DateTime dateTime)
+        {
+            var dh = new DateHelper(dateTime);
 
-      
+            var padLast = dh.GetLastMonthPad();
+            var padNext = dh.GetNextMonthPad();
+            var daysInMonth = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+
+            var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == UserId &&
+                                            r.SourceTypeId == ReactionSource.Day &&
+                                            r.IdentifiedOn >= padLast &&
+                                            r.IdentifiedOn <= padNext &&
+                                            r.Severity.Name != SD.REACTION_LABEL_NONE,
+                                            includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY])
+                                            .GroupBy(r => r.IdentifiedOn.Value.DayOfYear - dh.FirstDayOfMonth.DayOfYear)
+                                            .ToDictionary(r => r.Key, r => r);
+
+
+
+            var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction)
+                                            .ToDictionary(r => r.Name, r => r);
+
+            var output = new Dictionary<int, List<ReactionIcon>>();
+            foreach (var reactionList in reactions.Values)
+            {
+                var reactionIconDict = reactionList.GroupBy(r => r.Type.Category.Name)
+                                            .ToDictionary(m => m.Key, m => CreateReactionIcon(m, iconDict));
+
+                var activeIcons = reactionIconDict.Select(r => r.Value)
+                                            .OrderBy(r => r.Name)
+                                            .ToList();
+
+                if (activeIcons.Count == 0)
+                {
+                    var noReactions = new ReactionIcon()
+                    {
+                        Name = SD.NEUTRAL,
+                        Color = SD.COLOR_GRAY.ToLower(),
+                        HTML = iconDict[SD.REACTION_LABEL_UNKNOWN].HTML
+                    };
+
+                    output[reactionList.Key] = [noReactions];
+                }
+
+                output[reactionList.Key] = activeIcons;
+            }
+
+            var userSafeDays = _unitOfWork.UserSafeDay.GetAll(s => s.AppUserId == UserId &&
+                                                            s.Date.DayOfYear >= padLast.DayOfYear &&
+                                                            s.Date.DayOfYear <= padNext.DayOfYear)
+                                                            .Select(s => s.Date.DayOfYear - dh.FirstDayOfMonth.DayOfYear).ToList();
+
+            foreach (int day in userSafeDays)
+            {
+                output[day] = [GetUserSafeDayIcon()];
+            }
+            for (int i = -7; i <= daysInMonth + 7; i++)
+            {
+                if (!output.ContainsKey(i))
+                {
+                    output[i] = [GetNeutralDayIcon()];
+                }
+            }
+
+            return output;
+        }
+
         public Dictionary<int, List<ReactionIcon>> GetActiveIcons(int year, int month)
         {
 
@@ -435,13 +526,10 @@ namespace FoodTracker.Service
             return GetDayIcon(SD.REACTION_DAY_LABEL_NONE, SD.COLOR_GREEN);
         }
 
- 
-
         public ReactionIcon GetNeutralDayIcon()
         {
             return GetDayIcon(SD.REACTION_LABEL_UNKNOWN, SD.COLOR_GRAY); 
         }
-
 
         private ReactionIcon GetDayIcon(string iconName, string color = SD.COLOR_GRAY)
         {

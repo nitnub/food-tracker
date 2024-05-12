@@ -2,6 +2,7 @@
 {
     public class DateHelper
     {
+        private readonly int CALENDAR_BUFFER = 7;
         private readonly DateTime _dateTime;
         public DateTime FirstDayOfMonth { get; }
         public int FirstDayOfMonthIndex { get; }
@@ -26,8 +27,26 @@
 
         public DateTime GetTodayFromDayIndex(int dayIndex)
         {
+            if (dayIndex < 0 || dayIndex > DaysInMonth - 1)
+            {
+                return FirstDayOfMonth.AddDays(dayIndex);
+            }
             return new DateTime(_dateTime.Year, _dateTime.Month, dayIndex + 1);
         }
-    }
 
+        public DateTime GetLastMonthPad()
+        {
+            return FirstDayOfMonth.AddDays(-CALENDAR_BUFFER);
+        }
+
+        public DateTime GetNextMonthPad()
+        {
+            return FirstDayOfMonth.AddDays(DaysInMonth + CALENDAR_BUFFER);
+        }
+
+        public int GetDayLabel(int index)
+        {
+            return FirstDayOfMonth.AddDays(index).Day;
+        }
+    }
 }

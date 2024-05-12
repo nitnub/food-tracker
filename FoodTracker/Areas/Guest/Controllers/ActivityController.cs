@@ -4,8 +4,6 @@ using FoodTracker.Models.ViewModels;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using System;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
@@ -13,15 +11,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
     [Area("Guest")]
     [Authorize]
-    public class ActivityController(IUnitOfWork unitOfwork) : Controller 
+    public class ActivityController(IUnitOfWork unitOfwork) : Controller
     {
         public ActivityVM ActivityVM { get; set; }
         public ActivityGroupVM ActivityGroupVM { get; set; }
+        public CalendarVM CalendarVM { get; set; }
         private readonly IUnitOfWork _unitOfWork = unitOfwork;
 
         public IActionResult Index()
         {
-
             return View();
         }
 
@@ -63,11 +61,10 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             var activityVMs = new List<ActivityVM>();
 
-            foreach(var activity in activities)
+            foreach (var activity in activities)
             {
                 var newVM = new ActivityVM()
                 {
-                    //Activity = initialActivityTest,
                     Activity = activity,
                     Hours = activity.Duration.Hours,
                     Minutes = activity.Duration.Minutes,
@@ -83,7 +80,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 Types = _unitOfWork.ActivityType.GetAll(),
                 DateTime = dateTime
             };
-         
 
             return PartialView("_UpsertActivityPartial", ActivityGroupVM);
         }
@@ -91,11 +87,14 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpPost]
         public IActionResult UpsertDayActivities(ActivityGroupVM activityGroupVM)
         {
+            CalendarVM = new()
+            {
+                ViewDate = activityGroupVM.DateTime.Date,
+            };
 
             var userId = Helper.GetAppUserId(User);
             if (!ModelState.IsValid || userId == null)
-                return RedirectToAction("Index", "Calendar");
-
+                return RedirectToAction(nameof(Index), "Calendar", CalendarVM);
 
             var existingActivities = _unitOfWork.Activity.GetAll(a => a.AppUserId == userId &&
                                                                  a.DateTime.Date == activityGroupVM.DateTime.Date);
@@ -109,11 +108,11 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             foreach (var vm in activityGroupVM.Activities.Values)
             {
                 var activityDateTime = new DateTime(
-                                                activityGroupVM.DateTime.Year, 
-                                                activityGroupVM.DateTime.Month, 
-                                                activityGroupVM.DateTime.Day, 
-                                                vm.Activity.DateTime.Hour, 
-                                                vm.Activity.DateTime.Minute, 
+                                                activityGroupVM.DateTime.Year,
+                                                activityGroupVM.DateTime.Month,
+                                                activityGroupVM.DateTime.Day,
+                                                vm.Activity.DateTime.Hour,
+                                                vm.Activity.DateTime.Minute,
                                                 0);
                 vm.Activity.AppUserId = userId;
                 vm.Activity.DateTime = activityDateTime;
@@ -123,7 +122,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             _unitOfWork.Save();
 
-            return RedirectToAction("Index", "Calendar");
+            return RedirectToAction(nameof(Index), "Calendar", CalendarVM);
         }
 
         [HttpDelete]

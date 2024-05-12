@@ -670,14 +670,11 @@ body {
     background-color: var(--blugray);
 }
 
-
-/*.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {*/
 .btn-primary-dark {
     background-color: var(--clr-primary-dark);
 }
 
 .btn-primary-dark:hover {
-    /*background-color: #2e4760 !important;*/
     background-color: var(--clr-primary-dark-hover);
 }
 
@@ -685,9 +682,7 @@ body {
     background-color: rgba(180, 4, 4, 0.23) !important;
 }
 
-
-
-.active-calendar-day-test {
+.active-calendar-backdrop {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -700,7 +695,7 @@ body {
 
 @supports (background: color(display-p3 1 1 1)) {
     @media (dynamic-range: high) {
-        .active-calendar-day-test {
+        .active-calendar-backdrop {
             --neon-glow: color(display-p3 0 0 1);
         }
     }
