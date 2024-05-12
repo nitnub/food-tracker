@@ -5,10 +5,11 @@
     <ul class="list-unstyled ps-0">
 
         <li class="mb-1">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="true">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" role="button" data-bs-target="#productCollapse" aria-controls="productCollapse" aria-expanded="false">
                 Products
             </button>
-            <div class="collapse show" id="product-collapse">
+            <div class="collapse" id="productCollapse">
+                @* <div class="collapse multi-collapse" id="productCollapse"> *@
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                     <li> <a class="nav-link" asp-area="Guest" asp-controller="Product" asp-action="Index">Search</a></li>
 

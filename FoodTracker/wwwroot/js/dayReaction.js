@@ -58,14 +58,14 @@ function updateUserSafeDay(date) {
                 updateDayReactionColor(date, 'green');
 
                 $('#userSafeDayInput').prop('checked', true);
-                $('#dayReactionPicker').children().hide(); 
+                $('#dayReactionPicker').children().hide();
             } else {
                 updateDayReactionColor(date, r.updatedColor);
 
                 $('#userSafeDayInput').prop('checked', false);
-                $('#dayReactionPicker').children().removeClass("d-none").show(); 
+                $('#dayReactionPicker').children().removeClass("d-none").show();
             }
-           updateDayReactionBar(date, r.reactionIcons, r.updatedColor);
+            updateDayReactionBar(date, r.reactionIcons, r.updatedColor);
         }
     })
 }

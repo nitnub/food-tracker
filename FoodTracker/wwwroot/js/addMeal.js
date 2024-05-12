@@ -4,52 +4,11 @@ let unitOptions;
 let foodOptions;
 let takenFoods = [];
 
-
 function createUnitOptions(unitJson) {
     let output = "";
     unitJson.forEach(u => output += `<option value="${u.id}">${u.namePlural}</option>`);
     return output;
 }
-
-//function createFoodOptions(foodJson) {
-//    let output = "";
-//    const fsa = $('.mi-food');
-
-//    if (fsa.length > 0) {
-//        fsa.each(function (i) { takenFoods.push(this.value); });
-//    }
-
-//    foodJson.forEach(f => {
-
-//        //console.log(f);
-//        if (takenFoods.indexOf(f.value.toString()) < 0) {
-//            output += `<option value="${f.value}">${f.text}</option>`
-//        } else {
-//            output += `<option value="${f.value}" hidden disabled>${f.text}</option>`
-//        }
-//    });
-//    return output;
-
-
-
-//    const miSelects = document.getElementsByClassName('mi-food')
-//    const results = []
-//    let option;
-
-//    foodJson.forEach(f => {
-//        option = document.createElement("option");
-//        option.value = f.value;
-//        option.innerText = f.text.trim();
-
-//        if (takenFoods.indexOf(f.value.toString()) >= 0) {
-//            option.setAttribute('hidden', true);
-//            option.setAttribute('disabled', true);
-//        }
-
-//        results.push(option);
-//    });
-//}
-
 function createFoodOptions(foodJson) {
     let output = "";
     const fsa = $('.mi-food');
@@ -59,34 +18,14 @@ function createFoodOptions(foodJson) {
     }
 
     foodJson.forEach(f => {
-
-        console.log(f);
         if (takenFoods.indexOf(f.id.toString()) < 0) {
             output += `<option value="${f.id}">${f.name}</option>`
         } else {
             output += `<option value="${f.id}" hidden disabled>${f.name}</option>`
         }
     });
+
     return output;
-
-
-
-    const miSelects = document.getElementsByClassName('mi-food')
-    const results = []
-    let option;
-
-    foodJson.forEach(f => {
-        option = document.createElement("option");
-        option.value = f.id;
-        option.innerText = f.name.trim();
-
-        if (takenFoods.indexOf(f.id.toString()) >= 0) {
-            option.setAttribute('hidden', true);
-            option.setAttribute('disabled', true);
-        }
-        
-        results.push(option);
-    });
 }
 
 function addMealItem() {
@@ -131,8 +70,6 @@ function addMealItem() {
     });
 
     addDynamicFoodSelect(newId);
- 
-    
 }
 
 function addDynamicFoodSelect(newId) {
@@ -148,22 +85,20 @@ function addDynamicFoodSelect(newId) {
         // hide new selection
         const tar = $('.mi-food').find($(`option[value='${current_value}']`));
         tar.each(function () {
-            this.hidden = true;          
+            this.hidden = true;
         })
     });
-
 }
 
 $('.calendar-meal').each(function (e) {
-    this.addEventListener('click',  e => e.stopPropagation())
+    this.addEventListener('click', e => e.stopPropagation())
 })
 
 
 function activateMealModal(dayObj, activeMealId = 0) {
     $('.meal-details-modal').modal('show');
     $('.modal-title').html(dayObj);
-    console.log("MealID:", activeMealId);
-    
+
     dayObj.activeMealId = activeMealId;
     getMeal(dayObj);
 }
@@ -304,7 +239,7 @@ function removeMeal(id) {
 
 function cancelRemoveMeal() {
     $('#meal-delete-modal').modal('hide');
-    
+
     //$('#updateModal').modal('show');
     $('#meal-modal').modal('show');
 }
@@ -377,4 +312,3 @@ function getProducts(query, page = 1) {
         }
     })
 }
-

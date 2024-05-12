@@ -41,7 +41,7 @@ function toggleReaaction(foodId, typeId, severityId, active) {
     })
 }
 
-function testSubmit(s) {
+function updateReaction(s) {
     const [foodId, typeId, severityId] = s.split('-');
     const theDiv = $(`#radio${s}`);
 

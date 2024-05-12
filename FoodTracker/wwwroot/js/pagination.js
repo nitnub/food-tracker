@@ -54,7 +54,6 @@ function getPaginationDiv(query, page, totalPages) {
     nav.appendChild(ul);
     nav.ariaLabel = "...";
     return nav;
-
 }
 
 function getLi(query, iterator, pageNumber) {
@@ -90,7 +89,6 @@ function prev(query, page) {
 }
 
 function next(query, page, maxPages) {
-    console.log("NEXT BUTTON PAGE:", page);
     return `
         <li class="page-item ${page == maxPages && 'disabled'}">
             <a class="page-link" onclick="getProducts('${query}', ${page + 1})" href="#">Next</a>
