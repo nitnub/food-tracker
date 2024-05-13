@@ -471,6 +471,12 @@ body {
     /*overflow: auto;*/
 }
 
+.calendar-nav-icon {
+    width: 30px;
+    padding: 0px;
+    margin: 0px;
+
+}
 .calendar-nav {
     width: 10px;
     height: 10px;
@@ -829,101 +835,143 @@ body {
 
 /* Phone */
 
-@media (width >= 745px) and (width <= 755px) {
+/*@media (width >= 745px) and (width <= 755px) {*/
+    @media (width >= 745px) {
 
-    #sideBar {
-        display: none;
+        #sideBar {
+            display: none;
+        }
+
+        .day-header-card {
+            display: none;
+        }
+
+        .day-header-card-short {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .calendar-component {
+            font-size: .9rem;
+        }
+
+
+
+        #sideBar {
+            display: none;
+        }
+
+        .container {
+            margin: 0;
+        }
+
+        #calendarContainer {
+            background-color: purple;
+            width: max-content;
+            margin-left: 0px;
+            /*justify-content: center;*/
+            align-items: center;
+        }
+
+        .day-header-card {
+            display: none;
+        }
+
+        .day-header-card-short {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .calendar-component {
+            font-size: .9rem;
+        }
     }
 
-    .day-header-card {
-        display: none;
+
+
+    /*Medium*/
+    @media (width >= 768px) {
+        .container {
+            margin: auto;
+            margin: 0;
+        }
+        #calendarContainer {
+            width: 100%;
+            width: 95vw;
+            background-color: green;
+        }
+/*        .day-header-card {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+*/
+        .calendar-component {
+            width: 100%;
+        }
     }
 
-    .day-header-card-short {
-        text-align: center;
-        font-size: 1rem;
+
+
+    /*Large*/
+    @media (width >= 992px) {
+
+        .container {
+            /*margin: auto;*/
+            /*margin: 0;*/
+        }
+
+        #calendarContainer {
+            align-items: center;
+            background-color: blue;
+        }
+        .calendar-component {
+            display: flex;
+            flex-direction: column;
+            font-size: .9rem;
+
+        }
+
+        .day-header-card {
+            display: flex;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .day-header-card-short {
+            display: none;
+        }
     }
 
-    .calendar-component {
-        font-size: .9rem;
+    /*Extra large*/
+    @media (width >= 1200px) {
+        .container {
+            margin: auto;
+           
+            /*margin: 0;*/
+        }
+        #calendarContainer {
+            background-color: gold;
+            width: 100%;
+        }
+        .day-header-card {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .calendar-component {
+            font-size: .9rem;
+        }
     }
 
+    /*Extra extra large*/
+    @media (width >= 1400px) {
+        .day-header-card {
+            text-align: center;
+            font-size: 1rem;
+        }
 
-
-    #sideBar {
-        display: none;
+        .calendar-component {
+            font-size: .9rem;
+        }
     }
-
-    .container {
-        margin: 0;
-    }
-
-    #calendarContainer {
-        background-color: purple;
-        width: max-content;
-        margin-left: 0px;
-    }
-
-    .day-header-card {
-        display: none;
-    }
-
-    .day-header-card-short {
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    .calendar-component {
-        font-size: .9rem;
-    }
-}
-
-
-
-/*Medium*/
-@media (width >= 768px) {
-    .day-header-card {
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    .calendar-component {
-        font-size: .9rem;
-    }
-}
-
-/*Large*/
-@media (width >= 992px) {
-    .day-header-card {
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    .calendar-component {
-        font-size: .9rem;
-    }
-}
-
-/*Extra large*/
-@media (width >= 1200px) {
-    .day-header-card {
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    .calendar-component {
-        font-size: .9rem;
-    }
-}
-
-/*Extra extra large*/
-@media (width >= 1400px) {
-    .day-header-card {
-        text-align: center;
-        font-size: 1rem;
-    }
-
-    .calendar-component {
-        font-size: .9rem;
-    }
-}
