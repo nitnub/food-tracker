@@ -60,7 +60,7 @@ function addMealItem() {
             </div>
         </div> 
         <div style="display: flex; justify-content:end">
-            <a class="link-dark" type="button" onclick="removeNewMealItem(${newId})">Remove</a>
+            <a class="link-light" type="button" onclick="removeNewMealItem(${newId})">Remove</a>
         </div>`
 
     mealGroup.appendChild(div)

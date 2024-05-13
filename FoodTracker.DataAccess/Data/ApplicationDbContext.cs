@@ -308,14 +308,7 @@ namespace FoodTracker.DataAccess.Data
                         </svg>
                         ".Trim(),
                     Type = IconType.Activity
-                }
-
-
-
-
-
-
-                );
+                });
 
             modelBuilder.Entity<State>().HasData(
                 new State { Id = 1, Name = "Alabama", Abbreviation = "AL" },

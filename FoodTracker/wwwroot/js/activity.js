@@ -114,7 +114,7 @@ function addActivityItem() {
 
         </div>
         <div style="display: flex; justify-content:end">
-            <a class="link-dark" type="button" onclick="removeActivity('${actId}')">Remove</a>
+            <a class="link-light" type="button" onclick="removeActivity('${actId}')">Remove</a>
         </div>`
     activityGroup.appendChild(div)
 

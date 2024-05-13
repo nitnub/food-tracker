@@ -46,7 +46,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-            //return Json(new { originalName = food.Name });
         }
 
         [HttpGet]
