@@ -20,7 +20,7 @@ namespace FoodTracker.Models.FODMAP
         [ValidateNever]
         public Color Color { get; set; }
 
-        public bool FreeUse {  get; set; }
+        public bool IsFreeUse {  get; set; }
         public int MaxUse {  get; set; }
 
         public int MaxUseUnitsId {  get; set; }
@@ -33,10 +33,10 @@ namespace FoodTracker.Models.FODMAP
         [ValidateNever]
         public FodmapCategory Category {  get; set; }
 
-        public bool Oligos {  get; set; }
-        public bool Fructose {  get; set; }
-        public bool Polyols {  get; set; }
-        public bool Lactose {  get; set; }
+        public bool HasOligos {  get; set; }
+        public bool HasFructose {  get; set; }
+        public bool HasPolyols {  get; set; }
+        public bool HasLactose {  get; set; }
 
         [ValidateNever]
         public List<FodmapAlias> Aliases { get; set; }

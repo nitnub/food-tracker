@@ -52,7 +52,7 @@ namespace FoodTracker.Models.Reaction
         public ReactionSeverity? Severity { get; set; }
         
         [DefaultValue(true)]
-        public bool Active { get; set; } = true;
+        public bool IsActive { get; set; } = true;
         public DateTime? IdentifiedOn { get; set; } = DateTime.Now;
         public DateTime? SubsidedOn { get; set;}
     }

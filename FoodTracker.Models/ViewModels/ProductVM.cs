@@ -23,7 +23,7 @@ namespace FoodTracker.Models.ViewModels
         //public Dictionary<int, List<Food.Food>> FoodInteractions { get; set; }
         public Dictionary<int, ArrayList> IngredientsDict { get; set; }
 
-        public bool QueryError { get; set; } = false;
+        public bool HasQueryError { get; set; } = false;
         public string QueryErrorMessage { get; set; } = "Error processing query. Please try again later.";
 
         public FoodVM? FoodVM { get; set; }

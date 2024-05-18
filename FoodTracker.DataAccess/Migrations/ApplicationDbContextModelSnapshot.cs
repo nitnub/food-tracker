@@ -201,13 +201,19 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<int>("ColorId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("FreeUse")
+                    b.Property<bool>("HasFructose")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Fructose")
+                    b.Property<bool>("HasLactose")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Lactose")
+                    b.Property<bool>("HasOligos")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasPolyols")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFreeUse")
                         .HasColumnType("bit");
 
                     b.Property<int>("MaxUse")
@@ -219,12 +225,6 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Oligos")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Polyols")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -255,7 +255,7 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<int>("FodmapId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Global")
+                    b.Property<bool>("IsGlobal")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsPrimary")
@@ -303,22 +303,22 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<int?>("FodmapId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Global")
+                    b.Property<bool>("IsGlobal")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("GlutenFree")
+                    b.Property<bool>("IsGlutenFree")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsVegan")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsVegetarian")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(60)
                         .HasColumnType("nvarchar(60)");
-
-                    b.Property<bool>("Vegan")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Vegetarian")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -345,7 +345,7 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<int>("FoodId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Global")
+                    b.Property<bool>("IsGlobal")
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("Version")
@@ -613,6 +613,12 @@ namespace FoodTracker.DataAccess.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsGlobal")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTemplate")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MealTypeId")
                         .HasColumnType("int");
 
@@ -688,9 +694,6 @@ namespace FoodTracker.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
                     b.Property<int?>("ActivityId")
                         .HasColumnType("int");
 
@@ -703,6 +706,9 @@ namespace FoodTracker.DataAccess.Migrations
 
                     b.Property<DateTime?>("IdentifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("MealId")
                         .HasColumnType("int");

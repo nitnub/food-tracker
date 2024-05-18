@@ -30,6 +30,9 @@ namespace FoodTracker.Models.Meal
         [ForeignKey(nameof(ColorId))]
         [ValidateNever]
         public Color Color { get; set; }
+
+        public bool IsTemplate { get; set; }
+        public bool IsGlobal { get; set; }
         [Required]
         [DisplayName("Time of Meal")]
         public DateTime DateTime { get; set; }

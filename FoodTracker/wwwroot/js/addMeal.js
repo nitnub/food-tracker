@@ -125,6 +125,8 @@ function getMeal(dayObj) {
 
                 // Mark all meal item food dropdowns as dynamic
                 monitorExistingMealItems(mealItemCount);
+
+                addTemplateListener();
             }
         }
     })
@@ -311,4 +313,62 @@ function getProducts(query, page = 1) {
             $('.paginationDiv').html(paginationDiv)
         }
     })
+}
+
+
+
+
+function addTemplateListener() {
+
+    //$('.template-dropdown').each().on('click', function () {
+    console.log($('.template-dropdown'));
+    $('.template-dropdown').each(function () {
+        $(this).on('click', function () {
+
+            const templateId = $(this).val();
+            const dateTime = $('#mealDateTime').val();
+
+            $.ajax({
+                url: `/Guest/Calendar/GetTemplateMeal?id=${templateId}&dateTime=${dateTime}`,
+                success: function (data) {
+                    $("#mealCard").html(data);
+
+                    addTemplateListener();
+                }
+            })
+        })
+
+    });
+
+
+
+
+
+
+
+}
+
+
+function templateSaveListener() {
+
+
+    $('#templateActionSave').each(function () {
+        console.log('actions:');
+
+
+    })
+}
+
+
+
+//console.log($('.template-dropdown'));
+
+function selectTemplate(id) {
+    console.log(id);
+
+    // call to controller and get update template info
+
+    // apply updated info
+
+    // update the right side button to.. 
 }

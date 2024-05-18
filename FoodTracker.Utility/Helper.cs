@@ -109,7 +109,7 @@ namespace FoodTracker.Utility
             if (day == null || day.Reactions == null)
                 return "";
 
-            if (day.UserSafe)
+            if (day.IsUserSafe)
                 return SD.COLOR_GREEN;
 
             return GetReactiveColorString(day.Reactions);

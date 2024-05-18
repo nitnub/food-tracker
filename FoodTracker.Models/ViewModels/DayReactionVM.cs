@@ -1,11 +1,6 @@
 ﻿using FoodTracker.DataAccess.Interfaces;
 using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodTracker.Models.ViewModels
 {
@@ -27,7 +22,7 @@ namespace FoodTracker.Models.ViewModels
         public List<Activity.Activity> Activities { get; set; }
         //public List<Icon> ReactionIcons { get; set; }
         public Dictionary<string, Icon> ReactionIcons { get; set; }
-        public bool UserSafe { get; set; }
+        public bool IsUserSafe { get; set; }
 
     }
 }

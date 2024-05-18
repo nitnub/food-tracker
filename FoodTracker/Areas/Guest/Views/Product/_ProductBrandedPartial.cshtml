@@ -1,7 +1,7 @@
 ﻿@model ProductVM
 
 
-@if (Model.QueryError)
+@if (Model.HasQueryError)
 {
     <div>@Model.QueryErrorMessage</div>
 }

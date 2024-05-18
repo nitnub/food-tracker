@@ -24,6 +24,6 @@ namespace FoodTracker.Models.FODMAP
         // TODO: redundant with above?
         public string OriginalName { get; set; }
         public bool IsPrimary { get; set; }
-        public bool Global { get; set; } = false;
+        public bool IsGlobal { get; set; } = false;
     }
 }

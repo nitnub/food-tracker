@@ -47,7 +47,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                 if (!productResponse.Success)
                 {
-                    return PartialView("_ProductBrandedPartial", new ProductVM() { QueryError = true });
+                    return PartialView("_ProductBrandedPartial", new ProductVM() { HasQueryError = true });
                 }
 
                 var knownFoodsDict = new Dictionary<string, Food>();
@@ -116,7 +116,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return PartialView("_ProductBrandedPartial", new ProductVM() { QueryError = true });
+                return PartialView("_ProductBrandedPartial", new ProductVM() { HasQueryError = true });
             }
         }
 

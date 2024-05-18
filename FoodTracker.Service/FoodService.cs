@@ -12,9 +12,9 @@ namespace FoodTracker.Service
 
         public IEnumerable<Food> GetAll()
         {
-            _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == UserId || fa.Global); // load user's food aliases
+            _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == UserId || fa.IsGlobal); // load user's food aliases
 
-            var allUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == UserId || f.Global,
+            var allUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == UserId || f.IsGlobal,
                                                     includeProperties: [Prop.FODMAP_COLOR, Prop.REACTIONS_SEVERITY, Prop.USER_SAFE_FOODS]);
 
             return allUserFoods;
@@ -27,17 +27,17 @@ namespace FoodTracker.Service
 
         public Food Get(int id)
         {
-            var food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == UserId || f.Global),
+            var food = _unitOfWork.Food.Get(f => f.Id == id && (f.AppUserId == UserId || f.IsGlobal),
                             includeProperties: [Prop.ALIASES, Prop.USER_SAFE_FOODS]);
 
-            food.Aliases = food.Aliases.Where(a => a.AppUserId == UserId || a.Global);
+            food.Aliases = food.Aliases.Where(a => a.AppUserId == UserId || a.IsGlobal);
 
             return food;
         }
 
         public Food Get(string foodName)
         {
-            var matchedByFood = _unitOfWork.Food.Get(f => f.Name.ToLower() == foodName.ToLower() && (f.AppUserId == UserId || f.Global),
+            var matchedByFood = _unitOfWork.Food.Get(f => f.Name.ToLower() == foodName.ToLower() && (f.AppUserId == UserId || f.IsGlobal),
                 includeProperties: Prop.ALIASES);
 
             FoodAlias aliasFor;
@@ -45,10 +45,10 @@ namespace FoodTracker.Service
             if (matchedByFood == null)
             {
                 aliasFor = _unitOfWork.FoodAlias.Get(a => a.Alias.ToLower() == foodName.ToLower()
-                                                            && (a.AppUserId == UserId || a.Global)); // Note: Can't use .Equals + StringComparison w/DB call
+                                                            && (a.AppUserId == UserId || a.IsGlobal)); // Note: Can't use .Equals + StringComparison w/DB call
                 if (aliasFor == null)
                 {
-                    var newAlias = new FoodAlias() { Alias = foodName, FoodId = 0, AppUserId = UserId, Global = false };
+                    var newAlias = new FoodAlias() { Alias = foodName, FoodId = 0, AppUserId = UserId, IsGlobal = false };
 
                     return new Food() { Name = foodName, Aliases = new List<FoodAlias>() { newAlias } };
                 }
@@ -58,7 +58,7 @@ namespace FoodTracker.Service
                 }
             }
 
-            matchedByFood.Aliases = matchedByFood.Aliases.Where(fa => fa.FoodId == matchedByFood.Id && (fa.AppUserId == UserId || fa.Global)); // load user's food aliases
+            matchedByFood.Aliases = matchedByFood.Aliases.Where(fa => fa.FoodId == matchedByFood.Id && (fa.AppUserId == UserId || fa.IsGlobal)); // load user's food aliases
 
             return matchedByFood;
         }
@@ -77,7 +77,7 @@ namespace FoodTracker.Service
             else
             {
                 var existingFood = _unitOfWork.Food.Get(f => f.Id == food.Id && f.AppUserId == UserId);
-                if (existingFood != null && !existingFood.Global)
+                if (existingFood != null && !existingFood.IsGlobal)
                 {
                     var existingAliases = _unitOfWork.FoodAlias.GetAll(fa => fa.AppUserId == UserId && fa.FoodId == existingFood.Id);
 
@@ -92,7 +92,7 @@ namespace FoodTracker.Service
                 {
                     el.Id = 0; // Mark as new with Id of 0
                     el.AppUserId = UserId;
-                    el.Global = false;
+                    el.IsGlobal = false;
                     _unitOfWork.FoodAlias.Add(el);
                 }
             }
@@ -106,7 +106,7 @@ namespace FoodTracker.Service
             if (id != null && id != 0)
             {
                 var foodToRemove = _unitOfWork.Food.Get(f => f.Id == id);
-                if (foodToRemove != null && !foodToRemove.Global)
+                if (foodToRemove != null && !foodToRemove.IsGlobal)
                 {
                     _unitOfWork.Food.Remove(foodToRemove);
                     _unitOfWork.Save();

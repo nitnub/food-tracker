@@ -570,6 +570,11 @@ body {
     cursor: default;
 }
 
+#mealGroup {
+    max-height: 340px;
+    overflow: auto;
+}
+
 .day-card-footer {
     max-height: 42px;
     min-height: 42px;
@@ -668,6 +673,7 @@ body {
 }
 
 #activityGroup {
+   
 }
 
 .activity-icons {
@@ -992,5 +998,9 @@ body {
 
         .calendar-component {
             font-size: .9rem;
+        }
+
+        #sideBar {
+            display: block;
         }
     }

@@ -7,17 +7,297 @@
         <div class="col-12">
             <div class="border rounded p-3">
                 <div class="d-flex justify-content-between">
-                    <div class="form-floating py-2 col-6">
+              @*       <div class="form-floating py-2 col-6">
                         <input id="mealName" asp-for="@Model.Meal.Name" class="form-control" value="@Model.Meal.Name" placeholder="Meal Name" />
                         <label asp-for="@Model.Meal.Name" for="mealName"></label>
                         <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
+                    </div> *@
+                    <div class="col-8">
+
+                        <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">New</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul id="templateDropdown" class="dropdown-menu">
+                            <li><a class="dropdown-item text-success" href="#">Create New</a></li>
+                            <li><h6 class="dropdown-header">Templates</h6></li>
+                            @foreach (var template in Model.MealTemplates)
+                            {
+                                <li class="template-dropdown" value="@template.Value">
+                                    <a class="dropdown-item" href="#">
+                                        &emsp;@template.Text
+                                        <small class="text-secondary">
+                                            @(template.Group.Name == "Global" ? "(Global)" : "")
+                                        </small>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                       @*  <input type="text" class="form-control" aria-label="Meal Name Input"> *@
+                            <div class="form-floating">
+
+                            @* <input id="mealName" asp-for="@Model.Meal.Name" class="form-control" value="@Model.Meal.Name" placeholder="Meal Name" /> *@
+
+                            <input id="mealName" asp-for="@Model.Meal.Name" class="form-control" value="@Model.Meal.Name" />
+                            <label asp-for="@Model.Meal.Name" for="mealName"></label>
+                       </div>
+                        
+
+
+                        <button type="button" class="btn btn-outline-success">Add to Templates</button>
                     </div>
-                    <div class="form-floating py-2 col-4">
-                        <input id="mealDateTime" asp-for="@Model.Meal.DateTime" class="form-control food-input" />
+                        <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
+                    </div>
+
+
+
+
+
+                    <div class="form-floating py-2 col-3">
+                        @* <input id="mealDateTime" asp-for="@Model.Meal.DateTime" class="form-control food-input" /> *@
+                        <input id="mealDateTime" asp-for="@Model.Meal.DateTime" type="time" value="@string.Format("{0:hh\\:mm}", @Model.Meal.DateTime)" class="form-control food-input">
                         <label asp-for="@Model.Meal.DateTime" class="ms-2"></label>
                         <span asp-validation-for="@Model.Meal.DateTime" class="text-danger"></span>
                     </div>
+
+
+                    @* <div class="form-floating py-2 col-4">
+                        <input id="mealDateTime" asp-for="@Model.Meal.DateTime" class="form-control food-input" />
+                        <label asp-for="@Model.Meal.DateTime" class="ms-2"></label>
+                        <span asp-validation-for="@Model.Meal.DateTime" class="text-danger"></span>
+                    </div> *@
                 </div>
+
+
+          
+
+                @* FAV TEST *@
+                <div>
+
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">New</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                         <ul id="templateDropdown" class="dropdown-menu">
+                            <li><a class="dropdown-item text-success" href="#">Create New</a></li>
+                            <li><h6 class="dropdown-header">Templates</h6></li>
+                            @foreach (var template in Model.MealTemplates)
+                            {
+                                <li class="template-dropdown" value="@template.Value">
+                                        <a class="dropdown-item" href="#">
+                                        &emsp;@template.Text
+                                        <small class="text-secondary">
+                                            @(template.Group.Name == "Global" ? "(Global)" : "")
+                                        </small>
+                                    </a>
+                                </li>
+                            }
+                        </ul> 
+                        <input type="text" class="form-control" aria-label="Meal Name Input">
+                        <button type="button" class="btn btn-outline-success">Add to Templates</button>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">New</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+
+                        <select asp-for="MealTemplates" asp-items="@Model.MealTemplates" class="dropdown-menu">
+                            @* <option disabled selected>--Select Meal Template--</option> *@
+                            <li><a class="dropdown-item text-success" href="#">Create New</a></li>
+                            @* <li><hr class="dropdown-divider"></li> *@
+                            <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                            <li><a class="dropdown-item" href="#">&emsp;Peanut Butter and Jelly Sandwich</a></li>
+                            <li><a class="dropdown-item" href="#">&emsp;Lemon Pepper Salmon Bowl</a></li>
+                            <li><a class="dropdown-item" href="#">&emsp;Separated link</a></li>
+                        </select>
+                        @* <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-success" href="#">Create New</a></li>
+
+                        <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                        <li><a class="dropdown-item" href="#">&emsp;Peanut Butter and Jelly Sandwich</a></li>
+                        <li><a class="dropdown-item" href="#">&emsp;Lemon Pepper Salmon Bowl</a></li>
+                        <li><a class="dropdown-item" href="#">&emsp;Separated link</a></li>
+                        </ul> *@
+                        <input type="text" class="form-control" aria-label="Meal Name Input">
+                        <button type="button" class="btn btn-outline-success">Add to Templates</button>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">Template</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Create New</a></li>
+                            <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                            <li><label class="dropdown-item" href="#">PB&J Sandwich as Label</label></li>
+                            <li><a class="dropdown-item" href="#">Peanut Butter and Jelly Sandwich</a></li>
+                            <li><a class="dropdown-item" href="#">Lemon Pepper Salmon Bowl</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                        <input type="text" class="form-control" aria-label="Meal Name Input">
+
+
+                        <button type="button" class="btn btn-outline-primary">Update</button>
+
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Save Changes to Template</a></li>
+                            <li><a class="dropdown-item" href="#">Create New Template</a></li>
+                            @* <li><a class="dropdown-item" href="#">Remove</a></li> *@
+                            <li><a class="dropdown-item" href="#">Undo Template Changes</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Remove Template</a></li>
+                        </ul>
+
+                    </div>
+
+
+
+
+     @*                <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">Template</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">New</a></li>
+                            <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                            <li><a class="dropdown-item" href="#">Peanut Butter and Jelly Sandwich</a></li>
+                            <li><a class="dropdown-item" href="#">Lemon Pepper Salmon Bowl</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                        <input type="text" class="form-control" aria-label="Meal Name Input">
+
+                        <button type="button" class="btn btn-outline-secondary">Remove</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary">Update</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                    </div> *@
+
+
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">Template</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">New</a></li>
+                            <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                            <li><label class="dropdown-item" href="#">PB&J Sandwich as Label</label></li>
+                            <li><a class="dropdown-item" href="#">Peanut Butter and Jelly Sandwich</a></li>
+                            <li><a class="dropdown-item" href="#">Lemon Pepper Salmon Bowl</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                        <input type="text" class="form-control" aria-label="Meal Name Input">
+
+          
+                        <button type="button" class="btn btn-outline-secondary">Update</button>
+      
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Save Changes to Template</a></li>
+                            <li><a class="dropdown-item" href="#">Create New Template</a></li>
+                            <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                            @* <li><a class="dropdown-item" href="#">Remove</a></li> *@
+                            <li><a class="dropdown-item" href="#">Undo Template Changes</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Remove Template</a></li>
+                        </ul>
+
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">Template</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">New</a></li>
+                            <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                            <li><label class="dropdown-item" href="#">PB&J Sandwich as Label</label></li>
+                            <li><a class="dropdown-item" href="#">Peanut Butter and Jelly Sandwich</a></li>
+                            <li><a class="dropdown-item" href="#">Lemon Pepper Salmon Bowl</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                        <input type="text" class="form-control" aria-label="Meal Name Input">
+
+
+                        <button type="button" class="btn btn-outline-danger">Remove</button>
+
+                        <button type="button" class="btn btn-outline-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li id="templateActionSave"><a class="dropdown-item" href="#">Save Changes to Template</a></li>
+                            <li id="templateActionCreate"><a class="dropdown-item" href="#">Create New Template</a></li>
+                            <li id="templateActionUndo"><a class="dropdown-item" href="#">Undo Template Changes</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li id="templateActionRemove"><a class="dropdown-item" href="#">Remove Template</a></li>
+                        </ul>
+
+                    </div>
+
+
+
+                    <div class="input-group mb-3">
+                        <button type="button" class="btn btn-outline-secondary">Template</button>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">New</a></li>
+                            <li><h6 class="dropdown-header">Favorite Templates</h6></li>
+                            <li><label class="dropdown-item" href="#">PB&J Sandwich as Label</label></li>
+                            <li><a class="dropdown-item" href="#">Peanut Butter and Jelly Sandwich</a></li>
+                            <li><a class="dropdown-item" href="#">Lemon Pepper Salmon Bowl</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                        <input type="text" class="form-control" aria-label="Meal Name Input">
+
+
+                        <button type="button" class="btn btn-outline-danger">Remove</button>
+
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Save Changes to Template</a></li>
+                            <li><a class="dropdown-item" href="#">Create New Template</a></li>
+                            @* <li><a class="dropdown-item" href="#">Remove</a></li> *@
+                            <li><a class="dropdown-item" href="#">Undo Template Changes</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Remove Template</a></li>
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
 
 
                 <div class="d-flex">
@@ -137,7 +417,7 @@
                     @if (Model.Meal.Id == 0)
                     {
                         <div class="col-6 col-md-3 m-1">
-                            <button type="submit" class="btn btn-success food-input-button form-control">Add</button>
+                            <button type="submit" class="btn btn-success food-input-button form-control">Add to Calendar</button>
                         </div>
                     }
                     else
@@ -158,7 +438,7 @@
 
 <script>
     var unitJson = @Json.Serialize(Model.Units)
-        var foodJson = @Json.Serialize(Model.Foods)
-        var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
-        var mealItemCount = @(Model.Meal.MealItems.Count)
+    var foodJson = @Json.Serialize(Model.Foods)
+    var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
+    var mealItemCount = @(Model.Meal.MealItems.Count)
 </script>

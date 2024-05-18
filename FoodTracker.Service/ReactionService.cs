@@ -150,7 +150,7 @@ namespace FoodTracker.Service
             _unitOfWork.Save();
 
             var food = _unitOfWork.Food.Get(f => f.Id == reaction.FoodId &&
-                                                (f.AppUserId == UserId || f.Global),
+                                                (f.AppUserId == UserId || f.IsGlobal),
                                                 includeProperties: Prop.REACTIONS_SEVERITY);
 
             return GetMaxSeverityColorString(food);
@@ -227,7 +227,7 @@ namespace FoodTracker.Service
 
         public string GetMaxSeverityColorString(int foodId)
         {
-            var food = _unitOfWork.Food.Get(f => f.Id == foodId && (f.AppUserId == UserId || f.Global), 
+            var food = _unitOfWork.Food.Get(f => f.Id == foodId && (f.AppUserId == UserId || f.IsGlobal), 
                                                 includeProperties: Prop.REACTIONS_SEVERITY);
 
             return GetMaxSeverityColorString(food);

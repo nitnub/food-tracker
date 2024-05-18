@@ -3,7 +3,7 @@
 @{
     var dayId = Model.DateTime.Date;
     var format = SD.DATE_FORMAT;
-    var hideOnSafeDay = Model.UserSafe ? "d-none" : "";
+    var hideOnSafeDay = Model.IsUserSafe ? "d-none" : "";
 
 }
 
@@ -12,7 +12,7 @@
     <h5>@dayId.ToShortDateString() Reactions</h5>
 
     <div class="d-flex align-items-end form-check py-2 col-12">
-        <input id="userSafeDayInput" class="form-check-input border-0 shadow" type="checkbox" onclick="updateUserSafeDay('@Model.DateTime.Date.ToString(format)')" @(Model.UserSafe ? "checked" : "") />
+        <input id="userSafeDayInput" class="form-check-input border-0 shadow" type="checkbox" onclick="updateUserSafeDay('@Model.DateTime.Date.ToString(format)')" @(Model.IsUserSafe ? "checked" : "") />
         <label class="form-check-label ms-2">No issues today!</label>
     </div>
     <div id="dayReactionPicker" class="d-flex align-items-start">

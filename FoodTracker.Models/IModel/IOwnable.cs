@@ -10,6 +10,6 @@ namespace FoodTracker.Models.IModel
     {
         public int Id { get; set; }
         public string? AppUserId { get; set; }
-        public bool Global { get; set; }
+        public bool IsGlobal { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
+using FoodTracker.Models.IModel;
 using FoodTracker.Models.Meal;
 using FoodTracker.Service.IService;
 using FoodTracker.Utility;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FoodTracker.Service
 {
@@ -181,7 +183,7 @@ namespace FoodTracker.Service
 
         public List<MealItem> GetValidatedMealItemsList(List<MealItem> unverifiedMeals)
         {
-            var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == UserId || f.Global)
+            var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == UserId || f.IsGlobal)
                                             .Select(f => f.Id).ToList();
 
             return unverifiedMeals.Where(mi => validUserFoods.Contains(mi.FoodId)).ToList();
@@ -190,6 +192,34 @@ namespace FoodTracker.Service
         public IEnumerable<MealType> GetAllMealTypes()
         {
             return _unitOfWork.MealType.GetAll();
+        }
+
+        public IEnumerable<SelectListItem> GetMealTemplateOptions()
+        {
+
+            // get all where marked as template and either userID or global 
+            var personalGroup = new SelectListGroup() { Name = "Personal" };
+            var globalGroup = new SelectListGroup() { Name = "Global" };
+
+            return _unitOfWork.Meal.GetAll(m => (m.AppUserId == UserId || m.IsGlobal) && m.IsTemplate)
+                                   .Select(m => new SelectListItem() { 
+                                       Value = m.Id.ToString(), 
+                                       Text = m.Name, 
+                                       Group = m.IsGlobal ? globalGroup : personalGroup });
+
+        }
+
+
+        public Meal GetTemplateMeal(int id)
+        {
+            
+            var templateMeal = _unitOfWork.Meal.Get(m => m.Id == id && 
+                                                        (m.AppUserId == UserId || m.IsGlobal) &&
+                                                        m.IsTemplate);
+
+
+
+            return templateMeal;
         }
     }
 

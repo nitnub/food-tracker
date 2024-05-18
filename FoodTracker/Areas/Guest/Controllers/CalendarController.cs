@@ -130,6 +130,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 Reactions = priorReactions,
                 Categories = _reactionService.GetReactionCategoryDict(),
                 Meal = activeMeal,
+                MealTemplates = _mealService.GetMealTemplateOptions(),
                 Foods = _foodService.GetAllSorted(),
                 MealTypes = _mealService.GetAllMealTypes(),
                 Units = _utilityService.GetAllVolumeUnits()
@@ -137,6 +138,27 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             return PartialView("_AddMealPartial", MealVM);
 
+        }
+
+        [HttpGet]
+        public IActionResult GetTemplateMeal(int id, DateTime dateTime)
+        {
+            var meal = _mealService.GetMealDetails(id);
+            meal.DateTime = dateTime;
+
+            MealVM = new()
+            {
+                ColorOptions = _utilityService.GetAllColors(),
+                Reactions = _mealService.GetMealReactionDict(meal),
+                Categories = _reactionService.GetReactionCategoryDict(),
+                Meal = meal,
+                MealTemplates = _mealService.GetMealTemplateOptions(),
+                Foods = _foodService.GetAllSorted(),
+                MealTypes = _mealService.GetAllMealTypes(),
+                Units = _utilityService.GetAllVolumeUnits()
+            };
+
+            return PartialView("_AddMealPartial", MealVM);
         }
 
         [HttpDelete]
@@ -156,7 +178,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 Severities = _unitOfWork.ReactionSeverity.GetAll(),
                 Categories = _reactionService.GetReactionCategoryDict(),
                 ExistingReactions = _reactionService.GetDayTypeSeverityDict(dateTime),
-                UserSafe = _reactionService.IsUserSafeDay(dateTime)
+                IsUserSafe = _reactionService.IsUserSafeDay(dateTime)
             };
 
             return PartialView("_AddDayReactionPartial", DayReactionVM);

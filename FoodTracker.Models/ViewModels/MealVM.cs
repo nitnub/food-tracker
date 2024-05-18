@@ -1,13 +1,9 @@
-﻿using FoodTracker.Models.Meal;
+﻿using FoodTracker.Models.IModel;
+using FoodTracker.Models.Meal;
 using FoodTracker.Models.Reaction;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodTracker.Models.ViewModels
 {
@@ -31,5 +27,7 @@ namespace FoodTracker.Models.ViewModels
         public Dictionary<string, List<ReactionType>> Categories { get; set; }
         [ValidateNever]
         public Dictionary<int, bool> Reactions { get; set; }
+
+        public IEnumerable<SelectListItem> MealTemplates { get; set; }
     }
 }

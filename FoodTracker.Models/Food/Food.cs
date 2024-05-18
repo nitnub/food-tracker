@@ -27,13 +27,13 @@ namespace FoodTracker.Models.Food
         public Fodmap Fodmap { get; set; }
 
         [DefaultValue(false)]
-        public bool Vegetarian { get; set; }
+        public bool IsVegetarian { get; set; }
 
         [DefaultValue(false)]
-        public bool Vegan { get; set; }
+        public bool IsVegan { get; set; }
 
         [DefaultValue(false)]
-        public bool GlutenFree { get; set; }
+        public bool IsGlutenFree { get; set; }
 
         [InverseProperty(nameof(IngredientMap.ParentFood))]
         public ICollection<IngredientMap>? ParentFoods { get; set; }
@@ -44,6 +44,6 @@ namespace FoodTracker.Models.Food
         public IEnumerable<UserSafeFood>? UserSafeFoods { get; set; }
         public IEnumerable<Reaction.Reaction>? Reactions { get; set; }
 
-        public bool Global { get; set; } = false;
+        public bool IsGlobal { get; set; } = false;
     }
 }

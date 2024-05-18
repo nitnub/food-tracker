@@ -1,5 +1,7 @@
-﻿using FoodTracker.Models.Meal;
+﻿using FoodTracker.Models.IModel;
+using FoodTracker.Models.Meal;
 using FoodTracker.Utility;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FoodTracker.Service.IService
 {
@@ -16,5 +18,7 @@ namespace FoodTracker.Service.IService
         Dictionary<int, bool> GetMealReactionDict(Meal activeMeal);
         Meal CreateBlankMeal(DateTime mealTime);
         IEnumerable<MealType> GetAllMealTypes();
+        IEnumerable<SelectListItem> GetMealTemplateOptions();
+        Meal GetTemplateMeal(int id);
     }
 }

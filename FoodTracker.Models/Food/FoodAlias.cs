@@ -14,7 +14,7 @@ namespace FoodTracker.Models.Food
         public string? AppUserId { get; set; }
         public int FoodId { get; set; }
         public string Alias { get; set; }
-        public bool Global { get; set; } = false;
+        public bool IsGlobal { get; set; } = false;
 
         [Timestamp]
         [ValidateNever]
