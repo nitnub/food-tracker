@@ -1,11 +1,4 @@
-﻿using FoodTracker.Models.Activity;
-using FoodTracker.Models.Meal;
-using FoodTracker.Models.Reaction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FoodTracker.Models.Meal;
 
 namespace FoodTracker.DataAccess.Repository.IRepository
 {

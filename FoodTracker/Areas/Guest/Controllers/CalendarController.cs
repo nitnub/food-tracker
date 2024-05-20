@@ -84,6 +84,35 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         }
 
         [HttpPost]
+        public IActionResult UpsertMealTemplate([FromBody] MealVM mealVM)
+        //public IActionResult UpsertMealTemplate( MealVM mealVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false });
+            }
+
+
+            mealVM.Reactions ??= [];
+
+            var mealTemplate = mealVM.Meal;
+            mealTemplate.DateTime = DateTime.MinValue;
+            mealTemplate.IsTemplate = true;
+            var mealItems = mealVM.MealItems.Values.ToList();
+            var reactionIds = mealVM.Reactions.Keys.ToList();
+
+            _mealService.Upsert(mealTemplate, mealItems, reactionIds);
+
+            DayVM dayVM = new()
+            {
+                DateTime = mealVM.Meal.DateTime,
+                ActiveMealId = _mealService.GetMatchingMealTemplateId(mealVM.Meal)
+            };
+
+            return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
+        }
+
+        [HttpPost]
         public IActionResult Index(MealVM mealVM)
         {
             if (!ModelState.IsValid)
@@ -107,37 +136,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpPost]
         public IActionResult UpsertMeal([FromBody] DayVM dayVM)
         {
-
-            DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date
-                                    ? DateTime.Now
-                                    : dayVM.DateTime.Date.AddHours(12);
-
-            Meal? activeMeal = null;
-
-            var priorReactions = new Dictionary<int, bool>();
-            if (dayVM.ActiveMealId != 0)
-            {
-                activeMeal = _mealService.GetMealDetails(dayVM.ActiveMealId);
-                priorReactions = _mealService.GetMealReactionDict(activeMeal);
-                activeMeal.Reactions = null;
-            }
-
-            activeMeal ??= _mealService.CreateBlankMeal(mealTime);
-
-            MealVM = new()
-            {
-                ColorOptions = _utilityService.GetAllColors(),
-                Reactions = priorReactions,
-                Categories = _reactionService.GetReactionCategoryDict(),
-                Meal = activeMeal,
-                MealTemplates = _mealService.GetMealTemplateOptions(),
-                Foods = _foodService.GetAllSorted(),
-                MealTypes = _mealService.GetAllMealTypes(),
-                Units = _utilityService.GetAllVolumeUnits()
-            };
-
-            return PartialView("_AddMealPartial", MealVM);
-
+            return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
         }
 
         [HttpGet]
@@ -313,6 +312,38 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 Console.WriteLine(ex.Message);
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        private MealVM GetMealVMFromDayVM(DayVM dayVM)
+        {
+            DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date
+                          ? DateTime.Now
+                          : dayVM.DateTime.Date.AddHours(12);
+
+            Meal? activeMeal = null;
+
+            var priorReactions = new Dictionary<int, bool>();
+            if (dayVM.ActiveMealId != 0)
+            {
+                activeMeal = _mealService.GetMealDetails(dayVM.ActiveMealId);
+                priorReactions = _mealService.GetMealReactionDict(activeMeal);
+                activeMeal.Reactions = null;
+            }
+
+            activeMeal ??= _mealService.CreateBlankMeal(mealTime);
+
+            MealVM = new()
+            {
+                ColorOptions = _utilityService.GetAllColors(),
+                Reactions = priorReactions,
+                Categories = _reactionService.GetReactionCategoryDict(),
+                Meal = activeMeal,
+                MealTemplates = _mealService.GetMealTemplateOptions(),
+                Foods = _foodService.GetAllSorted(),
+                MealTypes = _mealService.GetAllMealTypes(),
+                Units = _utilityService.GetAllVolumeUnits()
+            };
+            return MealVM;
         }
     }
 }

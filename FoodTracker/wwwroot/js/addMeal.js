@@ -47,12 +47,12 @@ function addMealItem() {
             </div>
             <div class="d-flex">
                 <div class="form-floating p-2 col-6">
-                    <input id="nmiVolume_${newId}" type="number" required min="1" value="1" class="form-control food-input" type="text" data-val="true" data-val-number="The field Volume must be a number." data-val-required="The Volume field is required." id="MealItems_${newId}__Volume" name="MealItems[${newId}].Volume" value="" placeholder="Volume" >
+                    <input id="nmiVolume_${newId}" type="number" required min="1" value="1" class="form-control food-input mi-volume" type="text" data-val="true" data-val-number="The field Volume must be a number." data-val-required="The Volume field is required." id="MealItems_${newId}__Volume" name="MealItems[${newId}].Volume" value="" placeholder="Volume" >
                     <label class="ms-2" for="MealItems_${newId}__Volume">Volume</label>
                   <span class="text-danger field-validation-valid" data-valmsg-for="MealItems[${newId}].Volume" data-valmsg-replace="true"></span>
                 </div>
                 <div class="form-floating py-2 col-6">
-                    <select id="nmiUnits_${newId}" class="form-select food-input meal-item-units" data-val="true" data-val-required="The Volume field is required." id="MealItems_${newId}__VolumeUnitsId" name="MealItems[${newId}].VolumeUnitsId" placeholder="Units">
+                    <select id="nmiUnits_${newId}" class="form-select food-input mi-units" data-val="true" data-val-required="The Volume field is required." id="MealItems_${newId}__VolumeUnitsId" name="MealItems[${newId}].VolumeUnitsId" placeholder="Units">
                          ${unitOptions}
                     </select>
                     <label class="ms-2">Units</label>
@@ -111,25 +111,29 @@ function getMeal(dayObj) {
         contentType: 'application/json',
         success: function (data) {
             if (data) {
-                // Populate meal card
-                $(`#mealCard`).html(data);
-
-                // Populate new meal item dropdowns
-                takenFoods.length = 0;
-                unitOptions = createUnitOptions(unitJson);
-                foodOptions = createFoodOptions(foodJson);
-
-                // Monitor and initialize meal reactions
-                monitorMealReactions();
-                initializeMealReactions(activeMealReactionsTest);
-
-                // Mark all meal item food dropdowns as dynamic
-                monitorExistingMealItems(mealItemCount);
-
-                addTemplateListener();
+                populateMealCard(data);
             }
         }
     })
+}
+
+function populateMealCard(data) {
+    // Populate meal card
+    $(`#mealCard`).html(data);
+
+    // Populate new meal item dropdowns
+    takenFoods.length = 0;
+    unitOptions = createUnitOptions(unitJson);
+    foodOptions = createFoodOptions(foodJson);
+
+    // Monitor and initialize meal reactions
+    monitorMealReactions();
+    initializeMealReactions(activeMealReactionsTest);
+
+    // Mark all meal item food dropdowns as dynamic
+    monitorExistingMealItems(mealItemCount);
+
+    addTemplateListener();
 }
 
 function monitorExistingMealItems(mealItemCount) {
@@ -155,7 +159,6 @@ let currentLabel;
 
 function monitorMealReactions() {
     $("#mealReactionResults").parents("div").find("li").on('change', function () {
-
         updateReactionSelectButton(this);
     })
 }
@@ -241,13 +244,10 @@ function removeMeal(id) {
 
 function cancelRemoveMeal() {
     $('#meal-delete-modal').modal('hide');
-
-    //$('#updateModal').modal('show');
     $('#meal-modal').modal('show');
 }
 
 function removeMealConfirmation(id, mealName) {
-    //$('#updateModal').modal('hide');
     $('#meal-modal').modal('hide');
     $('#meal-delete-modal-body').html(`Permanently delete "<b>${mealName}</b>"?`);
     $('#meal-delete-modal-footer').html(`
@@ -257,7 +257,6 @@ function removeMealConfirmation(id, mealName) {
 }
 
 function removeNewMealItem(mealId) {
-
     // get food item falue
     const div = $('.remove-meal-item-new' + mealId);
     const value = div.find('select').first()[0].value;
@@ -319,9 +318,6 @@ function getProducts(query, page = 1) {
 
 
 function addTemplateListener() {
-
-    //$('.template-dropdown').each().on('click', function () {
-    console.log($('.template-dropdown'));
     $('.template-dropdown').each(function () {
         $(this).on('click', function () {
 
@@ -337,38 +333,158 @@ function addTemplateListener() {
                 }
             })
         })
-
     });
-
-
-
-
-
-
-
+    templateActionListener();
 }
 
+function templateActionListener() {
+    const dropdownOptions = [
+        { id: 'templateActionSave', title: 'Update', color: 'primary' },
+        { id: 'templateActionUndo', title: 'Undo Changes', color: 'primary' },
+        { id: 'templateActionCreate', title: 'Add to Templates', color: 'success' },
+        { id: 'templateActionRemove', title: 'Remove', color: 'danger' }
+    ];
 
-function templateSaveListener() {
+    dropdownOptions.forEach(o => {
+        $(`#${o.id}`).on('click', function () {
+            updateTemplateActionButton(o.title, o.color, o.hideDropdown);
+        })
+    });
 
+    $('#createNewSelect').on('click', function () {
+        updateTemplateActionButton('Add to Templates', 'success');
+        const newDayObj = {
+            DateTime: meal.dateTime,
+            ActiveMealId: 0,
+            Activities: null,
+            ActivityIcons: [],
+            Day: null,
+            IsUserSafeDay: false,
+            Meals: [],
+            Day: 1,
+            Month: 0,
+            ReactionIcons: [],
+            Reactions: [],
+            Year: 0
+        }
+        getMeal(newDayObj)
+    })
 
-    $('#templateActionSave').each(function () {
-        console.log('actions:');
+    disableTemplateActionOnEmptyInput();
 
-
+    $('#templateActionButton').on('click', function () {
+        const val = $(this).val();
+        upsertMealTemplate(val);
     })
 }
 
+function updateTemplateActionButton(title, color, hideDropdown = false) {
+    $('#templateActionButton')[0].innerText = title;
+    $('#templateActionButton').removeClass()
+        .addClass(`btn btn-outline-${color}`);
 
+    if (hideDropdown && !meal.isTemplate) {
+        $('#templateActionButton').addClass('add-template-new');
+        $('#templateActionDropdownButton').hide();
+        $('#templateActionDropdown').hide();
 
-//console.log($('.template-dropdown'));
+    } else {
+        $('#templateActionButton').removeClass('add-template-new');
+        $('#templateActionDropdownButton').show();
+        $('#templateActionDropdown').show();
+    }
 
-function selectTemplate(id) {
-    console.log(id);
-
-    // call to controller and get update template info
-
-    // apply updated info
-
-    // update the right side button to.. 
+    $('#templateActionDropdownButton').removeClass('btn-outline-primary btn-outline-danger btn-outline-success')
+        .addClass(`btn-outline-${color}`);
 }
+
+function disableTemplateActionOnEmptyInput() {
+
+    const mealInput = $('#mealName');
+
+    if (mealInput.val().trim().length == 0) {
+        disableAllActions();
+    }
+
+    $('#mealTypeInput').on('change', function () {
+        toggleTemplateActionButton();
+    })
+
+    mealInput.on('keyup', function (e) {
+        toggleTemplateActionButton();
+    })
+}
+
+function toggleTemplateActionButton() {
+    const phrase = $('#mealName')
+        .val()
+        .trim();
+
+    const mealType = $('#mealTypeInput')
+        .find('option:selected')
+        .val();
+
+    if (phrase.length > 0 && mealType.length > 0) {
+        $('#templateActionButton').removeAttr('disabled');
+        $('#templateActionDropdownButton').removeAttr('disabled');
+    } else {
+        disableAllActions();
+    }
+}
+
+function disableAllActions() {
+    $('#templateActionButton').attr('disabled', 'disabled');
+    $('#templateActionDropdownButton').attr('disabled', 'disabled');
+}
+
+function upsertMealTemplate(mealVM) {
+
+    const Reactions = {};
+    $('.reaction-option')
+        .each(function () {
+            const isChecked = $(this).find('input:checkbox').is(':checked');
+
+            if (isChecked) {
+                const id = $(this).val();
+                Reactions[id] = true;
+            }
+        })
+
+    const MealItems = {};
+
+    $('#mealGroup')
+        .children()
+        .each(function (i) {
+            MealItems[i] = {
+                Id: $(this).find('.mi-id').val(),
+                MealId: $(this).find('.mi-mealId').val(),
+                FoodId: $(this).find('.mi-food').val(),
+                Volume: $(this).find('.mi-volume').val(),
+                VolumeUnitsId: $(this).find('.mi-units').val()
+            }
+        })
+    console.log($('#dateTime').val());
+    const response = {
+        Meal: {
+            Name: $('#mealName').val(),
+            MealTypeId: $('#mealTypeInput').val(),
+            ColorId: $('#mealColor').val(),
+            DateTime: $('#dateTime').val()
+        },
+        Reactions,
+        MealItems
+    }
+
+    $.ajax({
+        url: `/Guest/Calendar/UpsertMealTemplate`,
+        type: 'POST',
+        data: JSON.stringify(response),
+        contentType: 'application/json',
+        success: function (data) {
+            if (data) {
+                populateMealCard(data);
+            }
+        }
+    })
+}
+

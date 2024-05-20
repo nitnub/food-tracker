@@ -21,7 +21,7 @@ namespace FoodTracker.Service
                                                      Prop.MEAL_ITEMS_FOOD,
                                                      Prop.MEAL_ITEMS_VOLUME,
                                                      Prop.MEAL_ITEMS_FOOD_FODMAP_COLOR]);
-
+            
             var mealDict = meals.GroupBy(m => m.DateTime.ToString(dateFormat))
                                                 .ToDictionary(m => m.Key, m => m.ToList());
 
@@ -35,6 +35,7 @@ namespace FoodTracker.Service
             foreach (var reaction in meal.Reactions)
             {
                 reaction.AppUserId = null;
+                reaction.Meal = null;
             }
             return meal;
         }
@@ -221,6 +222,16 @@ namespace FoodTracker.Service
 
             return templateMeal;
         }
-    }
 
+        public int GetMatchingMealTemplateId(Meal meal)
+        {
+            return _unitOfWork.Meal.Get(m =>
+                            m.AppUserId == meal.AppUserId &&
+                            m.IsTemplate == true &&
+                            m.Name == meal.Name &&
+                            m.ColorId == meal.ColorId &&
+                            m.MealTypeId == meal.MealTypeId
+                            ).Id;
+        }
+    }
 }

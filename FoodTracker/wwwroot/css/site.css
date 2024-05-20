@@ -574,6 +574,11 @@ body {
     max-height: 340px;
     overflow: auto;
 }
+.add-template-new {
+    border-top-right-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+    
+}
 
 .day-card-footer {
     max-height: 42px;

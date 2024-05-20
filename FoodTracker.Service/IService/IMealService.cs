@@ -20,5 +20,6 @@ namespace FoodTracker.Service.IService
         IEnumerable<MealType> GetAllMealTypes();
         IEnumerable<SelectListItem> GetMealTemplateOptions();
         Meal GetTemplateMeal(int id);
+        int GetMatchingMealTemplateId(Meal meal);
     }
 }
