@@ -28,5 +28,8 @@ namespace FoodTracker.Models.ViewModels
         public Dictionary<int, bool> Reactions { get; set; }
 
         public IEnumerable<SelectListItem>? MealTemplates { get; set; }
+        public TimeSpan Time { get; set; }
+        public DateTime CalendarDate { get; set; }
+        public int TemplateId { get; set; }
     }
 }

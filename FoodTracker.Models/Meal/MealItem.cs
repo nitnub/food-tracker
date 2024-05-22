@@ -14,7 +14,7 @@ namespace FoodTracker.Models.Meal
         [ForeignKey(nameof(FoodId))]
         [ValidateNever]
         public Food.Food Food { get; set; }
-        [Range(1, int.MaxValue)]
+        [Range(1, 10_000)]
         public double Volume {  get; set; }
         public int VolumeUnitsId { get; set; }
         [ForeignKey(nameof(VolumeUnitsId))]

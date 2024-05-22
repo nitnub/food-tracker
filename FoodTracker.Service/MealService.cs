@@ -30,13 +30,24 @@ namespace FoodTracker.Service
 
         public Meal GetMealDetails(int id)
         {
-            var meal = _unitOfWork.Meal.Get(m => m.AppUserId == UserId && m.Id == id, includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
+            var meal = _unitOfWork.Meal.Get(m => m.AppUserId == UserId && m.Id == id, includeProperties: [Prop.MEAL_ITEMS,  Prop.REACTIONS_TYPE]);
 
             foreach (var reaction in meal.Reactions)
             {
                 reaction.AppUserId = null;
                 reaction.Meal = null;
             }
+
+            if (meal.IsTemplate) // if adding or upserting chekc for template in two workflows
+            {
+                //meal.Id = 0;
+                //foreach (var mealItem in meal.MealItems)
+                //{
+                //    mealItem.MealId = 0;
+                //    mealItem.Id = 0;
+                //}
+            }
+
             return meal;
         }
 
@@ -127,6 +138,9 @@ namespace FoodTracker.Service
             var success = false;
             try
             {
+                if (meal.IsGlobal)
+                    return success;
+
                 meal.AppUserId = UserId;
                 meal.MealItems = GetValidatedMealItemsList(mealItems);
                 meal.Reactions = _reactionService.CreateMealReactionsList(reactionIds);
@@ -167,7 +181,7 @@ namespace FoodTracker.Service
                 var verifiedMeal = _unitOfWork.Meal.Get(m => m.Id == id && m.AppUserId == UserId,
                                                         includeProperties: [Prop.MEAL_ITEMS, Prop.REACTIONS_TYPE]);
 
-                if (verifiedMeal == null)
+                if (verifiedMeal == null || verifiedMeal.AppUserId != UserId || verifiedMeal.IsGlobal)
                     return success;
 
                 _unitOfWork.Meal.Remove(verifiedMeal);
@@ -182,6 +196,10 @@ namespace FoodTracker.Service
             return success;
         }
 
+        public bool RemoveTemplate(int? id)
+        {
+            return false;
+        }
         public List<MealItem> GetValidatedMealItemsList(List<MealItem> unverifiedMeals)
         {
             var validUserFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == UserId || f.IsGlobal)
@@ -225,13 +243,20 @@ namespace FoodTracker.Service
 
         public int GetMatchingMealTemplateId(Meal meal)
         {
-            return _unitOfWork.Meal.Get(m =>
+            int id = 0;
+            var result = _unitOfWork.Meal.Get(m =>
                             m.AppUserId == meal.AppUserId &&
                             m.IsTemplate == true &&
                             m.Name == meal.Name &&
                             m.ColorId == meal.ColorId &&
                             m.MealTypeId == meal.MealTypeId
-                            ).Id;
+                            );
+
+            if (result != null)
+            {
+                id = result.Id;
+            }
+            return id;
         }
     }
 }

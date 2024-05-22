@@ -322,13 +322,14 @@ function addTemplateListener() {
         $(this).on('click', function () {
 
             const templateId = $(this).val();
-            const dateTime = $('#mealDateTime').val();
+            const dateTime = $('#dateTime').val();
+            const mealTime = $('#mealDateTime').val();
 
             $.ajax({
-                url: `/Guest/Calendar/GetTemplateMeal?id=${templateId}&dateTime=${dateTime}`,
+                url: `/Guest/Calendar/GetTemplateMeal?id=${templateId}&dateTime=${dateTime}&mealTime=${mealTime}`,
                 success: function (data) {
-                    $("#mealCard").html(data);
-
+                    //$("#mealCard").html(data);
+                    populateMealCard(data);
                     addTemplateListener();
                 }
             })
@@ -339,15 +340,17 @@ function addTemplateListener() {
 
 function templateActionListener() {
     const dropdownOptions = [
-        { id: 'templateActionSave', title: 'Update', color: 'primary' },
-        { id: 'templateActionUndo', title: 'Undo Changes', color: 'primary' },
-        { id: 'templateActionCreate', title: 'Add to Templates', color: 'success' },
-        { id: 'templateActionRemove', title: 'Remove', color: 'danger' }
+        { id: 'templateActionSave', title: 'Update', color: 'primary', action: 'upsertMealTemplate' },
+        { id: 'templateActionUndo', title: 'Undo Changes', color: 'primary', action: '' },
+        { id: 'templateActionCreate', title: 'Create New Template', color: 'success', action: '' },
+        { id: 'templateActionRemove', title: 'Remove', color: 'danger', action: 'removeTemplate' }
     ];
 
     dropdownOptions.forEach(o => {
         $(`#${o.id}`).on('click', function () {
-            updateTemplateActionButton(o.title, o.color, o.hideDropdown);
+            updateTemplateActionButton(o.title, o.color, o.action, o.hideDropdown);
+
+
         })
     });
 
@@ -370,18 +373,26 @@ function templateActionListener() {
         getMeal(newDayObj)
     })
 
+    console.log('meal');
+    console.log(meal);
+    // also disable on global
+
     disableTemplateActionOnEmptyInput();
 
-    $('#templateActionButton').on('click', function () {
-        const val = $(this).val();
-        upsertMealTemplate(val);
-    })
+    //$('#templateActionButton').on('click', function () {
+    //    //const val = $(this).val();
+    //    /*upsertMealTemplate()*/;
+    //})
 }
 
-function updateTemplateActionButton(title, color, hideDropdown = false) {
+function updateTemplateActionButton(title, color, action, hideDropdown = false) {
+    console.log("ACTION:", action);
+
     $('#templateActionButton')[0].innerText = title;
     $('#templateActionButton').removeClass()
-        .addClass(`btn btn-outline-${color}`);
+        .addClass(`btn btn-outline-${color}`)
+        .removeAttr('onclick')
+        .attr('onClick', `${action}(this);`);
 
     if (hideDropdown && !meal.isTemplate) {
         $('#templateActionButton').addClass('add-template-new');
@@ -397,6 +408,42 @@ function updateTemplateActionButton(title, color, hideDropdown = false) {
     $('#templateActionDropdownButton').removeClass('btn-outline-primary btn-outline-danger btn-outline-success')
         .addClass(`btn-outline-${color}`);
 }
+
+function removeTemplate() {
+    //const mealId = $('#templateActionButton').val();
+    //const mId = $('#template-dropdown').find('li:checkbox').is(':checked');
+    const templateId = $('#templateId').val();
+    const calendarDate = $('#calendarDate').val();
+    //const mId = $('#templateDropdown');
+    //templateActionButton
+    //console.log($('#templateActionButton'));
+    //console.log(mealId);
+    //console.log(t);
+    console.log(templateId);
+    console.log(calendarDate);
+
+    $.ajax({
+        //url: `/Guest/Calendar/RemoveMealTemplate/${meal.id}`,
+        url: `/Guest/Calendar/RemoveMealTemplate?id=${templateId}&dateTime=${calendarDate}`,
+        //type: 'POST',
+        type: 'DELETE',
+        contentType: 'application/json',
+        //data: JSON.stringify(response),
+        //contentType: 'application/json',
+        success: function (data) {
+            if (data) {
+                console.log("DELETED");
+                //$(`#mealCard`).html = data;
+                populateMealCard(data);
+                //console.log(data);
+            }
+        }
+    })
+}
+
+
+
+
 
 function disableTemplateActionOnEmptyInput() {
 
@@ -437,7 +484,7 @@ function disableAllActions() {
     $('#templateActionDropdownButton').attr('disabled', 'disabled');
 }
 
-function upsertMealTemplate(mealVM) {
+function upsertMealTemplate() {
 
     const Reactions = {};
     $('.reaction-option')
@@ -457,15 +504,18 @@ function upsertMealTemplate(mealVM) {
         .each(function (i) {
             MealItems[i] = {
                 Id: $(this).find('.mi-id').val(),
+                //Id: 0, // keep as zero to create new item so as to avoid conflict with "remove template"
                 MealId: $(this).find('.mi-mealId').val(),
                 FoodId: $(this).find('.mi-food').val(),
                 Volume: $(this).find('.mi-volume').val(),
                 VolumeUnitsId: $(this).find('.mi-units').val()
             }
         })
-    console.log($('#dateTime').val());
+    console.log("MEAL ID:");
+    console.log($('#mealId').val());
     const response = {
         Meal: {
+            Id: $('#mealId').val(),
             Name: $('#mealName').val(),
             MealTypeId: $('#mealTypeInput').val(),
             ColorId: $('#mealColor').val(),

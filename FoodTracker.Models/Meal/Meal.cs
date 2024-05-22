@@ -19,7 +19,8 @@ namespace FoodTracker.Models.Meal
         [StringLength(60, MinimumLength = 1)]
         [Required]
         public string Name { get; set; }
-        [Required]
+        //[Required]
+        [Required(ErrorMessage = "The Meal Type field is required.")]
         public int MealTypeId { get; set; }
         [ForeignKey(nameof(MealTypeId))]
         [ValidateNever]
