@@ -1,10 +1,7 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
-using FoodTracker.Models;
 using FoodTracker.Models.Meal;
-using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Service.IService;
-using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,13 +21,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         private readonly IReactionService _reactionService = serviceManager.Reaction;
         private readonly IUtilityService _utilityService = serviceManager.Utility;
         private readonly IActivityService _activityService = serviceManager.Activity;
-        public IActionResult Index(CalendarVM vm)
-        {
-
-        }
-
-        #region API 
-      
+            
 
         [HttpPost]
         public IActionResult UpsertMealTemplate([FromBody] MealVM mealVM)
@@ -40,8 +31,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return Json(new { success = false });
             }
 
-            //var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
-            //mealVM.Meal.DateTime = updatedDateTime;
             mealVM.Reactions ??= [];
 
             var mealTemplate = mealVM.Meal;
@@ -83,42 +72,11 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             return PartialView("_AddMealPartial", MealVM);
 
-            //return RedirectToAction(nameof(Index));
 
-
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return Json(new { success = false });
-            //}
-
-            //// find meal
-
-            //// remove
-            //_mealService.Remove();
-
-
-            //mealVM.Reactions ??= [];
-
-            //var mealTemplate = mealVM.Meal;
-            //mealTemplate.DateTime = DateTime.MinValue;
-            //mealTemplate.IsTemplate = true;
-            //var mealItems = mealVM.MealItems.Values.ToList();
-            //var reactionIds = mealVM.Reactions.Keys.ToList();
-
-            //_mealService.Upsert(mealTemplate, mealItems, reactionIds);
-
-            //DayVM dayVM = new()
-            //{
-            //    DateTime = mealVM.Meal.DateTime,
-            //    ActiveMealId = _mealService.GetMatchingMealTemplateId(mealVM.Meal)
-            //};
-
-            //return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
         }
 
         [HttpPost]
-        public IActionResult Index(MealVM mealVM)
+        public IActionResult Submit(MealVM mealVM)
         {
             if (!ModelState.IsValid)
             {
@@ -126,8 +84,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
-            //.AddHours(mealVM.Time.Hour)
-            //.AddMinutes(mealVM.Time.Minute);
 
             mealVM.Reactions ??= [];
             mealVM.Meal.DateTime = updatedDateTime;
@@ -139,7 +95,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             CalendarVM = new() { ViewDate = mealVM.Meal.DateTime };
 
-            return RedirectToAction("Index", CalendarVM);
+            return RedirectToAction("Index", "Calendar", new { area = "Guest", model = CalendarVM });
         }
 
         [HttpPost]
@@ -163,31 +119,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpGet]
         public IActionResult GetTemplateMeal(int id, DateTime dateTime, TimeSpan mealTime)
         {
-            var meal = _mealService.GetMealDetails(id);
-            //meal.DateTime = dateTime;
-
-            //if (meal.DateTime.Date == DateTime.Today)
-            //{
-            //    meal.DateTime = DateTime.Now;
-            //}
-            //else
-            //{
-            //    meal.DateTime = dateTime.AddHours(12);
-            //}
-
-            //
-
-            //DateTime dt;
-            //if (meal.DateTime.Date == DateTime.Today)
-            //{
-            //    dt = DateTime.Now;
-            //}
-            //else
-            //{
-            //    dt = dateTime.AddHours(12);
-            //}
-
-
             DayVM dayVM = new()
             {
                 DateTime = dateTime,
@@ -195,25 +126,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             };
 
             return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
-
-            // 
-            MealVM = new()
-            {
-                ColorOptions = _utilityService.GetAllColors(),
-                Reactions = _mealService.GetMealReactionDict(meal),
-                Categories = _reactionService.GetReactionCategoryDict(),
-                Meal = meal,
-                MealTemplates = _mealService.GetMealTemplateOptions(),
-                Foods = _foodService.GetAllSorted(),
-                MealTypes = _mealService.GetAllMealTypes(),
-                Units = _utilityService.GetAllVolumeUnits(),
-                //Time = dateTime.TimeOfDay
-                Time = meal.DateTime.TimeOfDay,
-                TemplateId = id
-            };
-
-
-            return PartialView("_AddMealPartial", MealVM);
         }
 
         [HttpDelete]
@@ -259,6 +171,4 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return MealVM;
         }
     }
-
-
 }

@@ -27,7 +27,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         private readonly IUtilityService _utilityService = serviceManager.Utility;
         private readonly IActivityService _activityService = serviceManager.Activity;
         public IActionResult Index(CalendarVM vm)
-        {
+            {
             DateTime dt = vm.ViewDate.Year > 1 ? vm.ViewDate : DateTime.Now;
 
             CalendarVM = new()
@@ -82,185 +82,185 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return RediretToUpdatedCalendar(vm.ViewYear, vm.ViewMonth);
         }
 
-        [HttpPost]
-        public IActionResult UpsertMealTemplate([FromBody] MealVM mealVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return Json(new { success = false });
-            }
+        //[HttpPost]
+        //public IActionResult UpsertMealTemplate([FromBody] MealVM mealVM)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return Json(new { success = false });
+        //    }
 
-            //var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
-            //mealVM.Meal.DateTime = updatedDateTime;
-            mealVM.Reactions ??= [];
+        //    //var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
+        //    //mealVM.Meal.DateTime = updatedDateTime;
+        //    mealVM.Reactions ??= [];
 
-            var mealTemplate = mealVM.Meal;
-            mealTemplate.DateTime = DateTime.MinValue;
-            mealTemplate.IsTemplate = true;
-            var mealItems = mealVM.MealItems.Values.ToList();
-            var reactionIds = mealVM.Reactions.Keys.ToList();
+        //    var mealTemplate = mealVM.Meal;
+        //    mealTemplate.DateTime = DateTime.MinValue;
+        //    mealTemplate.IsTemplate = true;
+        //    var mealItems = mealVM.MealItems.Values.ToList();
+        //    var reactionIds = mealVM.Reactions.Keys.ToList();
 
            
-            _mealService.Upsert(mealTemplate, mealItems, reactionIds);
+        //    _mealService.Upsert(mealTemplate, mealItems, reactionIds);
 
-            DayVM dayVM = new()
-            {
-                DateTime = mealVM.Meal.DateTime,
-                ActiveMealId = _mealService.GetMatchingMealTemplateId(mealVM.Meal)
-            };
+        //    DayVM dayVM = new()
+        //    {
+        //        DateTime = mealVM.Meal.DateTime,
+        //        ActiveMealId = _mealService.GetMatchingMealTemplateId(mealVM.Meal)
+        //    };
 
-            return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
-        }
+        //    return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
+        //}
 
-        [HttpDelete]
-        public IActionResult RemoveMealTemplate(int id, DateTime calendarDate)
-        {
+        //[HttpDelete]
+        //public IActionResult RemoveMealTemplate(int id, DateTime calendarDate)
+        //{
 
-            _mealService.Remove(id);
+        //    _mealService.Remove(id);
 
-            MealVM = new()
-            {
-                ColorOptions = _utilityService.GetAllColors(),
-                Reactions = [],
-                Categories = _reactionService.GetReactionCategoryDict(),
-                Meal = _mealService.CreateBlankMeal(calendarDate),
-                MealTemplates = _mealService.GetMealTemplateOptions(),
-                Foods = _foodService.GetAllSorted(),
-                MealTypes = _mealService.GetAllMealTypes(),
-                Units = _utilityService.GetAllVolumeUnits(),
-                CalendarDate = calendarDate
-            };
+        //    MealVM = new()
+        //    {
+        //        ColorOptions = _utilityService.GetAllColors(),
+        //        Reactions = [],
+        //        Categories = _reactionService.GetReactionCategoryDict(),
+        //        Meal = _mealService.CreateBlankMeal(calendarDate),
+        //        MealTemplates = _mealService.GetMealTemplateOptions(),
+        //        Foods = _foodService.GetAllSorted(),
+        //        MealTypes = _mealService.GetAllMealTypes(),
+        //        Units = _utilityService.GetAllVolumeUnits(),
+        //        CalendarDate = calendarDate
+        //    };
 
-            return PartialView("_AddMealPartial", MealVM);
+        //    return PartialView("_AddMealPartial", MealVM);
 
-            //return RedirectToAction(nameof(Index));
-
-
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return Json(new { success = false });
-            //}
-
-            //// find meal
-
-            //// remove
-            //_mealService.Remove();
+        //    //return RedirectToAction(nameof(Index));
 
 
-            //mealVM.Reactions ??= [];
 
-            //var mealTemplate = mealVM.Meal;
-            //mealTemplate.DateTime = DateTime.MinValue;
-            //mealTemplate.IsTemplate = true;
-            //var mealItems = mealVM.MealItems.Values.ToList();
-            //var reactionIds = mealVM.Reactions.Keys.ToList();
+        //    //if (!ModelState.IsValid)
+        //    //{
+        //    //    return Json(new { success = false });
+        //    //}
 
-            //_mealService.Upsert(mealTemplate, mealItems, reactionIds);
+        //    //// find meal
 
-            //DayVM dayVM = new()
-            //{
-            //    DateTime = mealVM.Meal.DateTime,
-            //    ActiveMealId = _mealService.GetMatchingMealTemplateId(mealVM.Meal)
-            //};
-
-            //return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
-        }
-
-        [HttpPost]
-        public IActionResult Index(MealVM mealVM)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
-
-            var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
-                                //.AddHours(mealVM.Time.Hour)
-                                //.AddMinutes(mealVM.Time.Minute);
-
-            mealVM.Reactions ??= [];
-            mealVM.Meal.DateTime = updatedDateTime;
-            var updatedMeal = mealVM.Meal;
-            var mealItems = mealVM.MealItems.Values.ToList();
-            var reactionIds = mealVM.Reactions.Keys.ToList();
-
-            _mealService.Upsert(updatedMeal, mealItems, reactionIds);
-
-            CalendarVM = new() { ViewDate = mealVM.Meal.DateTime };
-
-            return RedirectToAction("Index", CalendarVM);
-        }
-
-        [HttpPost]
-        public IActionResult UpsertMeal([FromBody] DayVM dayVM)
-        {
-            return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
-        }
-
-        [HttpGet]
-        public IActionResult GetTemplateMeal(int id, DateTime dateTime, TimeSpan mealTime)
-        {
-            var meal = _mealService.GetMealDetails(id);
-            //meal.DateTime = dateTime;
-
-            //if (meal.DateTime.Date == DateTime.Today)
-            //{
-            //    meal.DateTime = DateTime.Now;
-            //}
-            //else
-            //{
-            //    meal.DateTime = dateTime.AddHours(12);
-            //}
-
-            //
-
-            //DateTime dt;
-            //if (meal.DateTime.Date == DateTime.Today)
-            //{
-            //    dt = DateTime.Now;
-            //}
-            //else
-            //{
-            //    dt = dateTime.AddHours(12);
-            //}
+        //    //// remove
+        //    //_mealService.Remove();
 
 
-            DayVM dayVM = new()
-            {
-                DateTime = dateTime,
-                ActiveMealId = id
-            };
+        //    //mealVM.Reactions ??= [];
 
-            return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
+        //    //var mealTemplate = mealVM.Meal;
+        //    //mealTemplate.DateTime = DateTime.MinValue;
+        //    //mealTemplate.IsTemplate = true;
+        //    //var mealItems = mealVM.MealItems.Values.ToList();
+        //    //var reactionIds = mealVM.Reactions.Keys.ToList();
 
-            // 
-            MealVM = new()
-            {
-                ColorOptions = _utilityService.GetAllColors(),
-                Reactions = _mealService.GetMealReactionDict(meal),
-                Categories = _reactionService.GetReactionCategoryDict(),
-                Meal = meal,
-                MealTemplates = _mealService.GetMealTemplateOptions(),
-                Foods = _foodService.GetAllSorted(),
-                MealTypes = _mealService.GetAllMealTypes(),
-                Units = _utilityService.GetAllVolumeUnits(),
-                //Time = dateTime.TimeOfDay
-                Time = meal.DateTime.TimeOfDay,
-                TemplateId = id
-            };
+        //    //_mealService.Upsert(mealTemplate, mealItems, reactionIds);
+
+        //    //DayVM dayVM = new()
+        //    //{
+        //    //    DateTime = mealVM.Meal.DateTime,
+        //    //    ActiveMealId = _mealService.GetMatchingMealTemplateId(mealVM.Meal)
+        //    //};
+
+        //    //return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
+        //}
+
+        ////[HttpPost]
+        ////public IActionResult Index(MealVM mealVM)
+        ////{
+        ////    if (!ModelState.IsValid)
+        ////    {
+        ////        return RedirectToAction("Index");
+        ////    }
+
+        ////    var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
+        ////                        //.AddHours(mealVM.Time.Hour)
+        ////                        //.AddMinutes(mealVM.Time.Minute);
+
+        ////    mealVM.Reactions ??= [];
+        ////    mealVM.Meal.DateTime = updatedDateTime;
+        ////    var updatedMeal = mealVM.Meal;
+        ////    var mealItems = mealVM.MealItems.Values.ToList();
+        ////    var reactionIds = mealVM.Reactions.Keys.ToList();
+
+        ////    _mealService.Upsert(updatedMeal, mealItems, reactionIds);
+
+        ////    CalendarVM = new() { ViewDate = mealVM.Meal.DateTime };
+
+        ////    return RedirectToAction("Index", CalendarVM);
+        ////}
+
+        //[HttpPost]
+        //public IActionResult UpsertMeal([FromBody] DayVM dayVM)
+        //{
+        //    return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
+        //}
+
+        //[HttpGet]
+        //public IActionResult GetTemplateMeal(int id, DateTime dateTime, TimeSpan mealTime)
+        //{
+        //    var meal = _mealService.GetMealDetails(id);
+        //    //meal.DateTime = dateTime;
+
+        //    //if (meal.DateTime.Date == DateTime.Today)
+        //    //{
+        //    //    meal.DateTime = DateTime.Now;
+        //    //}
+        //    //else
+        //    //{
+        //    //    meal.DateTime = dateTime.AddHours(12);
+        //    //}
+
+        //    //
+
+        //    //DateTime dt;
+        //    //if (meal.DateTime.Date == DateTime.Today)
+        //    //{
+        //    //    dt = DateTime.Now;
+        //    //}
+        //    //else
+        //    //{
+        //    //    dt = dateTime.AddHours(12);
+        //    //}
 
 
-            return PartialView("_AddMealPartial", MealVM);
-        }
+        //    DayVM dayVM = new()
+        //    {
+        //        DateTime = dateTime,
+        //        ActiveMealId = id
+        //    };
 
-        [HttpDelete]
-        public IActionResult RemoveMeal(int id)
-        {
-            _mealService.Remove(id);
+        //    return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
 
-            return RedirectToAction(nameof(Index));
-        }
+        //    // 
+        //    MealVM = new()
+        //    {
+        //        ColorOptions = _utilityService.GetAllColors(),
+        //        Reactions = _mealService.GetMealReactionDict(meal),
+        //        Categories = _reactionService.GetReactionCategoryDict(),
+        //        Meal = meal,
+        //        MealTemplates = _mealService.GetMealTemplateOptions(),
+        //        Foods = _foodService.GetAllSorted(),
+        //        MealTypes = _mealService.GetAllMealTypes(),
+        //        Units = _utilityService.GetAllVolumeUnits(),
+        //        //Time = dateTime.TimeOfDay
+        //        Time = meal.DateTime.TimeOfDay,
+        //        TemplateId = id
+        //    };
+
+
+        //    return PartialView("_AddMealPartial", MealVM);
+        //}
+
+        //[HttpDelete]
+        //public IActionResult RemoveMeal(int id)
+        //{
+        //    _mealService.Remove(id);
+
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         [HttpGet]
         public IActionResult GetDayReactions(DateTime dateTime)
@@ -408,39 +408,39 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
         }
 
-        private MealVM GetMealVMFromDayVM(DayVM dayVM)
-        {
-            DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date
-                          ? DateTime.Now
-                          : dayVM.DateTime.Date.AddHours(12);
+        //private MealVM GetMealVMFromDayVM(DayVM dayVM)
+        //{
+        //    DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date
+        //                  ? DateTime.Now
+        //                  : dayVM.DateTime.Date.AddHours(12);
 
-            Meal? activeMeal = null;
+        //    Meal? activeMeal = null;
             
-            var priorReactions = new Dictionary<int, bool>();
+        //    var priorReactions = new Dictionary<int, bool>();
 
 
-            if (dayVM.ActiveMealId != 0)
-            {
-                activeMeal = _mealService.GetMealDetails(dayVM.ActiveMealId);
-                priorReactions = _mealService.GetMealReactionDict(activeMeal);
-                activeMeal.Reactions = null;
-            }
+        //    if (dayVM.ActiveMealId != 0)
+        //    {
+        //        activeMeal = _mealService.GetMealDetails(dayVM.ActiveMealId);
+        //        priorReactions = _mealService.GetMealReactionDict(activeMeal);
+        //        activeMeal.Reactions = null;
+        //    }
 
-            activeMeal ??= _mealService.CreateBlankMeal(mealTime);
+        //    activeMeal ??= _mealService.CreateBlankMeal(mealTime);
 
-            MealVM = new()
-            {
-                ColorOptions = _utilityService.GetAllColors(),
-                Reactions = priorReactions,
-                Categories = _reactionService.GetReactionCategoryDict(),
-                Meal = activeMeal,
-                MealTemplates = _mealService.GetMealTemplateOptions(),
-                Foods = _foodService.GetAllSorted(),
-                MealTypes = _mealService.GetAllMealTypes(),
-                Units = _utilityService.GetAllVolumeUnits(),
-                CalendarDate = dayVM.DateTime
-            };
-            return MealVM;
-        }
+        //    MealVM = new()
+        //    {
+        //        ColorOptions = _utilityService.GetAllColors(),
+        //        Reactions = priorReactions,
+        //        Categories = _reactionService.GetReactionCategoryDict(),
+        //        Meal = activeMeal,
+        //        MealTemplates = _mealService.GetMealTemplateOptions(),
+        //        Foods = _foodService.GetAllSorted(),
+        //        MealTypes = _mealService.GetAllMealTypes(),
+        //        Units = _utilityService.GetAllVolumeUnits(),
+        //        CalendarDate = dayVM.DateTime
+        //    };
+        //    return MealVM;
+        //}
     }
 }

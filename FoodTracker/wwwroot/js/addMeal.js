@@ -105,13 +105,14 @@ function activateMealModal(dayObj, activeMealId = 0) {
 
 function getMeal(dayObj) {
     $.ajax({
-        url: `/Guest/Calendar/UpsertMeal`,
+        url: `/Guest/Meal/UpsertMeal`,
         type: 'POST',
         data: JSON.stringify(dayObj),
         contentType: 'application/json',
         success: function (data) {
             if (data) {
                 populateMealCard(data);
+                addTemplateListener();
             }
         }
     })
@@ -133,7 +134,7 @@ function populateMealCard(data) {
     // Mark all meal item food dropdowns as dynamic
     monitorExistingMealItems(mealItemCount);
 
-    addTemplateListener();
+    //addTemplateListener();
 }
 
 function monitorExistingMealItems(mealItemCount) {
@@ -232,7 +233,7 @@ function removeMealReaction(reactionId) {
 
 function removeMeal(id) {
     $.ajax({
-        url: `/Guest/Calendar/RemoveMeal/${id}`,
+        url: `/Guest/Meal/RemoveMeal/${id}`,
         type: 'DELETE',
         contentType: 'application/json',
         success: function () {
@@ -326,7 +327,7 @@ function addTemplateListener() {
             const mealTime = $('#mealDateTime').val();
 
             $.ajax({
-                url: `/Guest/Calendar/GetTemplateMeal?id=${templateId}&dateTime=${dateTime}&mealTime=${mealTime}`,
+                url: `/Guest/Meal/GetTemplateMeal?id=${templateId}&dateTime=${dateTime}&mealTime=${mealTime}`,
                 success: function (data) {
                     //$("#mealCard").html(data);
                     populateMealCard(data);
@@ -339,23 +340,28 @@ function addTemplateListener() {
 }
 
 function templateActionListener() {
+    const createId = 'templateActionCreate';
+    const createTitle = 'Create New Template';
+    const createColor = 'success';
+    const createAction = 'createMealTemplate';
+
     const dropdownOptions = [
         { id: 'templateActionSave', title: 'Update', color: 'primary', action: 'upsertMealTemplate' },
-        { id: 'templateActionUndo', title: 'Undo Changes', color: 'primary', action: '' },
-        { id: 'templateActionCreate', title: 'Create New Template', color: 'success', action: '' },
+        { id: 'templateActionUndo', title: 'Undo Changes', color: 'primary', action: 'reloadMealModal' },
+        { id: createId, title: createTitle, color: createColor, action: createAction },
+        //{ id: 'templateActionCreate', title: 'Create New Template', color: 'success', action: 'createMealTemplate' },
         { id: 'templateActionRemove', title: 'Remove', color: 'danger', action: 'removeTemplate' }
     ];
 
     dropdownOptions.forEach(o => {
         $(`#${o.id}`).on('click', function () {
-            updateTemplateActionButton(o.title, o.color, o.action, o.hideDropdown);
-
-
+            updateTemplateActionDisplay(o.title, o.color, o.action, o.hideDropdown);
         })
     });
 
     $('#createNewSelect').on('click', function () {
-        updateTemplateActionButton('Add to Templates', 'success');
+        //updateTemplateActionDisplay('Add to Templates', 'success', 'upsertMealTemplate');
+        updateTemplateActionDisplay('Add to Templates', createColor, createAction);
         const newDayObj = {
             DateTime: meal.dateTime,
             ActiveMealId: 0,
@@ -373,26 +379,19 @@ function templateActionListener() {
         getMeal(newDayObj)
     })
 
-    console.log('meal');
-    console.log(meal);
-    // also disable on global
+    if (meal.isGlobal) {
+        upateTemplateActtionButton(createTitle, createColor, createAction);
+        $('#templateActionSave').hide();
+        $('#templateActionRemove').hide();
+        $('#templateActionDivider').hide();
+    } 
 
     disableTemplateActionOnEmptyInput();
-
-    //$('#templateActionButton').on('click', function () {
-    //    //const val = $(this).val();
-    //    /*upsertMealTemplate()*/;
-    //})
 }
 
-function updateTemplateActionButton(title, color, action, hideDropdown = false) {
-    console.log("ACTION:", action);
+function updateTemplateActionDisplay(title, color, action, hideDropdown = false) {
 
-    $('#templateActionButton')[0].innerText = title;
-    $('#templateActionButton').removeClass()
-        .addClass(`btn btn-outline-${color}`)
-        .removeAttr('onclick')
-        .attr('onClick', `${action}(this);`);
+    upateTemplateActtionButton(title, color, action);
 
     if (hideDropdown && !meal.isTemplate) {
         $('#templateActionButton').addClass('add-template-new');
@@ -404,38 +403,53 @@ function updateTemplateActionButton(title, color, action, hideDropdown = false) 
         $('#templateActionDropdownButton').show();
         $('#templateActionDropdown').show();
     }
+}
 
-    $('#templateActionDropdownButton').removeClass('btn-outline-primary btn-outline-danger btn-outline-success')
+
+
+function upateTemplateActtionButton(title, color, action) {
+    $('#templateActionButton')[0].innerText = title;
+    $('#templateActionButton')
+        .removeClass()
+        .addClass(`btn btn-outline-${color}`)
+        .removeAttr('onclick')
+        .attr('onClick', `${action}(this);`);
+
+    $('#templateActionDropdownButton')
+        .removeClass('btn-outline-primary btn-outline-danger btn-outline-success')
         .addClass(`btn-outline-${color}`);
 }
 
-function removeTemplate() {
-    //const mealId = $('#templateActionButton').val();
-    //const mId = $('#template-dropdown').find('li:checkbox').is(':checked');
-    const templateId = $('#templateId').val();
-    const calendarDate = $('#calendarDate').val();
-    //const mId = $('#templateDropdown');
-    //templateActionButton
-    //console.log($('#templateActionButton'));
-    //console.log(mealId);
-    //console.log(t);
-    console.log(templateId);
-    console.log(calendarDate);
+
+
+function reloadMealModal() {
+
+    const templateId = $('#mealId').val()
+    const dateTime = $('#dateTime').val();
+    const mealTime = $('#mealDateTime').val();
 
     $.ajax({
-        //url: `/Guest/Calendar/RemoveMealTemplate/${meal.id}`,
-        url: `/Guest/Calendar/RemoveMealTemplate?id=${templateId}&dateTime=${calendarDate}`,
-        //type: 'POST',
+        url: `/Guest/Meal/GetTemplateMeal?id=${templateId}&dateTime=${dateTime}&mealTime=${mealTime}`,
+        success: function (data) {
+            populateMealCard(data);
+            addTemplateListener();
+        }
+    })
+}
+
+function removeTemplate() {
+
+    const templateId = $('#templateId').val();
+    const calendarDate = $('#calendarDate').val();
+
+    $.ajax({
+        url: `/Guest/Meal/RemoveMealTemplate?id=${templateId}&dateTime=${calendarDate}`,
         type: 'DELETE',
         contentType: 'application/json',
-        //data: JSON.stringify(response),
-        //contentType: 'application/json',
         success: function (data) {
             if (data) {
-                console.log("DELETED");
-                //$(`#mealCard`).html = data;
                 populateMealCard(data);
-                //console.log(data);
+                addTemplateListener();
             }
         }
     })
@@ -484,8 +498,13 @@ function disableAllActions() {
     $('#templateActionDropdownButton').attr('disabled', 'disabled');
 }
 
-function upsertMealTemplate() {
 
+function createMealTemplate() {
+    upsertMealTemplate(true);
+}
+
+function upsertMealTemplate(forceNewId = false) {
+    console.log("Clicked upsert...")
     const Reactions = {};
     $('.reaction-option')
         .each(function () {
@@ -503,19 +522,18 @@ function upsertMealTemplate() {
         .children()
         .each(function (i) {
             MealItems[i] = {
-                Id: $(this).find('.mi-id').val(),
+                Id: forceNewId ? 0 : $(this).find('.mi-id').val(),
                 //Id: 0, // keep as zero to create new item so as to avoid conflict with "remove template"
-                MealId: $(this).find('.mi-mealId').val(),
+                MealId: forceNewId ? 0 : $(this).find('.mi-mealId').val(),
                 FoodId: $(this).find('.mi-food').val(),
                 Volume: $(this).find('.mi-volume').val(),
                 VolumeUnitsId: $(this).find('.mi-units').val()
             }
         })
-    console.log("MEAL ID:");
-    console.log($('#mealId').val());
+
     const response = {
         Meal: {
-            Id: $('#mealId').val(),
+            Id: forceNewId ? 0 : $('#mealId').val(),
             Name: $('#mealName').val(),
             MealTypeId: $('#mealTypeInput').val(),
             ColorId: $('#mealColor').val(),
@@ -526,13 +544,14 @@ function upsertMealTemplate() {
     }
 
     $.ajax({
-        url: `/Guest/Calendar/UpsertMealTemplate`,
+        url: `/Guest/Meal/UpsertMealTemplate`,
         type: 'POST',
         data: JSON.stringify(response),
         contentType: 'application/json',
         success: function (data) {
             if (data) {
                 populateMealCard(data);
+                addTemplateListener()
             }
         }
     })
