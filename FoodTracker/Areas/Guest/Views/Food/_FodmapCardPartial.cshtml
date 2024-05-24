@@ -63,7 +63,15 @@
 
                         @foreach (var el in new string[] { "Oligos", "Fructose", "Polyols", "Lactose" })
                         {
-                            var active = (bool)fm.GetType().GetProperty(el).GetValue(fm);
+                           @*  var active3 = fm.GetType();
+                            var active2 = fm.GetType().GetProperty(el);
+                            var active1 = (bool)fm.GetType().GetProperty(el).GetValue(fm); *@
+                            @* var active = false; *@
+                            @* if (el != null && fm != null) // && fm.GetType() != null && fm.GetType().GetProperty(el) != null && fm.GetType().GetProperty(el).GetValue(fm) != null) *@
+                            @* { *@
+                               var active = (bool)fm.GetType().GetProperty("Has" + el).GetValue(fm);
+                            @* } *@
+
                             <div id="fodOligos"
                                  class=@(active ? "activeReactant" : "inactiveReactant")
                                  aria-label="@(active ? "contains" : "free of") @(el)"

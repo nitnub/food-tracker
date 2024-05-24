@@ -32,6 +32,7 @@ namespace FoodTracker.Models.ViewModels
 
         [ValidateNever]
         public IEnumerable<Fodmap> FodmapList { get; set; }
+        public string UpcImageUrl { get; set; }
 
     }
 }

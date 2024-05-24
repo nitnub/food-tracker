@@ -469,6 +469,14 @@
             "Mnt.Microsoft.Exchange.WebServices.Data": {
               "target": "Package",
               "version": "[2.2.1.1, )"
+            },
+            "ZXing.Net": {
+              "target": "Package",
+              "version": "[0.16.9, )"
+            },
+            "ZXing.Net.Bindings.Windows.Compatibility": {
+              "target": "Package",
+              "version": "[0.16.12, )"
             }
           },
           "imports": [

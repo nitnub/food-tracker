@@ -23,8 +23,53 @@
             <input id="searchQuery" class="form-control form-control-lg" type="text" placeholder="ex: Chao Cheese">
             <label asp-for="QueryString" class="ms-2"></label>
         </div>
-        <button id="searchButton" class="btn btn-primary" type="button">Search USDA</button>
+
+        <div class="d-flex">
+            <button id="searchButton" class="btn btn-primary" type="button">Search USDA</button>
+            <button asp-area="Guest" asp-controller="Product" asp-action="GetUPC" id="captureUPCButton">Take photo</button>
+        </div>
+        <div id="upcDisplay"></div>
     </form>
+
+    @* Activate Camera *@
+    @* https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Taking_still_photos#using_specific_devices *@
+    @* Activate back camera: *@
+    @* https://webrtc.github.io/samples/src/content/devices/input-output/ *@
+
+    @* From https://stackoverflow.com/questions/55813485/how-to-read-a-qr-code-directly-from-a-mobile-camera-using-zxing-asp-net-webform *@
+    @* the cameras where displaying a blank screen when I'd try and run the website on my mobile, that turned out to be since the
+    website didn't have the SSL ceritificate verified meaning that the site was still a HTTP rather than a HTTPS which for some
+    reason allows the mobile from accessing the camera feature.
+    (https://www.pluralsight.com/guides/visual-studio-2017-resolving-ssl-tls-connections-problems-with-iis-express) *@
+
+    @* <form id="cameraForm"> *@
+    <div id="cameraViewContainer">
+
+        <div class="camera">
+            <video id="video">Video stream not available.</video>
+            <button asp-area="Guest" asp-controller="Product" asp-action="GetUPC" id="captureUPCButton">Take photo</button>
+        </div>
+        @* <input asp-for="@Model.UpcImageUrl" name="imageData" id="imageData" hidden /> *@
+        @* <input asp-for="@Model.UpcImageUrl" name="imageData" id="canvas" hidden /> *@
+        <canvas id="canvas" hidden> </canvas>
+        @* <input id="theImage" for="theImage" type="image" /> *@
+        <div asp-for="theCanvas" class="output">
+            <img id="photo" name="photo" alt="The screen capture will appear in this box." />
+            @* <img id="upcImage" name="upcImage" alt=" upcImage upcImage The screen capture will appear in this box." /> *@
+        </div>
+    </div>
+    @* </form> *@
+
+
+    @*     <div class="text-center">
+    <h1 class="display-4">ASP.NET Barcode and QR Code Reader</h1>
+    <input type="file" id="imageFile" accept="image/*" name="barcodeImage" />
+    <button id="btn-scan" onclick="upload()">Scan</button>
+    <div id="results"></div>
+    <br>
+    <img id="image" />
+    </div> *@
+
 
     <div id="productView">
     </div>
@@ -45,5 +90,6 @@
         <script src="~/js/addFood.js"></script>
         <script src="~/js/fodmap.js"></script>
         <script src="~/js/product.js"></script>
+        <script src="~/js/imageCapture.js"></script>
     }
 }

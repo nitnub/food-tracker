@@ -103,6 +103,8 @@ C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\Syste
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\System.Security.Permissions.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\System.Windows.Extensions.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\zxing.dll
+C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\ZXing.Windows.Compatibility.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\af\Humanizer.resources.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\ar\Humanizer.resources.dll
 C:\Users\Nick\Classes\_portfolio\food-tracker\FoodTracker\bin\Debug\net8.0\az\Humanizer.resources.dll

@@ -24,7 +24,17 @@ else
                                 <div class="card product-card m-1">
                                     <div class="card-body">
                                         <div class="d-flex">
-                                            <h3 class="card-title @(product.MaxReactionColor.ToLower())">@product.Description</h3>
+                                            @{
+                                                // var severityColor = Helper.GetMaxSeverityColorString(Model);
+                                            }
+
+                                    
+                                            <div class="food-chip" value="@(product.Id)">
+                                                 
+                                                    <h3 class="card-title food-chip-name @(product.MaxReactionColor.ToLower())" value="@(product.Id)">@product.Description</h3>
+                                        </div>
+
+
                                             <div class="chip-badge-large foodChip@(product.MaxKnownFodColor)Solid"
                                                  data-bs-toggle="tooltip"
                                                  data-bs-placement="top"

@@ -124,10 +124,6 @@ namespace FoodTracker.Utility
             if (reactions == null || reactions.Count == 0)
                 return "";
 
-            //var maxSeverity = reactions.Select(r => r.Severity.Value)
-            //                            .DefaultIfEmpty(-1)
-            //                            .Max();
-
             return GetReactiveColorString(reactions);
         }
 
@@ -158,12 +154,12 @@ namespace FoodTracker.Utility
 
             foreach (var item in items)
             {
-                if (item.GetType() != typeof(FoodVM))
+                if (item == null || item.GetType() != typeof(FoodVM))
                     continue;
 
                 food = ((FoodVM)item).Food;
 
-                if (food.Fodmap == null)
+                if (food == null || food.Fodmap == null)
                     continue;
 
                 color = food.Fodmap.Color.Name;

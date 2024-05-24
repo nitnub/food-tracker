@@ -29,6 +29,7 @@ function getProducts(query, page = 1) {
     $.ajax({
         url: `/Guest/Product/GetUSDAProducts?userQuery=${query}&pageNumber=${page}`,
         success: function (data) {
+            $('#cameraViewContainer').hide();
             $("#productView").html(data);
             $(".food-chip").on('click', function (e) {
                 const foodName = $(this).find('.food-chip-name')[0].innerText

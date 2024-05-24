@@ -39,5 +39,8 @@ namespace FoodTracker.Models.NewFolder
         //foodVersionIds { get; set;}
         public string MaxReactionColor { get; set; }
         public string MaxKnownFodColor { get; set; }
+        public int AppFoodId { get; set; }
+        public int AppFodmapId { get; set;}
+        public int Id { get; set; }
     }
 }

@@ -32,15 +32,14 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             mealVM.Reactions ??= [];
+            
+            mealVM.Meal.DateTime = DateTime.MinValue;
+            mealVM.Meal.IsTemplate = true;
 
-            var mealTemplate = mealVM.Meal;
-            mealTemplate.DateTime = DateTime.MinValue;
-            mealTemplate.IsTemplate = true;
             var mealItems = mealVM.MealItems.Values.ToList();
             var reactionIds = mealVM.Reactions.Keys.ToList();
 
-
-            _mealService.Upsert(mealTemplate, mealItems, reactionIds);
+            _mealService.Upsert(mealVM.Meal, mealItems, reactionIds);
 
             DayVM dayVM = new()
             {
@@ -54,7 +53,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpDelete]
         public IActionResult RemoveMealTemplate(int id, DateTime calendarDate)
         {
-
             _mealService.Remove(id);
 
             MealVM = new()
@@ -71,8 +69,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             };
 
             return PartialView("_AddMealPartial", MealVM);
-
-
         }
 
         [HttpPost]
@@ -83,15 +79,16 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 return RedirectToAction("Index");
             }
 
-            var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
+            //var updatedDateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
 
             mealVM.Reactions ??= [];
-            mealVM.Meal.DateTime = updatedDateTime;
-            var updatedMeal = mealVM.Meal;
+            mealVM.Meal.DateTime = mealVM.Meal.DateTime.Date + mealVM.Time;
+            //mealVM.Meal.DateTime = updatedDateTime;
+
             var mealItems = mealVM.MealItems.Values.ToList();
             var reactionIds = mealVM.Reactions.Keys.ToList();
 
-            _mealService.Upsert(updatedMeal, mealItems, reactionIds);
+            _mealService.Upsert(mealVM.Meal, mealItems, reactionIds);
 
             CalendarVM = new() { ViewDate = mealVM.Meal.DateTime };
 
@@ -113,7 +110,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             return PartialView("_AddMealPartial", mealVM);
-            //return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
         }
 
         [HttpGet]
@@ -145,7 +141,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             Meal? activeMeal = null;
 
             var priorReactions = new Dictionary<int, bool>();
-
 
             if (dayVM.ActiveMealId != 0)
             {
