@@ -11,7 +11,7 @@ namespace FoodTracker.Service
 
         public IEnumerable<Fodmap> GetAll()
         {
-            return _unitOfWork.Fodmap.GetAll(includeProperties: [Prop.CATEGORY, Prop.COLOR, Prop.MAX_USE_UNITS]);
+            return _unitOfWork.Fodmap.GetAll(includeProperties: [Prop.CATEGORY, Prop.COLOR, Prop.MAX_USE_UNITS, Prop.ALIASES]);
         }
     }
 }

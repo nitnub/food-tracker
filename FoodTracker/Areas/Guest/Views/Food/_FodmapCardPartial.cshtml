@@ -17,7 +17,7 @@
             </div>
             <div class="d-flex align-items-end">
                 <div class="fodAliasLabel">Aliases: &nbsp;</div>
-                <div id="fodAlias" class="fodAlias">@(fm.Aliases != null ? string.Join(", ", fm.Aliases.ToList().Select(a => a.Alias)) : "None")</div>
+                <div id="fodAlias" class="fodAlias">@(fm.Aliases == null || fm.Aliases.Count == 1 ?  "None" : string.Join(", ", fm.Aliases.ToList().Select(a => a.Alias)))</div>
             </div>
             <div id="fodDailyIntake" class="d-flex justify-content-between pt-2">
                 <div id="fodDot" class="fodColorCircle fod@(fm.Color.Name)"></div>
@@ -63,20 +63,16 @@
 
                         @foreach (var el in new string[] { "Oligos", "Fructose", "Polyols", "Lactose" })
                         {
-                           @*  var active3 = fm.GetType();
-                            var active2 = fm.GetType().GetProperty(el);
-                            var active1 = (bool)fm.GetType().GetProperty(el).GetValue(fm); *@
-                            @* var active = false; *@
-                            @* if (el != null && fm != null) // && fm.GetType() != null && fm.GetType().GetProperty(el) != null && fm.GetType().GetProperty(el).GetValue(fm) != null) *@
-                            @* { *@
-                               var active = (bool)fm.GetType().GetProperty("Has" + el).GetValue(fm);
-                            @* } *@
+                            var active = (bool)fm.GetType().GetProperty("Has" + el).GetValue(fm);
+                            var label = $"{(active ? "Contains" : "Free of")} {el}";
+                            var elClass = active ? "activeReactant" : "inactiveReactant";
+                            var strikeThrough = active ? "" : "strikeThrough";
 
                             <div id="fodOligos"
-                                 class=@(active ? "activeReactant" : "inactiveReactant")
-                                 aria-label="@(active ? "contains" : "free of") @(el)"
+                                 class=@(elClass)
+                                 aria-label="@(label)"
                                  data-toggle="tooltip"
-                                 title="@(active ? "contains" : "free of") @(el)">
+                                 title="@(label)">
                                 <div id="fodOligosLabel">
                                     @if (active)
                                     {
@@ -91,7 +87,7 @@
                                         </svg>
                                     }
                                 </div>
-                                <div class="@(active ? "" : "strikeThrough" )">
+                                <div class="@(strikeThrough)">
                                     @el
                                 </div>
                             </div>

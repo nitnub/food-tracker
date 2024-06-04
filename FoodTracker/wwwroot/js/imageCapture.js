@@ -1,4 +1,7 @@
-﻿(() => {
+﻿
+/* BEGIN IMPORTED CAMERA CODE */
+
+(() => {
     // The width and height of the captured photo. We will set the
     // width to the value defined here, but the height will be
     // calculated based on the aspect ratio of the input stream.
@@ -128,170 +131,28 @@
 })();
 
 
-//document.getElementById("imageFile").addEventListener("change", function () {
-//    let file = this.files[0];
-//    let image = document.getElementById('image');
-//    let reader = new FileReader();
-
-//    reader.addEventListener("load", function () {
-//        image.src = reader.result;
-//    }, false);
-
-//    if (file) {
-//        reader.readAsDataURL(file);
-//    }
-//});
-
-//function upload() {
-//    const host = location.hostname
-//    const protocol = location.protocol
-//    const uploadPath = '/upload'
-//    let xhr = new XMLHttpRequest();
-//    let formData = new FormData();
-//    let file = document.getElementById('file').files[0];
-//    formData.append('barcodeImage', file, file.name);
-//    xhr.open('POST', uploadPath, true);
-//    xhr.send(formData);
-//    xhr.onreadystatechange = function () {
-//        if (xhr.readyState == 4 && xhr.status == 200) {
-//            document.getElementById("results").innerHTML = "Detection Results: " + xhr.responseText;
-//        }
-//    }
-//}
-
-
-
-
-
-//$(`#captureUPCButton`).on('click', updateUPC);
-
-//function updateUPC() {
-
-//    console.log("UPDATE UPC FUNC")
-//    // get value
-
-//    $.ajax({
-//        url: `/Guest/Product/GetUPC/10`,
-//        //url: `/Guest/Product/GetUPC/10?year=${year}&month=${month}&day=${day}`,
-//        type: 'GET',
-//        success: function (data) {
-//            // TODO: Add toast?
-//            if (data.success) {
-//                $('#upcDisplay')[0].innerText = data.code;
-//            }
-//        }
-//    })
-//    // set div
-//}
-
-
-//$("#captureUPCButton").on('click', function () {
-
-
-
-//    var file = document.getElementById("upcImage").src;
-//    var file2 = document.getElementById("upcImage");
-
-//    var image = document.getElementById("canvas").toDataURL("image/png");
-//    var image2 = document.getElementById("canvas").toDataURL("image/bmp");
-//    console.log('file');
-//    console.log(file);
-//    console.log(file2);
-//    console.log(image);
-//    console.log(image2);
-//    $.ajax({
-//        type: "POST",
-//        url: 'Guest/Product/GetUPC',
-//        data: { base64image: file },
-//        dataType: "json",
-//        contentType: "application/json; charset=utf-8",
-//        success: function (result) {
-//            //$('#myModal3').modal('hide'); //hide the modal
-//        },
-//        error: function () {
-//            alert("Unable to add image");
-//        }
-//    });  
-
-
-
-
-
-
-
-
-
-
-
-
-//    //var form = $("#cameraForm");
-//    //var image = document.getElementById("canvas").toDataURL("image/png");
-//    //image = image.replace('data:image/png;base64,', '');
-//    //$("#imageData").val(image);
-//    ////form.submit();
-
-//    //console.log("image");
-//    //console.log(image);
-//    //const a = $('#canvas').val();
-//    //const b = $('#canvas')[0].innerHTML;
-
-//    //console.log(a);
-//    //console.log(b);
-//    //$.ajax({
-//    //    url: `/Guest/Product/GetUPC`,
-//    //    //url: `/Guest/Product/GetUPC/10?year=${year}&month=${month}&day=${day}`,
-//    //    //type: 'GET',
-//    //    type: 'POST',
-//    //    data: JSON.stringify(image),
-//    //    contentType: 'application/json',
-
-//    //    success: function (data) {
-//    //        // TODO: Add toast?
-//    //        if (data.success) {
-//    //            $('#upcDisplay')[0].innerText = data.code;
-//    //        }
-//    //    }
-//    //})
-//});
-
-
-
+/* END IMPORTED CAMERA CODE */
 function updateUPC() {
 
-    //var file = document.getElementById("upcImage").src;
-    //var file2 = document.getElementById("upcImage");
-
-    //var image = document.getElementById("canvas").toDataURL("image/png");
-    //var image2 = document.getElementById("canvas").toDataURL("image/bmp");
-
-
     const base64Canvas = document.getElementById("canvas").toDataURL("image/jpeg").split(';base64,')[1];
-    //console.log('file');
-    //console.log(file);
-    //console.log(file2);
-    //console.log(image);
-    //console.log(image2);
+
     $.ajax({
         type: "POST",
         url: 'Product/GetUPC',
-        //data: { base64image: file },
-        //data: JSON.stringify(image2),
         data: JSON.stringify(base64Canvas),
-        //dataType: "json",
-        //contentType: "application/json; charset=utf-8",
         contentType: 'application/json',
         success: function (data) {
+
             if (data.success) {
                 $('#upcDisplay')[0].innerText = data.code;
 
                 $('#cameraViewContainer').hide();
                 getProducts(data.code);
             } else {
-                $('#upcDisplay')[0].innerText = data.code;
+
+                $('#upcDisplay')[0].innerText = "Unable to process search";
                 $('#cameraViewContainer').show();
             }
-            console.log('data.code');
-            console.log(data.code);
         },
         error: function () {
             $('#upcDisplay')[0].innerText = "Error";
