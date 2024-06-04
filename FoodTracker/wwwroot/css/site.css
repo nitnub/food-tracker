@@ -341,6 +341,26 @@ color: black;
 
 
 /* Product Area */
+
+.product-search-controls {}
+ {
+    background-color: red;
+    color: blue;
+}
+.captureUPCButton {
+}
+
+#product-search-divider,
+.camera-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#product-search-divider {
+    margin-left: 16px;
+}
+
 .product-card {
     width: 400px;
 }
@@ -353,20 +373,15 @@ color: black;
     border: none;
 }
 
-.product-header:hover {
-    text-decoration: underline;
-}
-.product-brand {
+.product-header:hover {}
 
-}
+.product-brand {}
 
 .product-category {
-
+    font-style: italic;
 }
 
-.product-ingredients-header {
-    text-decoration: underline;
-}
+.product-ingredients-header {}
 
 .food-chipT1,
 .food-chipT2,
@@ -737,6 +752,7 @@ color: black;
 
 .red {
     color: var(--clr-fd-red-dk);
+    text-decoration-color: var(--clr-fd-red-dk);
 }
 
 .bg-red {
