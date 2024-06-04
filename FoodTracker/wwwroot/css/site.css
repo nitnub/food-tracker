@@ -198,6 +198,8 @@ body {
 .chip-badge {
     height: 14px;
     width: 14px;
+    align-items: center;
+    justify-content: center;
 }
 
 .chip-badge-large {
@@ -209,7 +211,9 @@ body {
 
 .chip-badge-label,
 .chip-badge-label-large {
-    align-content: center;
+/*    align-items: center;
+    justify-content: center;*/
+color: black;
 }
 
 .chip-badge-label {

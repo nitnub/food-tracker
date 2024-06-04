@@ -297,8 +297,4 @@ function updateUPC() {
             $('#upcDisplay')[0].innerText = "Error";
         }
     });
-
-
-
-
 }

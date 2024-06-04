@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using ZXing;
 using ZXing.Windows.Compatibility;
 
 namespace FoodTrackerWeb.Areas.Guest.Controllers
@@ -39,83 +40,52 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return RedirectToAction("Food", "Index", food);
         }
 
-
-        //[HttpGet]
-        //public ActionResult GetUPC()
-        //public ActionResult GetUPC(IFormFile upcImage)
         [HttpPost]
         public ActionResult GetUPC([FromBody] string imageData)
-        //public ActionResult Index(string imageData)
         {
+            try 
+            { 
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string barcodePath = @"img\bc";
+                string finalPath = Path.Combine(wwwRootPath, barcodePath);
 
-            string wwwRootPath = _webHostEnvironment.WebRootPath;
-            string barcodePath = @"img\bc";
-            string finalPath = Path.Combine(wwwRootPath, barcodePath);
-
-            string fileNameWitPath = Path.Combine(finalPath, "0" + ".bmp");
-            using (FileStream fs = new FileStream(fileNameWitPath, FileMode.Create))
-            {
-                using (BinaryWriter bw = new BinaryWriter(fs))
+                string fileNameWitPath = Path.Combine(finalPath, "0" + ".bmp");
+                using (FileStream fs = new FileStream(fileNameWitPath, FileMode.Create))
                 {
-                    byte[] imgData = Convert.FromBase64String(imageData);
-                    bw.Write(imgData);
-                    bw.Close();
+                    using (BinaryWriter bw = new BinaryWriter(fs))
+                    {
+                        byte[] imgData = Convert.FromBase64String(imageData);
+                        bw.Write(imgData);
+                        bw.Close();
+                    }
                 }
+
+                string file = Directory.GetFiles(finalPath)[0];
+
+                    BarcodeReader reader = new BarcodeReader();
+                    // load a bitmap
+                    var barcodeBitmap = (Bitmap)Image.FromFile(file);
+
+                    // detect and decode the barcode inside the bitmap
+                    var result = reader.Decode(barcodeBitmap);
+
+                    if (result == null)
+                    {
+                        return Json(new { Success = false, Code = "N/A" });
+                    }
+
+                    Console.WriteLine(result.Text);
+                    Console.WriteLine(result.Text);
+
+
+                return Json(new { Success = true, Code = result.Text });
+
             }
-
-
-            //int len = imageData.Length;
-            //byte[] buffer = new byte[len];
-            //int c = imageData.Read(buffer, 0, len);
-            //string png64 = Encoding.UTF8.GetString(buffer, 0, len);
-            //byte[] png = Convert.FromBase64String(png64);
-            //System.IO.File.WriteAllBytes("d:\\a.png", png);
-
-
-
-
-            //List<KeyValuePair<string, string>> fileData = new List<KeyValuePair<string, string>>();
-            //KeyValuePair<string, string> data;
-
-            //string[] files = Directory.GetFiles(Server.MapPath("~/qrr"));
-            //string wwwRootPath = _webHostEnvironment.WebRootPath;
-            //string barcodePath = @"img\bc";
-            //string finalPath = Path.Combine(wwwRootPath, barcodePath);
-            //string[] files = Directory.GetFiles(finalPath);
-            //string[] files = Directory.GetFiles(barcodePath);
-
-
-
-
-            string file = Directory.GetFiles(finalPath)[0];
-
-            //string[] files = Directory.GetFiles(finalPath);
-            //foreach (string file in files)
-            //{
-
-
-                BarcodeReader reader = new BarcodeReader();
-                // load a bitmap
-                var barcodeBitmap = (Bitmap)Image.FromFile(file);
-
-                // detect and decode the barcode inside the bitmap
-                var result = reader.Decode(barcodeBitmap);
-
-                //fileData.Add(data);
-                if (result == null)
-                {
-                    return Json(new { Success = false, Code = "N/A" });
-                }
-
-                Console.WriteLine(result.Text);
-                Console.WriteLine(result.Text);
-
-
-            return Json(new { Success = true, Code = result.Text });
-            return RedirectToAction(nameof(GetUSDAProducts), new { userQuery = result.Text });
-
-            //}
-            //return View(fileData);
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return Json(new { Success = false, Code = e.Message });
+            }
         }
 
         public async Task<IActionResult> GetUSDAProducts(string userQuery, int pageNumber = 1)
@@ -154,20 +124,15 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     if (knownFoodsDict.TryGetValue(food.Description.Trim().ToLower(), out existingBrandedFood))
                     {
                         productMaxReactionColor = Helper.GetMaxSeverityColorString(existingBrandedFood);
-                        //var id = existingBrandedFood.Id;
-                        //var fod = existingBrandedFood.Fodmap;
-                        //food.AppFoodId = existingBrandedFood.Id;
-                        //food.AppFodmapId = existingBrandedFood.Fodmap.Id;
                     }
                     else
                     {
                         food.AppFoodId = 0;
                         food.AppFodmapId = 0;
                             food.Id = 0;
-
                     }
 
-                        foreach (string item in ingredientEntries)
+                    foreach (string item in ingredientEntries)
                     {
                         if (ingredientSkipChars.Contains(item)) 
                             continue;
@@ -204,7 +169,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     var existingFoodModel = new FoodVM
                     {
                         Food = existingBrandedFood,
-                        //MaxReactionColor = Helper.GetMaxSeverityColorString(existingBrandedFood),
                     };
 
                     food.MaxKnownFodColor = Helper.GetMaxKnownProductFodColorString([..elements, existingFoodModel]);

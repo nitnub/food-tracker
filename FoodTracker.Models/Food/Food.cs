@@ -27,12 +27,15 @@ namespace FoodTracker.Models.Food
         public Fodmap Fodmap { get; set; }
 
         [DefaultValue(false)]
+        [DisplayName("Vegetarian")]
         public bool IsVegetarian { get; set; }
 
         [DefaultValue(false)]
+        [DisplayName("Vegan")]
         public bool IsVegan { get; set; }
 
         [DefaultValue(false)]
+        [DisplayName("Gluten")]
         public bool IsGlutenFree { get; set; }
 
         [InverseProperty(nameof(IngredientMap.ParentFood))]
