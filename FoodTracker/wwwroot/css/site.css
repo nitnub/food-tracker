@@ -498,7 +498,7 @@ color: black;
 
 #calendarContainer {
     /*width: 100%;*/
-    background-color: red;
+    /*background-color: red;*/
 
 }
 
@@ -783,6 +783,7 @@ color: black;
 /* Active Day Highlighting */
 
 .active-calendar-backdrop {
+
     position: absolute;
     height: 100%;
     width: 100%;
@@ -791,6 +792,7 @@ color: black;
     z-index: -1;
     border: 5px solid var(--neon);
     box-shadow: 0 0 50px var(--neon-glow), inset 0 0 50px var(--neon-glow);
+    width: 2px;
 }
 
 @supports (background: color(display-p3 1 1 1)) {
@@ -939,7 +941,7 @@ color: black;
         }
 
         #calendarContainer {
-            background-color: purple;
+            /*background-color: purple;*/
             width: max-content;
             margin-left: 0px;
             /*justify-content: center;*/
@@ -972,7 +974,7 @@ color: black;
             width: 100%;
             width: 95vw;
             /*width: 100vw;*/
-            background-color: green;
+            /*background-color: green;*/
         }
 /*        .day-header-card {
             text-align: center;
@@ -997,7 +999,7 @@ color: black;
 
         #calendarContainer {
             align-items: center;
-            background-color: blue;
+            /*background-color: blue;*/
         }
         .calendar-component {
             display: flex;

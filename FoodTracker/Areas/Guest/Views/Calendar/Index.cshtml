@@ -128,12 +128,12 @@
 
                             @if (Model.DayVMs[i, j].Meals != null)
                             {
-                                @foreach (var meal in Model.DayVMs[i, j].Meals)
+                                @foreach (var meal in Model.DayVMs[i, j].Meals.OrderBy(m =>m.DateTime))
                                 {
                                     <div id="meal@(meal.Id)"
                                          class="calendar-item-@(meal.Color.Name.ToString().ToLower()) calendar-meal my-1"
                                          onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])), @meal.Id)">
-                                        @meal.Name
+                                        @meal.DateTime.ToString("h:mm tt") @meal.Name
                                     </div>
                                 }
                             }
