@@ -1,16 +1,47 @@
-﻿@model List<Food>
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
+<div class="ht-100">
+    <h1 class="display-4">Welcome to the Food Tracker</h1>
+    <p>
+        This is a tool designed to allow people with complex allergies to scan barcodes and
+        instantly get feedback as to  possible allergic reactions or FODMAP conflicts. Users
+        can also track their meals, activities, and reactions to get a fuller picture on how
+        they are doing.
+    </p>
+    <a class="intro-link" asp-area="Identity" asp-page="/Account/Login">Login</a> or <a class="intro-link" asp-area="Identity" asp-page="/Account/Register">Create an Account</a> to...
 
+    <ul>
+        <li>
+            Add Foods
+            <ul>
+                <li>Link foods to their FODMAP categories</li>
+                <li>Add / search foods by custom names and aliases</li>
+                <li>Track Vegetarian, Vegan, and Gluten status</li>
+                <li>Add reactions or label a food as "safe"</li>
+            </ul>
+        </li>
+        <li>
+            Search Products
+            <ul>
+                <li>Search for USDA-registered products (or scan their barcode) to add foods </li>
+                <li>USDA ingredient lists are highlighted with your known reactive foods/ingredients</li>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    sdadas
-    @foreach(var food in Model)
-    {
-        <div>@food.Name</div>
-    }
+            </ul>
+        </li>
+        <li>
+            Monitor your calendar
+            <ul>
+                <li>Create meal templates to quickly log regular meals</li>
+                <li>Track day-based reactions</li>
+                <li>Log daily activities</li>
+                <li>Track meals, their composition, and any meal reactions</li>
+                <li>Log "Good Days" too</li>
+                <li>Begin to identify patterns between diet, exercise, and days with adverse reactions</li>
+
+            </ul>
+        </li>
+    </ul>
+    <p>To see my other projects, please visit <a href="https://nickbryant.dev">my portfolio</a>.</p>
 </div>

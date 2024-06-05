@@ -7,7 +7,6 @@ using System.Diagnostics;
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
     [Area("Guest")]
-    //[Authorize]
     public class HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IConfiguration config) : Controller
     {
         private readonly ILogger<HomeController> _logger = logger;
@@ -18,11 +17,18 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         {            
             // Test Load
             var food = _unitOfWork.Food.GetAll(includeProperties: [Prop.FODMAP_CATEGORY, Prop.FODMAP_COLOR]); 
-            return View(food);
+
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Calendar");
+            }
+
+            return View();
         }
 
         public IActionResult Privacy()
         {
+
             return View();
         }
 

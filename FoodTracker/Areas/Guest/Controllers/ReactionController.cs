@@ -1,5 +1,4 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
-using FoodTracker.Models;
 using FoodTracker.Models.Food;
 using FoodTracker.Models.Reaction;
 using FoodTracker.Models.ViewModels;
