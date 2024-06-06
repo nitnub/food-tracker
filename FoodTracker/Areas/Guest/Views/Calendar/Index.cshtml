@@ -6,6 +6,7 @@
     var ACTIVE_DAY_CLASS = "active-calendar-day";
     var ACTIVE_DAY_BACKDROP_CLASS = "active-calendar-backdrop";
 }
+
 <!-- Meal Details Modal (Calendar) -->
 <div id="meal-modal" class="modal meal-details-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -20,7 +21,6 @@
     </div>
 </div>
 
-
 <!-- Delete Confirmation Modal (Meal) -->
 <div id="meal-delete-modal" class="modal delete-meal-modal fade" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<!-- TEST Modal (Day Reactions) -->
+<!-- Day Reaction and Activity Modal -->
 <div id="updateModal" class="modal show fade" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content calendar-modal">
@@ -51,8 +51,8 @@
         </div>
     </div>
 </div>
-<div id="calendarContainer" class="d-flex flex-column">
 
+<div id="calendarContainer" class="d-flex flex-column">
     <div class="col-10 calendar-component">
         <partial name="_CalendarNavPartial" model="Model" />
     </div>
@@ -78,10 +78,7 @@
                     </div>
                 </div>
             }
-
         </div>
-
-    
 
         @for (int i = 0; i < Model.DayVMs.GetLength(0); i++)
         {
@@ -108,7 +105,6 @@
                                     <div class="calendar-badge @reaction.Color" data-toggle="tooltip" data-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
                                 }
                             }
-
                             else
                             {
                                 @for (int k = 0; k < reactions.Count && k < MAX_DISPLAY_REACTIONS - 1; k++)

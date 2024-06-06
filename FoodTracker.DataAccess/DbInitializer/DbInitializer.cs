@@ -34,7 +34,6 @@ namespace FoodTracker.DataAccess.DBInitializer
                     // Go through all SQL Stage directories and run all queries
                     if (Env.ASPNETCORE_ENVIRONMENT == SD.DEVELOPMENT && Env.SQL_SCRIPT_DIRECTORY != null)
                     {
-                        //string connectionString = _config["ConnectionStrings:DefaultConnection"];
                         var directories = Directory.GetDirectories(Env.SQL_SCRIPT_DIRECTORY + @"\populate").ToList();
                         using var conn = new SqlConnection(_config["ConnectionStrings:DefaultConnection"]);
 

@@ -726,7 +726,7 @@ nav-controls {
     border-bottom-right-radius: 0px;
 }
 
-.input-group-right {a
+.input-group-right {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
 }
@@ -734,7 +734,7 @@ nav-controls {
 /* Day Reaction */
 
 .calendar-modal {
-    height: 500px;
+    height: 540px;
 }
 
 #activityGroup {
