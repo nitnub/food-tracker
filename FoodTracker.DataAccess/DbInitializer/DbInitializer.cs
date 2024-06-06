@@ -16,7 +16,6 @@ namespace FoodTracker.DataAccess.DBInitializer
         private readonly ApplicationDbContext _db;
         private readonly IConfiguration _config;
         public DbInitializer(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext db, IConfiguration config)
-        //public DbInitializer( ApplicationDbContext db, IConfiguration config)
         {
             _userManager = userManager;
             _roleManager = roleManager;

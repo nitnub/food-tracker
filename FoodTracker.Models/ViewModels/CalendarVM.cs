@@ -1,11 +1,4 @@
-﻿using FoodTracker.Models.Meal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FoodTracker.Models.ViewModels
+﻿namespace FoodTracker.Models.ViewModels
 {
     public class CalendarVM
     {
@@ -18,7 +11,6 @@ namespace FoodTracker.Models.ViewModels
         public int ViewYear { get; set; }
         public int ViewDay { get; set; }
         public string DateShortString { get; set; }
-
         public DayReactionVM DayReactionVM { get; set; }
         public Dictionary<string, Icon> ReactionIcons { get; set; }
     }

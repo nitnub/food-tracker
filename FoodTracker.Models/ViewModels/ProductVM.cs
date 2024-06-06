@@ -1,14 +1,9 @@
 ﻿using FoodTracker.Models.FODMAP;
 using FoodTracker.Models.USDA;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FoodTracker.Models.ViewModels
 {
@@ -19,8 +14,6 @@ namespace FoodTracker.Models.ViewModels
         [Required]
         [EmailAddress]
         public string QueryString { get; set; }
-
-        //public Dictionary<int, List<Food.Food>> FoodInteractions { get; set; }
         public Dictionary<int, ArrayList> IngredientsDict { get; set; }
 
         public bool HasQueryError { get; set; } = false;

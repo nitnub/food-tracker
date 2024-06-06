@@ -16,17 +16,13 @@ namespace FoodTracker.Models.ViewModels
         public IEnumerable<MealType> MealTypes { get; set; }
         [ValidateNever]
         public IEnumerable<Food.Food> Foods { get; set; }
-        //public IEnumerable<SelectListItem> Foods { get; set; } 
         [ValidateNever]
         public IEnumerable<Unit> Units { get; set; }
         public Dictionary<string, MealItem> MealItems { get; set; }
-        //public IEnumerable<MealItem> MealItems { get; set; }
-        //public List<int> Reactions { get; set; }
         [ValidateNever]
         public Dictionary<string, List<ReactionType>> Categories { get; set; }
         [ValidateNever]
         public Dictionary<int, bool> Reactions { get; set; }
-
         public IEnumerable<SelectListItem>? MealTemplates { get; set; }
         public TimeSpan Time { get; set; }
         public DateTime CalendarDate { get; set; }

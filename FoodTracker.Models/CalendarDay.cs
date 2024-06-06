@@ -1,12 +1,4 @@
-﻿using FoodTracker.Models.Activity;
-using FoodTracker.Models.Meal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FoodTracker.Models
+﻿namespace FoodTracker.Models
 {
     public class CalendarDay
     {

@@ -14,19 +14,9 @@ namespace FoodTracker.Models.ViewModels
         public DateTime DateTime { get; set; }
         public List<Meal.Meal> Meals { get; set; }
         public List<Reaction.Reaction> Reactions { get; set; }
-
         public List<Activity.Activity> Activities { get; set; }
         public List<Icon> ActivityIcons { get; set; } = [];
-
         public List<ReactionIcon> ReactionIcons { get; set; } = [];
         public bool IsUserSafeDay { get; set; }
-
-
-        //public DayVM()
-        //{
-        //    Day = null;
-        //    ReactionIcons = [];
-        //    ActivityIcons = [];
-        //}
     }
 }
