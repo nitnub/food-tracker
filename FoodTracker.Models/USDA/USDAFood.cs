@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FoodTracker.Models.NewFolder
+﻿namespace FoodTracker.Models.NewFolder
 {
     public class USDAFood
     {
@@ -26,7 +19,6 @@ namespace FoodTracker.Models.NewFolder
         public decimal ServingSize {get; set;}
         public string HouseholdServingFullText {get; set;}
         public string ShortDescription {get; set;}
-        //tradeChannels {get; set;}
         public string AllHighlightFields {get; set;}
         public decimal Score {get; set;}
 
