@@ -111,7 +111,7 @@ body {
     max-width: 625px;
     min-width: 350px;
 }
-
+.food-details-modal{}
 #foodFormLeft {
     padding-bottom: 12px;
 }
@@ -449,9 +449,9 @@ body {
 }
 
 .tags-input {
-  /*  min-width: 300px;
-    max-width: 300px;
-    overflow: auto;*/
+    min-width: 240px;
+    max-width: 240px;
+    overflow: auto;
 }
 
 .tags-input ul {
