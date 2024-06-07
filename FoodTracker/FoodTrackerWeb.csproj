@@ -42,10 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Guest\Views\Calendar\Index - Copy.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Update="Areas\Guest\Views\Calendar\_CalendarNavPartial.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

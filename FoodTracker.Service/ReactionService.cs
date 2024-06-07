@@ -360,7 +360,7 @@ namespace FoodTracker.Service
                                             r.SourceTypeId == ReactionSource.Day &&
                                             r.IdentifiedOn >= padLast &&
                                             r.IdentifiedOn <= padNext &&
-                                            r.Severity.Name != SD.REACTION_LABEL_NONE,
+                                            r.Severity.Name != SD.REACTION_SEVERITY_NONE,
                                             includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY])
                                             .GroupBy(r => r.IdentifiedOn.Value.DayOfYear - dh.FirstDayOfMonth.DayOfYear)
                                             .ToDictionary(r => r.Key, r => r);
@@ -425,7 +425,7 @@ namespace FoodTracker.Service
                                             r.SourceTypeId == ReactionSource.Day &&
                                             r.IdentifiedOn.Value.Date.Year == year && 
                                             r.IdentifiedOn.Value.Date.Month == month &&
-                                            r.Severity.Name != SD.REACTION_LABEL_NONE,
+                                            r.Severity.Name != SD.REACTION_SEVERITY_NONE,
                                             includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY])
                                             .GroupBy(r => r.IdentifiedOn.Value.Day)
                                             .ToDictionary(r => r.Key, r => r);
@@ -495,7 +495,7 @@ namespace FoodTracker.Service
             var reactions = _unitOfWork.Reaction.GetAll(r => r.AppUserId == UserId &&
                                         r.SourceTypeId == ReactionSource.Day &&
                                         r.IdentifiedOn.Value.Date == date.Date &&
-                                        r.Severity.Name != SD.REACTION_LABEL_NONE,
+                                        r.Severity.Name != SD.REACTION_SEVERITY_NONE,
                                         includeProperties: [Prop.TYPE_CATEGORY_ICON, Prop.SEVERITY]);
 
             var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction)

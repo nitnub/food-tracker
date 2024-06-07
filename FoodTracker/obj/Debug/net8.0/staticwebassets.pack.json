@@ -17,58 +17,6 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\0.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\0.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\IMG_0589.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\IMG_0589.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\New folder\\originalscannedUpcImageBMP.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\New folder\\originalscannedUpcImageBMP.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\New folder\\scannedUpcImageBMP.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\New folder\\scannedUpcImageBMP.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\New folder\\zzrasterimagebmp.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\New folder\\zzrasterimagebmp.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\c.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\c.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\download.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\download.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\downloadT1.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\downloadT1.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\downloadT1.png",
-      "PackagePath": "staticwebassets\\img\\bc\\downloadT1.png"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\fails_scanner.bmp",
-      "PackagePath": "staticwebassets\\img\\bc\\fails_scanner.bmp"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\newImg.png",
-      "PackagePath": "staticwebassets\\img\\bc\\newImg.png"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\scannedUpcImage.png",
-      "PackagePath": "staticwebassets\\img\\scannedUpcImage.png"
-    },
-    {
-      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\yoga.svg",
-      "PackagePath": "staticwebassets\\img\\yoga.svg"
-    },
-    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\activity.js",
       "PackagePath": "staticwebassets\\js\\activity.js"
     },

@@ -1,167 +1,170 @@
 ﻿@model MealVM
 
-<form id="foodFormTest" method="post" class="row" enctype="multipart/form-data">
+<form id="mealForm" method="post" class="row col-12" enctype="multipart/form-data">
     <input id="mealId" asp-for="@Model.Meal.Id" value="@Model.Meal.Id" hidden />
     <input id="templateId" asp-for="@Model.TemplateId" value="@Model.TemplateId" hidden />
     <input asp-for="@Model.MealItems" value="" hidden />
     <input id="dateTime" asp-for="@Model.Meal.DateTime" value="@Model.Meal.DateTime.Date.ToString("s")" hidden />
     <input id="calendarDate" asp-for="@Model.CalendarDate" value="@Model.CalendarDate.ToString("s")" hidden />
-
+    <h2>Add Meal</h2>
     <div class="row">
         <div class="col-12">
-            <div class="border rounded p-3">
-                <div class="d-flex justify-content-between">
-                    <div class="col-8">
+            @* <div class="border rounded p-3"> *@
+            <div class="d-flex justify-content-between">
+                <div class="col-8">
 
-                        <div class="input-group mb-3">
-                            @if (String.IsNullOrEmpty(Model.Meal.Name))
-                            {
-                                <button type="button" class="btn btn-outline-secondary" disabled>New</button>
-                            }
-
-                            @* If a template item, show update option *@
-                            else if (Model.Meal.IsTemplate)
-                            {
-                                <button type="button" class="btn btn-outline-secondary" disabled>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
-                                    </svg>
-                                </button>
-                            }
-
-                            @* If a non-template but existing item, show create template option*@
-                            else
-                            {
-                                <button type="button" class="btn btn-outline-secondary" disabled>Existing</button>
-                            }
-
-                            <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul id="templateDropdown" class="dropdown-menu">
-                                <li id="createNewSelect"><a class="dropdown-item text-success" href="#">Create New</a></li>
-                                <li><h6 class="dropdown-header">Templates</h6></li>
-                                @foreach (var template in Model.MealTemplates)
-                                {
-                                    <li class="template-dropdown" value="@template.Value">
-                                        <a class="dropdown-item" href="#">
-                                            &emsp;@template.Text
-                                            <small class="text-secondary">
-                                                @(template.Group.Name == "Global" ? "(Global)" : "")
-                                            </small>
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-
-                            <div class="form-floating">
-                                <input id="mealName" asp-for="@Model.Meal.Name" class="form-control form-control-sm" value="@Model.Meal.Name" />
-                                <label asp-for="@Model.Meal.Name" for="mealName" ></label>
-                            </div>
-                            @* If blank, show disabled add-to-templates view *@
-                            @if (String.IsNullOrEmpty(Model.Meal.Name))
-                            {
-                                <button id="templateActionButton" type="button" value="@(JsonSerializer.Serialize(@Model.Reactions))" class="btn btn-outline-success add-template-new" onclick="upsertMealTemplate()">Add to Templates</button>
-                                <button id="templateActionDropdownButton" type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                            }
-                            @* If a template item, show update option *@
-                            else if (Model.Meal.IsTemplate)
-                            {
-                                <button id="templateActionButton" type="button" class="btn btn-outline-primary" onclick="upsertMealTemplate()">Update Template</button>
-                                <button id="templateActionDropdownButton" type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                            }
-
-                            @* If a non-template but existing item, show create template option*@
-                            else
-                            {
-                                <button id="templateActionButton" type="button" class="btn btn-outline-success add-template-new" onclick="upsertMealTemplate()">Add to Templates</button>
-                                <button id="templateActionDropdownButton" type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                            }
-
-                            <ul id="templateActionDropdown" class="dropdown-menu" style="display: @(String.IsNullOrEmpty(Model.Meal.Name) ? "none;" : "")">
-                                <li id="templateActionSave"><a class="dropdown-item" href="#">Save Changes to Template</a></li>
-                                <li id="templateActionCreate"><a class="dropdown-item" href="#">Create New Template</a></li>
-                                <li id="templateActionUndo"><a class="dropdown-item" href="#">Undo Template Changes</a></li>
-                                <li id="templateActionDivider"><hr class="dropdown-divider"></li>
-                                <li id="templateActionRemove"><a class="dropdown-item" href="#">Remove Template</a></li>
-                            </ul>
-
-                        </div>
-                        <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
-                    </div>
-
-                    @* <div class="form-floating py-2 col-3"> *@
-                    <div class="form-floating col-3">
-
-                        @if (Model.Meal.DateTime.Date == DateTime.Today)
+                    <div class="input-group mb-3">
+                        @if (String.IsNullOrEmpty(Model.Meal.Name))
                         {
-                            <input id="mealDateTime" asp-for="@Model.Time" type="time" value="@string.Format("{0:hh\\:mm}", DateTime.Now)" class="form-control food-input">
+                            <button type="button" class="btn btn-outline-secondary" disabled>New</button>
                         }
+
+                        @* If a template item, show update option *@
+                        else if (Model.Meal.IsTemplate)
+                        {
+                            <button type="button" class="btn btn-outline-secondary" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                </svg>
+                            </button>
+                        }
+
+                        @* If a non-template but existing item, show create template option*@
                         else
                         {
-                            <input id="mealDateTime" asp-for="@Model.Time" type="time" value="@string.Format("{0:hh\\:mm}", @Model.Meal.DateTime)" class="form-control food-input">
+                            <button type="button" class="btn btn-outline-secondary" disabled>Existing</button>
                         }
 
-                        @* <label asp-for="@Model.Time" class="ms-2">@Model.Meal.DateTime.ToString("M/d/yyyy")</label> *@
-                        <label class="ms-2">@Model.Meal.DateTime.ToString("M/d/yyyy")</label>
-                        <span asp-validation-for="@Model.Time" class="text-danger"></span>
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul id="templateDropdown" class="dropdown-menu">
+                            <li id="createNewSelect"><a class="dropdown-item text-success" href="#">Create New</a></li>
+                            <li><h6 class="dropdown-header">Templates</h6></li>
+                            @foreach (var template in Model.MealTemplates)
+                            {
+                                <li class="template-dropdown" value="@template.Value">
+                                    <a class="dropdown-item" href="#">
+                                        &emsp;@template.Text
+                                        <small class="text-secondary">
+                                            @(template.Group.Name == "Global" ? "(Global)" : "")
+                                        </small>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                        <div class="form-floating">
+                            <input id="mealName" asp-for="@Model.Meal.Name" class="form-control form-control-sm" value="@Model.Meal.Name" />
+                            <label asp-for="@Model.Meal.Name" for="mealName"></label>
+                        </div>
+                        @* If blank, show disabled add-to-templates view *@
+                        @if (String.IsNullOrEmpty(Model.Meal.Name))
+                        {
+                            <button id="templateActionButton" type="button" value="@(JsonSerializer.Serialize(@Model.Reactions))" class="btn btn-outline-success add-template-new" onclick="upsertMealTemplate()">Add to Templates</button>
+                            <button id="templateActionDropdownButton" type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                        }
+                        @* If a template item, show update option *@
+                        else if (Model.Meal.IsTemplate)
+                        {
+                            <button id="templateActionButton" type="button" class="btn btn-outline-primary" onclick="upsertMealTemplate()">Update Template</button>
+                            <button id="templateActionDropdownButton" type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                        }
+
+                        @* If a non-template but existing item, show create template option*@
+                        else
+                        {
+                            <button id="templateActionButton" type="button" class="btn btn-outline-success add-template-new" onclick="upsertMealTemplate()">Add to Templates</button>
+                            <button id="templateActionDropdownButton" type="button" class="btn btn-outline-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" style="display: none;">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                        }
+
+                        <ul id="templateActionDropdown" class="dropdown-menu" style="display: @(String.IsNullOrEmpty(Model.Meal.Name) ? "none;" : "")">
+                            <li id="templateActionSave"><a class="dropdown-item" href="#">Save Changes to Template</a></li>
+                            <li id="templateActionCreate"><a class="dropdown-item" href="#">Create New Template</a></li>
+                            <li id="templateActionUndo"><a class="dropdown-item" href="#">Undo Template Changes</a></li>
+                            <li id="templateActionDivider"><hr class="dropdown-divider"></li>
+                            <li id="templateActionRemove"><a class="dropdown-item" href="#">Remove Template</a></li>
+                        </ul>
+
                     </div>
+                    <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
                 </div>
 
-                <div class="d-flex">
-                    @* <div class="form-floating py-2 col-4"> *@
-                    <div class="form-floating py-2 col-4">
-                        <select id="mealTypeInput" class="form-select food-input form-control-sm" asp-for="@Model.Meal.MealTypeId" placeholder="Meal Type">
-                            <option selected disabled></option>
-                            @foreach (var mt in Model.MealTypes)
+                @* <div class="form-floating py-2 col-3"> *@
+                <div class="form-floating col-3">
+
+                    @if (Model.Meal.DateTime.Date == DateTime.Today)
+                    {
+                        <input id="mealDateTime" asp-for="@Model.Time" type="time" value="@string.Format("{0:hh\\:mm}", DateTime.Now)" class="form-control food-input">
+                    }
+                    else
+                    {
+                        <input id="mealDateTime" asp-for="@Model.Time" type="time" value="@string.Format("{0:hh\\:mm}", @Model.Meal.DateTime)" class="form-control food-input">
+                    }
+
+                    @* <label asp-for="@Model.Time" class="ms-2">@Model.Meal.DateTime.ToString("M/d/yyyy")</label> *@
+                    <label class="ms-2">@Model.Meal.DateTime.ToString("M/d/yyyy")</label>
+                    <span asp-validation-for="@Model.Time" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="d-flex justify-content-between">
+
+                <div class="form-floating py-2 col-4">
+                    <select id="mealTypeInput" class="form-select food-input form-control-sm" asp-for="@Model.Meal.MealTypeId" placeholder="Meal Type">
+                        <option selected disabled></option>
+                        @foreach (var mt in Model.MealTypes)
+                        {
+                            <option value="@mt.Id">@mt.Name</option>
+                        }
+                    </select>
+                    <label class="ms-2" for="mealTypeInput">Meal Type</label>
+                    <span asp-validation-for="@Model.Meal.MealTypeId" class="text-danger"></span>
+                </div>
+                <div id="mealReactionResults" asp-for="@Model.Reactions" hidden></div>
+                <div id="mealReactionInput" class="d-flex col-7">
+                    <div class="form-floating py-2 col-8">
+                        <input class="dropdown-toggle form-select input-group-left" id="reactionDropdownSelect" data-bs-toggle="dropdown"
+                               aria-expanded="false" data-bs-auto-close="outside" autocomplete="off" readonly="readonly" />
+                        <ul id="reactionDropdown" class="dropdown-menu" aria-labelledby="reactionDropdownSelect" asp-for="@Model.Meal.MealTypeId">
+                            @foreach (var category in Model.Categories.Keys)
                             {
-                                <option value="@mt.Id">@mt.Name</option>
+                                <li><h6 class="dropdown-header">@category</h6></li>
+                                @foreach (var r in Model.Categories[category].ToList())
+                                {
+                                    <li value="@r.Id" class="reaction-option">
+                                        <label class="check-drop-option">
+                                            <input id="reactionCheck-@r.Id" type="checkbox">
+                                            @r.Name
+                                        </label>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        <label id="mealReactionLabel" asp-for="@Model.Reactions" class="ms-2"></label>
+                    </div>
+                    <div class="form-floating py-2 col-4">
+                        <select id="mealColor" class="form-select food-input input-group-right" asp-for="@Model.Meal.ColorId" default="None">
+                            @foreach (var c in Model.ColorOptions)
+                            {
+                                <option value="@c.Id">@c.Name</option>
                             }
                         </select>
-                        <label class="ms-2" for="mealTypeInput">Meal Type</label>
-                        <span asp-validation-for="@Model.Meal.MealTypeId" class="text-danger"></span>
-                    </div>
-                    <div id="mealReactionResults" asp-for="@Model.Reactions" hidden></div>
-                    <div class="d-flex px-2">
-                        <div class="form-floating py-2 col-12">
-                            <input class="dropdown-toggle form-select input-group-left" id="reactionDropdownSelect" data-bs-toggle="dropdown"
-                                   aria-expanded="false" data-bs-auto-close="outside" autocomplete="off" readonly="readonly" />
-                            <ul id="reactionDropdown" class="dropdown-menu" aria-labelledby="reactionDropdownSelect" asp-for="@Model.Meal.MealTypeId">
-                                @foreach (var category in Model.Categories.Keys)
-                                {
-                                    <li><h6 class="dropdown-header">@category</h6></li>
-                                    @foreach (var r in Model.Categories[category].ToList())
-                                    {
-                                        <li value="@r.Id" class="reaction-option">
-                                            <label class="check-drop-option">
-                                                <input id="reactionCheck-@r.Id" type="checkbox">
-                                                @r.Name
-                                            </label>
-                                        </li>
-                                    }
-                                }
-                            </ul>
-                            <label id="mealReactionLabel" asp-for="@Model.Reactions" class="ms-2"></label>
-                        </div>
-                        <div class="form-floating py-2 col-4">
-                            <select id="mealColor" class="form-select food-input input-group-right" asp-for="@Model.Meal.ColorId" default="None">
-                                @foreach (var c in Model.ColorOptions)
-                                {
-                                    <option value="@c.Id">@c.Name</option>
-                                }
-                            </select>
-                            <label asp-for="@Model.ColorOptions" class="ms-2">Severity</label>
-                        </div>
+                        <label asp-for="@Model.ColorOptions" class="ms-2">Severity</label>
                     </div>
                 </div>
+            </div>
 
-                <h3>Meal Items</h3>
+            <div id="mealItemsContainer">
+
+                <h4 id="mealItemHeader">Meal Items</h4>
                 <div style="display: flex; justify-content: flex-end;">
                     <a onclick="addMealItem()" class="btn btn-success">Add Meal Item</a>
                 </div>
@@ -227,26 +230,28 @@
                         }
                     }
                 </div>
-                <div class="d-flex justify-content-end pt-2 ">
-                    @if (Model.Meal.Id == 0)
-                    {
-                        <div class="col-6 col-md-3 m-1">
-                            @* <button asp-area="Guest" asp-controller="Meal" asp-action="Submit" type="submit" class="btn btn-success food-input-button form-control">Add to Calendar</button> *@
-                            <button asp-area="Guest" asp-controller="Meal" asp-action="Submit" class="btn btn-success food-input-button form-control">Add to Calendar</button>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-6 col-md-3 m-1">
-                            <button id="deleteFoodButton" onclick="removeMealConfirmation(@Model.Meal?.Id, '@Model.Meal?.Name.Replace("'","\'")')" type="button" class="btn btn-danger food-input-button form-control">Delete</button>
-                        </div>
-                        <div class="col-6 col-md-3 m-1">
-                            @* <button asp-area="Guest" asp-controller="Meal" asp-action="Submit" type="submit" class="btn btn-primary food-input-button form-control">Update</button> *@
-                            <button asp-area="Guest" asp-controller="Meal" asp-action="Submit" class="btn btn-primary food-input-button form-control">Update</button>
-                        </div>
-                    }
-                </div>
+
             </div>
+
+
+            <div class="d-flex justify-content-end pt-2 ">
+                @if (Model.Meal.Id == 0)
+                {
+                    <div class="col-6 col-md-3 m-1">
+                        <button asp-area="Guest" asp-controller="Meal" asp-action="Submit" class="btn btn-success food-input-button form-control">Add to Calendar</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-6 col-md-3 m-1">
+                        <button id="deleteFoodButton" onclick="removeMealConfirmation(@Model.Meal?.Id, '@Model.Meal?.Name.Replace("'","\'")')" type="button" class="btn btn-danger food-input-button form-control">Delete</button>
+                    </div>
+                    <div class="col-6 col-md-3 m-1">
+                        <button asp-area="Guest" asp-controller="Meal" asp-action="Submit" class="btn btn-primary food-input-button form-control">Update</button>
+                    </div>
+                }
+            </div>
+            @* </div> *@
         </div>
     </div>
     <partial name="_ValidationScriptsPartial" />
@@ -254,8 +259,8 @@
 
 <script>
     var unitJson = @Json.Serialize(Model.Units)
-            var foodJson = @Json.Serialize(Model.Foods)
-            var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
-            var meal = @Json.Serialize(Model.Meal)
-            var mealItemCount = @(Model.Meal.MealItems.Count)
+                var foodJson = @Json.Serialize(Model.Foods)
+                var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
+                var meal = @Json.Serialize(Model.Meal)
+                var mealItemCount = @(Model.Meal.MealItems.Count)
 </script>

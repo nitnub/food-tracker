@@ -62,13 +62,13 @@ html {
     }
 }
 
-.btn:focus,
+/*.btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+}*/
 
 html {
     position: relative;
@@ -106,6 +106,16 @@ body {
     font-size: 1.25rem;
 }
 /* Food Area */
+
+#foodForm {
+    max-width: 625px;
+    min-width: 350px;
+}
+
+#foodFormLeft {
+    padding-bottom: 12px;
+}
+
 .food-chip {
     text-decoration: none;
     color: var(--clr-disabled);
@@ -215,6 +225,12 @@ body {
 #cancelButton {}
 
 /* FODMAP */
+#fodmapContainer {
+    padding-top: 8px;
+    background-color: #1e2125;
+    /*background-color: chartreuse;*/
+    border-radius: 15px;
+}
 .fodSelectContainer,
 .fodCard {
     width: 275px;
@@ -273,12 +289,14 @@ body {
 .fodAliasLabel {
     font-size: 0.95em;
     color: rgb(92, 92, 92);
+   
 }
 
 .fodAlias {
     font-style: italic;
     font-size: 0.8em;
     color: rgb(92, 92, 92);
+
 }
 
 .fodColorCircle {
@@ -431,9 +449,9 @@ body {
 }
 
 .tags-input {
-    min-width: 300px;
+  /*  min-width: 300px;
     max-width: 300px;
-    overflow: auto;
+    overflow: auto;*/
 }
 
 .tags-input ul {
@@ -450,8 +468,17 @@ body {
     margin-bottom: 5px;
 }
 
+.alias-input {
+    background-color: #212529;
+}
+#aliasHelper {
+    margin-left: 12px;
+    font-size: .75em;
+}
+
 .alias-item-new {
-    background-color: var(--nav-dark);
+    /*background-color: var(--nav-dark);*/
+    background-color: #343a40;
 }
 
 .alias-delete {
@@ -604,13 +631,13 @@ nav-controls {
 
 .active-calendar-day {
     box-shadow: 0 0 0 1px #99e5c276;
-    
 }
 
 .calendar-reaction-container {
     min-height: 32px;
     max-height: 32px;
     padding-top: 6px;
+    padding-bottom: 32px;
     height: fit-content;
 }
 
@@ -618,6 +645,19 @@ nav-controls {
     min-height: 120px;
     padding-top: 4px;
     padding-bottom: 24px;
+}
+
+.calendar-reaction-container,
+.calendar-meal-container,
+.calendar-activity-container {
+    cursor: pointer;
+    transition: .5s background-color;
+}
+
+.calendar-reaction-container:hover,
+.calendar-meal-container:hover,
+.calendar-activity-container:hover {
+    background-color: #444444;
 }
 
 #reactionDropdownSelect {
@@ -631,7 +671,24 @@ nav-controls {
 .add-template-new {
     border-top-right-radius: 6px !important;
     border-bottom-right-radius: 6px !important;
-    
+}
+
+#mealRowTwo {
+    /*background-color: red;*/
+    display: flex;
+    justify-content: space-between;
+}
+
+#mealItemsContainer {
+    padding-top: 12px
+}
+
+#mealReactionInput {
+    /*margin-left: 30px;*/
+    /*background-color: red;*/
+}
+
+#mealItemHeader {
 }
 
 .day-card-footer {
@@ -646,6 +703,7 @@ nav-controls {
     background-color: var(--clr-fm-blue-dk);
     background-color: var(--clr-fm-blue);
     color: white;
+    cursor: default;
 }
 
 .calendar-badge-container {
@@ -796,9 +854,13 @@ nav-controls {
     background-color: rgba(180, 4, 4, 0.23) !important;
 }
 
+/* Food Reaction */
+
+#foodReactionContainer {
+    max-width: 800px;
+}
 
 /* Active Day Highlighting */
-
 .active-calendar-backdrop {
     position: absolute;
     height: 100%;

@@ -133,7 +133,7 @@ function submitFoodUpdate() {
     $.ajax({
         type: "POST",
         url: '/Guest/Food/AddFood',
-        data: $("#foodFormTest").serialize(),
+        data: $("#foodForm").serialize(),
         success: function (data) {
             // set behavior by work area
             switch (window.location.pathname) {

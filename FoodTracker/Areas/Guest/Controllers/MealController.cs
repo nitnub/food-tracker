@@ -150,7 +150,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             activeMeal ??= _mealService.CreateBlankMeal(mealTime);
-
+            // add datetime
             MealVM = new()
             {
                 ColorOptions = _utilityService.GetAllColors(),

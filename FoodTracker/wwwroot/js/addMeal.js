@@ -349,7 +349,6 @@ function templateActionListener() {
         { id: 'templateActionSave', title: 'Update', color: 'primary', action: 'upsertMealTemplate' },
         { id: 'templateActionUndo', title: 'Undo Changes', color: 'primary', action: 'reloadMealModal' },
         { id: createId, title: createTitle, color: createColor, action: createAction },
-        //{ id: 'templateActionCreate', title: 'Create New Template', color: 'success', action: 'createMealTemplate' },
         { id: 'templateActionRemove', title: 'Remove', color: 'danger', action: 'removeTemplate' }
     ];
 
@@ -360,7 +359,6 @@ function templateActionListener() {
     });
 
     $('#createNewSelect').on('click', function () {
-        //updateTemplateActionDisplay('Add to Templates', 'success', 'upsertMealTemplate');
         updateTemplateActionDisplay('Add to Templates', createColor, createAction);
         const newDayObj = {
             DateTime: meal.dateTime,
@@ -455,10 +453,6 @@ function removeTemplate() {
     })
 }
 
-
-
-
-
 function disableTemplateActionOnEmptyInput() {
 
     const mealInput = $('#mealName');
@@ -497,7 +491,6 @@ function disableAllActions() {
     $('#templateActionButton').attr('disabled', 'disabled');
     $('#templateActionDropdownButton').attr('disabled', 'disabled');
 }
-
 
 function createMealTemplate() {
     upsertMealTemplate(true);

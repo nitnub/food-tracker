@@ -86,6 +86,13 @@
                 @for (int j = 0; j < Model.DayVMs.GetLength(1); j++)
                 {
                     var dayId = Model.DayVMs[i, j].DateTime.Date.ToString(SD.DATE_FORMAT);
+                    var activityIcons = Model.DayVMs[i, j].ActivityIcons
+                                                        .GroupBy(icon => icon.Id)
+                                                        .Select(iGrp => iGrp.First())
+                                                        .ToList();
+                    var meals = Model.DayVMs[i, j].Meals.OrderBy(m => m.DateTime);
+
+                    
                     <div class="card day-card border-secondary m-1 col-6 @(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_CLASS : "")">
                         <div class="@(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_BACKDROP_CLASS : "")"></div>
                         <div class="card-header d-flex justify-content-end">
@@ -94,7 +101,7 @@
                             </div>
                         </div>
 
-                        <div id="reactionContainer@(dayId)" class="d-flex flex-wrap justify-content-center calendar-reaction-container pt-2 h-100" onclick="dayReactionUpdate('@dayId')">
+                        <div id="reactionContainer@(dayId)" class="d-flex flex-wrap justify-content-center calendar-reaction-container pt-2 h-100" onclick="dayReactionUpdate('@dayId')" data-bs-toggle="tooltip" data-bs-placement="top">
                             @{
                                 var reactions = Model.DayVMs[i, j].ReactionIcons;
                             }
@@ -102,7 +109,7 @@
                             {
                                 @foreach (var reaction in reactions)
                                 {
-                                    <div class="calendar-badge @reaction.Color" data-toggle="tooltip" data-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
+                                    <div class="calendar-badge @reaction.Color" data-bs-toggle="tooltip" data-bs-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
                                 }
                             }
                             else
@@ -110,7 +117,7 @@
                                 @for (int k = 0; k < reactions.Count && k < MAX_DISPLAY_REACTIONS - 1; k++)
                                 {
                                     var reaction = reactions[k];
-                                    <div class="calendar-badge @reaction.Color" data-toggle="tooltip" data-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
+                                    <div class="calendar-badge @reaction.Color" data-bs-toggle="tooltip" data-bs-placement="top" title="@reaction.Name">@Html.Raw(reaction.HTML)</div>
                                 }
                                 <div>
                                     <div>+@(reactions.Count - MAX_DISPLAY_REACTIONS + 1)</div>
@@ -120,11 +127,14 @@
                         </div>
                         <div class="calendar-meal-container h-100"
                              onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])))"
-                             type="button">
+                             type="button"
+                             data-bs-toggle="tooltip" data-bs-placement="top"
+                             title=@(meals.ToArray().Length == 0 ? "Meals" : " ")>
 
                             @if (Model.DayVMs[i, j].Meals != null)
                             {
-                                @foreach (var meal in Model.DayVMs[i, j].Meals.OrderBy(m =>m.DateTime))
+                                @* @foreach (var meal in Model.DayVMs[i, j].Meals.OrderBy(m => m.DateTime)) *@
+                                    @foreach (var meal in meals)
                                 {
                                     <div id="meal@(meal.Id)"
                                          class="calendar-item-@(meal.Color.Name.ToString().ToLower()) calendar-meal my-1"
@@ -135,20 +145,31 @@
                             }
                         </div>
 
-                        <div class="card-footer day-card-footer border-success" onclick="openDayActivityUpdate('@Model.DayVMs[i, j].DateTime')">
+                        <div class="card-footer day-card-footer calendar-activity-container border-success"
+                             onclick="openDayActivityUpdate('@Model.DayVMs[i, j].DateTime')"
+                             data-bs-toggle="tooltip" data-bs-placement="top"
+                                title=@(activityIcons.Count == 0 ? "Activities" : " ") >
                             <div class="d-flex activity-icons flex-wrap justify-content-center">
-                                @{
+                        @*         @{
                                     var icons = Model.DayVMs[i, j].ActivityIcons
                                     .GroupBy(icon => icon.Id)
                                     .Select(iGrp => iGrp.First())
                                     .ToList();
-                                }
+                                } *@
 
-                                @if (icons.Count <= MAX_DISPLAY_ACTIVITIES)
+                                @if (activityIcons.Count == 0)
                                 {
-                                    @foreach (var icon in icons)
+                                    <div class="calendar-badge text-success">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                                        </svg>
+                                    </div>
+                                }
+                                else if (activityIcons.Count <= MAX_DISPLAY_ACTIVITIES)
+                                {
+                                    @foreach (var icon in activityIcons)
                                     {
-                                        <div class="calendar-badge text-success" data-toggle="tooltip" data-placement="top" title="@icon.Name">
+                                        <div class="calendar-badge text-success" data-bs-toggle="tooltip" data-bs-placement="top" title="@icon.Name">
                                             @Html.Raw(icon.HTML)
                                         </div>
                                     }
@@ -156,10 +177,10 @@
 
                                 else
                                 {
-                                    @for (int k = 0; k < icons.Count && k < MAX_DISPLAY_ACTIVITIES - 1; k++)
+                                    @for (int k = 0; k < activityIcons.Count && k < MAX_DISPLAY_ACTIVITIES - 1; k++)
                                     {
-                                        var icon = icons[k];
-                                        <div class="calendar-badge" data-toggle="tooltip" data-placement="top" title="@icon.Name">
+                                        var icon = activityIcons[k];
+                                        <div class="calendar-badge" data-bs-toggle="tooltip" data-bs-placement="top" title="@icon.Name">
                                             @Html.Raw(icon.HTML)
                                         </div>
                                     }
@@ -180,7 +201,7 @@
     @{
         <script>
             var MAX_DISPLAY_REACTIONS = @(MAX_DISPLAY_REACTIONS)
-            var reactionIcons = @Json.Serialize(Model.ReactionIcons);
+                        var reactionIcons = @Json.Serialize(Model.ReactionIcons);
             var dayId;
         </script>
         <script src="~/js/calendar.js"></script>

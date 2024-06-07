@@ -1,6 +1,6 @@
 ﻿@model FoodVM
 
-<form id="foodFormTest" method="post" class="row" enctype="multipart/form-data">
+<form id="foodForm" method="post" class="row" enctype="multipart/form-data">
     <input id="foodId" asp-for="Food.Id" hidden />
     <input asp-for="FoodList" value="@Model.FoodList" hidden />
     <div class="row">
@@ -17,26 +17,16 @@
                         </a>
                     }
                 </div>
+
                 <div class="form-floating py-2 col-12">
-                    <input id="nameInput" class="form-control food-input border-0 shadow" asp-for="@Model.Food.Name" value="@Model.Food.Name" placeholder="Meal Name" />
+                    <input id="nameInput" class="form-control food-input shadow" asp-for="@Model.Food.Name" value="@Model.Food.Name" placeholder="Meal Name" />
                     <label asp-for="@Model.Food.Name" class="ms-2" for="nameInput"></label>
                     <span asp-validation-for="@Model.Food.Name" class="text-danger"></span>
                 </div>
 
-
-             @*    <div class="form-floating py-2 col-6">
-                    <input id="mealName" asp-for="@Model.Meal.Name" class="form-control" value="@Model.Meal.Name" placeholder="Meal Name" />
-                    <label asp-for="@Model.Meal.Name" for="mealName"></label>
-                    <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
-                </div> *@
-
-
-
-
-
-                <div class="d-flex justify-content-between">
-                    <div>
-
+                <div class="d-flex justify-content-between flex-wrap">
+                    <div id="foodFormLeft">
+                
                         <div>
                             <div class="form-check py-2 col-12">
                                 <input id="vegetarianInput" class="food-input" onclick="clickVegetarian()" asp-for="Food.IsVegetarian" class="form-check-input border-0 shadow" />
@@ -56,7 +46,7 @@
 
                         <div>
                             <div id="foodAliasList"></div>
-                            <div class="tags-input form-control">
+                            <div class="tags-input form-control shadow">
                                 <ul id="tags">
                                     @if (Model.Food.Aliases != null)
                                     {
@@ -71,10 +61,13 @@
                                         }
                                     }
                                 </ul>
-                                <input type="text" id="input-tag" foodId="@Model.Food.Id" placeholder="Enter Aliases" />
-                            </div>
 
+
+                                <input type="text" id="input-tag" class="alias-input" foodId="@Model.Food.Id" placeholder="Enter Aliases" />
+                            </div>
+                            <span id="aliasHelper">Press "Enter" after each entry </span>
                         </div>
+                        
                     </div>
 
                     <div class="fodSelectContainer">
