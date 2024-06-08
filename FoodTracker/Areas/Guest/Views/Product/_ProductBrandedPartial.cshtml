@@ -1,9 +1,16 @@
 ﻿@model ProductVM
 
 
-@if (Model.HasQueryError)
+@if (Model.HasQueryError  || Model.FoodVM == null)
 {
-    <div>@Model.QueryErrorMessage</div>
+    if (Model.QueryErrorMessage != null) {
+        <div>@Model.QueryErrorMessage</div>
+
+    } 
+    else
+    {
+        <div>Unknown error occured; please try again later</div>
+    }
 }
 else
 {

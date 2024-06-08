@@ -436,12 +436,12 @@ function reloadMealModal() {
 }
 
 function removeTemplate() {
-
+    const mealId = $('#mealId').val();
     const templateId = $('#templateId').val();
     const calendarDate = $('#calendarDate').val();
 
     $.ajax({
-        url: `/Guest/Meal/RemoveMealTemplate?id=${templateId}&dateTime=${calendarDate}`,
+        url: `/Guest/Meal/RemoveMealTemplate?id=${mealId}&dateTime=${calendarDate}`,
         type: 'DELETE',
         contentType: 'application/json',
         success: function (data) {

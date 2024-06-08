@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\img\\bc\\0.bmp",
+      "PackagePath": "staticwebassets\\img\\bc\\0.bmp"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\activity.js",
       "PackagePath": "staticwebassets\\js\\activity.js"
     },

@@ -83,6 +83,7 @@
         captureUPCButton.addEventListener(
             "click",
             (ev) => {
+/*                showCameraResults();*/
                 takepicture();
                 ev.preventDefault();
                 updateUPC();
@@ -159,3 +160,18 @@ function updateUPC() {
         }
     });
 }
+
+
+//function showCameraResults() {
+//    $('#cameraViewContainer').show();
+//}
+
+$('#cameraSwitch').on('change', function () {
+
+    if ($(this).is(':checked')) {
+        $('#cameraViewContainer').show();
+    } else {
+        $('#cameraViewContainer').hide();
+    }
+    
+})

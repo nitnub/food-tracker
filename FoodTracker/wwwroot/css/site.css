@@ -443,6 +443,11 @@ body {
     background-color: var(--clr-fm-blue-dk);
 }
 
+/* Camera */
+
+#cameraViewContainer { 
+    display: none;
+}
 /*Default Hidden*/
 .chip-dot {
     visibility: hidden;

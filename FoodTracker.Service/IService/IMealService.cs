@@ -12,6 +12,7 @@ namespace FoodTracker.Service.IService
         bool Remove(int? id);
         bool RemoveTemplate(int? id);
         bool Upsert(Meal meal, List<MealItem> mealItems, List<int> reactionIds);
+        bool UpsertMealFromTemplate(Meal meal, List<MealItem> mealItems, List<int> reactionIds);
         List<Meal> GetMealsByDate(DateTime datetime);
         Dictionary<int, List<Meal>> GetMealsByMonth(DateTime datetime);
         Dictionary<int, List<Meal>> GetMealsForSurroundingMonths(DateTime datetime);

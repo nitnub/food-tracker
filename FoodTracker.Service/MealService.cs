@@ -1,9 +1,9 @@
 ﻿using FoodTracker.DataAccess.Repository.IRepository;
-using FoodTracker.Models.IModel;
 using FoodTracker.Models.Meal;
 using FoodTracker.Service.IService;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace FoodTracker.Service
 {
@@ -133,6 +133,16 @@ namespace FoodTracker.Service
             return meals;
         }
 
+
+        public bool UpsertMealFromTemplate(Meal meal, List<MealItem> mealItems, List<int> reactionIds)
+        {
+            if (meal.IsTemplate)
+            {
+                meal.IsTemplate = false;
+                meal.Id = 0;
+            }
+            return Upsert(meal, mealItems, reactionIds);
+        }
         public bool Upsert(Meal meal, List<MealItem> mealItems, List<int> reactionIds)
         {
             var success = false;
@@ -145,8 +155,20 @@ namespace FoodTracker.Service
                 meal.MealItems = GetValidatedMealItemsList(mealItems);
                 meal.Reactions = _reactionService.CreateMealReactionsList(reactionIds);
 
+                //if (meal.IsTemplate)
+                //{
+                //    meal.IsTemplate = false;
+                //    meal.Id = 0;
+                //}
+
+
                 if (meal.Id == 0)
                 {
+                    foreach (var mealItem in meal.MealItems)
+                    {
+                        mealItem.Id = 0;
+                    }
+
                     _unitOfWork.Meal.Add(meal);
                 }
                 else
@@ -173,6 +195,7 @@ namespace FoodTracker.Service
 
             return success;
         }
+
         public bool Remove(int? id)
         {
             var success = false;
@@ -225,7 +248,6 @@ namespace FoodTracker.Service
                                        Value = m.Id.ToString(), 
                                        Text = m.Name, 
                                        Group = m.IsGlobal ? globalGroup : personalGroup });
-
         }
 
 
@@ -235,8 +257,6 @@ namespace FoodTracker.Service
             var templateMeal = _unitOfWork.Meal.Get(m => m.Id == id && 
                                                         (m.AppUserId == UserId || m.IsGlobal) &&
                                                         m.IsTemplate);
-
-
 
             return templateMeal;
         }
