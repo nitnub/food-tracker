@@ -86,11 +86,11 @@
                 @for (int j = 0; j < Model.DayVMs.GetLength(1); j++)
                 {
                     var dayId = Model.DayVMs[i, j].DateTime.Date.ToString(SD.DATE_FORMAT);
+                    var meals = Model.DayVMs[i, j].Meals.OrderBy(m => m.DateTime);
                     var activityIcons = Model.DayVMs[i, j].ActivityIcons
                                                         .GroupBy(icon => icon.Id)
                                                         .Select(iGrp => iGrp.First())
                                                         .ToList();
-                    var meals = Model.DayVMs[i, j].Meals.OrderBy(m => m.DateTime);
 
                     
                     <div class="card day-card border-secondary m-1 col-6 @(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_CLASS : "")">
@@ -123,8 +123,8 @@
                                     <div>+@(reactions.Count - MAX_DISPLAY_REACTIONS + 1)</div>
                                 </div>
                             }
-
                         </div>
+
                         <div class="calendar-meal-container h-100"
                              onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])))"
                              type="button"
@@ -133,7 +133,6 @@
 
                             @if (Model.DayVMs[i, j].Meals != null)
                             {
-                                @* @foreach (var meal in Model.DayVMs[i, j].Meals.OrderBy(m => m.DateTime)) *@
                                     @foreach (var meal in meals)
                                 {
                                     <div id="meal@(meal.Id)"
@@ -150,12 +149,6 @@
                              data-bs-toggle="tooltip" data-bs-placement="top"
                                 title=@(activityIcons.Count == 0 ? "Activities" : " ") >
                             <div class="d-flex activity-icons flex-wrap justify-content-center">
-                        @*         @{
-                                    var icons = Model.DayVMs[i, j].ActivityIcons
-                                    .GroupBy(icon => icon.Id)
-                                    .Select(iGrp => iGrp.First())
-                                    .ToList();
-                                } *@
 
                                 @if (activityIcons.Count == 0)
                                 {
@@ -190,6 +183,7 @@
                                 }
                             </div>
                         </div>
+
                     </div>
                 }
             </div>

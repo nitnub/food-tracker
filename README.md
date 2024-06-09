@@ -27,6 +27,6 @@ Additionally, I have the following stretch goals...
 
 - [ ] Integrate with USDA project to allow scanning of registered barcodes for easier data entry (this is an older Android project I would like to revisit some day)
 
+## Attributions
 
-
-
+- [Artichoke](https://icons8.com/icon/wCSp1mwoyREb/artichoke) favicon by [Icons8](https://icons8.com/)
