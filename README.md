@@ -10,7 +10,7 @@ In-progress project for a web-based food and allergy tracking app I am working o
 
 - [x] Food CRUD
 
-- [ ] Log meals
+- [x] Log meals
 
 - [x] Log known (basic) food allergies / reactions
 
@@ -19,7 +19,7 @@ In-progress project for a web-based food and allergy tracking app I am working o
 The below functionality is either in-progress or planned:
 
 - [x] Log food reactions based on system, type, and severity
-- [ ] Track date and time of food intake (integrate with calendar)
+- [x] Track date and time of food intake (integrate with calendar)
 - [ ] Track onset date, time, and duration of reaction (integrate with calendar)
 - [ ] Track FODMAP sensitivities / interactions
 
