@@ -51,18 +51,15 @@ namespace FoodTracker.DataAccess.Data
         {
             base.OnModelCreating(modelBuilder);
 
-
             modelBuilder.Entity<ReactionSourceType>().HasData(
                 new ReactionSourceType { Id = ReactionSource.Activity, Name = ReactionSource.Activity.ToString() },
                 new ReactionSourceType { Id = ReactionSource.Day, Name = ReactionSource.Day.ToString() },
                 new ReactionSourceType { Id = ReactionSource.Food, Name = ReactionSource.Food.ToString() },
                 new ReactionSourceType { Id = ReactionSource.Meal, Name = ReactionSource.Meal.ToString() });
 
-
             modelBuilder.Entity<EventType>().HasData(
                 new EventType { Id = EventGroup.Activity, Name = EventGroup.Activity.ToString()},
-                new EventType { Id = EventGroup.Meal, Name = EventGroup.Meal.ToString()}
-                );
+                new EventType { Id = EventGroup.Meal, Name = EventGroup.Meal.ToString()});
             
             modelBuilder.Entity<IconGroupType>().HasData(
                 new IconGroupType { Id = IconType.Activity, Name =IconType.Activity.ToString() },
