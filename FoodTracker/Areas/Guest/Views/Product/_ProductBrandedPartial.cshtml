@@ -1,7 +1,7 @@
 ﻿@model ProductVM
 
 
-@if (Model.HasQueryError  || Model.FoodVM == null)
+@if (Model.HasQueryError)
 {
     if (Model.QueryErrorMessage != null) {
         <div>@Model.QueryErrorMessage</div>
@@ -17,6 +17,8 @@ else
     <div class="card-body p-3 col-12">
         <form method="post" class="row" enctype="multipart/form-data">
             <div class="row">
+
+
                 @if (Model.BrandedResult.TotalPages >= 1)
                 {
                     <div id="productResultsHeader" page="@Model.BrandedResult.CurrentPage" pageCount="@Model.BrandedResult.TotalPages">
@@ -32,6 +34,10 @@ else
                 <div class="col-12">
 
                     <div class="d-flex flex-wrap p-12">
+                        @if (Model.BrandedResult.Foods.Count == 0)
+                        {
+                          <div>No Results for query "@(Model.BrandedResult.FoodSearchCriteria.Query)"</div>
+                        }
                         @{
                             foreach (var product in Model.BrandedResult.Foods)
                             {

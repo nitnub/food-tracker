@@ -6,12 +6,11 @@ using FoodTracker.Utility;
 using FoodTrackerWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.ProjectModel;
 using System.Collections;
 using System.Drawing;
 using System.Text.RegularExpressions;
-using ZXing;
 using ZXing.Windows.Compatibility;
-
 namespace FoodTrackerWeb.Areas.Guest.Controllers
 {
     [Area("Guest")]
@@ -43,14 +42,14 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpPost]
         public ActionResult GetUPC([FromBody] string imageData)
         {
-            try 
-            { 
+            try
+            {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 string barcodePath = @"img\bc";
                 string finalPath = Path.Combine(wwwRootPath, barcodePath);
 
-                string fileNameWitPath = Path.Combine(finalPath, "0" + ".bmp");
-                using (FileStream fs = new FileStream(fileNameWitPath, FileMode.Create))
+                string fileNameWithPath = Path.Combine(finalPath, "0" + ".bmp");
+                using (FileStream fs = new FileStream(fileNameWithPath, FileMode.Create))
                 {
                     using (BinaryWriter bw = new BinaryWriter(fs))
                     {
@@ -62,23 +61,30 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                 string file = Directory.GetFiles(finalPath)[0];
 
-                    BarcodeReader reader = new BarcodeReader();
-                    // load a bitmap
-                    var barcodeBitmap = (Bitmap)Image.FromFile(file);
-
-                    // detect and decode the barcode inside the bitmap
+                BarcodeReader reader = new BarcodeReader();
+                // load a bitmap
+                //var result = null;
+                using (var barcodeBitmap = (Bitmap)Image.FromFile(file))
+                {
+                    // Use stream
                     var result = reader.Decode(barcodeBitmap);
 
                     if (result == null)
                     {
                         return Json(new { Success = false, Code = "N/A" });
                     }
-
                     Console.WriteLine(result.Text);
                     Console.WriteLine(result.Text);
 
+                    return Json(new { Success = true, Code = result.Text });
+                //var barcodeBitmap = (Bitmap)Image.FromFile(file);
+                
+                //System.IO.File.Delete(fileNameWithPath);
 
-                return Json(new { Success = true, Code = result.Text });
+                // detect and decode the barcode inside the bitmap
+
+
+                }
 
             }
             catch (Exception e)
@@ -105,8 +111,8 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 var knownFoodsDict = new Dictionary<string, Food>();
                 var elementsDict = new Dictionary<int, ArrayList>();
 
-                var currentTrackedFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.IsGlobal, includeProperties: 
-                        [Prop.FODMAP_COLOR, Prop.FODMAP_ALIASES, Prop.FODMAP_CATEGORY,Prop.FODMAP_MAX_USE_UNITS, Prop.REACTIONS_SEVERITY, Prop.USER_SAFE_FOODS]);
+                var currentTrackedFoods = _unitOfWork.Food.GetAll(f => f.AppUserId == Helper.GetAppUserId(User) || f.IsGlobal, includeProperties:
+                        [Prop.FODMAP_COLOR, Prop.FODMAP_ALIASES, Prop.FODMAP_CATEGORY, Prop.FODMAP_MAX_USE_UNITS, Prop.REACTIONS_SEVERITY, Prop.USER_SAFE_FOODS]);
 
 
 
@@ -129,12 +135,12 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     {
                         food.AppFoodId = 0;
                         food.AppFodmapId = 0;
-                            food.Id = 0;
+                        food.Id = 0;
                     }
 
                     foreach (string item in ingredientEntries)
                     {
-                        if (ingredientSkipChars.Contains(item)) 
+                        if (ingredientSkipChars.Contains(item))
                             continue;
 
                         if (item.Length == 1)
@@ -149,13 +155,13 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                         var ingredientMaxReactionColor = Helper.GetMaxSeverityColorString(existingFood);
 
-                        productMaxReactionColor = 
+                        productMaxReactionColor =
                                         productMaxReactionColor == SD.COLOR_GREEN
                                         ? SD.COLOR_GREEN
-                                        : (productMaxReactionColor == SD.COLOR_RED || ingredientMaxReactionColor == SD.COLOR_RED) 
-                                        ? SD.COLOR_RED 
+                                        : (productMaxReactionColor == SD.COLOR_RED || ingredientMaxReactionColor == SD.COLOR_RED)
+                                        ? SD.COLOR_RED
                                         : (productMaxReactionColor == SD.COLOR_YELLOW || ingredientMaxReactionColor == SD.COLOR_YELLOW)
-                                        ? SD.COLOR_YELLOW 
+                                        ? SD.COLOR_YELLOW
                                         : "";
 
                         var foodModel = new FoodVM
@@ -171,7 +177,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                         Food = existingBrandedFood,
                     };
 
-                    food.MaxKnownFodColor = Helper.GetMaxKnownProductFodColorString([..elements, existingFoodModel]);
+                    food.MaxKnownFodColor = Helper.GetMaxKnownProductFodColorString([.. elements, existingFoodModel]);
                     food.MaxReactionColor = productMaxReactionColor;
 
                     elementsDict[food.FdcId] = elements;
