@@ -186,7 +186,7 @@ function addDevicesToUI(devices) {
             </select>`);
 
     } else {
-        $('#cameraOptions').html('No cameras detected');
+        $('#cameraOptions').html('No camera detected');
     }
 
     $('#cameraOptions').show();

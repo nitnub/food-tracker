@@ -3,7 +3,6 @@ using FoodTracker.Models.Meal;
 using FoodTracker.Service.IService;
 using FoodTracker.Utility;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 
 namespace FoodTracker.Service
 {
@@ -155,20 +154,12 @@ namespace FoodTracker.Service
                 meal.MealItems = GetValidatedMealItemsList(mealItems);
                 meal.Reactions = _reactionService.CreateMealReactionsList(reactionIds);
 
-                //if (meal.IsTemplate)
-                //{
-                //    meal.IsTemplate = false;
-                //    meal.Id = 0;
-                //}
-
-
                 if (meal.Id == 0)
                 {
                     foreach (var mealItem in meal.MealItems)
                     {
                         mealItem.Id = 0;
                     }
-
                     _unitOfWork.Meal.Add(meal);
                 }
                 else
@@ -179,8 +170,26 @@ namespace FoodTracker.Service
                         return success;
 
                     var mealItemsToRemove = _unitOfWork.MealItem.GetAll(mi => mi.MealId == verifiedMeal.Id).ToList();
-                    
+                    var reactionsToRemove = _unitOfWork.Reaction.GetAll(r => r.MealId == verifiedMeal.Id).ToList();
+
+                    foreach (var newReaction in meal.Reactions)
+                    {
+                        if (reactionsToRemove.Select(e => e.TypeId).Contains(newReaction.TypeId))
+                        {
+                            var oldReaction = reactionsToRemove.Find(e => e.TypeId == newReaction.TypeId);
+                            if (oldReaction == null) continue;
+
+                            newReaction.IdentifiedOn = oldReaction.IdentifiedOn;
+                        }
+                        else
+                        {
+                            newReaction.IdentifiedOn = DateTime.Now;
+                        }
+                    }
+
                     _unitOfWork.MealItem.RemoveRange(mealItemsToRemove);
+                    _unitOfWork.Reaction.RemoveRange(reactionsToRemove);
+
                     _unitOfWork.Meal.Update(meal);
                 }
 
@@ -207,13 +216,15 @@ namespace FoodTracker.Service
                 if (verifiedMeal == null || verifiedMeal.AppUserId != UserId || verifiedMeal.IsGlobal)
                     return success;
 
-                _unitOfWork.Meal.Remove(verifiedMeal);
-
                 if (verifiedMeal != null && verifiedMeal.Reactions.Count > 0)
                 {
                     _unitOfWork.Reaction.RemoveRange(verifiedMeal.Reactions.ToList());
                 }
+
+                _unitOfWork.Meal.Remove(verifiedMeal);
                 _unitOfWork.Save();
+                
+                success = true;
             }
 
             return success;
@@ -238,8 +249,7 @@ namespace FoodTracker.Service
 
         public IEnumerable<SelectListItem> GetMealTemplateOptions()
         {
-
-            // get all where marked as template and either userID or global 
+            // get all where marked (template && (userID || global)
             var personalGroup = new SelectListGroup() { Name = "Personal" };
             var globalGroup = new SelectListGroup() { Name = "Global" };
 
@@ -253,7 +263,6 @@ namespace FoodTracker.Service
 
         public Meal GetTemplateMeal(int id)
         {
-            
             var templateMeal = _unitOfWork.Meal.Get(m => m.Id == id && 
                                                         (m.AppUserId == UserId || m.IsGlobal) &&
                                                         m.IsTemplate);
@@ -269,8 +278,7 @@ namespace FoodTracker.Service
                             m.IsTemplate == true &&
                             m.Name == meal.Name &&
                             m.ColorId == meal.ColorId &&
-                            m.MealTypeId == meal.MealTypeId
-                            );
+                            m.MealTypeId == meal.MealTypeId);
 
             if (result != null)
             {

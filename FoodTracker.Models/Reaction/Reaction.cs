@@ -53,7 +53,8 @@ namespace FoodTracker.Models.Reaction
         
         [DefaultValue(true)]
         public bool IsActive { get; set; } = true;
-        public DateTime? IdentifiedOn { get; set; } = DateTime.Now;
+       
+        public DateTime? IdentifiedOn { get; set; }
         public DateTime? SubsidedOn { get; set;}
     }
 }

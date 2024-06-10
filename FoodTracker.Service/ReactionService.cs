@@ -141,6 +141,7 @@ namespace FoodTracker.Service
 
         public string ToggleReaction(Reaction reaction)
         {
+            
             reaction.SourceTypeId = ReactionSource.Food;
             reaction.AppUserId = UserId;
 
@@ -430,8 +431,6 @@ namespace FoodTracker.Service
                                             .GroupBy(r => r.IdentifiedOn.Value.Day)
                                             .ToDictionary(r => r.Key, r => r);
 
-
-
             var iconDict = _unitOfWork.Icon.GetAll(i => i.Type == IconType.Reaction)
                                             .ToDictionary(r => r.Name, r => r);
 
@@ -568,7 +567,6 @@ namespace FoodTracker.Service
 
                 if (reactions != null && reactions.Count > 0)
                     dayColor = Helper.GetReactiveColorString(reactions);
-
             }
 
             return dayColor;

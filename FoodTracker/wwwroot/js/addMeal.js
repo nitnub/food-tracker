@@ -236,9 +236,11 @@ function removeMeal(id) {
         url: `/Guest/Meal/RemoveMeal/${id}`,
         type: 'DELETE',
         contentType: 'application/json',
-        success: function () {
-            $(`#meal${id}`).remove();
-            $('#meal-delete-modal').modal('hide');
+        success: function (data) {
+            if (data.success) {
+                $(`#meal${id}`).remove();
+                $('#meal-delete-modal').modal('hide');
+            } 
         }
     })
 }

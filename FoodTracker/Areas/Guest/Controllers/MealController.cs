@@ -127,15 +127,16 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             };
 
             return PartialView("_AddMealPartial", GetMealTemplateVMFromDayVM(dayVM));
-            return PartialView("_AddMealPartial", GetMealVMFromDayVM(dayVM));
         }
 
         [HttpDelete]
         public IActionResult RemoveMeal(int id)
         {
-            _mealService.Remove(id);
+            var success = _mealService.Remove(id);
 
-            return RedirectToAction(nameof(Index));
+
+            return Json(new {success });
+            
         }
 
 
