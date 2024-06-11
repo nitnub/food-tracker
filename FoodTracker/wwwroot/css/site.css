@@ -861,6 +861,11 @@ nav-controls {
 
 /* Food Reaction */
 
+#nullReactionLabel {
+    display: flex;
+    justify-content: center;
+}
+
 #foodReactionContainer {
     max-width: 800px;
 }

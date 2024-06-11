@@ -2,29 +2,45 @@
 
 <div>
     <div>
-        Filter Bar [TODO]
+        <div class="form-floating py-2 col-4">
+            <input id="foodSearchInput" class="form-control food-input shadow" placeholder="Filter Foods" />
+            <label class="ms-2" for="foodSearchInput">Filter Foods</label>
+        </div>
 
     </div>
+    <div class="foodChipContainer">
 
     @foreach (var food in Model.Foods)
     {
         <partial name="../Food/_FoodChipPartial.cshtml" model="food" />
     }
+    </div>
 
     <br />
     <br />
 
     <div id="reactionView">
-        @if (Model.ActiveFood != null)
+
+        @if (Model.ActiveFood == null)
+        {
+            <div id="nullReactionLabel">Select a food to update reactions</div>
+        }
+        else
+        {
+            <partial name="_ReactionPartial" />  
+        }
+
+        @* @if (Model.ActiveFood != null)
         {
             <partial name="_ReactionPartial" />
-        }
+        } *@
     </div>
 
 </div>
 
 @section Scripts {
     @{
+        <script src="~/js/foodSearch.js"></script>
         <script src="~/js/reaction.js"></script>
     }
 }

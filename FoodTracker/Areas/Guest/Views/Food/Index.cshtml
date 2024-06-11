@@ -20,7 +20,7 @@
         <label class="ms-2" for="foodSearchInput">Filter Foods</label>
     </div>
 
-    <div id="foodChipContainer">
+    <div class="foodChipContainer">
 
         @foreach (var food in Model.FoodList)
         {
@@ -43,6 +43,7 @@
         <script src="~/js/addFood.js"></script>
         <script src="~/js/fodmap.js"></script>
         <script src="~/js/food.js"></script>
+        <script src="~/js/foodSearch.js"></script>
         <partial name="_ValidationScriptsPartial" />
     }
 }

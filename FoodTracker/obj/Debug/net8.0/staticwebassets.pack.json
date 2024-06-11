@@ -49,6 +49,10 @@
       "PackagePath": "staticwebassets\\js\\food.js"
     },
     {
+      "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\foodSearch.js",
+      "PackagePath": "staticwebassets\\js\\foodSearch.js"
+    },
+    {
       "Id": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker\\wwwroot\\js\\imageCapture.js",
       "PackagePath": "staticwebassets\\js\\imageCapture.js"
     },
