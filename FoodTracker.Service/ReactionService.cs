@@ -534,7 +534,7 @@ namespace FoodTracker.Service
         {
             var icon = _unitOfWork.Icon.Get(i => i.Name == iconName);
 
-            return new()
+            return new ReactionIcon()
             {
                 Name = icon.Name,
                 HTML = icon.HTML,
