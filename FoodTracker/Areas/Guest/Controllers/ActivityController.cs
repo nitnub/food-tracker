@@ -44,6 +44,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     DateTime = dateTime.AddHours(12),
                 };
             }
+
             Dictionary<string, ActivityVM> activitiesDict = [];
 
             var initialActivityTest = new Activity()
@@ -73,6 +74,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             }
 
             activityVMs.Add(ActivityVM);
+
             ActivityGroupVM = new()
             {
                 Activities = activitiesDict,
@@ -93,6 +95,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             };
 
             var userId = Helper.GetAppUserId(User);
+
             if (!ModelState.IsValid || userId == null)
                 return RedirectToAction(nameof(Index), "Calendar", CalendarVM);
 

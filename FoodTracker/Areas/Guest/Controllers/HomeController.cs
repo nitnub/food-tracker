@@ -15,7 +15,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
         public IActionResult Index()
         {            
-            // Test Load
             var food = _unitOfWork.Food.GetAll(includeProperties: [Prop.FODMAP_CATEGORY, Prop.FODMAP_COLOR]); 
 
             if (User.Identity != null && User.Identity.IsAuthenticated)

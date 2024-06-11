@@ -66,8 +66,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var userId = Helper.GetAppUserId(User);
             var updatedColor = "";
 
-            Food food;
-
             if (userId == null)
                 message = "Unable to find user";
 
@@ -82,7 +80,5 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             return Json(new { success, active, message, updatedColor });
         }
-
-
     }
 }

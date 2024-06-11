@@ -63,7 +63,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
                 BarcodeReader reader = new BarcodeReader();
                 // load a bitmap
-                //var result = null;
+
                 using (var barcodeBitmap = (Bitmap)Image.FromFile(file))
                 {
                     // Use stream
@@ -77,13 +77,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                     Console.WriteLine(result.Text);
 
                     return Json(new { Success = true, Code = result.Text });
-                //var barcodeBitmap = (Bitmap)Image.FromFile(file);
-                
-                //System.IO.File.Delete(fileNameWithPath);
-
-                // detect and decode the barcode inside the bitmap
-
-
                 }
 
             }

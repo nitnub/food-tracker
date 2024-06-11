@@ -45,7 +45,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             DayVM dayVM = new()
             {
-                DateTime = tempDateTime, //mealVM.Meal.DateTime,
+                DateTime = tempDateTime,
                 ActiveMealId = _mealService.GetMatchingMealTemplateId(mealVM.Meal)
             };
 
@@ -138,7 +138,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             return Json(new {success });
             
         }
-
 
         private MealVM GetMealTemplateVMFromDayVM(DayVM dayVM)
         {
