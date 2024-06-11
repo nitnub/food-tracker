@@ -7,6 +7,7 @@
     <input id="dateTime" asp-for="@Model.Meal.DateTime" value="@Model.Meal.DateTime.Date.ToString("s")" hidden />
     <input id="calendarDate" asp-for="@Model.CalendarDate" value="@Model.CalendarDate.ToString("s")" hidden />
     <input asp-for="@Model.Meal.IsTemplate" value="@Model.Meal.IsTemplate" hidden />
+    <input id="userTimeZone" asp-for="@Model.UserTimeZone"  hidden />
     <h2>Add Meal</h2>
     <div class="row">
         <div class="col-12">
@@ -97,24 +98,13 @@
                     <span asp-validation-for="@Model.Meal.Name" class="text-danger"></span>
                 </div>
 
-                @* <div class="form-floating py-2 col-3"> *@
                 <div class="form-floating col-3">
-
-                    @if (Model.Meal.DateTime.Date == DateTime.Today)
-                    {
-                        <input id="mealDateTime" asp-for="@Model.Time" type="time" value="@string.Format("{0:hh\\:mm}", DateTime.Now)" class="form-control food-input">
-                    }
-                    else
-                    {
-                        <input id="mealDateTime" asp-for="@Model.Time" type="time" value="@string.Format("{0:hh\\:mm}", @Model.Meal.DateTime)" class="form-control food-input">
-                    }
-
-                    @* <label asp-for="@Model.Time" class="ms-2">@Model.Meal.DateTime.ToString("M/d/yyyy")</label> *@
+                    <input id="mealDateTime" asp-for="@Model.Time" type="time" value="@string.Format("{0:H:mm}", @Model.Meal.DateTime)" class="form-control food-input">
                     <label class="ms-2">@Model.Meal.DateTime.ToString("M/d/yyyy")</label>
                     <span asp-validation-for="@Model.Time" class="text-danger"></span>
                 </div>
-            </div>
 
+            </div>
 
             <div class="d-flex justify-content-between">
 
@@ -260,8 +250,9 @@
 
 <script>
     var unitJson = @Json.Serialize(Model.Units)
-                var foodJson = @Json.Serialize(Model.Foods)
-                var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
-                var meal = @Json.Serialize(Model.Meal)
-                var mealItemCount = @(Model.Meal.MealItems.Count)
+    var userTimeZone = @Model.UserTimeZone
+    var foodJson = @Json.Serialize(Model.Foods)
+    var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
+    var meal = @Json.Serialize(Model.Meal)
+    var mealItemCount = @(Model.Meal.MealItems.Count)
 </script>

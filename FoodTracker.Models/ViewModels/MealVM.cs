@@ -27,5 +27,6 @@ namespace FoodTracker.Models.ViewModels
         public TimeSpan Time { get; set; }
         public DateTime CalendarDate { get; set; }
         public int TemplateId { get; set; }
+        public string? UserTimeZone { get; set; }
     }
 }

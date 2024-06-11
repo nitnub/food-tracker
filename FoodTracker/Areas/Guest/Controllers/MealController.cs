@@ -2,6 +2,7 @@
 using FoodTracker.Models.Meal;
 using FoodTracker.Models.ViewModels;
 using FoodTracker.Service.IService;
+using FoodTracker.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         public MealVM MealVM { get; set; }
         public CalendarVM CalendarVM { get; set; }
         public DayReactionVM DayReactionVM { get; set; }
+        public string? UserTimeZone { get; set; }
         private readonly IUnitOfWork _unitOfWork = unitOfwork;
         private readonly ICalendarService _calendarService = serviceManager.Calendar;
         private readonly IFoodService _foodService = serviceManager.Food;
@@ -103,6 +105,9 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         [HttpPost]
         public IActionResult UpsertMeal([FromBody] DayVM dayVM)
         {
+            
+            UserTimeZone = dayVM.UserTimeZone;
+
             var mealVM = GetMealVMFromDayVM(dayVM);
             if (mealVM.Meal.IsTemplate)
             {
@@ -145,9 +150,17 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
         }
         private MealVM GetMealVMFromDayVM(DayVM dayVM, bool asTemplate = false)
         {
-            DateTime mealTime = dayVM.DateTime.Date == DateTime.Now.Date
-                          ? DateTime.Now
-                          : dayVM.DateTime.Date.AddHours(12);
+            UserTimeZone ??= SD.DEFAULT_TIME_ZONE;
+            var usersClickedDay = dayVM.DateTime;
+
+            DateTime utc = DateTime.UtcNow;
+            TimeZoneInfo zone = TimeZoneInfo.FindSystemTimeZoneById(UserTimeZone); 
+            DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utc, zone);
+
+            DateTime mealTime = usersClickedDay.Date == localDateTime.Date
+              ? localDateTime
+              : usersClickedDay.Date.AddHours(12);
+
 
             Meal? activeMeal = null;
 
@@ -162,6 +175,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             activeMeal ??= _mealService.CreateBlankMeal(mealTime);
             activeMeal.DateTime = dayVM.DateTime;
+            activeMeal.DateTime = mealTime;
 
             if (!asTemplate && activeMeal.IsTemplate)
             {

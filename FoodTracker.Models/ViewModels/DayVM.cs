@@ -18,5 +18,6 @@ namespace FoodTracker.Models.ViewModels
         public List<Icon> ActivityIcons { get; set; } = [];
         public List<ReactionIcon> ReactionIcons { get; set; } = [];
         public bool IsUserSafeDay { get; set; }
+        public string? UserTimeZone { get; set; }
     }
 }

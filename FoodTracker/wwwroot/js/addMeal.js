@@ -96,14 +96,19 @@ $('.calendar-meal').each(function (e) {
 
 
 function activateMealModal(dayObj, activeMealId = 0) {
-    $('.meal-details-modal').modal('show');
     $('.modal-title').html(dayObj);
 
     dayObj.activeMealId = activeMealId;
     getMeal(dayObj);
+
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    $('#userTimeZone').val(userTimeZone);
+    $('.meal-details-modal').modal('show');
 }
 
 function getMeal(dayObj) {
+    dayObj.userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     $.ajax({
         url: `/Guest/Meal/UpsertMeal`,
         type: 'POST',
@@ -499,7 +504,6 @@ function createMealTemplate() {
 }
 
 function upsertMealTemplate(forceNewId = false) {
-    console.log("Clicked upsert...")
     const Reactions = {};
     $('.reaction-option')
         .each(function () {
@@ -551,4 +555,3 @@ function upsertMealTemplate(forceNewId = false) {
         }
     })
 }
-

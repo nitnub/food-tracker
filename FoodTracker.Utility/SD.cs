@@ -5,6 +5,7 @@ namespace FoodTracker.Utility
     public static class SD
     {
         public const string DEVELOPMENT = "Development";
+        public const string DEFAULT_TIME_ZONE = "America/Los_Angeles";
 
         public const string ROLE_ADMIN = "Admin";
         public const string ROLE_APP_USER = "AppUser";
