@@ -88,6 +88,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
             var mealItems = mealVM.MealItems.Values.ToList();
             var reactionIds = mealVM.Reactions.Keys.ToList();
+
             if (mealVM.Meal.IsTemplate)
             {
                 _mealService.UpsertMealFromTemplate(mealVM.Meal, mealItems, reactionIds);
@@ -163,7 +164,6 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
 
 
             Meal? activeMeal = null;
-
             var priorReactions = new Dictionary<int, bool>();
 
             if (dayVM.ActiveMealId != 0)
@@ -173,9 +173,11 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 activeMeal.Reactions = null;
             }
 
-            activeMeal ??= _mealService.CreateBlankMeal(mealTime);
-            activeMeal.DateTime = dayVM.DateTime;
-            activeMeal.DateTime = mealTime;
+            if (activeMeal == null )
+            {
+                activeMeal = _mealService.CreateBlankMeal(mealTime);
+                activeMeal.DateTime = mealTime;
+            }
 
             if (!asTemplate && activeMeal.IsTemplate)
             {
