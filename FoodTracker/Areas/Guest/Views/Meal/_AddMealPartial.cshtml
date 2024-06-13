@@ -250,7 +250,7 @@
 
 <script>
     var unitJson = @Json.Serialize(Model.Units)
-    var userTimeZone = @Model.UserTimeZone
+    var userTimeZone = @Json.Serialize(Model.UserTimeZone)
     var foodJson = @Json.Serialize(Model.Foods)
     var activeMealReactionsTest = @Json.Serialize(Model.Reactions)
     var meal = @Json.Serialize(Model.Meal)
