@@ -160,7 +160,6 @@ function updateUPC() {
 
                 $('#upcDisplay')[0].innerText = "Unable to process search";
                 $('#cameraViewContainer').show();
-
             }
         },
         error: function () {

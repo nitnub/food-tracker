@@ -18,7 +18,7 @@
 
 <div>
     <h1>Products Search</h1>
-    <form>
+    <div>
         <div class="form-floating py-2 col-12">
             <input id="searchQuery" class="form-control form-control-lg" type="text" placeholder="ex: Chao Cheese">
             <label asp-for="QueryString" class="ms-2"></label>
@@ -39,7 +39,7 @@
 
         (Camera mode is still in an experimental phase - please try manual entry if you run into issues)
         <div id="upcDisplay"></div>
-    </form>
+    </div>
 
     @* Activate Camera *@
     @* https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Taking_still_photos#using_specific_devices *@

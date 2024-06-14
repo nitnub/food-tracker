@@ -6,7 +6,6 @@ using FoodTracker.Utility;
 using FoodTrackerWeb.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.ProjectModel;
 using System.Collections;
 using System.Drawing;
 using System.Text.RegularExpressions;

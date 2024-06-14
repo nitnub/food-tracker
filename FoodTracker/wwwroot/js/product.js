@@ -1,8 +1,17 @@
-﻿
-$("#searchButton").on('click', function () {
+﻿$('#searchQuery').on('keydown', function (e) {
+    if (e.key.toLowerCase() == 'enter') {
+        getProductsFromSearch();
+    }
+})
+$("#searchButton").on('click', function (e) {
+    getProductsFromSearch();
+});
+
+
+function getProductsFromSearch() {
     const query = $("#searchQuery").val();
     getProducts(query);
-});
+}
 
 function activateModal(productName) {
     $('.food-details-modal').modal('show');
