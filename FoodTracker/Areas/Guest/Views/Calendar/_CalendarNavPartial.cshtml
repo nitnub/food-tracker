@@ -16,7 +16,7 @@
         <div id="calendar-nav-back-buttons" class="d-flex gap-2">
             @if (Model.ViewDate.Year <= MIN_DISPLAY_YEAR)
             {
-                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorYear" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Next Year" disabled>
+                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorYear" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Previous Year" disabled>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-forward-fill calendar-nav-img-rev p-0 m-0" viewBox="0 0 16 16">
                         <path d="m9.77 12.11 4.012-2.953a.647.647 0 0 0 0-1.114L9.771 5.09a.644.644 0 0 0-.971.557V6.65H2v3.9h6.8v1.003c0 .505.545.808.97.557" />
                     </svg>
@@ -24,8 +24,8 @@
             }
             else
             {
-                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorYear" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Next Year">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-forward-fill calendar-nav-img-rev p-0 m-0" viewBox="0 0 16 16">
+                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorYear" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Previous Year">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-forward-fill calendar-nav-img-rev p-0 m-0" viewBox="0 0 16 16">                    
                         <path d="m9.77 12.11 4.012-2.953a.647.647 0 0 0 0-1.114L9.771 5.09a.644.644 0 0 0-.971.557V6.65H2v3.9h6.8v1.003c0 .505.545.808.97.557" />
                     </svg>
                 </button>
@@ -33,7 +33,7 @@
 
             @if (Model.ViewDate.Year <= MIN_DISPLAY_YEAR && Model.ViewDate.Month <= MIN_DISPLAY_MONTH)
             {
-                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorMonth" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Next Month" disabled>
+                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorMonth" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Previous Month" disabled>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-forward calendar-nav-img-rev p-0 m-0" viewBox="0 0 16 16">
                         <path d="M9.502 5.513a.144.144 0 0 0-.202.134V6.65a.5.5 0 0 1-.5.5H2.5v2.9h6.3a.5.5 0 0 1 .5.5v1.003c0 .108.11.176.202.134l3.984-2.933.042-.028a.147.147 0 0 0 0-.252l-.042-.028zM8.3 5.647a1.144 1.144 0 0 1 1.767-.96l3.994 2.94a1.147 1.147 0 0 1 0 1.946l-3.994 2.94a1.144 1.144 0 0 1-1.767-.96v-.503H2a.5.5 0 0 1-.5-.5v-3.9a.5.5 0 0 1 .5-.5h6.3z" />
                     </svg>
@@ -41,7 +41,7 @@
             }
             else
             {
-                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorMonth" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Next Month">
+                <button asp-area="Guest" asp-controller="Calendar" asp-action="PriorMonth" class="btn btn-outline-light calendar-nav" data-toggle="tooltip" data-placement="top" title="Previous Month">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-forward calendar-nav-img-rev p-0 m-0" viewBox="0 0 16 16">
                         <path d="M9.502 5.513a.144.144 0 0 0-.202.134V6.65a.5.5 0 0 1-.5.5H2.5v2.9h6.3a.5.5 0 0 1 .5.5v1.003c0 .108.11.176.202.134l3.984-2.933.042-.028a.147.147 0 0 0 0-.252l-.042-.028zM8.3 5.647a1.144 1.144 0 0 1 1.767-.96l3.994 2.94a1.147 1.147 0 0 1 0 1.946l-3.994 2.94a1.144 1.144 0 0 1-1.767-.96v-.503H2a.5.5 0 0 1-.5-.5v-3.9a.5.5 0 0 1 .5-.5h6.3z" />
                     </svg>
@@ -49,33 +49,30 @@
             }
         </div>
 
-        <div class="d-flex gap-2">
-
+        <div class="d-flex gap-2 px-1">
+           
             <select id="monthPicker" class="form-select " asp-for="@Model.ViewMonth" placeholder="Month">
-
-                @foreach (var (m, i) in new DateTimeFormatInfo().MonthNames.Select((v, i) => (v, i + 1)))
+                @foreach (var (m, i) in new DateTimeFormatInfo().MonthNames.Select((v, i) => (v, i + 1)).Take(12))
                 {
                     if (i == (Model.ViewMonth))
                     {
-                        <option value="@(i)" selected>@m</option>
+                        <option class="calendar-month-option" value="@(i)" short="@m.Substring(0, 3)" long="@m" selected></option>
                     }
                     else
                     {
-                        <option value="@(i)">@m</option>
+                        <option class="calendar-month-option" value="@(i)" short="@m.Substring(0, 3)" long="@m"></option>
                     }
                 }
             </select>
 
             <select id="yearPicker" class="form-select" asp-for="@Model.ViewYear" placeholder="Year">
-                <option value="" selected disabled></option>
-
                 @foreach (var y in Enumerable.Range(MIN_DISPLAY_YEAR, MAX_DISPLAY_YEAR - MIN_DISPLAY_YEAR + 1))
                 {
                     if (y == Model.ViewYear)
                     {
                         <option value="@y" selected>@y</option>
                     }
-                    else
+                    else 
                     {
                         <option value="@y">@y</option>
                     }

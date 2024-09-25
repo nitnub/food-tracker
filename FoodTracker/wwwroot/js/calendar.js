@@ -30,10 +30,10 @@ function updateSelectedTab(sectionName) {
 function updateYear(year) {
     updateCalendar(year, new Date().getMonth() + 1);
 }
+
 function updateMonth(month) {
     updateCalendar(new Date().getFullYear(), month);
 }
-
 
 function updateCalendar(year, month, day = 1) {
 

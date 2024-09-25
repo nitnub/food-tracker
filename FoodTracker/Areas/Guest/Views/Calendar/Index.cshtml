@@ -60,20 +60,11 @@
         <div class="d-flex">
             @foreach (var day in Enum.GetNames<DayOfWeek>())
             {
-                <div class="card day-header-card border-secondary m-1 col-6">
+                    <div class="card day-header-card border-secondary col-6">
                     <div class="card-body text-secondary">
-                        <div class="card-title">
-                            @day
-                        </div>
-                    </div>
-                </div>
-            }
-            @foreach (var day in Enum.GetNames<DayOfWeek>())
-            {
-                <div class="card day-header-card-short border-secondary m-1 col-6">
-                    <div class="card-body text-secondary">
-                        <div class="card-title">
-                            @day.Substring(0, 3)
+                        <div class="card-title label-day">
+                            @* Keep inline to avoid spaces between spans! *@
+                            <span class="day-label-initial">@day.Substring(0,1)</span><span class ="day-label-short">@day.Substring(1, 2)</span><span class="day-label-full">@day.Substring(3)</span>
                         </div>
                     </div>
                 </div>
@@ -88,19 +79,18 @@
                     var dayId = Model.DayVMs[i, j].DateTime.Date.ToString(SD.DATE_FORMAT);
                     var meals = Model.DayVMs[i, j].Meals.OrderBy(m => m.DateTime);
                     var activityIcons = Model.DayVMs[i, j].ActivityIcons
-                                                        .GroupBy(icon => icon.Id)
-                                                        .Select(iGrp => iGrp.First())
-                                                        .ToList();
+                    .GroupBy(icon => icon.Id)
+                    .Select(iGrp => iGrp.First())
+                    .ToList();
 
-                    
-                    <div class="card day-card border-secondary m-1 col-6 @(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_CLASS : "")">
+                    <div class="card day-card border-secondary col-6 @(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_CLASS : "")">
                         <div class="@(DateTime.Now.Date.Equals(Model.DayVMs[i, j].DateTime.Date) ? ACTIVE_DAY_BACKDROP_CLASS : "")"></div>
                         <div class="card-header d-flex justify-content-end">
                             <div id="day_@dayId" class="d-flex justify-content-center align-items-center calendar-day-icon bg-@(Model.DayVMs[i, j].Color)">
                                 @Model.DayVMs[i, j].Day
                             </div>
                         </div>
-
+                        @* Reaction Container *@
                         <div id="reactionContainer@(dayId)" class="d-flex flex-wrap justify-content-center calendar-reaction-container pt-2 h-100" onclick="dayReactionUpdate('@dayId')" data-bs-toggle="tooltip" data-bs-placement="top">
                             @{
                                 var reactions = Model.DayVMs[i, j].ReactionIcons;
@@ -124,7 +114,7 @@
                                 </div>
                             }
                         </div>
-
+                        @* Meal Container *@
                         <div class="calendar-meal-container h-100"
                              onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])))"
                              type="button"
@@ -133,21 +123,22 @@
 
                             @if (Model.DayVMs[i, j].Meals != null)
                             {
-                                    @foreach (var meal in meals)
+                                @foreach (var meal in meals)
                                 {
                                     <div id="meal@(meal.Id)"
                                          class="calendar-item-@(meal.Color.Name.ToString().ToLower()) calendar-meal my-1"
                                          onclick="activateMealModal(@(JsonSerializer.Serialize(Model.DayVMs[i, j])), @meal.Id)">
-                                        @meal.DateTime.ToString("h:mm tt") @meal.Name
+                                        <span class="meal-time-label">@meal.DateTime.ToString("h:mm tt")</span>
+                                        <span class="meal-name-label">@meal.Name</span>
                                     </div>
                                 }
                             }
                         </div>
-
+                        @* Activity Container *@
                         <div class="card-footer day-card-footer calendar-activity-container border-success"
                              onclick="openDayActivityUpdate('@Model.DayVMs[i, j].DateTime')"
                              data-bs-toggle="tooltip" data-bs-placement="top"
-                                title=@(activityIcons.Count == 0 ? "Activities" : " ") >
+                             title=@(activityIcons.Count == 0 ? "Activities" : " ")>
                             <div class="d-flex activity-icons flex-wrap justify-content-center">
 
                                 @if (activityIcons.Count == 0)
@@ -167,7 +158,6 @@
                                         </div>
                                     }
                                 }
-
                                 else
                                 {
                                     @for (int k = 0; k < activityIcons.Count && k < MAX_DISPLAY_ACTIVITIES - 1; k++)
@@ -183,7 +173,6 @@
                                 }
                             </div>
                         </div>
-
                     </div>
                 }
             </div>

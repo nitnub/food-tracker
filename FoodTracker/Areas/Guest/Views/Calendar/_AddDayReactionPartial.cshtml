@@ -11,13 +11,11 @@
 
     <h5>@dayId.ToShortDateString() Reactions</h5>
 
-    @* <div class="d-flex justify-content-end col-12"> *@
+    <div class="form-check py-3">
+        <input id="userSafeDayInput" type="checkbox" onclick="updateUserSafeDay('@Model.DateTime.Date.ToString(format)')" @(Model.IsUserSafe ? "checked" : "") />
+        <label class="form-check-label ms-2">No issues today!</label>
+    </div>
 
-        <div class="form-check py-3">
-            <input id="userSafeDayInput" type="checkbox" onclick="updateUserSafeDay('@Model.DateTime.Date.ToString(format)')" @(Model.IsUserSafe ? "checked" : "") />
-            <label class="form-check-label ms-2">No issues today!</label>
-        </div>
-    @* </div> *@
     <div id="dayReactionPicker" class="d-flex align-items-start">
         <div class="nav flex-column nav-pills me-3 @(hideOnSafeDay)" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 

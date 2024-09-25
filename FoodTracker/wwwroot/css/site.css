@@ -100,18 +100,24 @@ body {
     padding-left: 26px;
 }
 
-.form-floating {}
+.form-floating {
+}
 
 .intro-link {
     font-size: 1.25rem;
 }
+
+
 /* Food Area */
 
 #foodForm {
     max-width: 625px;
     min-width: 350px;
 }
-.food-details-modal{}
+
+.food-details-modal {
+}
+
 #foodFormLeft {
     padding-bottom: 12px;
 }
@@ -162,11 +168,11 @@ body {
     transition: 0.3s;
 }
 
-.foodChipYellow:hover {
-    background-color: var(--clr-fm-yellow-dk);
-    color: white;
-    cursor: pointer;
-}
+    .foodChipYellow:hover {
+        background-color: var(--clr-fm-yellow-dk);
+        color: white;
+        cursor: pointer;
+    }
 
 .foodChipRed {
     text-decoration: none;
@@ -222,15 +228,16 @@ body {
     font-size: 1.5em;
 }
 
-#cancelButton {}
+#cancelButton {
+}
 
 /* FODMAP */
 #fodmapContainer {
     padding-top: 8px;
     background-color: #1e2125;
-    /*background-color: chartreuse;*/
     border-radius: 15px;
 }
+
 .fodSelectContainer,
 .fodCard {
     width: 275px;
@@ -281,7 +288,6 @@ body {
 
 .fodCheckUnknown,
 .fodSafeCheck {
-    /* font-size: larger; */
     color: rgb(92, 92, 92);
     fill: rgb(92, 92, 92);
 }
@@ -289,14 +295,12 @@ body {
 .fodAliasLabel {
     font-size: 0.95em;
     color: rgb(92, 92, 92);
-   
 }
 
 .fodAlias {
     font-style: italic;
     font-size: 0.8em;
     color: rgb(92, 92, 92);
-
 }
 
 .fodColorCircle {
@@ -332,7 +336,6 @@ body {
     height: 100%;
     justify-content: center;
     align-items: center;
-
 }
 
 .fodMaxIntake {
@@ -344,11 +347,14 @@ body {
 
 /* Product Area */
 
-.product-search-controls {}
- {
+.product-search-controls {
+}
+
+{
     background-color: red;
     color: blue;
 }
+
 .captureUPCButton {
 }
 
@@ -375,15 +381,18 @@ body {
     border: none;
 }
 
-.product-header:hover {}
+.product-header:hover {
+}
 
-.product-brand {}
+.product-brand {
+}
 
 .product-category {
     font-style: italic;
 }
 
-.product-ingredients-header {}
+.product-ingredients-header {
+}
 
 .food-chipT1,
 .food-chipT2,
@@ -445,9 +454,10 @@ body {
 
 /* Camera */
 
-#cameraViewContainer { 
+#cameraViewContainer {
     display: none;
 }
+
 /*Default Hidden*/
 .chip-dot {
     visibility: hidden;
@@ -459,30 +469,30 @@ body {
     overflow: auto;
 }
 
-.tags-input ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+    .tags-input ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-.tags-input li {
-    display: inline-block;
-    border-radius: 4px;
-    padding: 5px 10px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-}
+    .tags-input li {
+        display: inline-block;
+        border-radius: 4px;
+        padding: 5px 10px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
 
 .alias-input {
     background-color: #212529;
 }
+
 #aliasHelper {
     margin-left: 12px;
     font-size: .75em;
 }
 
 .alias-item-new {
-    /*background-color: var(--nav-dark);*/
     background-color: #343a40;
 }
 
@@ -497,9 +507,9 @@ body {
     font-size: 14px;
 }
 
-.tags-input input[type="text"]:focus {
-    outline: none;
-}
+    .tags-input input[type="text"]:focus {
+        outline: none;
+    }
 
 .tags-input .alias-delete {
     background-color: transparent;
@@ -515,7 +525,6 @@ body {
 #calendarContainer {
     /*width: 100%;*/
     /*background-color: red;*/
-
 }
 
 .calendar-component {
@@ -540,7 +549,6 @@ body {
 }
 
 .calendar-nav {
-
 }
 
 .calendar-nav-img,
@@ -555,42 +563,39 @@ body {
     transform: scale(-1,1);
 }
 
-.day-header-card, 
+.day-header-card,
 .day-header-card-short {
     text-align: center;
     font-size: 1.25rem;
 }
 
-.day-header-card .card-body, 
-.day-header-card-short .card-body {
-    padding-top: 6px;
-    padding-bottom: 0px;
-    margin: 0px;
-}
+    .day-header-card .card-body,
+    .day-header-card-short .card-body {
+        padding-top: 6px;
+        padding-bottom: 0px;
+        margin: 0px;
+    }
 
 .calendar-week {
-    /*max-width: 30px;*/
 }
 
 .btn-primary-dark {
     background-color: var(--clr-primary-dark);
 }
 
-.btn-primary-dark:hover {
-    /*background-color: #2e4760 !important;*/
-    background-color: var(--clr-primary-dark-hover);
-}
+    .btn-primary-dark:hover {
+        background-color: var(--clr-primary-dark-hover);
+    }
 
-.btn-primary-dark:visited {
-    background-color: rgba(180, 4, 4, 0.23) !important;
-}
+    .btn-primary-dark:visited {
+        background-color: rgba(180, 4, 4, 0.23) !important;
+    }
 
-.date-nav-row-two { 
+.date-nav-row-two {
     width: 95%;
 }
 
 nav-controls {
-
 }
 
 #monthPicker {
@@ -606,15 +611,13 @@ nav-controls {
 
 .calendar-nav-icon,
 .calendar-nav-icon-disabled {
-    /*    width: 100px;
-    height: 50px;*/
     fill: var(--clr-disabled-nav);
     fill: var(--clr-primary-dark);
 }
 
-.calendar-nav-icon:hover {
-    fill: var(--clr-primary-dark-hover);
-}
+    .calendar-nav-icon:hover {
+        fill: var(--clr-primary-dark-hover);
+    }
 
 .calendar-nav-icon-disabled {
     fill: #393b3d;
@@ -631,7 +634,38 @@ nav-controls {
 .day-card,
 .day-header-card,
 .day-header-card-short {
-    width: 13%;
+    width: 14%;
+    border-right: none;
+    border-radius: 0;
+}
+
+.day-card {
+    border-top: none;
+}
+
+    .day-card:last-of-type {
+        border-right-style: solid;
+        border-right-width: 1px;
+    }
+
+.day-header-card:first-of-type {
+    border-top-left-radius: 4px;
+}
+
+.day-header-card:last-of-type {
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-top-right-radius: 4px;
+}
+
+.calendar-week:last-of-type
+.day-card:first-of-type {
+    border-bottom-left-radius: 4px;
+}
+
+.calendar-week:last-of-type
+.day-card:last-of-type {
+    border-bottom-right-radius: 4px;
 }
 
 .active-calendar-day {
@@ -659,11 +693,11 @@ nav-controls {
     transition: .5s background-color;
 }
 
-.calendar-reaction-container:hover,
-.calendar-meal-container:hover,
-.calendar-activity-container:hover {
-    background-color: #444444;
-}
+    .calendar-reaction-container:hover,
+    .calendar-meal-container:hover,
+    .calendar-activity-container:hover {
+        background-color: #444444;
+    }
 
 #reactionDropdownSelect {
     cursor: default;
@@ -673,13 +707,13 @@ nav-controls {
     max-height: 340px;
     overflow: auto;
 }
+
 .add-template-new {
     border-top-right-radius: 6px !important;
     border-bottom-right-radius: 6px !important;
 }
 
 #mealRowTwo {
-    /*background-color: red;*/
     display: flex;
     justify-content: space-between;
 }
@@ -689,8 +723,6 @@ nav-controls {
 }
 
 #mealReactionInput {
-    /*margin-left: 30px;*/
-    /*background-color: red;*/
 }
 
 #mealItemHeader {
@@ -771,7 +803,6 @@ nav-controls {
 
 #templateDropdown {
     max-height: 250px;
-    
     overflow-y: scroll;
 }
 
@@ -801,7 +832,6 @@ nav-controls {
 }
 
 #activityGroup {
-   
 }
 
 .activity-icons {
@@ -818,7 +848,6 @@ nav-controls {
 }
 
 .bg-green {
-    /*#99e5c2*/
     background-color: var(--clr-bg-green);
 }
 
@@ -851,13 +880,13 @@ nav-controls {
     background-color: var(--clr-primary-dark);
 }
 
-.btn-primary-dark:hover {
-    background-color: var(--clr-primary-dark-hover);
-}
+    .btn-primary-dark:hover {
+        background-color: var(--clr-primary-dark-hover);
+    }
 
-.btn-primary-dark:visited {
-    background-color: rgba(180, 4, 4, 0.23) !important;
-}
+    .btn-primary-dark:visited {
+        background-color: rgba(180, 4, 4, 0.23) !important;
+    }
 
 /* Food Reaction */
 
@@ -870,6 +899,17 @@ nav-controls {
     max-width: 800px;
 }
 
+/*.reaction-category-label {
+    font-size: 3.4rem
+}
+
+.reaction-type-label {
+    font-size: 3.4rem
+}
+
+.reaction-severity-label {
+    font-size: .4rem
+}*/
 /* Active Day Highlighting */
 .active-calendar-backdrop {
     position: absolute;
@@ -902,17 +942,82 @@ nav-controls {
     }
 
     .day-header-card {
-        display: none;
+        text-align: center;
+        font-size: 1rem;
     }
+
     .day-header-card-short {
         text-align: center;
         font-size: 1rem;
-
     }
+
+    /* Calendar */
     .calendar-component {
         font-size: .9rem;
+        width: 100%;
     }
 
+    .calendar-nav {
+        width: 30px;
+        padding: 0px;
+        border: solid 1px #b4bdc6;
+    }
+
+    #monthPicker,
+    #yearPicker {
+        width: 80px
+    }
+
+/*    .month-label-short {
+        background-color: red;
+    }
+
+    .month-label-full {
+        display: none;
+    }*/
+
+    .calendar-nav-img,
+    .calendar-nav-img-rev {
+        padding: 0px;
+        width: 30px;
+        height: 26px;
+    }
+
+    .calendar-day-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .meal-time-label {
+        display: none;
+    }
+
+    .meal-name-label {
+
+    }
+
+    /*Reactions View*/
+    .reaction-category-label {
+        font-size: .75rem;
+    }
+
+    .reaction-type-label {
+        font-size: .75rem;
+    }
+
+    .reaction-severity-label {
+        font-size: .75rem;
+    }
+
+    .reaction-severity-name {
+        font-size: .75rem;
+        background-color: red;
+
+    }
+
+    .reaction-severity-id {
+        font-size: .75rem;
+    }
 }
 
 /*Small*/
@@ -923,7 +1028,6 @@ nav-controls {
     }
 
     .day-header-card {
-        display: none;
     }
 
     .day-header-card-short {
@@ -931,199 +1035,149 @@ nav-controls {
         font-size: 1rem;
     }
 
+    /* Calendar */
     .calendar-component {
         font-size: .9rem;
-    }
-/*    #sideBar {
-        display: none;
-    }
-
-    .day-header-card {
-        display: none;
-    }
-
-    .day-header-card-short {
-        text-align: center;
-        font-size: 1rem;
+        width: 100%;
     }
 
     .calendar-component {
         font-size: .9rem;
+        width: 100%;
     }
 
-
-
-    #sideBar {
-        display: none;
+    .calendar-nav {
+        width: 30px;
+        padding: 0px;
+        border: solid 1px #b4bdc6;
     }
 
-    .container {
-        margin: 0;
-    }
-    #calendarContainer {
-        background-color: purple;
-        width: max-content;
-        margin-left: 0px;
-    }
-    .day-header-card {
-        display: none;
+    #monthPicker {
+        width: 116px;
     }
 
-    .day-header-card-short {
-        text-align: center;
-        font-size: 1rem;
+    #yearPicker {
+        width: 80px
     }
 
-    .calendar-component {
-        font-size: .9rem;
-    }*/
+    .calendar-nav-img,
+    .calendar-nav-img-rev {
+        padding: 0px;
+        width: 30px;
+        height: 26px;
+    }
 }
 
 
-/* Phone */
 
-/*@media (width >= 745px) and (width <= 755px) {*/
-    @media (width >= 745px) {
-
-        #sideBar {
-            display: none;
-        }
-
-        .day-header-card {
-            display: none;
-        }
-
-        .day-header-card-short {
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .calendar-component {
-            font-size: .9rem;
-        }
-
-
-
-        #sideBar {
-            display: none;
-        }
-
-        .container {
-            margin: 0;
-        }
-
-        #calendarContainer {
-            /*background-color: purple;*/
-            width: max-content;
-            margin-left: 0px;
-            /*justify-content: center;*/
-            align-items: center;
-        }
-
-        .day-header-card {
-            display: none;
-        }
-
-        .day-header-card-short {
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .calendar-component {
-            font-size: .9rem;
-        }
+/*Medium*/
+@media (width >= 768px) {
+    .container {
+        margin: auto;
+        margin: 0;
     }
 
-
-
-    /*Medium*/
-    @media (width >= 768px) {
-        .container {
-            margin: auto;
-            margin: 0;
-        }
-        #calendarContainer {
-            width: 100%;
-            width: 95vw;
-            /*width: 100vw;*/
-            /*background-color: green;*/
-        }
-/*        .day-header-card {
-            text-align: center;
-            font-size: 1rem;
-        }
-
-*/
-        .calendar-component {
-            width: 100%;
-        }
+    #calendarContainer {
+        width: 100%;
+        width: 95vw;
     }
 
-
-
-    /*Large*/
-    @media (width >= 992px) {
-
-        .container {
-            /*margin: auto;*/
-            /*margin: 0;*/
-        }
-
-        #calendarContainer {
-            align-items: center;
-            /*background-color: blue;*/
-        }
-        .calendar-component {
-            display: flex;
-            flex-direction: column;
-            font-size: .9rem;
-
-        }
-
-        .day-header-card {
-            display: flex;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .day-header-card-short {
-            display: none;
-        }
+    .calendar-component {
+        width: 100%;
     }
 
-    /*Extra large*/
-    @media (width >= 1200px) {
-        .container {
-            margin: auto;
-           
-            /*margin: 0;*/
-        }
-        #calendarContainer {
-            /*background-color: gold;*/
-            width: 100%;
-        }
-        .day-header-card {
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .calendar-component {
-            font-size: .9rem;
-        }
+    .calendar-nav-icon {
+        width: 30px;
+        padding: 0px;
+        margin: 0px;
     }
 
-    /*Extra extra large*/
-    @media (width >= 1400px) {
-        .day-header-card {
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        .calendar-component {
-            font-size: .9rem;
-        }
-
-        #sideBar {
-            display: block;
-        }
+    .calendar-nav {
+        width: 100px;
     }
+
+    .calendar-nav-img,
+    .calendar-nav-img-rev {
+        padding: 0px;
+        width: 100px;
+        height: 26px;
+    }
+
+    .calendar-nav-img-rev {
+        display: block;
+        transform: scale(-1,1);
+    }
+
+    #monthPicker {
+        width: 140px;
+    }
+
+    #yearPicker {
+        width: 90px
+    }
+}
+
+
+/*Large*/
+@media (width >= 992px) {
+
+    .container {
+    }
+
+    #calendarContainer {
+        align-items: center;
+    }
+
+    .calendar-component {
+        display: flex;
+        flex-direction: column;
+        font-size: .9rem;
+    }
+
+    .day-header-card {
+        display: flex;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .day-header-card-short {
+        display: none;
+    }
+}
+
+
+/*Extra large*/
+@media (width >= 1200px) {
+    .container {
+        margin: auto;
+    }
+
+    #calendarContainer {
+        width: 100%;
+    }
+
+    .day-header-card {
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .calendar-component {
+        font-size: .9rem;
+    }
+}
+
+/*Extra extra large*/
+@media (width >= 1400px) {
+    .day-header-card {
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .calendar-component {
+        font-size: .9rem;
+    }
+
+    #sideBar {
+        display: block;
+    }
+}

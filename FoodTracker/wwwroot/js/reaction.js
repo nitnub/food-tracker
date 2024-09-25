@@ -15,6 +15,9 @@ $('.food-chip').on('click', function () {
         url: `/Guest/Reaction/GetReactions?activeFoodId=${foodId}`,
         success: function (data) {
             $('#reactionView').html(data);
+
+            document.dispatchEvent(new CustomEvent("load-reaction-details"));
+
             if (reactionHeaderIsSafe()) {
                 return;
             }

@@ -20,7 +20,6 @@
     <br />
 
     <div id="reactionView">
-
         @if (Model.ActiveFood == null)
         {
             <div id="nullReactionLabel">Select a food to update reactions</div>
@@ -29,13 +28,7 @@
         {
             <partial name="_ReactionPartial" />  
         }
-
-        @* @if (Model.ActiveFood != null)
-        {
-            <partial name="_ReactionPartial" />
-        } *@
     </div>
-
 </div>
 
 @section Scripts {
