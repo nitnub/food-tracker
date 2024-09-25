@@ -155,7 +155,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
             var usersClickedDay = dayVM.DateTime;
 
             DateTime utc = DateTime.UtcNow;
-            TimeZoneInfo zone = TimeZoneInfo.FindSystemTimeZoneById(UserTimeZone); 
+            TimeZoneInfo zone = TimeZoneInfo.FindSystemTimeZoneById(UserTimeZone);
             DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(utc, zone);
 
             DateTime mealTime = usersClickedDay.Date == localDateTime.Date
@@ -173,7 +173,7 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 activeMeal.Reactions = null;
             }
 
-            if (activeMeal == null )
+            if (activeMeal == null)
             {
                 activeMeal = _mealService.CreateBlankMeal(mealTime);
                 activeMeal.DateTime = mealTime;
@@ -184,6 +184,20 @@ namespace FoodTrackerWeb.Areas.Guest.Controllers
                 activeMeal.Id = 0;
                 activeMeal.IsTemplate = false;
             }
+
+            if (asTemplate)
+            {
+
+                if (dayVM.DateTime.Date ==  localDateTime.Date)
+                {
+                    activeMeal.DateTime = DateTime.Now;
+                } 
+                else
+                {
+                    activeMeal.DateTime = dayVM.DateTime.AddHours(12);
+                }
+            }
+
 
             MealVM = new()
             {

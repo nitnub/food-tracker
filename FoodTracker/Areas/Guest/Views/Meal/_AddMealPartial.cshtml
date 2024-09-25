@@ -1,6 +1,7 @@
 ﻿@model MealVM
 
 <form id="mealForm" method="post" class="row col-12" enctype="multipart/form-data">
+
     <input id="mealId" asp-for="@Model.Meal.Id" value="@Model.Meal.Id" hidden />
     <input id="templateId" asp-for="@Model.TemplateId" value="@Model.TemplateId" hidden />
     <input asp-for="@Model.MealItems" value="" hidden />
@@ -8,7 +9,9 @@
     <input id="calendarDate" asp-for="@Model.CalendarDate" value="@Model.CalendarDate.ToString("s")" hidden />
     <input asp-for="@Model.Meal.IsTemplate" value="@Model.Meal.IsTemplate" hidden />
     <input id="userTimeZone" asp-for="@Model.UserTimeZone"  hidden />
+
     <h2>Add Meal</h2>
+
     <div class="row">
         <div class="col-12">
             @* <div class="border rounded p-3"> *@

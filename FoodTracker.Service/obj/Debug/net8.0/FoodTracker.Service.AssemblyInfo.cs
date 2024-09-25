@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FoodTracker.Service")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+475ec20cf7cf590429f3a0fed80e4f9220b4c5c4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("FoodTracker.Service")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FoodTracker.Service")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
