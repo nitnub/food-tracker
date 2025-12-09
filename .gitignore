@@ -92,7 +92,7 @@ http-client.private.env.json
 
 **/appsettings.Development.json
 **/appsettings.json
-
+**/launchSettings.json
 
 .idea/
 .vs/
