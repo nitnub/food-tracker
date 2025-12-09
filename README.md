@@ -26,7 +26,7 @@ The below functionality is either in-progress or planned:
 Additionally, I have the following stretch goals...
 
 - [ ] Integrate with USDA project to allow scanning of registered barcodes for easier data entry (this is an older Android project I would like to revisit some day)
-- [ ] Add "Pets" grouping to track pet food reactions.
+- [ ] Add "Pets" grouping to track pet food reactions
 
 ## Attributions
 
