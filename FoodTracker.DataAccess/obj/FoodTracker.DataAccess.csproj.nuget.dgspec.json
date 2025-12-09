@@ -1,42 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj": {}
+    "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess/FoodTracker.DataAccess.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess.Interfaces\\FoodTracker.DataAccess.Interfaces.csproj": {
+    "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess.Interfaces/FoodTracker.DataAccess.Interfaces.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess.Interfaces\\FoodTracker.DataAccess.Interfaces.csproj",
+        "projectUniqueName": "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess.Interfaces/FoodTracker.DataAccess.Interfaces.csproj",
         "projectName": "FoodTracker.DataAccess.Interfaces",
-        "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess.Interfaces\\FoodTracker.DataAccess.Interfaces.csproj",
-        "packagesPath": "C:\\Users\\Nick\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess.Interfaces\\obj\\",
+        "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess.Interfaces/FoodTracker.DataAccess.Interfaces.csproj",
+        "packagesPath": "/home/nick/.nuget/packages/",
+        "outputPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess.Interfaces/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Nick\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/home/nick/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
-                "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj"
+              "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj": {
+                "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj"
               }
             }
           }
@@ -45,7 +36,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -66,46 +63,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/nick/.dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj": {
+    "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess/FoodTracker.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj",
+        "projectUniqueName": "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess/FoodTracker.DataAccess.csproj",
         "projectName": "FoodTracker.DataAccess",
-        "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\FoodTracker.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\Nick\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess\\obj\\",
+        "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess/FoodTracker.DataAccess.csproj",
+        "packagesPath": "/home/nick/.nuget/packages/",
+        "outputPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Nick\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/home/nick/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
-                "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj"
+              "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj": {
+                "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj"
               },
-              "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Utility\\FoodTracker.Utility.csproj": {
-                "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Utility\\FoodTracker.Utility.csproj"
+              "/home/nick/git/portfolio/food-tracker/FoodTracker.Utility/FoodTracker.Utility.csproj": {
+                "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Utility/FoodTracker.Utility.csproj"
               }
             }
           }
@@ -114,7 +102,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -155,35 +149,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/nick/.dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
+    "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj",
+        "projectUniqueName": "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj",
         "projectName": "FoodTracker.Models",
-        "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj",
-        "packagesPath": "C:\\Users\\Nick\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\obj\\",
+        "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj",
+        "packagesPath": "/home/nick/.nuget/packages/",
+        "outputPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Nick\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/home/nick/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -196,7 +181,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -223,46 +214,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/nick/.dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Utility\\FoodTracker.Utility.csproj": {
+    "/home/nick/git/portfolio/food-tracker/FoodTracker.Utility/FoodTracker.Utility.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Utility\\FoodTracker.Utility.csproj",
+        "projectUniqueName": "/home/nick/git/portfolio/food-tracker/FoodTracker.Utility/FoodTracker.Utility.csproj",
         "projectName": "FoodTracker.Utility",
-        "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Utility\\FoodTracker.Utility.csproj",
-        "packagesPath": "C:\\Users\\Nick\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Utility\\obj\\",
+        "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Utility/FoodTracker.Utility.csproj",
+        "packagesPath": "/home/nick/.nuget/packages/",
+        "outputPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Utility/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Nick\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "/home/nick/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess.Interfaces\\FoodTracker.DataAccess.Interfaces.csproj": {
-                "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.DataAccess.Interfaces\\FoodTracker.DataAccess.Interfaces.csproj"
+              "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess.Interfaces/FoodTracker.DataAccess.Interfaces.csproj": {
+                "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.DataAccess.Interfaces/FoodTracker.DataAccess.Interfaces.csproj"
               },
-              "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj": {
-                "projectPath": "C:\\Users\\Nick\\Classes\\_portfolio\\food-tracker\\FoodTracker.Models\\FoodTracker.Models.csproj"
+              "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj": {
+                "projectPath": "/home/nick/git/portfolio/food-tracker/FoodTracker.Models/FoodTracker.Models.csproj"
               }
             }
           }
@@ -271,7 +253,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -298,7 +286,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/nick/.dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
