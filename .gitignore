@@ -86,13 +86,14 @@ http-client.private.env.json
 .idea/**/copilot.data.migration.*.xml
 
 
-
+# Begin non-template additions. Last updated 12/10/25.
 **/appsettings.Production.json
 **/launchSettings.json
 
 **/appsettings.Development.json
 **/appsettings.json
 **/launchSettings.json
+**/Debug/**
 
 .idea/
 .vs/
